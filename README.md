@@ -5,7 +5,7 @@
 
 ### ApplicationOwner
 - Ana Cabello Barrera
-- [Roadmap to Specification](../../issues/1)
+- [Roadmap to Specification](../../issues/2)
 
 ### Services
 - [AutomatedLinkAcceptance+services](./AutomatedLinkAcceptance+services.yaml)
