@@ -1,5 +1,5 @@
 Delete this link at the end of the specification process:  
-- [Roadmap to Specification](../../issues/1)
+- [Roadmap to Specification](../../issues/2)
 
 # AutomatedLinkAcceptance
 
