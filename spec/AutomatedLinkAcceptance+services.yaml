@@ -46,8 +46,8 @@ servers:
       individual:
         ## TODO: Add Services specific to this application
   http-server:
-    own-application-name: ## TODO: Add OwnApplicationName
-    own-release-number: ## TODO: Add OwnReleaseNumber (e.g. 1.0.0)
+    own-application-name: AutomatedLinkAcceptance
+    own-release-number: 1.0.0
     uuid: ALA-1-0-0-http-s-000
   tcp-server:
     - description: Without TLS layer
