@@ -275,14 +275,14 @@ clients:
 
 
   - http-client:
-      application-name: ## TODO: Add Name of application to be addressed
-      release-number: ## TODO: Add Release number of application to be addressed
-      uuid: ## TODO: Add UUID of the HttpClient
+      application-name: MicroWaveDeviceInventory
+      release-number: 1.0.0
+      uuid: mwdi-1-0-0-http-s-is-000
     tcp-client:
       remote-protocol: http
-      ip-address: ## TODO: Add IP address of application to be addressed
-      tcp-port: ## TODO: Add TCP port of application to be addressed
-      uuid: ## TODO: Add UUID of the TcpClient
+      ip-address: 1.1.4.4
+      tcp-port: 4004
+      uuid: mwdi-1-0-0-tcp-s-is-000
     operation-clients:
       own-oam:
         basic:
