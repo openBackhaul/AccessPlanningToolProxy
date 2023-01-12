@@ -289,6 +289,6 @@ clients:
         individual:
       service:
         basic:
-          ## TODO: Add Clients specific to this application, but addressing all other applications
+
         individual:
           ## TODO: Add Clients specific to this application
