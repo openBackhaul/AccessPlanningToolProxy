@@ -140,7 +140,7 @@ clients:
         basic:
         
         individual:
-          ## TODO: Add Clients specific to this application
+
 
   - http-client:
       application-name: TypeApprovalRegister
@@ -159,7 +159,7 @@ clients:
         basic:
 
         individual:
-          ## TODO: Add Clients specific to this application
+ 
 
   - http-client:
       application-name: ExecutionAndTraceLog
@@ -180,7 +180,7 @@ clients:
         basic:
 
         individual:
-          ## TODO: Add Clients specific to this application
+
 
   - http-client:
       application-name: OamLog
@@ -201,7 +201,7 @@ clients:
         basic:
 
         individual:
-          ## TODO: Add Clients specific to this application
+
 
   - http-client:
       application-name: AdministratorAdministration
@@ -222,7 +222,7 @@ clients:
         basic:
 
         individual:
-          ## TODO: Add Clients specific to this application
+
 
   - http-client:
       application-name: ApplicationLayerTopology
@@ -253,7 +253,7 @@ clients:
         basic:
 
         individual:
-          ## TODO: Add Clients specific to this application
+
 
   - http-client:
       application-name: OperationKeyManagement
@@ -272,7 +272,7 @@ clients:
         basic:
 
         individual:
-          ## TODO: Add Clients specific to this application
+
 
   - http-client:
       application-name: ## TODO: Add Name of application to be addressed
