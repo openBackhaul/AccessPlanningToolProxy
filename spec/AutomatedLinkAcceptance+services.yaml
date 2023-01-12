@@ -52,13 +52,13 @@ servers:
   tcp-server:
     - description: Without TLS layer
       local-protocol: http
-      own-ip-address: ## TODO: Add OwnIpAddress
-      own-tcp-port: ## TODO: Add OwnTcpPort
+      own-ip-address: 1.1.4.9
+      own-tcp-port: 4009
       uuid: ALA-1-0-0-tcp-s-000
     - description: With TLS layer
       local-protocol: https
-      own-ip-address: ## TODO: Add OwnIpAddress
-      own-tcp-port: ## TODO: Add OwnTcpPort
+      own-ip-address: 1.1.4.9
+      own-tcp-port: 4009
       uuid: ALA-1-0-0-tcp-s-001
 
 
