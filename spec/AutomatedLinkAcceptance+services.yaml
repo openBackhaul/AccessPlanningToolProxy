@@ -126,7 +126,7 @@ clients:
         individual:
       service:
         basic:
-        
+
         individual:
 
 
@@ -147,7 +147,7 @@ clients:
         basic:
 
         individual:
- 
+
 
   - http-client:
       application-name: ExecutionAndTraceLog
@@ -281,15 +281,15 @@ clients:
         individual:
           - service-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct?content=config&fields=logical-termination-point(uuid;name;layer-protocol(local-id;layer-protocol-name))
             uuid: ALA-1-0-0-op-c-bm-mwdi-1-0-0-op-s-is-011
-          - service-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration?content=nonconfig 
-            uuid: ALA-1-0-0-op-c-bm-mwdi-1-0-0-op-s-is-114    
+          - service-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration?content=nonconfig
+            uuid: ALA-1-0-0-op-c-bm-mwdi-1-0-0-op-s-is-114
           - service-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status?content=nonconfig
-            uuid: ALA-1-0-0-op-c-bm-mwdi-1-0-0-op-s-is-120 
+            uuid: ALA-1-0-0-op-c-bm-mwdi-1-0-0-op-s-is-120
           - service-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability?content=nonconfig
-            uuid: ALA-1-0-0-op-c-bm-mwdi-1-0-0-op-s-is-112  
+            uuid: ALA-1-0-0-op-c-bm-mwdi-1-0-0-op-s-is-112
           - service-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct?fields=top-level-equipment
             uuid: ALA-1-0-0-op-c-bm-mwdi-1-0-0-op-s-is-011
-          - service-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac/ltp-augment-capabilitycontent=nonconfig  
+          - service-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac/ltp-augment-capabilitycontent=nonconfig
             uuid: ALA-1-0-0-op-c-bm-mwdi-1-0-0-op-s-is-227
           - service-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing?fields=equipment-type;equipment-instance
             uuid: ALA-1-0-0-op-c-bm-mwdi-1-0-0-op-s-is-076

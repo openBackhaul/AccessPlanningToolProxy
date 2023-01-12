@@ -86,7 +86,7 @@ paths:
           description: 'Process of embedding a new release initiated'
           headers:
             x-correlator:
-              schema: 
+              schema:
                 type: string
                 example: '550e8400-e29b-11d4-a716-446655440000'
               description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -128,7 +128,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
 
-        # individual callbacks to be added here 
+        # individual callbacks to be added here
 
         PromptForBequeathingDataCausesRequestForBroadcastingInfoAboutServerReplacement:
           https://[/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-tcp-c-bm-ro-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=*-1-0-0-tcp-c-bm-ro-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-tcp-c-bm-ro-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-op-c-bm-ro-1-0-0-001/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]:
@@ -206,7 +206,7 @@ paths:
                   description: 'Will broadcast server replacement'
                   headers:
                     x-correlator:
-                      schema: 
+                      schema:
                         type: string
                         example: '550e8400-e29b-11d4-a716-446655440000'
                       description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -281,7 +281,7 @@ paths:
                   description: 'Application deregistered'
                   headers:
                     x-correlator:
-                      schema: 
+                      schema:
                         type: string
                         example: '550e8400-e29b-11d4-a716-446655440000'
                       description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -370,7 +370,7 @@ paths:
                   description: 'Will broadcast operation update'
                   headers:
                     x-correlator:
-                      schema: 
+                      schema:
                         type: string
                         example: '550e8400-e29b-11d4-a716-446655440000'
                       description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -511,7 +511,7 @@ paths:
                         display-in-new-browser-window: false
           headers:
             x-correlator:
-              schema: 
+              schema:
                 type: string
                 example: '550e8400-e29b-11d4-a716-446655440000'
               description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -677,7 +677,7 @@ paths:
           description: 'Will register at the RegistryOffice'
           headers:
             x-correlator:
-              schema: 
+              schema:
                 type: string
                 example: '550e8400-e29b-11d4-a716-446655440000'
               description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -801,7 +801,7 @@ paths:
                   description: 'Application registered'
                   headers:
                     x-correlator:
-                      schema: 
+                      schema:
                         type: string
                         example: '550e8400-e29b-11d4-a716-446655440000'
                       description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -978,7 +978,7 @@ paths:
           description: 'Will embed into the MBH SDN application layer'
           headers:
             x-correlator:
-              schema: 
+              schema:
                 type: string
                 example: '550e8400-e29b-11d4-a716-446655440000'
               description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -1088,7 +1088,7 @@ paths:
                   description: 'Process of embedding a new release initiated'
                   headers:
                     x-correlator:
-                      schema: 
+                      schema:
                         type: string
                         example: '550e8400-e29b-11d4-a716-446655440000'
                       description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -1214,7 +1214,7 @@ paths:
           description: 'Information about service requests will be send to the new target'
           headers:
             x-correlator:
-              schema: 
+              schema:
                 type: string
                 example: '550e8400-e29b-11d4-a716-446655440000'
               description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -1330,7 +1330,7 @@ paths:
                   description: 'Request recorded'
                   headers:
                     x-correlator:
-                      schema: 
+                      schema:
                         type: string
                         example: '550e8400-e29b-11d4-a716-446655440000'
                       description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -1455,7 +1455,7 @@ paths:
           description: 'Information about OaM requests will be send to the new target'
           headers:
             x-correlator:
-              schema: 
+              schema:
                 type: string
                 example: '550e8400-e29b-11d4-a716-446655440000'
               description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -1524,7 +1524,7 @@ paths:
                         application-name:
                           type: string
                           description: >
-                            'Own application name 
+                            'Own application name
                             from [/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-http-s-bm-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name]'
                         release-number:
                           type: string
@@ -1563,7 +1563,7 @@ paths:
                   description: 'OaM request recorded'
                   headers:
                     x-correlator:
-                      schema: 
+                      schema:
                         type: string
                         example: '550e8400-e29b-11d4-a716-446655440000'
                       description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -1652,7 +1652,7 @@ paths:
           description: 'Stopped sending notifications of a specific subscription'
           headers:
             x-correlator:
-              schema: 
+              schema:
                 type: string
                 example: '550e8400-e29b-11d4-a716-446655440000'
               description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -1779,7 +1779,7 @@ paths:
           description: 'Informed about where to inquire for approval of OaM requests'
           headers:
             x-correlator:
-              schema: 
+              schema:
                 type: string
                 example: '550e8400-e29b-11d4-a716-446655440000'
               description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -1853,7 +1853,7 @@ paths:
                             from [/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-http-s-bm-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-number]'
                         Authorization:
                           type: string
-                          description: > 
+                          description: >
                             'Authorization code of the administrator addressing the OaM request to this application from [parameters::Authorization]'
                         method:
                           type: string
@@ -1881,7 +1881,7 @@ paths:
                       schema:
                         type: object
                         required:
-                        - oam-request-is-approved
+                          - oam-request-is-approved
                         properties:
                           oam-request-is-approved:
                             type: boolean
@@ -1906,7 +1906,7 @@ paths:
                             reason-of-objection: 'AUTHORIZATION_CODE_UNKNOWN'
                   headers:
                     x-correlator:
-                      schema: 
+                      schema:
                         type: string
                         example: '550e8400-e29b-11d4-a716-446655440000'
                       description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -2031,7 +2031,7 @@ paths:
           description: 'Will update connection information'
           headers:
             x-correlator:
-              schema: 
+              schema:
                 type: string
                 example: '550e8400-e29b-11d4-a716-446655440000'
               description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -2439,7 +2439,7 @@ paths:
                                     logical-termination-point: 'ro-1-0-0-op-c-bm-ro-1-0-0-000'
           headers:
             x-correlator:
-              schema: 
+              schema:
                 type: string
                 example: '550e8400-e29b-11d4-a716-446655440000'
               description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -2606,7 +2606,7 @@ paths:
           description: 'Client side for sending information about topology changes has been updated'
           headers:
             x-correlator:
-              schema: 
+              schema:
                 type: string
                 example: '550e8400-e29b-11d4-a716-446655440000'
               description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -3013,7 +3013,7 @@ paths:
                   description: 'LTPs and FD will be updated'
                   headers:
                     x-correlator:
-                      schema: 
+                      schema:
                         type: string
                         example: '550e8400-e29b-11d4-a716-446655440000'
                       description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -3309,7 +3309,7 @@ paths:
                   description: 'LTP will be updated'
                   headers:
                     x-correlator:
-                      schema: 
+                      schema:
                         type: string
                         example: '550e8400-e29b-11d4-a716-446655440000'
                       description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -3375,7 +3375,7 @@ paths:
                   description: 'LTP will be deleted'
                   headers:
                     x-correlator:
-                      schema: 
+                      schema:
                         type: string
                         example: '550e8400-e29b-11d4-a716-446655440000'
                       description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -3482,7 +3482,7 @@ paths:
                   description: 'FC will be updated'
                   headers:
                     x-correlator:
-                      schema: 
+                      schema:
                         type: string
                         example: '550e8400-e29b-11d4-a716-446655440000'
                       description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -3570,7 +3570,7 @@ paths:
                   description: 'FC port will be updated'
                   headers:
                     x-correlator:
-                      schema: 
+                      schema:
                         type: string
                         example: '550e8400-e29b-11d4-a716-446655440000'
                       description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -3640,7 +3640,7 @@ paths:
                   description: 'FC port will be deleted'
                   headers:
                     x-correlator:
-                      schema: 
+                      schema:
                         type: string
                         example: '550e8400-e29b-11d4-a716-446655440000'
                       description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -3936,7 +3936,7 @@ paths:
                   description: 'LTP will be updated'
                   headers:
                     x-correlator:
-                      schema: 
+                      schema:
                         type: string
                         example: '550e8400-e29b-11d4-a716-446655440000'
                       description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -4002,7 +4002,7 @@ paths:
                   description: 'LTP will be deleted'
                   headers:
                     x-correlator:
-                      schema: 
+                      schema:
                         type: string
                         example: '550e8400-e29b-11d4-a716-446655440000'
                       description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -4109,7 +4109,7 @@ paths:
                   description: 'FC port will be updated'
                   headers:
                     x-correlator:
-                      schema: 
+                      schema:
                         type: string
                         example: '550e8400-e29b-11d4-a716-446655440000'
                       description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -4197,7 +4197,7 @@ paths:
                   description: 'FC port will be updated'
                   headers:
                     x-correlator:
-                      schema: 
+                      schema:
                         type: string
                         example: '550e8400-e29b-11d4-a716-446655440000'
                       description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -4267,7 +4267,7 @@ paths:
                   description: 'FC port will be deleted'
                   headers:
                     x-correlator:
-                      schema: 
+                      schema:
                         type: string
                         example: '550e8400-e29b-11d4-a716-446655440000'
                       description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -4349,7 +4349,7 @@ paths:
           description: 'Operation key has been updated'
           headers:
             x-correlator:
-              schema: 
+              schema:
                 type: string
                 example: '550e8400-e29b-11d4-a716-446655440000'
               description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -4448,7 +4448,7 @@ paths:
           description: 'Operation clients will be updated, if existing'
           headers:
             x-correlator:
-              schema: 
+              schema:
                 type: string
                 example: '550e8400-e29b-11d4-a716-446655440000'
               description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -4554,7 +4554,7 @@ paths:
                   owner-email-address: 'Thorsten.Heinze@telefonica.com'
           headers:
             x-correlator:
-              schema: 
+              schema:
                 type: string
                 example: '550e8400-e29b-11d4-a716-446655440000'
               description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -4724,7 +4724,7 @@ paths:
                         display-in-new-browser-window: true
           headers:
             x-correlator:
-              schema: 
+              schema:
                 type: string
                 example: '550e8400-e29b-11d4-a716-446655440000'
               description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -4802,7 +4802,7 @@ paths:
                     changes: 'Initial version.'
           headers:
             x-correlator:
-              schema: 
+              schema:
                 type: string
                 example: '550e8400-e29b-11d4-a716-446655440000'
               description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -4879,7 +4879,7 @@ paths:
                           type: string
                           description: >
                             'from [/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-http-s-bm-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=*/release-date]
-                             - 
+                             -
                             [/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-http-s-bm-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=*/changes]'
                         datatype:
                           type: string
@@ -4934,7 +4934,7 @@ paths:
                             from [/core-model-1-4:control-construct/profile-collection/profile=*-1-0-0-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/display-in-new-browser-window]'
           headers:
             x-correlator:
-              schema: 
+              schema:
                 type: string
                 example: '550e8400-e29b-11d4-a716-446655440000'
               description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
@@ -5311,9 +5311,9 @@ paths:
                                                 items:
                                                   type: object
                                                   required:
-                                                  - release-number
-                                                  - release-date
-                                                  - changes
+                                                    - release-number
+                                                    - release-date
+                                                    - changes
                                                   properties:
                                                     release-number:
                                                       type: string
@@ -5782,30 +5782,30 @@ paths:
                                   string-value:
                                     type: string
               example:
-              - core-model-1-4:profile:
-                  uuid: 'ro-1-0-0-action-p-000'
-                  profile-name: 'action-profile-1-0:PROFILE_NAME_TYPE_ACTION_PROFILE'
-                  action-profile-1-0:action-profile-pac:
-                    action-profile-capability:
-                      operation-name: '/v1/start-application-in-generic-representation'
-                      label: 'Inform about Application'
-                      input-value-list:
-                        - field-name: 'Label of input field'
-                          unit: 'Unit at input field'
-                      display-in-new-browser-window: false
-                    action-profile-configuration:
-                      request: 'https://10.118.125.157:1000/v1/inform-about-application-in-generic-representation'
-              - core-model-1-4:profile:
-                  uuid: 'ro-1-0-0-integer-p-000'
-                  profile-name: 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
-                  integer-profile-1-0:integer-profile-pac:
-                    integer-profile-capability:
-                      integer-name: 'maximumNumberOfEntries'
-                      unit: 'records'
-                      minimum: 0
-                      maximum: 1000000
-                    integer-profile-configuration:
-                      integer-value: 1000000
+                - core-model-1-4:profile:
+                    uuid: 'ro-1-0-0-action-p-000'
+                    profile-name: 'action-profile-1-0:PROFILE_NAME_TYPE_ACTION_PROFILE'
+                    action-profile-1-0:action-profile-pac:
+                      action-profile-capability:
+                        operation-name: '/v1/start-application-in-generic-representation'
+                        label: 'Inform about Application'
+                        input-value-list:
+                          - field-name: 'Label of input field'
+                            unit: 'Unit at input field'
+                        display-in-new-browser-window: false
+                      action-profile-configuration:
+                        request: 'https://10.118.125.157:1000/v1/inform-about-application-in-generic-representation'
+                - core-model-1-4:profile:
+                    uuid: 'ro-1-0-0-integer-p-000'
+                    profile-name: 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
+                    integer-profile-1-0:integer-profile-pac:
+                      integer-profile-capability:
+                        integer-name: 'maximumNumberOfEntries'
+                        unit: 'records'
+                        minimum: 0
+                        maximum: 1000000
+                      integer-profile-configuration:
+                        integer-value: 1000000
         '400':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '401':
@@ -6804,9 +6804,9 @@ paths:
                     items:
                       type: object
                       required:
-                      - release-number
-                      - release-date
-                      - changes
+                        - release-number
+                        - release-date
+                        - changes
                       properties:
                         release-number:
                           type: string
@@ -6831,7 +6831,7 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredOamRequests'
 
-  /core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address: 
+  /core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address:
     parameters:
       - in: path
         name: uuid
@@ -7000,7 +7000,7 @@ paths:
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
-          $ref: '#/components/responses/responseForErroredOamRequests'  
+          $ref: '#/components/responses/responseForErroredOamRequests'
 
   /core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name:
     parameters:
@@ -7415,16 +7415,16 @@ paths:
       requestBody:
         required: true
         content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - http-client-interface-1-0:release-number
-                properties:
-                  http-client-interface-1-0:release-number:
-                    type: string
-                    pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
-                    example: '1.0.0'
+          application/json:
+            schema:
+              type: object
+              required:
+                - http-client-interface-1-0:release-number
+              properties:
+                http-client-interface-1-0:release-number:
+                  type: string
+                  pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
+                  example: '1.0.0'
       responses:
         '204':
           description: 'Release number configured'
@@ -7439,7 +7439,7 @@ paths:
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
-          $ref: '#/components/responses/responseForErroredOamRequests'  
+          $ref: '#/components/responses/responseForErroredOamRequests'
 
   /core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address:
     parameters:
@@ -7545,7 +7545,7 @@ paths:
         '500':
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
-          $ref: '#/components/responses/responseForErroredOamRequests'  
+          $ref: '#/components/responses/responseForErroredOamRequests'
   /core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port:
     parameters:
       - in: path
@@ -7633,7 +7633,7 @@ components:
       name: user
       in: header
       required: true
-      schema: 
+      schema:
         type: string
         example: 'User Name'
       description: 'User identifier from the system starting the service call'
@@ -7641,7 +7641,7 @@ components:
       name: originator
       in: header
       required: true
-      schema: 
+      schema:
         type: string
         minLength: 3
         example: 'Resolver'
@@ -7652,7 +7652,7 @@ components:
       name: x-correlator
       in: header
       required: true
-      schema: 
+      schema:
         type: string
         pattern: '^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$'
         description: 'Empty string accepted from external applications.'
@@ -7662,7 +7662,7 @@ components:
       name: trace-indicator
       in: header
       required: true
-      schema: 
+      schema:
         type: string
         pattern: '^([0-9]+)(\.([0-9]+))*$'
         description: 'Empty string accepted from external applications.'
@@ -7672,7 +7672,7 @@ components:
       name: customer-journey
       in: header
       required: true
-      schema: 
+      schema:
         type: string
         example: 'Unknown value'
       description: 'Holds information supporting customer’s journey to which the execution applies'
@@ -7685,7 +7685,7 @@ components:
             $ref: '#/components/schemas/errorDescription'
       headers:
         x-correlator:
-          schema: 
+          schema:
             type: string
             pattern: '^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$'
             example: '550e8400-e29b-11d4-a716-446655440000'
