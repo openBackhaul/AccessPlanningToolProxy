@@ -24,4 +24,4 @@ The AutomatedLinkAcceptance fulfils a quality assurance task on the live network
 - [Implementation](./server/)
 
 ### Comments
-This application will be specified during training for ApplicationOwner.
+This application will be specified during [training for ApplicationOwners](https://gist.github.com/openBackhaul/5aabdbc90257b83b9fe7fc4da059d3cd).
