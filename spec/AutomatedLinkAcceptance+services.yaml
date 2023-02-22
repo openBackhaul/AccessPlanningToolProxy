@@ -257,12 +257,12 @@ clients:
   - http-client:
       application-name: MicroWaveDeviceInventory
       release-number: 1.0.0
-      uuid: mwdi-1-0-0-http-s-is-000
+      uuid: alap-1-0-0-http-c-mwdi-1-0-0-000
     tcp-client:
       remote-protocol: http
       ip-address: 1.1.4.4
       tcp-port: 4004
-      uuid: mwdi-1-0-0-tcp-s-is-000
+      uuid: alap-1-0-0-tcp-c-mwdi-1-0-0-000
     operation-clients:
       own-oam:
         basic:
