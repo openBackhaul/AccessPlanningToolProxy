@@ -47,7 +47,7 @@ servers:
         - operation-name: /v1/provide-acceptance-data
           uuid: ALA-1-0-0-op-s-is-000
   http-server:
-    own-application-name: AutomatedLinkAcceptance
+    own-application-name: AutomatedLinkAcceptanceProxy
     own-release-number: 1.0.0
     uuid: ALA-1-0-0-http-s-000
   tcp-server:
