@@ -44,7 +44,7 @@ servers:
         - operation-name: /docs
           uuid: alap-1-0-0-op-s-bs-005
       individual:
-        - operation-name: /v1/provide-acceptance-data
+        - operation-name: /v1/provide-acceptance-data-of-link-endpoint
           uuid: alap-1-0-0-op-s-is-000
   http-server:
     own-application-name: AutomatedLinkAcceptanceProxy
