@@ -97,7 +97,6 @@ clients:
       own-oam:
         basic:
         individual:
-          ## TODO: Add Services required for handing-over configuration or data during update
       service:
         basic:
         individual:
