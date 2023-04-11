@@ -7,7 +7,6 @@ Delete this link at the end of the specification process:
 The AutomatedLinkAcceptanceProxy belongs to the NetworkApplications.
 
 ### Description
-_Copy from Roadmap:_  
 
 The ALAP microservice acts as a proxy between the MicrowaveDeviceInventory and the external tool APT (in which the acceptance logic is implemented). 
 
