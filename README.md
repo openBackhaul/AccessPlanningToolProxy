@@ -8,12 +8,11 @@ The AutomatedLinkAcceptanceProxy belongs to the NetworkApplications.
 
 ### Description
 _Copy from Roadmap:_  
-Configuration of new or updated microwave links is verified against their planned configurations and the assigned frequency. This is also frequently repeated to verify the overall compliance and correct configuration of all links. This application has already been implemented, but its next update shall be integrated into the microservice framework for better management.  
 
-_Original Text:_  
-- Configuration of new or updated microwave links is verified against their planned configurations and the assigned frequency.
-- This is also frequently repeated to verify the overall compliance and correct configuration of all links.
-- This application has already been implemented, but its next update shall be integrated into the microservice framework for better management.
+The ALAP microservice acts as a proxy between the MicrowaveDeviceInventory and the external tool APT (in which the acceptance logic is implemented). 
+
+The acceptance-relevant data is retrieved from the MWDI and passed on to APT, for the configuration of new or updated microwave links to be verified against their planned configurations and the assigned frequency. This is also frequently repeated to verify the overall compliance and correct configuration of all links. 
+
 
 ### Relevance
 The AutomatedLinkAcceptanceProxy fulfils a quality assurance task on the live network.
