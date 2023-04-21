@@ -281,11 +281,10 @@ clients:
             uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-004
           - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac/ltp-augment-capability
             uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-005
-          - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}/actual-equipment/manufactured-thing?fields=equipment-type;equipment-instance
-            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-006
+          - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct?fields=equipment(uuid;actual-equipment(manufactured-thing(equipment-instance;equipment-type)))
           - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms
             uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-007
-          - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection?fields=firmware-component-list(firmware-component-pac(local-id;firmware-component-capability(firmware-component-class)))
+          - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection?fields=firmware-component-list(local-id;firmware-component-pac(firmware-component-capability(firmware-component-class)))
             uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-008
           - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
             uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-009
