@@ -291,3 +291,11 @@ clients:
             uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-009
           - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
             uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-010
+          - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}?fields=extension
+            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-011
+          - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration?fields=interface-kind
+            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-012
+          - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac?fields=wire-interface-status
+            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-013
+          - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}?fields=client-ltp
+            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-014
