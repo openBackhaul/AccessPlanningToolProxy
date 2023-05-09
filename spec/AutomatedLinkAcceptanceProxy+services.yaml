@@ -297,4 +297,5 @@ clients:
             uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-012
           - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status/interface-status
             uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-013
-
+          - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}?fields=client-ltp
+            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-014
