@@ -269,7 +269,7 @@ clients:
       service:
         basic:
         individual:
-          - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct?fields=logical-termination-point(uuid;name;layer-protocol(local-id;layer-protocol-name))
+          - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct?fields=logical-termination-point(uuid;server-ltp;client-ltp;name;layer-protocol(local-id;layer-protocol-name)
             uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-000
           - operation-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
             uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-001
