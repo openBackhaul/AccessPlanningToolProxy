@@ -1,7 +1,7 @@
 profile-instances:
 
   - profile-name: 'ActionProfile'
-    uuid: 'alap-1-0-0-action-p-000' ## TODO: Replace "alap-1-0-0" by ApplicationID and ReleaseNumber
+    uuid: 'alap-1-0-0-action-p-000'
     capability:
       operation-name: '/v1/start-application-in-generic-representation'
       label: 'Inform about Application'
@@ -10,7 +10,7 @@ profile-instances:
       consequent-operation-reference: '/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-op-s-bs-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name'
 
   - profile-name: 'ActionProfile'
-    uuid: 'alap-1-0-0-action-p-001' ## TODO: Replace "alap-1-0-0" by ApplicationID and ReleaseNumber
+    uuid: 'alap-1-0-0-action-p-001'
     capability:
       operation-name: '/v1/inform-about-application-in-generic-representation'
       label: 'Release History'
@@ -19,7 +19,7 @@ profile-instances:
       consequent-operation-reference: '/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-op-s-bs-004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name'
 
   - profile-name: 'ActionProfile'
-    uuid: 'alap-1-0-0-action-p-002' ## TODO: Replace "alap-1-0-0" by ApplicationID and ReleaseNumber
+    uuid: 'alap-1-0-0-action-p-002'
     capability:
       operation-name: '/v1/inform-about-application-in-generic-representation'
       label: 'API Documentation'
@@ -28,7 +28,7 @@ profile-instances:
       consequent-operation-reference: '/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-op-s-bs-005/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name'
 
   - profile-name: 'ActionProfile'
-    uuid: 'alap-1-0-0-action-p-???' ## TODO: Replace "alap-1-0-0" by ApplicationID and ReleaseNumber and ??? by SequenceNumber
+    uuid: 'alap-1-0-0-action-p-???'
     capability:
       operation-name: ## TODO: Add generic representation operation that shall result in a new button and potentially new input fields
       label: ## TODO: Add label of the new button
@@ -44,7 +44,7 @@ profile-instances:
 
 
   - profile-name: 'GenericResponseProfile'
-    uuid: 'alap-1-0-0-response-p-000' ## TODO: Replace "alap-1-0-0" by ApplicationID and ReleaseNumber
+    uuid: 'alap-1-0-0-response-p-000'
     capability:
       operation-name: '/v1/start-application-in-generic-representation'
       static-field-name: 'applicationName'
@@ -54,7 +54,7 @@ profile-instances:
       value-reference: '/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name'
 
   - profile-name: 'GenericResponseProfile'
-    uuid: 'alap-1-0-0-response-p-001' ## TODO: Replace "alap-1-0-0" by ApplicationID and ReleaseNumber
+    uuid: 'alap-1-0-0-response-p-001'
     capability:
       operation-name: '/v1/inform-about-application-in-generic-representation'
       static-field-name: 'applicationName'
@@ -64,7 +64,7 @@ profile-instances:
       value-reference: '/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name'
 
   - profile-name: 'GenericResponseProfile'
-    uuid: 'alap-1-0-0-response-p-002'  ## TODO: Replace "alap-1-0-0" by ApplicationID and ReleaseNumber
+    uuid: 'alap-1-0-0-response-p-002'
     capability:
       operation-name: '/v1/inform-about-application-in-generic-representation'
       static-field-name: 'releaseNumber'
@@ -74,7 +74,7 @@ profile-instances:
       value-reference: '/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-number'
 
   - profile-name: 'GenericResponseProfile'
-    uuid: 'alap-1-0-0-response-p-003'  ## TODO: Replace "alap-1-0-0" by ApplicationID and ReleaseNumber
+    uuid: 'alap-1-0-0-response-p-003' 
     capability:
       operation-name: '/v1/inform-about-application-in-generic-representation'
       static-field-name: 'applicationPurpose'
@@ -84,7 +84,7 @@ profile-instances:
       value-reference: '/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-purpose'
 
   - profile-name: 'GenericResponseProfile'
-    uuid: 'alap-1-0-0-response-p-004'  ## TODO: Replace "alap-1-0-0" by ApplicationID and ReleaseNumber
+    uuid: 'alap-1-0-0-response-p-004'
     capability:
       operation-name: '/v1/inform-about-application-in-generic-representation'
       static-field-name: 'dataUpdatePeriod'
@@ -94,7 +94,7 @@ profile-instances:
       value-reference: '/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/data-update-period'
 
   - profile-name: 'GenericResponseProfile'
-    uuid: 'alap-1-0-0-response-p-005' ## TODO: Replace "alap-1-0-0" by ApplicationID and ReleaseNumber
+    uuid: 'alap-1-0-0-response-p-005'
     capability:
       operation-name: '/v1/inform-about-application-in-generic-representation'
       static-field-name: 'ownerName'
@@ -104,7 +104,7 @@ profile-instances:
       value-reference: '/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/owner-name'
 
   - profile-name: 'GenericResponseProfile'
-    uuid: 'alap-1-0-0-response-p-006' ## TODO: Replace "alap-1-0-0" by ApplicationID and ReleaseNumber
+    uuid: 'alap-1-0-0-response-p-006'
     capability:
       operation-name: '/v1/inform-about-application-in-generic-representation'
       static-field-name: 'ownerEmailAddress'
@@ -114,7 +114,7 @@ profile-instances:
       value-reference: '/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/owner-email-address'
 
   - profile-name: 'GenericResponseProfile'
-    uuid: 'alap-1-0-0-response-p-007' ## TODO: Replace "alap-1-0-0" by ApplicationID and ReleaseNumber
+    uuid: 'alap-1-0-0-response-p-007'
     capability:
       operation-name: '/v1/inform-about-release-history-in-generic-representation'
       field-name-reference: '/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=0/release-number'
