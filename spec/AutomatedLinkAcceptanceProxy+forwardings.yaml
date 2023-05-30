@@ -255,7 +255,7 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      ## TODO: All INDIVIDUAL service requests, which are updating an FC, to be complemented
+      ## DONE: All INDIVIDUAL service requests, which are updating an FC, to be complemented => No request expected that will change number of outputs.
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-fc
         uuid: alap-1-0-0-op-c-bm-alt-2-0-1-003
@@ -273,7 +273,7 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      ## TODO: All INDIVIDUAL service requests, which are updating an FC-Port, to be complemented
+      ## DONE: All INDIVIDUAL service requests, which are updating an FC-Port, to be complemented => No request expected that will change the reaction of the Forwarding.
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-fc-port
         uuid: alap-1-0-0-op-c-bm-alt-2-0-1-004
@@ -293,7 +293,7 @@ forwardings:
     initiating-requests:
       - server-name: /v1/end-subscription
         uuid: alap-1-0-0-op-s-bm-004
-      ## TODO: All INDIVIDUAL service requests, which are deleting an FC-Port, to be complemented
+      ## DONE: All INDIVIDUAL service requests, which are deleting an FC-Port, to be complemented => No request expected that will remove an output from the FC
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/delete-fc-port
         uuid: alap-1-0-0-op-c-bm-alt-2-0-1-005
