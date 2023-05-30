@@ -127,9 +127,9 @@ forwardings:
 
 ## TODO: Add Forwardings for transferring data to NewRelease
 
-## TODO: Potentially add Forwardings for creating INDIVIDUAL subscriptions to NewRelease
+## DONE: Potentially add Forwardings for creating INDIVIDUAL subscriptions to NewRelease => The ALAP does not subscribe for notifications at some 3rd application
 
-## TODO: Potentially add Forwardings for ending INDIVIDUAL subscriptions to OldRelease
+## DONE: Potentially add Forwardings for ending INDIVIDUAL subscriptions to OldRelease => The ALAP does not subscribe for notifications at some 3rd application
 
   - forwarding-name: PromptForBequeathingDataCausesRequestForBroadcastingInfoAboutServerReplacement
     uuid: alap-1-0-0-op-fc-bm-105
