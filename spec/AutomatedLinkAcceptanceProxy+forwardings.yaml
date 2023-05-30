@@ -123,7 +123,7 @@ forwardings:
       - client-name: AdministratorAdministration://v1/approve-oam-request
         uuid: alap-1-0-0-op-c-bs-aa-2-0-1-000
 
-## TODO: Potentially add Forwardings for configuring INDIVIDUAL subscriptions on NewRelease
+## DONE: Potentially add Forwardings for configuring INDIVIDUAL subscriptions on NewRelease => The ALAP does not offer Subscriptions to other applications
 
 ## TODO: Add Forwardings for transferring data to NewRelease
 
