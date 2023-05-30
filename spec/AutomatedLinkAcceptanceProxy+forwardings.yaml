@@ -219,7 +219,7 @@ forwardings:
         uuid: alap-1-0-0-op-s-bm-011
       - server-name: /v1/bequeath-your-data-and-die
         uuid: alap-1-0-0-op-s-im-000
-      ## TODO: All INDIVIDUAL service requests, which are updating an LTP, to be complemented
+      ## DONE: All INDIVIDUAL service requests, which are updating an LTP, to be complemented => The ALAP does not update LTPs
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-ltp
         uuid: alap-1-0-0-op-c-bm-alt-2-0-1-001
@@ -237,7 +237,7 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      ## TODO: All INDIVIDUAL service requests, which are deleting an LTP, to be complemented
+      ## DONE: All INDIVIDUAL service requests, which are deleting an LTP, to be complemented => The ALAP does not delete LTPs
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/delete-ltp-and-dependents
         uuid: alap-1-0-0-op-c-bm-alt-2-0-1-002
