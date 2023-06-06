@@ -383,4 +383,45 @@ forwardings:
       - client-name: ApplicationLayerTopology://v1/delete-fc-port
         uuid: alap-1-0-0-op-c-bm-alt-2-0-1-005
 
-  ## TODO: Potential INDIVIDUAL Forwardings to be added
+  ## DONE: Potential INDIVIDUAL Forwardings to be added
+  - forwarding-name: PromptForProvidingAcceptanceDataCausesCallingMwdiRessources
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: alap-1-0-0-op-s-is-000
+    consequent-requests:
+      - client-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct?fields=logical-termination-point(uuid;server-ltp;client-ltp;name;layer-protocol(local-id;layer-protocol-name)
+        uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-000
+      - client-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+        uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-001
+      - client-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
+        uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-002
+      - client-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
+        uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-003
+      - client-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct?fields=top-level-equipment
+        uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-004
+      - client-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac/ltp-augment-capability
+        uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-005
+      - client-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}?fields=name;actual-equipment(manufactured-thing(equipment-type;equipment-instance))
+        uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-006
+      - client-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms
+        uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-007
+      - client-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection?fields=firmware-component-list(local-id;firmware-component-pac(firmware-component-capability(firmware-component-class)))
+        uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-008
+      - client-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
+        uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-009
+      - client-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
+        uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-010
+      - client-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}?fields=extension
+        uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-011
+      - client-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration?fields=interface-kind
+        uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-012
+      - client-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac?fields=wire-interface-status
+        uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-013
+      - client-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}?fields=client-ltp
+        uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-014
