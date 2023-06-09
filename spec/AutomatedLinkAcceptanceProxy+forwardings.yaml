@@ -125,7 +125,7 @@ forwardings:
 
 ## DONE: Potentially add Forwardings for configuring INDIVIDUAL subscriptions on NewRelease => The ALAP does not offer Subscriptions to other applications
 
-## TODO: Add Forwardings for transferring data to NewRelease
+## DONE: Add Forwardings for transferring data to NewRelease => The ALAP does not store any data that needs to be transferred to the NewRelease. The Data is newly learnt evrytime by calling OperationServers of the MWDI and past data is not relevant.
 
 ## DONE: Potentially add Forwardings for creating INDIVIDUAL subscriptions to NewRelease => The ALAP does not subscribe for notifications at some 3rd application
 
