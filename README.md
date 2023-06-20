@@ -12,7 +12,7 @@ The ALAP microservice acts as a proxy between the MicrowaveDeviceInventory and t
 
 The acceptance-relevant data is retrieved from the MWDI and passed on to APT, for the configuration and the overall compliance of new or updated microwave links to be verified against their planned configurations and the assigned frequency. 
 
-The acceptance data is not periodically collected; it is collected on demand when the offered service /v1/provide-acceptance-data-of-link-endpoint is called.
+The acceptance data is collected on demand when the offered service /v1/provide-acceptance-data-of-link-endpoint is called.
 
 Data Attributes of type Configuration or Status are retrieved from the MWDI, for the stored values of these are always up date on the MWDI. 
 
