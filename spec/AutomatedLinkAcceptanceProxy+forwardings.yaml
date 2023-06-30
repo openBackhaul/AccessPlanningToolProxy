@@ -395,33 +395,68 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: alap-1-0-0-op-s-is-000
     consequent-requests:
-      - client-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct?fields=logical-termination-point(uuid;server-ltp;client-ltp;name;layer-protocol(local-id;layer-protocol-name)
+      - client-name: MicrowaveDeviceInventory://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct?fields=logical-termination-point(uuid;server-ltp;client-ltp;name;layer-protocol(local-id;layer-protocol-name)
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-000
-      - client-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+      - client-name: MicrowaveDeviceInventory://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration?fields=tx-power
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-001
-      - client-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
+      - client-name: MicrowaveDeviceInventory://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration?fields=tx-frequency
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-002
-      - client-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
+      - client-name: MicrowaveDeviceInventory://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration?fields=rx-frequency
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-003
-      - client-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct?fields=top-level-equipment
+      - client-name: MicrowaveDeviceInventory://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration?fields=transmitted-radio-signal-id
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-004
-      - client-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac/ltp-augment-capability
+      - client-name: MicrowaveDeviceInventory://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration?fields=atpc-is-on
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-005
-      - client-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}?fields=name;actual-equipment(manufactured-thing(equipment-type;equipment-instance))
+      - client-name: MicrowaveDeviceInventory://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration?fields=atpc-tresh-upper
+        uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-005
+      - client-name: MicrowaveDeviceInventory://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration?fields=atpc-tresh-lower
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-006
-      - client-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms
+      - client-name: MicrowaveDeviceInventory://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration?fields=atpc-tx-power-min
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-007
-      - client-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection?fields=firmware-component-list(local-id;firmware-component-pac(firmware-component-capability(firmware-component-class)))
+      - client-name: MicrowaveDeviceInventory://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration?fields=adaptive-modulation-is-on
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-008
-      - client-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
+      - client-name: MicrowaveDeviceInventory://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration?fields=transmission-mode-min
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-009
-      - client-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
+      - client-name: MicrowaveDeviceInventory://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration?fields=transmission-mode-max
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-010
-      - client-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}?fields=extension
+      - client-name: MicrowaveDeviceInventory://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration?fields=monitoring-is-on
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-011
-      - client-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration?fields=interface-kind
+      - client-name: MicrowaveDeviceInventory://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration?fields=xpic-is-on
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-012
-      - client-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac?fields=wire-interface-status
+      - client-name: MicrowaveDeviceInventory://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability?fields=transmission-mode-list(uuid, modulation-scheme)
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-013
-      - client-name: /node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}?fields=client-ltp
+      - client-name: MicrowaveDeviceInventory://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability?fields=transmission-mode-list(uuid, channel-bandwidth)
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-014
+      - client-name: MicrowaveDeviceInventory://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability?fields=supported-pmd-kind-list(speed)  # to confirm
+        uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-015
+      - client-name: MicrowaveDeviceInventory://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection?fields=firmware-component-list(local-id;firmware-component-pac(firmware-component-capability(firmware-component-class)))
+        uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-016
+      - client-name: MicrowaveDeviceInventory://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability?fields=firmware-component-version
+        uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-017
+      - client-name: MicrowaveDeviceInventory://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status?fields=firmware-component-status
+        uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-018
+      - client-name: MicrowaveDeviceInventory://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration?fields=interface-kind
+        uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-019
+      - client-name: MicrowaveDeviceInventory://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac?fields=wire-interface-status
+        uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-020
+      - client-name: MicrowaveDeviceInventory://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac/ltp-augment-capability
+        uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-021
+      - client-name: node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}?fields=name;actual-equipment(manufactured-thing(equipment-type;equipment-instance))
+        uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-022
+
+      - client-name: OpenDaylight://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct?fields=logical-termination-point(uuid;server-ltp;client-ltp;name;layer-protocol(local-id;layer-protocol-name)
+        uuid: alap-1-0-0-op-c-is-c-4-0-2-000
+      - client-name: OpenDaylight://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status/tx-level-cur
+        uuid: alap-1-0-0-op-c-is-c-4-0-2-001
+      - client-name: OpenDaylight://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status/rx-level-cur
+        uuid: alap-1-0-0-op-c-is-c-4-0-2-002
+      - client-name: OpenDaylight://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status/transmission-mode-cur
+        uuid: alap-1-0-0-op-c-is-c-4-0-2-003
+      - client-name: OpenDaylight://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status/xpd-cur
+        uuid: alap-1-0-0-op-c-is-c-4-0-2-004
+      - client-name: OpenDaylight://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status/snir-cur
+        uuid: alap-1-0-0-op-c-is-c-4-0-2-005
+      - client-name: OpenDaylight://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability/transmission-mode-list={transmission-mode-name}/modulation-scheme
+        uuid: alap-1-0-0-op-c-is-c-4-0-2-006
+      - client-name: OpenDaylight://node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/alarms-1-0:alarm-pac/current-alarms
+        uuid: alap-1-0-0-op-c-is-c-4-0-2-007
