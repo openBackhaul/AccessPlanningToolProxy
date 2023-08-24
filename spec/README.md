@@ -1,5 +1,8 @@
 # AutomatedLinkAcceptance Specification
 
+### Diagrams  
+- [Collection of Diagrams](./diagrams)
+
 ### ServiceList
 - [AutomatedLinkAcceptance+services](./AutomatedLinkAcceptance+services.yaml)
 

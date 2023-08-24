@@ -7,8 +7,7 @@ Delete this link at the end of the specification process:
 The AutomatedLinkAcceptanceProxy belongs to the NetworkApplications.
 
 ### Description
-
-The ALAP microservice acts as a proxy between the MicrowaveDeviceInventory and the external tool APT (in which the acceptance logic is implemented). 
+The ALAP microservice acts as a proxy between the MicrowaveDeviceInventory and the external tool APT (in which the acceptance logic is implemented).
 
 The acceptance-relevant data is retrieved from the MWDI and passed on to APT, for the configuration and the overall compliance of new or updated microwave links to be verified against their planned configurations and the assigned frequency. 
 
@@ -31,4 +30,4 @@ The AutomatedLinkAcceptanceProxy fulfils a quality assurance task on the live ne
 - [Implementation](./server/)
 
 ### Comments
-This application will be specified during [training for ApplicationOwners](https://gist.github.com/openBackhaul/5aabdbc90257b83b9fe7fc4da059d3cd).
+This application got specified during training for ApplicationOwners.
