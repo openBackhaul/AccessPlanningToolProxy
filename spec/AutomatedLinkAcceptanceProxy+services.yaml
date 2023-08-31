@@ -261,33 +261,36 @@ clients:
       service:
         basic:
         individual:
-          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}          
             uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-000
-          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
-            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-001
-          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
-            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-002
+
+          - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms
+            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-407
+
+          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}
+            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-110
+          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/connector={local-id}
+            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-111
+          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment
+            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-114
+
+          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/firmware-1-0:firmware-collection
+            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-120
+
+          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
+            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-201
+
           - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
-            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-003
-          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}?fields=top-level-equipment
-            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-004
-          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac/ltp-augment-capability
-            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-005
-          - operation-name: node={mount-name}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}?fields=name;actual-equipment(manufactured-thing(equipment-type;equipment-instance))
-            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-006
-          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms
-            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-007
-          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/firmware-1-0:firmware-collection?fields=firmware-component-list(local-id;firmware-component-pac(firmware-component-capability(firmware-component-class)))
-            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-008
-          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-capability
-            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-009
-          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/firmware-1-0:firmware-collection/firmware-component-list={local-id}/firmware-component-pac/firmware-component-status
-            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-010
-          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}?fields=extension
-            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-011
-          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration?fields=interface-kind
-            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-012
-          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac?fields=wire-interface-status
-            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-013
-          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}?fields=client-ltp
-            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-014
+            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-210
+          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-211
+          - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
+            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-512
+
+          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
+            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-261
+
+          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
+            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-270
+          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
+            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-272
