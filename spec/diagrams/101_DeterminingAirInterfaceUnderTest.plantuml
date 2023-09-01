@@ -28,6 +28,4 @@ UuidUnderTest/LocalIdUnderTest =
 uuid/local-id of LTP with (LayerProtocolName == AirLayer) AND (AirInterfaceName==LinkId)
 end note
 
-deactivate ALAP
-
 @enduml

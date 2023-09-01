@@ -43,6 +43,4 @@ SupportedPmds --> ALAP: {supported-pmd-kind-list.pmd-name}
 ALAP -> OperatedPmd: {uuid = WireInterfaceUuid,local-id} (apiKeyAuth)
 OperatedPmd --> ALAP: {pmd-kind-cur}
 
-deactivate ALAP
-
 @enduml

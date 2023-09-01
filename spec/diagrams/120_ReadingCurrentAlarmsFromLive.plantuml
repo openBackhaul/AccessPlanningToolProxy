@@ -15,6 +15,4 @@ activate ALAP
 ALAP -> CurrentAlarms: (apiKeyAuth)
 CurrentAlarms --> ALAP: {entire list of active alarms form live}
 
-deactivate ALAP
-
 @enduml

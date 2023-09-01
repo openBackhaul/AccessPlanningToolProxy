@@ -569,6 +569,21 @@ forwardings:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/connector={local-id}?fields=equipment-augment-1-0:connector-pac(sequence-id)
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-111
 
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers
+    uuid: alap-1-0-0-op-fc-is-152
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: alap-1-0-0-op-s-is-000
+    consequent-requests:
+      - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment\n?fields=structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier);equipment-instance(serial-number))
+        uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-114
+
   - forwarding-name: RequestForProvidingAcceptanceDataCausesReadingFirmwareList
     uuid: alap-1-0-0-op-fc-is-155
     forwarding-type: InvariantProcessSnippet

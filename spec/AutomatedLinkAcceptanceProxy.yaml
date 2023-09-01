@@ -660,9 +660,6 @@ paths:
                         type: array
                         items:
                           type: object
-                          required:
-                            - interface-name
-                            - vlan-interface-kind
                           properties:
                             interface-name:
                               type: string
@@ -688,9 +685,6 @@ paths:
                         type: array
                         items:
                           type: object
-                          required:
-                            - interface-name
-                            - vlan-interface-kind
                           properties:
                             interface-name:
                               type: string
@@ -714,6 +708,69 @@ paths:
                   inventory:
                     type: object
                     properties:
+                      radio:
+                        type: object
+                        properties:
+                          equipment-name:
+                            type: string
+                            description: >
+                              'Name of the radio type
+                              if {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT
+                              from {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/type-name}'
+                          serial-number:
+                            type: string
+                            description: >
+                              'Serial number of the radio
+                              if {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT
+                              from {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-instance/serial-number}'
+                          part-number:
+                            type: string
+                            description: >
+                              'Part number of the radio
+                              if {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT
+                              from {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/part-type-identifier}'
+                      modem:
+                        type: object
+                        properties:
+                          equipment-name:
+                            type: string
+                            description: >
+                              'Name of the modem type
+                              if {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM
+                              from {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/type-name}'
+                          serial-number:
+                            type: string
+                            description: >
+                              'Serial number of the modem
+                              if {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM
+                              from {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-instance/serial-number}'
+                          part-number:
+                            type: string
+                            description: >
+                              'Part number of the modem
+                              if {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM
+                              from {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/part-type-identifier}'
+                      device:
+                        type: object
+                        properties:
+                          equipment-name:
+                            type: string
+                            description: >
+                              'Name of the device type
+                              if {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_FULL_OUTDOOR_UNIT
+                              from {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/type-name}'
+                          serial-number:
+                            type: string
+                            description: >
+                              'Serial number of the device
+                              if {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_FULL_OUTDOOR_UNIT
+                              from {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-instance/serial-number}'
+                          part-number:
+                            type: string
+                            description: >
+                              'Part number of the device
+                              if {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_FULL_OUTDOOR_UNIT
+                              from {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/part-type-identifier}'
                       installed-firmware:
                         type: array
                         description: >
@@ -778,10 +835,6 @@ paths:
                         type: array
                         items:
                           type: object
-                          required:
-                            - interface-name
-                            - supported-pmd-list
-                            - currently-operated-pmd
                           properties:
                             interface-name:
                               type: string
@@ -805,13 +858,20 @@ paths:
                         description: >
                           'Provided for split mount devices only
                           Identifier of the slot that holds the link end point according to the currently valid, official documentation of the equipment
-                          from '
+                          Starting from the AirInterface that is identified by UuidUnderTest determined in RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest
+                          the underlaying equipment has to be identified by RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentUuid.response.body#ltp-augment-1-0:ltp-augment-pac/equipment
+                          for each of the EquipmentUuids the category has to be retrieved by RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory.response.by#core-model-1-4:actual-equipment/structure/category
+                          for the single EquipmentUuid with RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory.response.by#core-model-1-4:actual-equipment/structure/category == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM
+                          from RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.HolderLabel.response.body#core-model-1-4:control-construct/equipment/contained-holder/equipment-augment-1-0:holder-pac/vendor-label'
                       connector-plugging-the-outdoor-unit:
-                        type: string
+                        type: integer
                         description: >
                           'Provided for split mount devices only
                           Label of the connector, which is connecting the outdoor unit, as it is printed at the outside of the device
-                          from '
+                          Starting from the AirInterface that is identified by UuidUnderTest determined in RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest
+                          the underlaying equipment and connector have to be identified by RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorId.response.body#ltp-augment-1-0:ltp-augment-pac/equipment and RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorId.response.body#ltp-augment-1-0:ltp-augment-pac/connector
+                          the following request hast to be repeated until the combination of EquipmentUuid and ConnectorLocalId leads actually to an instance of Connector                          
+                          from RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorNumber.response.body#equipment-augment-1-0:connector-pac/sequence-id'
                   alarms:
                     type: object
                     properties:
@@ -822,27 +882,23 @@ paths:
                             type: integer
                             description: >
                               'Number of currently raised alarms on the device
-                              from '
+                              from {$RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive.response.body#alarms-1-0:current-alarms/number-of-current-alarms'
                           current-alarm-list:
                             type: array
                             description: 'List of alarms that are currently raised on the device'
                             items:
                               type: object
-                              required:
-                                - alarm-type-id
-                                - alarm-type-qualifier
-                                - alarm-severity
                               properties:
                                 alarm-type-id:
                                   type: string
                                   description: >
                                     'This attribute and the alarm-type-qualifier attribute together provides a unique identification of the alarm type
-                                    from '
+                                    from {$RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive.response.body#alarms-1-0:current-alarms/current-alarm-list/alarm-type-id'
                                 alarm-type-qualifier:
                                   type: string
                                   description: >
                                     'This attribute is used whenever the alarm-type-id attribute cannot uniquely identify the type of alarm
-                                    from '
+                                    from {$RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive.response.body#alarms-1-0:current-alarms/current-alarm-list/alarm-type-qualifier'
                                 alarm-severity:
                                   type: string
                                   enum:
@@ -855,13 +911,10 @@ paths:
                                     - 'alarms-1-0:SEVERITY_TYPE_NOT_YET_DEFINED'
                                   description: >
                                     'Severity of the alarm as it is configured on the device
-                                    from '
+                                    from {$RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive.response.body#alarms-1-0:current-alarms/current-alarm-list/alarm-severity'
                 example:
                 # example needs to be adapted to substructured properties
                   air-interface:
-                  vlan-interface:
-                  inventory:
-                  alarms:
                     configured-tx-power: 10
                     current-tx-power: 5
                     current-rx-level: -45
@@ -889,25 +942,11 @@ paths:
                       name-at-lct: 2048QAM
                     configured-channel-bandwidth-min: 112
                     configured-channel-bandwidth-max: 112
-                    installed-firmware:
-                      - firmware-component-name: 'IDU Board Bench 2'
-                        firmware-component-version: 'N31030  01.12.04'
-                        firmware-component-status: 'firmware-1-0:FIRMWARE_COMPONENT_STATUS_TYPE_STAND_BY'
-                      - firmware-component-name: 'Web Server LCT'
-                        firmware-component-version: 'N96121  01.12.03'
-                        firmware-component-status: 'firmware-1-0:FIRMWARE_COMPONENT_STATUS_TYPE_ACTIVE'
-                    configured-group-of-air-interfaces:
-                      - link-id: '513550010'
-                      - interface-name: 'SITE-LAN 1/7/2'
-                    current-alarms:
-                      number-of-current-alarms: 2
-                      current-alarm-list:
-                        - alarm-type-id: 'alarms-ext-ericsson-mltn:ALARM_TYPE_ID_LOF'
-                          alarm-type-qualifier: ''
-                          alarm-severity: 'alarms-1-0:SEVERITY_TYPE_CRITICAL'
-                        - alarm-type-id: 'alarms-ext-ericsson-mltn:ALARM_TYPE_ID_ETHERNET_DOWN'
-                          alarm-type-qualifier: ''
-                          alarm-severity: 'alarms-1-0:SEVERITY_TYPE_CRITICAL'
+                    current-cross-polarization-discrimination: -99
+                    configured-performance-monitoring-is-on: true
+                    configured-xpic-is-on: false
+                    current-signal-to-noise-ratio: 38
+                  vlan-interface:
                     configured-lan-port-role-list:
                       - interface-name: 'LAN 1/7/3'
                         vlan-interface-kind: 'vlan-interface-1-0:INTERFACE_KIND_TYPE_CUSTOMER_EDGE_PORT'
@@ -918,6 +957,29 @@ paths:
                         vlan-interface-kind: 'vlan-interface-1-0:INTERFACE_KIND_TYPE_PROVIDER_NETWORK_PORT'
                       - interface-name: 'WAN 1/7/200'
                         vlan-interface-kind: 'vlan-interface-1-0:INTERFACE_KIND_TYPE_PROVIDER_NETWORK_PORT'
+                  inventory:
+                    radio:
+                      equipment-name: 'RAU2 X 23/79'
+                      serial-number: 'A231067NG8'
+                      part-number: 'UKL40163/79'
+                    modem:
+                      equipment-name: 'MMU3 A'
+                      serial-number: 'A2310FXGLF'
+                      part-number: 'ROJ 208 1311/1'
+                    device:
+                      equipment-name: 'ASNK-18G'
+                      serial-number: '101821827000420'
+                      part-number: 'GE8704-52'
+                    installed-firmware:
+                      - firmware-component-name: 'IDU Board Bench 2'
+                        firmware-component-version: 'N31030  01.12.04'
+                        firmware-component-status: 'firmware-1-0:FIRMWARE_COMPONENT_STATUS_TYPE_STAND_BY'
+                      - firmware-component-name: 'Web Server LCT'
+                        firmware-component-version: 'N96121  01.12.03'
+                        firmware-component-status: 'firmware-1-0:FIRMWARE_COMPONENT_STATUS_TYPE_ACTIVE'
+                    configured-group-of-air-interfaces:
+                      - link-id: '513550010'
+                      - interface-name: 'SITE-LAN 1/7/2'
                     plugged-sfp-pmd-list:
                       - interface-name: 'LAN 1/3/3'
                         supported-pmd-list:
@@ -928,13 +990,18 @@ paths:
                         supported-pmd-list:
                           - 'NOT_YET_DEFINED'
                         currently-operated-pmd: 'NOT_YET_DEFINED'
-                    current-cross-polarization-discrimination: -99
-                    configured-performance-monitoring-is-on: true
-                    configured-xpic-is-on: false
-                    current-signal-to-noise-ratio: 38
                     position-of-modem-board: 'Slot 1/5.1'
                     connector-plugging-the-outdoor-unit: 1
-                
+                  alarms:
+                    current-alarms:
+                      number-of-current-alarms: 2
+                      current-alarm-list:
+                        - alarm-type-id: 'alarms-ext-ericsson-mltn:ALARM_TYPE_ID_LOF'
+                          alarm-type-qualifier: ''
+                          alarm-severity: 'alarms-1-0:SEVERITY_TYPE_CRITICAL'
+                        - alarm-type-id: 'alarms-ext-ericsson-mltn:ALARM_TYPE_ID_ETHERNET_DOWN'
+                          alarm-type-qualifier: ''
+                          alarm-severity: 'alarms-1-0:SEVERITY_TYPE_CRITICAL'
           headers:
             x-correlator:
               schema:
@@ -3100,6 +3167,121 @@ paths:
                           core-model-1-4:connector:
                             - equipment-augment-1-0:connector-pac:
                                 sequence-id: 1
+                  headers:
+                    x-correlator:
+                      schema:
+                        type: string
+                        example: '550e8400-e29b-11d4-a716-446655440000'
+                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+                    exec-time:
+                      schema:
+                        type: integer
+                        example: 1100
+                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+                    backend-time:
+                      schema:
+                        type: integer
+                        example: 850
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                    life-cycle-state:
+                      schema:
+                        type: string
+                        enum:
+                          - 'EXPERIMENTAL'
+                          - 'OPERATIONAL'
+                          - 'DEPRECATED'
+                          - 'OBSOLETE'
+                          - 'UNKNOWN'
+                          - 'NOT_YET_DEFINED'
+                        example: 'EXPERIMENTAL'
+                      description: 'Life cycle state of the consumed service'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+        RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers:
+          url: #[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-op-c-is-mwdi-1-0-0-114/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mount-name of the device that is addressed by this callback
+                    from {$request.body#mount-name}'
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '1921277951'
+                  description: >
+                    'The UUID of the Equipment that is addressed by this request
+                    from {RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentUuid.response.body#ltp-augment-1-0:ltp-augment-pac/equipment}'
+                - name: fields
+                  in: query
+                  required: true
+                  schema:
+                    type: string
+                    enum:
+                      - 'structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier);equipment-instance(serial-number))'
+              responses:
+                '200':
+                  description: 'ActualEquipment provided from cache'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        properties:
+                          core-model-1-4:actual-equipment:
+                            type: object
+                            properties:
+                              structure:
+                                type: object
+                                properties:
+                                  category:
+                                    type: string
+                              manufactured-thing":
+                                type: object
+                                properties:
+                                  equipment-type:
+                                    type: object
+                                    properties:
+                                      part-type-identifier:
+                                        type: string
+                                      type-name:
+                                        type: string
+                                  equipment-instance:
+                                    type: object
+                                    properties:
+                                      serial-number:
+                                        type: string
+                        example:
+                          core-model-1-4:actual-equipment:
+                            structure:
+                              category: 'equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT'
+                            manufactured-thing":
+                              equipment-type:
+                                part-type-identifier: 'UKL40163/79'
+                                type-name: 'RAU2 X 23/79'
+                              equipment-instance:
+                                serial-number: 'A231067NG8'
                   headers:
                     x-correlator:
                       schema:
