@@ -13,7 +13,7 @@ The acceptance-relevant data is retrieved from the MWDI and passed on to APT, fo
 
 The acceptance data is collected on demand when the offered service /v1/provide-acceptance-data-of-link-endpoint is called.
 
-Configuration attributes are retrieved from the cache resource paths of the MWDI.
+Configuration attributes are retrieved from the cache resource paths of the MWDI.  
 Status attributes are retrieved from the live resource paths of the MWDI.
 
 ### Relevance
