@@ -13,9 +13,8 @@ The acceptance-relevant data is retrieved from the MWDI and passed on to APT, fo
 
 The acceptance data is collected on demand when the offered service /v1/provide-acceptance-data-of-link-endpoint is called.
 
-Data Attributes of type Configuration or Status are retrieved from the MWDI, for the stored values of these are always up date on the MWDI. 
-
-Measure attributes such as SNIR, whose value is prone to constantly change, are retrieved from the live network by calling the controller.
+Configuration attributes are retrieved from the cache resource paths of the MWDI.
+Status attributes are retrieved from the live resource paths of the MWDI.
 
 ### Relevance
 The AutomatedLinkAcceptanceProxy fulfils a quality assurance task on the live network.
