@@ -261,7 +261,7 @@ clients:
       service:
         basic:
         individual:
-          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}          
+          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}
             uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-000
 
           - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms
