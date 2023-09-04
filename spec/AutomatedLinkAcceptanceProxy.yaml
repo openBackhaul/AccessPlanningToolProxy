@@ -765,7 +765,7 @@ paths:
                       installed-firmware:
                         type: array
                         description: >
-                          'List of installed firmware 
+                          'List of installed firmware
                           filtered for {$RequestForProvidingAcceptanceDataCausesReadingFirmwareList.response.body#firmware-1-0:firmware-collection/firmware-component-list/firmware-component-pac/firmware-component-capability/firmware-component-class} == firmware-1-0:FIRMWARE_COMPONENT_CLASS_TYPE_PACKAGE'
                         items:
                           type: object
@@ -861,7 +861,7 @@ paths:
                           Label of the connector, which is connecting the outdoor unit, as it is printed at the outside of the device
                           Starting from the AirInterface that is identified by UuidUnderTest determined in RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest
                           the underlaying equipment and connector have to be identified by RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorId.response.body#ltp-augment-1-0:ltp-augment-pac/equipment and RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorId.response.body#ltp-augment-1-0:ltp-augment-pac/connector
-                          the following request hast to be repeated until the combination of EquipmentUuid and ConnectorLocalId leads actually to an instance of Connector                          
+                          the following request hast to be repeated until the combination of EquipmentUuid and ConnectorLocalId leads actually to an instance of Connector
                           from RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorNumber.response.body#equipment-augment-1-0:connector-pac/sequence-id'
                   alarms:
                     type: object
@@ -1880,7 +1880,7 @@ paths:
                     example: 'ETH-2134638978'
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
-                    The UUID, which is to be used here, has to be determined by 
+                    The UUID, which is to be used here, has to be determined by
                     filtering the List of LTPs from RequestForProvidingAcceptanceDataCausesReadingLtpStructure for LayerProtocolName == WireLayer
                     and stepping through the hierarchy of LTPs on top of the WireInterfaces:
                     ClientStructureUuid = WireInterface.ClientLtp
@@ -1977,10 +1977,10 @@ paths:
                     example: 'VI-10'
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request.
-                    The UUID, which is to be used here, has to be determined by 
+                    The UUID, which is to be used here, has to be determined by
                     stepping through the hierarchy of LTPs on top of the ClientContainer determined in RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.originalLtpName
                     ClientMacInterfaceUuid = ClientContainer.ClientLtp
-                    ClientVlanInterfaceUuid = ClientMacInterface.ClientLtp    
+                    ClientVlanInterfaceUuid = ClientMacInterface.ClientLtp
                     uuid = ClientVlanInterfaceUuid
                     For all WireInterfaces this request shall be sent'
                 - name: local-id
@@ -2083,7 +2083,7 @@ paths:
                     example: 'RF-2146697857'
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request.
-                    The UUID, which is to be used here, has to be determined by 
+                    The UUID, which is to be used here, has to be determined by
                     filtering the List of LTPs from RequestForProvidingAcceptanceDataCausesReadingLtpStructure for LayerProtocolName == AirLayer
                     and stepping through the hierarchy of LTPs on top of the AirInterfaces:
                     ClientStructureUuid = AirInterface.ClientLtp
@@ -2180,10 +2180,10 @@ paths:
                     example: 'VI-10'
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request.
-                    The UUID, which is to be used here, has to be determined by 
+                    The UUID, which is to be used here, has to be determined by
                     stepping through the hierarchy of LTPs on top of the ClientContainer in RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.originalLtpName
                     ClientMacInterfaceUuid = ClientContainer.ClientLtp
-                    ClientVlanInterfaceUuid = ClientMacInterface.ClientLtp    
+                    ClientVlanInterfaceUuid = ClientMacInterface.ClientLtp
                     uuid = ClientVlanInterfaceUuid
                     For all AirInterfaces this request shall be sent'
                 - name: local-id
@@ -2286,7 +2286,7 @@ paths:
                     example: 'ETH-2134638978'
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request.
-                    The UUID, which is to be used here, has to be determined by 
+                    The UUID, which is to be used here, has to be determined by
                     filtering the List of LTPs from RequestForProvidingAcceptanceDataCausesReadingLtpStructure for LayerProtocolName == WireLayer
                     uuid = WireInterfaceUuid
                     For all WireInterfaces this request shall be sent'
