@@ -7,7 +7,7 @@ end title
 
 participant "LinkVis" as LinkVis
 participant "ALAP://v1/provide-acceptance-data-of-link-endpoint" as ALAP
-participant "RequestForProvidingAcceptanceDataCausesReadingLtpStructure" as LTPs
+participant "<i>RequestForProvidingAcceptanceDataCausesReadingLtpStructure</i>" as LTPs
 participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac\n?fields=original-ltp-name" as ContainerName
 participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration\n?fields=interface-kind" as PortRole
 

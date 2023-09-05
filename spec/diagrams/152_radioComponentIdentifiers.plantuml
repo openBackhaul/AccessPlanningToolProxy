@@ -7,7 +7,7 @@ end title
 
 participant "LinkVis" as LinkVis
 participant "ALAP://v1/provide-acceptance-data-of-link-endpoint" as ALAP
-participant "RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition" as EquipmentUuid
+participant "<i>RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition</i>" as EquipmentUuid
 participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment\n?fields=structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier);equipment-instance(serial-number))" as RadioComponentIdentifiers
 
 LinkVis -> ALAP: {MountName, LinkId} (apiKeyAuth)
