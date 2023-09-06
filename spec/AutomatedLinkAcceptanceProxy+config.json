@@ -209,6 +209,282 @@
                     }
                   }
                 }
+              },
+              {
+                "uuid": "alap-1-0-0-string-p-000",
+                "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+                "string-profile-1-0:string-profile-pac": {
+                  "string-profile-capability": {
+                    "string-name": "RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure"
+                  },
+                  "string-profile-configuration": {
+                    "string-value": "logical-termination-point(uuid;server-ltp;client-ltp;layer-protocol(local-id;layer-protocol-name))"
+                  }
+                }
+              },
+              {
+                "uuid": "alap-1-0-0-string-p-001",
+                "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+                "string-profile-1-0:string-profile-pac": {
+                  "string-profile-capability": {
+                    "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceName"
+                  },
+                  "string-profile-configuration": {
+                    "string-value": "air-interface-name"
+                  }
+                }
+              },
+              {
+                "uuid": "alap-1-0-0-string-p-002",
+                "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+                "string-profile-1-0:string-profile-pac": {
+                  "string-profile-capability": {
+                    "string-name": "RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache"
+                  },
+                  "string-profile-configuration": {
+                    "string-value": ""
+                  }
+                }
+              },
+              {
+                "uuid": "alap-1-0-0-string-p-003",
+                "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+                "string-profile-1-0:string-profile-pac": {
+                  "string-profile-capability": {
+                    "string-name": "RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache"
+                  },
+                  "string-profile-configuration": {
+                    "string-value": ""
+                  }
+                }
+              },
+              {
+                "uuid": "alap-1-0-0-string-p-004",
+                "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+                "string-profile-1-0:string-profile-pac": {
+                  "string-profile-capability": {
+                    "string-name": "RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive.StatusFromLive"
+                  },
+                  "string-profile-configuration": {
+                    "string-value": "tx-level-cur;rx-level-cur;transmission-mode-cur;xpd-cur;snir-cur"
+                  }
+                }
+              },
+              {
+                "uuid": "alap-1-0-0-string-p-005",
+                "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+                "string-profile-1-0:string-profile-pac": {
+                  "string-profile-capability": {
+                    "string-name": "RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation.LtpName"
+                  },
+                  "string-profile-configuration": {
+                    "string-value": "original-ltp-name"
+                  }
+                }
+              },
+              {
+                "uuid": "alap-1-0-0-string-p-006",
+                "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+                "string-profile-1-0:string-profile-pac": {
+                  "string-profile-capability": {
+                    "string-name": "RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive.AlarmsFromLive"
+                  },
+                  "string-profile-configuration": {
+                    "string-value": ""
+                  }
+                }
+              },
+              {
+                "uuid": "alap-1-0-0-string-p-007",
+                "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+                "string-profile-1-0:string-profile-pac": {
+                  "string-profile-capability": {
+                    "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.OriginalLtpName"
+                  },
+                  "string-profile-configuration": {
+                    "string-value": "original-ltp-name"
+                  }
+                }
+              },
+              {
+                "uuid": "alap-1-0-0-string-p-010",
+                "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+                "string-profile-1-0:string-profile-pac": {
+                  "string-profile-capability": {
+                    "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.VlanInterfaceKind"
+                  },
+                  "string-profile-configuration": {
+                    "string-value": "interface-kind"
+                  }
+                }
+              },
+              {
+                "uuid": "alap-1-0-0-string-p-011",
+                "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+                "string-profile-1-0:string-profile-pac": {
+                  "string-profile-capability": {
+                    "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.OriginalLtpName"
+                  },
+                  "string-profile-configuration": {
+                    "string-value": "original-ltp-name"
+                  }
+                }
+              },
+              {
+                "uuid": "alap-1-0-0-string-p-012",
+                "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+                "string-profile-1-0:string-profile-pac": {
+                  "string-profile-capability": {
+                    "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.VlanInterfaceKind"
+                  },
+                  "string-profile-configuration": {
+                    "string-value": "interface-kind"
+                  }
+                }
+              },
+              {
+                "uuid": "alap-1-0-0-string-p-013",
+                "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+                "string-profile-1-0:string-profile-pac": {
+                  "string-profile-capability": {
+                    "string-name": "RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentUuid"
+                  },
+                  "string-profile-configuration": {
+                    "string-value": "equipment"
+                  }
+                }
+              },
+              {
+                "uuid": "alap-1-0-0-string-p-014",
+                "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+                "string-profile-1-0:string-profile-pac": {
+                  "string-profile-capability": {
+                    "string-name": "RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentCategory"
+                  },
+                  "string-profile-configuration": {
+                    "string-value": "structure(category)"
+                  }
+                }
+              },
+              {
+                "uuid": "alap-1-0-0-string-p-015",
+                "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+                "string-profile-1-0:string-profile-pac": {
+                  "string-profile-capability": {
+                    "string-name": "RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.WireInterfaceName"
+                  },
+                  "string-profile-configuration": {
+                    "string-value": "original-ltp-name"
+                  }
+                }
+              },
+              {
+                "uuid": "alap-1-0-0-string-p-016",
+                "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+                "string-profile-1-0:string-profile-pac": {
+                  "string-profile-capability": {
+                    "string-name": "RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.SupportedPmds"
+                  },
+                  "string-profile-configuration": {
+                    "string-value": "supported-pmd-kind-list(pmd-name)"
+                  }
+                }
+              },
+              {
+                "uuid": "alap-1-0-0-string-p-017",
+                "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+                "string-profile-1-0:string-profile-pac": {
+                  "string-profile-capability": {
+                    "string-name": "RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.OperatedPmd"
+                  },
+                  "string-profile-configuration": {
+                    "string-value": "pmd-kind-cur"
+                  }
+                }
+              },
+              {
+                "uuid": "alap-1-0-0-string-p-020",
+                "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+                "string-profile-1-0:string-profile-pac": {
+                  "string-profile-capability": {
+                    "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentUuid"
+                  },
+                  "string-profile-configuration": {
+                    "string-value": "equipment"
+                  }
+                }
+              },
+              {
+                "uuid": "alap-1-0-0-string-p-021",
+                "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+                "string-profile-1-0:string-profile-pac": {
+                  "string-profile-capability": {
+                    "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory"
+                  },
+                  "string-profile-configuration": {
+                    "string-value": "structure(category)"
+                  }
+                }
+              },
+              {
+                "uuid": "alap-1-0-0-string-p-022",
+                "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+                "string-profile-1-0:string-profile-pac": {
+                  "string-profile-capability": {
+                    "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.HolderLabel"
+                  },
+                  "string-profile-configuration": {
+                    "string-value": "equipment(contained-holder(occupying-fru;equipment-augment-1-0:holder-pac(vendor-label)))"
+                  }
+                }
+              },
+              {
+                "uuid": "alap-1-0-0-string-p-023",
+                "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+                "string-profile-1-0:string-profile-pac": {
+                  "string-profile-capability": {
+                    "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorId"
+                  },
+                  "string-profile-configuration": {
+                    "string-value": "equipment;connector"
+                  }
+                }
+              },
+              {
+                "uuid": "alap-1-0-0-string-p-024",
+                "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+                "string-profile-1-0:string-profile-pac": {
+                  "string-profile-capability": {
+                    "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorNumber"
+                  },
+                  "string-profile-configuration": {
+                    "string-value": "equipment-augment-1-0:connector-pac(sequence-id)"
+                  }
+                }
+              },
+              {
+                "uuid": "alap-1-0-0-string-p-025",
+                "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+                "string-profile-1-0:string-profile-pac": {
+                  "string-profile-capability": {
+                    "string-name": "RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.EquipmentInfo"
+                  },
+                  "string-profile-configuration": {
+                    "string-value": "structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier);equipment-instance(serial-number))"
+                  }
+                }
+              },
+              {
+                "uuid": "alap-1-0-0-string-p-026",
+                "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+                "string-profile-1-0:string-profile-pac": {
+                  "string-profile-capability": {
+                    "string-name": "RequestForProvidingAcceptanceDataCausesReadingFirmwareList.FirmwareFromCache"
+                  },
+                  "string-profile-configuration": {
+                    "string-value": ""
+                  }
+                }
               }
             ]
           },
