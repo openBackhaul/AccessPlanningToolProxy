@@ -957,7 +957,7 @@
                       "application-name": "AutomatedLinkAcceptanceProxy",
                       "release-number": "1.0.0",
                       "application-purpose": "Retrieves acceptance data of link endpoint and provides it to LinkVis for later validation",
-                      "data-update-period": " >>> http-server-interface-1-0:DATA_UPDATE_PERIOD_TYPE_REAL_TIME",
+                      "data-update-period": "http-server-interface-1-0:DATA_UPDATE_PERIOD_TYPE_ON_DEMAND",
                       "owner-name": "Ana Cabello Barrera",
                       "owner-email-address": "ana.cabello-barrera@telefonica.com",
                       "release-list": [
