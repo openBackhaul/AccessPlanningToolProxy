@@ -678,18 +678,18 @@
                   "layer-protocol-name": "http-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER",
                   "http-server-interface-1-0:http-server-interface-pac": {
                     "http-server-interface-capability": {
-                      "application-name": " >>> ownApplicationName <<< ",
-                      "release-number": " >>> ownReleaseNumer (e.g. 0.0.1) <<< ",
-                      "application-purpose": " >>> applicationPurpose <<< ",
+                      "application-name": "AutomatedLinkAcceptanceProxy",
+                      "release-number": "1.0.0",
+                      "application-purpose": "Retrieves acceptance data of link endpoint and provides it to LinkVis for later validation",
                       "data-update-period": " >>> http-server-interface-1-0:DATA_UPDATE_PERIOD_TYPE_REAL_TIME",
-                      "owner-name": " >>> ownerName <<< ",
-                      "owner-email-address": " >>> ownerEmailAddress <<< ",
+                      "owner-name": "Ana Cabello Barrera",
+                      "owner-email-address": "ana.cabello-barrera@telefonica.com",
                       "release-list": [
                         {
                           "local-id": "0",
-                          "release-number": " >>> e.g. 0.0.1 <<< ",
-                          "release-date": " >>> e.g. 19.05.2022 <<< ",
-                          "changes": " >>> e.g. Initial version. <<< "
+                          "release-number": "1.0.0",
+                          "release-date": "06.09.2023",
+                          "changes": "Initial version"
                         }
                       ]
                     }
