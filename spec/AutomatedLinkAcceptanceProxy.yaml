@@ -497,72 +497,72 @@ paths:
                         type: integer
                         description: >
                           'Configured transmit power that will be operated in maximum in dBm
-                          from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/tx-power}'
+                          from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/tx-power}'
                       current-tx-power:
                         type: integer
                         description: >
                           'Currently measured transmit power in dBm
-                          from {$RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive.response.body#air-interface-2-0:air-interface-status/tx-level-cur}'
+                          from {$RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/tx-level-cur}'
                       current-rx-level:
                         type: integer
                         description: >
                           'Currently measured receive level in dBm
-                          from {$RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive.response.body#air-interface-2-0:air-interface-status/rx-level-cur}'
+                          from {$RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/rx-level-cur}'
                       configured-tx-frequency:
                         type: integer
                         description: >
                           'Configured transmit frequency in kHz
-                          from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/tx-frequency}'
+                          from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/tx-frequency}'
                       configured-rx-frequency:
                         type: integer
                         description: >
                           'Configured receive frequency in kHz
-                          from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/rx-frequency}'
+                          from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/rx-frequency}'
                       configured-transmitted-radio-signal-id:
                         type: object
                         description: 'Radio signal ID that is configured to be transmitted'
                         properties:
                           alphanumeric-radio-signal-id:
                             type: string
-                            description: 'from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmitted-radio-signal-id/alphanumeric-radio-signal-id}'
+                            description: 'from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmitted-radio-signal-id/alphanumeric-radio-signal-id}'
                           numeric-radio-signal-id:
                             type: integer
-                            description: 'from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmitted-radio-signal-id/numeric-radio-signal-id}'
+                            description: 'from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmitted-radio-signal-id/numeric-radio-signal-id}'
                       configured-expected-radio-signal-id:
                         type: object
                         description: 'Radio signal ID configured to be expected on the signal to synchronize the receiver to'
                         properties:
                           alphanumeric-radio-signal-id:
                             type: string
-                            description: 'from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/expected-radio-signal-id/alphanumeric-radio-signal-id}'
+                            description: 'from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/expected-radio-signal-id/alphanumeric-radio-signal-id}'
                           numeric-radio-signal-id:
                             type: integer
-                            description: 'from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/expected-radio-signal-id/numeric-radio-signal-id}'
+                            description: 'from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/expected-radio-signal-id/numeric-radio-signal-id}'
                       configured-atpc-is-on:
                         type: boolean
                         description: >
                           'This configuration value is true, if automatic transmit power control (ATPC) is configured to be switched on
-                          from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/atpc-is-on}'
+                          from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/atpc-is-on}'
                       configured-atpc-threshold-upper:
                         type: integer
                         description: >
                           'Configured upper automatic transmit power control (ATPC) threshold in dBm
-                          from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/atpc-thresh-upper}'
+                          from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/atpc-thresh-upper}'
                       configured-atpc-threshold-lower:
                         type: integer
                         description: >
                           'Configured lower automatic transmit power control (ATPC) threshold in dBm
-                          from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/atpc-thresh-lower}'
+                          from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/atpc-thresh-lower}'
                       configured-atpc-tx-power-min:
                         type: integer
                         description: >
                           'Configured TX power value (in dBm) that must not be undercut by automatic transmit power control (ATPC)
-                          from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/atpc-tx-power-min}'
+                          from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/atpc-tx-power-min}'
                       configured-adaptive-modulation-is-on:
                         type: boolean
                         description: >
                           'This configuration value is true, if adpative modulation is configured to be switched on
-                          from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/adaptive-modulation-is-on}'
+                          from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/adaptive-modulation-is-on}'
                       configured-modulation-minimum:
                         type: object
                         description: 'Configured minimum modulation scheme'
@@ -571,14 +571,16 @@ paths:
                             type: integer
                             description: >
                               'Number of states in the phase diagram (e.g. BPSK->2 or 256QAM->256)
-                              transmissionModeMin = {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmission-mode-min}
-                              from {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/modulation-scheme} for {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeMin'
+                              transmissionModeMin = {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmission-mode-min}
+                              from {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/modulation-scheme}
+                              where {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeMin'
                           name-at-lct:
                             type: string
                             description: >
                               'Name identifying this transmission mode on the graphical user interface of the local craft terminal
-                              transmissionModeMin = {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmission-mode-min}
-                              from {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/modulation-scheme-name-at-lct} for {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeMin'
+                              transmissionModeMin = {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmission-mode-min}
+                              from {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/modulation-scheme-name-at-lct}
+                              where {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeMin'
                       configured-modulation-maximum:
                         type: object
                         description: 'Configured maximum modulation scheme'
@@ -587,14 +589,16 @@ paths:
                             type: integer
                             description: >
                               'Number of states in the phase diagram (e.g. BPSK->2 or 256QAM->256)
-                              transmissionModeMax = {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmission-mode-max}
-                              from {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/modulation-scheme} for {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeMax'
+                              transmissionModeMax = {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmission-mode-max}
+                              from {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/modulation-scheme}
+                              where {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeMax'
                           name-at-lct:
                             type: string
                             description: >
                               'Name identifying this transmission mode on the graphical user interface of the local craft terminal
-                              transmissionModeMax = {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmission-mode-max}
-                              from {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/modulation-scheme-name-at-lct} for {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeMax'
+                              transmissionModeMax = {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmission-mode-max}
+                              from {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/modulation-scheme-name-at-lct}
+                              where {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeMax'
                       current-modulation:
                         type: object
                         description: 'Currently operated modulation scheme'
@@ -603,46 +607,50 @@ paths:
                             type: integer
                             description: >
                               'Number of states in the phase diagram (e.g. BPSK->2 or 256QAM->256)
-                              transmissionModeCur = {$RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive.response.body#air-interface-2-0:air-interface-status/transmission-mode-cur}
-                              from {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/modulation-scheme} for {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeCur'
+                              transmissionModeCur = {$RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/transmission-mode-cur}
+                              from {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/modulation-scheme}
+                              where {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeCur'
                           name-at-lct:
                             type: string
                             description: >
                               'Name identifying this transmission mode on the graphical user interface of the local craft terminal
-                              transmissionModeCur = {$RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive.response.body#air-interface-2-0:air-interface-status/transmission-mode-cur}
-                              from {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/modulation-scheme-name-at-lct} for {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeCur'
+                              transmissionModeCur = {$RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/transmission-mode-cur}
+                              from {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/modulation-scheme-name-at-lct}
+                              where {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeCur'
                       configured-channel-bandwidth-min:
                         type: integer
                         description: >
                           'Configured bandwidth in the lowest transmission mode of the radio channel in kHz
-                          transmissionModeMin = {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmission-mode-min}
-                          from {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/channel-bandwidth} for {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeMin'
+                          transmissionModeMin = {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmission-mode-min}
+                          from {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/channel-bandwidth}
+                          where {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeMin'
                       configured-channel-bandwidth-max:
                         type: integer
                         description: >
                           'Configured bandwidth in the highest transmission mode of the radio channel in kHz
-                          transmissionModeMax = {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmission-mode-max}
-                          from {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/channel-bandwidth} for {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeMax'
+                          transmissionModeMax = {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmission-mode-max}
+                          from {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/channel-bandwidth}
+                          where {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeMax'
                       current-cross-polarization-discrimination:
                         type: integer
                         description: >
                           'Currently measured cross polarization discrimination (XPD)
-                          from {$RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive.response.body#air-interface-2-0:air-interface-status/xpd-cur}'
+                          from {$RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/xpd-cur}'
                       configured-performance-monitoring-is-on:
                         type: boolean
                         description: >
                           'This configuration value is true, if collecting performance values is configured to be activated
-                          from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/performance-monitoring-is-on}'
+                          from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/performance-monitoring-is-on}'
                       configured-xpic-is-on:
                         type: boolean
                         description: >
                           'This configuration value is true, if cross polarization interference cancellation (XPIC) is configured to be activated
-                          from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/xpic-is-on}'
+                          from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/xpic-is-on}'
                       current-signal-to-noise-ratio:
                         type: integer
                         description: >
                           'Currently measured signal to noise + interference ratio (SNIR)
-                          from {$RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive.response.body#air-interface-2-0:air-interface-status/snir-cur}'
+                          from {$RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/snir-cur}'
                   vlan-interface:
                     type: object
                     properties:
@@ -706,20 +714,20 @@ paths:
                             type: string
                             description: >
                               'Name of the radio type
-                              if {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT
-                              from {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/type-name}'
+                              if {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT
+                              from {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/type-name}'
                           serial-number:
                             type: string
                             description: >
                               'Serial number of the radio
-                              if {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT
-                              from {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-instance/serial-number}'
+                              if {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT
+                              from {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-instance/serial-number}'
                           part-number:
                             type: string
                             description: >
                               'Part number of the radio
-                              if {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT
-                              from {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/part-type-identifier}'
+                              if {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT
+                              from {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/part-type-identifier}'
                       modem:
                         type: object
                         properties:
@@ -727,20 +735,20 @@ paths:
                             type: string
                             description: >
                               'Name of the modem type
-                              if {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM
-                              from {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/type-name}'
+                              if {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM
+                              from {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/type-name}'
                           serial-number:
                             type: string
                             description: >
                               'Serial number of the modem
-                              if {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM
-                              from {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-instance/serial-number}'
+                              if {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM
+                              from {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-instance/serial-number}'
                           part-number:
                             type: string
                             description: >
                               'Part number of the modem
-                              if {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM
-                              from {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/part-type-identifier}'
+                              if {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM
+                              from {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/part-type-identifier}'
                       device:
                         type: object
                         properties:
@@ -748,25 +756,25 @@ paths:
                             type: string
                             description: >
                               'Name of the device type
-                              if {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_FULL_OUTDOOR_UNIT
-                              from {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/type-name}'
+                              if {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_FULL_OUTDOOR_UNIT
+                              from {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/type-name}'
                           serial-number:
                             type: string
                             description: >
                               'Serial number of the device
-                              if {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_FULL_OUTDOOR_UNIT
-                              from {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-instance/serial-number}'
+                              if {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_FULL_OUTDOOR_UNIT
+                              from {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-instance/serial-number}'
                           part-number:
                             type: string
                             description: >
                               'Part number of the device
-                              if {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_FULL_OUTDOOR_UNIT
-                              from {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/part-type-identifier}'
+                              if {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_FULL_OUTDOOR_UNIT
+                              from {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/part-type-identifier}'
                       installed-firmware:
                         type: array
                         description: >
                           'List of installed firmware
-                          filtered for {$RequestForProvidingAcceptanceDataCausesReadingFirmwareList.response.body#firmware-1-0:firmware-collection/firmware-component-list/firmware-component-pac/firmware-component-capability/firmware-component-class} == firmware-1-0:FIRMWARE_COMPONENT_CLASS_TYPE_PACKAGE'
+                          filtered for {$RequestForProvidingAcceptanceDataCausesReadingFirmwareList.FirmwareFromCache.response.body#firmware-1-0:firmware-collection/firmware-component-list/firmware-component-pac/firmware-component-capability/firmware-component-class} == firmware-1-0:FIRMWARE_COMPONENT_CLASS_TYPE_PACKAGE'
                         items:
                           type: object
                           properties:
@@ -774,17 +782,17 @@ paths:
                               type: string
                               description: >
                                 'Name of the firmware component
-                                from {$RequestForProvidingAcceptanceDataCausesReadingFirmwareList.response.body#firmware-1-0:firmware-collection/firmware-component-list/firmware-component-pac/firmware-component-capability/firmware-component-name}'
+                                from {$RequestForProvidingAcceptanceDataCausesReadingFirmwareList.FirmwareFromCache.response.body#firmware-1-0:firmware-collection/firmware-component-list/firmware-component-pac/firmware-component-capability/firmware-component-name}'
                             firmware-component-version:
                               type: string
                               description: >
                                 'Version of the firmware component
-                                from {$RequestForProvidingAcceptanceDataCausesReadingFirmwareList.response.body#firmware-1-0:firmware-collection/firmware-component-list/firmware-component-pac/firmware-component-capability/firmware-component-version}'
+                                from {$RequestForProvidingAcceptanceDataCausesReadingFirmwareList.FirmwareFromCache.response.body#firmware-1-0:firmware-collection/firmware-component-list/firmware-component-pac/firmware-component-capability/firmware-component-version}'
                             firmware-component-status:
                               type: string
                               description: >
                                 'Activation status of the firmware component
-                                from {$RequestForProvidingAcceptanceDataCausesReadingFirmwareList.response.body#firmware-1-0:firmware-collection/firmware-component-list/firmware-component-pac/firmware-component-status/firmware-component-status}'
+                                from {$RequestForProvidingAcceptanceDataCausesReadingFirmwareList.FirmwareFromCache.response.body#firmware-1-0:firmware-collection/firmware-component-list/firmware-component-pac/firmware-component-status/firmware-component-status}'
                       configured-group-of-air-interfaces:
                         type: array
                         description: >
@@ -794,11 +802,11 @@ paths:
                           ClientStructureUuid = LtpUnderTest.ClientLtp
                           ClientContainerUuid = ClientStructure.ClientLtp
                           At the transported EthernetContainer, the group of servering LTPs has to be identified and
-                          the transporting physical interfaces have to determined by stepping downward the hierarchy of LTPs
+                          the transporting physical interfaces have to be determined by stepping downward the hierarchy of LTPs
                           ServingStructureUuidList = ClientContainer.ServerLtp
                           List(ServingPhysicUuid) = List(ServingStructure.ServerLtp)
-                          for LTPs of type ServingPhysic.LayerProtocolName == AIR_LAYER the link-id shall be represented
-                          for LTPs of type ServingPhysic.LayerProtocolName == WIRE_LAYER the interface-name shall be represented'
+                          the link-id shall be provided for LTPs where ServingPhysic.LayerProtocolName == AIR_LAYER
+                          alternatively the interface-name shall be provided for LTPs where ServingPhysic.LayerProtocolName == WIRE_LAYER'
                         items:
                           oneOf:
                             - description: 'AirInterfaces'
@@ -808,7 +816,7 @@ paths:
                                   type: string
                                   description: >
                                     'Identifier of the microwave link as used in the Telefonica planing tools
-                                    from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration.air-interface-name}'
+                                    from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration.air-interface-name}'
                             - description: 'WireInterface'
                               type: object
                               properties:
@@ -816,7 +824,7 @@ paths:
                                   type: string
                                   description: >
                                     'Interface name as it is represented at the vendor's own management interface
-                                    from {$RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation.response.body#ltp-augment-1-0:ltp-augment-pac/original-ltp-name}'
+                                    from {$RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation.LtpName.response.body#ltp-augment-1-0:ltp-augment-pac/original-ltp-name}'
                       plugged-sfp-pmd-list:
                         description: >
                           'First the list of LTPs from RequestForProvidingAcceptanceDataCausesReadingLtpStructure has to be filtered for LayerProtocolName == WireLayer
@@ -873,7 +881,7 @@ paths:
                             type: integer
                             description: >
                               'Number of currently raised alarms on the device
-                              from {$RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive.response.body#alarms-1-0:current-alarms/number-of-current-alarms'
+                              from {$RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive.AlarmsFromLive.response.body#alarms-1-0:current-alarms/number-of-current-alarms'
                           current-alarm-list:
                             type: array
                             description: 'List of alarms that are currently raised on the device'
@@ -884,12 +892,12 @@ paths:
                                   type: string
                                   description: >
                                     'This attribute and the alarm-type-qualifier attribute together provides a unique identification of the alarm type
-                                    from {$RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive.response.body#alarms-1-0:current-alarms/current-alarm-list/alarm-type-id'
+                                    from {$RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive.AlarmsFromLive.response.body#alarms-1-0:current-alarms/current-alarm-list/alarm-type-id'
                                 alarm-type-qualifier:
                                   type: string
                                   description: >
                                     'This attribute is used whenever the alarm-type-id attribute cannot uniquely identify the type of alarm
-                                    from {$RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive.response.body#alarms-1-0:current-alarms/current-alarm-list/alarm-type-qualifier'
+                                    from {$RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive.AlarmsFromLive.response.body#alarms-1-0:current-alarms/current-alarm-list/alarm-type-qualifier'
                                 alarm-severity:
                                   type: string
                                   enum:
@@ -902,7 +910,7 @@ paths:
                                     - 'alarms-1-0:SEVERITY_TYPE_NOT_YET_DEFINED'
                                   description: >
                                     'Severity of the alarm as it is configured on the device
-                                    from {$RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive.response.body#alarms-1-0:current-alarms/current-alarm-list/alarm-severity'
+                                    from {$RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive.AlarmsFromLive.response.body#alarms-1-0:current-alarms/current-alarm-list/alarm-severity'
                 example:
                   air-interface:
                     configured-tx-power: 10
@@ -1161,7 +1169,7 @@ paths:
           AirInterfaceName: #[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-op-c-is-mwdi-1-0-0-211/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             description: >
               'UuidUnderTest and LocalIdUnderTest to be determined by
-              repeating until {$RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.response.body@air-interface-name} == {$request.body#link-id}
+              repeating until {$RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceName.response.body@air-interface-name} == {$request.body#link-id}
             get:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -1186,7 +1194,8 @@ paths:
                     example: 'LTP-MWPS-TTP-1-1'
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
-                    from {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/uuid for ./layer-protocol/layer-protocol-name == air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER}'
+                    from {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/uuid}
+                    where {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/layer-protocol/layer-protocol-name} == air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
                 - name: local-id
                   in: path
                   required: true
@@ -1195,7 +1204,8 @@ paths:
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/layer-protocol/local-id for ./layer-protocol-name == air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER}'
+                    from {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/layer-protocol/local-id}
+                    where {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/layer-protocol/layer-protocol-name} == air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
                 - name: fields
                   in: query
                   required: true
@@ -1991,7 +2001,8 @@ paths:
                     example: '10'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/layer-protocol/local-id for ../uuid == ClientVlanInterfaceUuid}'
+                    from {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/layer-protocol/local-id}
+                    where {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/layer-protocol/uuid} == ClientVlanInterfaceUuid'
                 - name: fields
                   in: query
                   required: true
@@ -2194,7 +2205,8 @@ paths:
                     example: '10'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/layer-protocol/local-id for ../uuid == ClientVlanInterfaceUuid}'
+                    from {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/layer-protocol/local-id}
+                    where {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/uuid} == ClientVlanInterfaceUuid'
                 - name: fields
                   in: query
                   required: true
@@ -2580,7 +2592,8 @@ paths:
                     example: '2134638978'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/layer-protocol/local-id for ../uuid == {$RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.SupportedPmds.parameters#uuid}}'
+                    from {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/layer-protocol/local-id}
+                    where {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/uuid} == {$RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.SupportedPmds.parameters#uuid}}'
                 - name: fields
                   in: query
                   required: true
@@ -2688,7 +2701,8 @@ paths:
                     example: '2134638978'
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/layer-protocol/local-id for ../uuid == {$RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.SupportedPmds.parameters#uuid}}'
+                    from {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/layer-protocol/local-id}
+                    where {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/uuid == {$RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.SupportedPmds.parameters#uuid}}'
                 - name: fields
                   in: query
                   required: true
@@ -3309,7 +3323,7 @@ paths:
                                 properties:
                                   category:
                                     type: string
-                              manufactured-thing":
+                              manufactured-thing:
                                 type: object
                                 properties:
                                   equipment-type:
@@ -3328,7 +3342,7 @@ paths:
                           core-model-1-4:actual-equipment:
                             structure:
                               category: 'equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT'
-                            manufactured-thing":
+                            manufactured-thing:
                               equipment-type:
                                 part-type-identifier: 'UKL40163/79'
                                 type-name: 'RAU2 X 23/79'
