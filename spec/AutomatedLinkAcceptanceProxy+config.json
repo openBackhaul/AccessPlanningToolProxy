@@ -1810,7 +1810,392 @@
                   }
                 }
               ]
-            }
+            },
+            {
+                "uuid": "alap-1-0-0-op-c-is-mwdi-1-0-0-000",
+                "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+                "client-ltp": [
+                ],
+                "server-ltp": [
+                  "alap-1-0-0-http-c-mwdi-1-0-0-000"
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "0",
+                    "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                    "operation-client-interface-1-0:operation-client-interface-pac": {
+                      "operation-client-interface-configuration": {
+                        "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}",
+                        "operation-key": "Operation key not yet provided."
+                      },
+                      "operation-client-interface-status": {
+                        "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                        "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "uuid": "alap-1-0-0-op-c-is-mwdi-1-0-0-407",
+                "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+                "client-ltp": [
+                ],
+                "server-ltp": [
+                  "alap-1-0-0-http-c-mwdi-1-0-0-000"
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "0",
+                    "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                    "operation-client-interface-1-0:operation-client-interface-pac": {
+                      "operation-client-interface-configuration": {
+                        "operation-name": "/core-model-1-4:network-control-domain=live/control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms",
+                        "operation-key": "Operation key not yet provided."
+                      },
+                      "operation-client-interface-status": {
+                        "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                        "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "uuid": "alap-1-0-0-op-c-is-mwdi-1-0-0-110",
+                "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+                "client-ltp": [
+                ],
+                "server-ltp": [
+                  "alap-1-0-0-http-c-mwdi-1-0-0-000"
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "0",
+                    "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                    "operation-client-interface-1-0:operation-client-interface-pac": {
+                      "operation-client-interface-configuration": {
+                        "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}",
+                        "operation-key": "Operation key not yet provided."
+                      },
+                      "operation-client-interface-status": {
+                        "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                        "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "uuid": "alap-1-0-0-op-c-is-mwdi-1-0-0-111",
+                "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+                "client-ltp": [
+                ],
+                "server-ltp": [
+                  "alap-1-0-0-http-c-mwdi-1-0-0-000"
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "0",
+                    "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                    "operation-client-interface-1-0:operation-client-interface-pac": {
+                      "operation-client-interface-configuration": {
+                        "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/connector={local-id}",
+                        "operation-key": "Operation key not yet provided."
+                      },
+                      "operation-client-interface-status": {
+                        "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                        "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "uuid": "alap-1-0-0-op-c-is-mwdi-1-0-0-114",
+                "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+                "client-ltp": [
+                ],
+                "server-ltp": [
+                  "alap-1-0-0-http-c-mwdi-1-0-0-000"
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "0",
+                    "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                    "operation-client-interface-1-0:operation-client-interface-pac": {
+                      "operation-client-interface-configuration": {
+                        "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment",
+                        "operation-key": "Operation key not yet provided."
+                      },
+                      "operation-client-interface-status": {
+                        "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                        "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "uuid": "alap-1-0-0-op-c-is-mwdi-1-0-0-120",
+                "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+                "client-ltp": [
+                ],
+                "server-ltp": [
+                  "alap-1-0-0-http-c-mwdi-1-0-0-000"
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "0",
+                    "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                    "operation-client-interface-1-0:operation-client-interface-pac": {
+                      "operation-client-interface-configuration": {
+                        "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/firmware-1-0:firmware-collection",
+                        "operation-key": "Operation key not yet provided."
+                      },
+                      "operation-client-interface-status": {
+                        "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                        "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "uuid": "alap-1-0-0-op-c-is-mwdi-1-0-0-201",
+                "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+                "client-ltp": [
+                ],
+                "server-ltp": [
+                  "alap-1-0-0-http-c-mwdi-1-0-0-000"
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "0",
+                    "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                    "operation-client-interface-1-0:operation-client-interface-pac": {
+                      "operation-client-interface-configuration": {
+                        "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac",
+                        "operation-key": "Operation key not yet provided."
+                      },
+                      "operation-client-interface-status": {
+                        "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                        "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "uuid": "alap-1-0-0-op-c-is-mwdi-1-0-0-210",
+                "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+                "client-ltp": [
+                ],
+                "server-ltp": [
+                  "alap-1-0-0-http-c-mwdi-1-0-0-000"
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "0",
+                    "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                    "operation-client-interface-1-0:operation-client-interface-pac": {
+                      "operation-client-interface-configuration": {
+                        "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability",
+                        "operation-key": "Operation key not yet provided."
+                      },
+                      "operation-client-interface-status": {
+                        "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                        "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "uuid": "alap-1-0-0-op-c-is-mwdi-1-0-0-211",
+                "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+                "client-ltp": [
+                ],
+                "server-ltp": [
+                  "alap-1-0-0-http-c-mwdi-1-0-0-000"
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "0",
+                    "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                    "operation-client-interface-1-0:operation-client-interface-pac": {
+                      "operation-client-interface-configuration": {
+                        "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration",
+                        "operation-key": "Operation key not yet provided."
+                      },
+                      "operation-client-interface-status": {
+                        "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                        "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "uuid": "alap-1-0-0-op-c-is-mwdi-1-0-0-512",
+                "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+                "client-ltp": [
+                ],
+                "server-ltp": [
+                  "alap-1-0-0-http-c-mwdi-1-0-0-000"
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "0",
+                    "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                    "operation-client-interface-1-0:operation-client-interface-pac": {
+                      "operation-client-interface-configuration": {
+                        "operation-name": "/core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status",
+                        "operation-key": "Operation key not yet provided."
+                      },
+                      "operation-client-interface-status": {
+                        "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                        "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "uuid": "alap-1-0-0-op-c-is-mwdi-1-0-0-261",
+                "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+                "client-ltp": [
+                ],
+                "server-ltp": [
+                  "alap-1-0-0-http-c-mwdi-1-0-0-000"
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "0",
+                    "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                    "operation-client-interface-1-0:operation-client-interface-pac": {
+                      "operation-client-interface-configuration": {
+                        "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration",
+                        "operation-key": "Operation key not yet provided."
+                      },
+                      "operation-client-interface-status": {
+                        "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                        "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "uuid": "alap-1-0-0-op-c-is-mwdi-1-0-0-270",
+                "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+                "client-ltp": [
+                ],
+                "server-ltp": [
+                  "alap-1-0-0-http-c-mwdi-1-0-0-000"
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "0",
+                    "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                    "operation-client-interface-1-0:operation-client-interface-pac": {
+                      "operation-client-interface-configuration": {
+                        "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-capability",
+                        "operation-key": "Operation key not yet provided."
+                      },
+                      "operation-client-interface-status": {
+                        "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                        "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "uuid": "alap-1-0-0-op-c-is-mwdi-1-0-0-272",
+                "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+                "client-ltp": [
+                ],
+                "server-ltp": [
+                  "alap-1-0-0-http-c-mwdi-1-0-0-000"
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "0",
+                    "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                    "operation-client-interface-1-0:operation-client-interface-pac": {
+                      "operation-client-interface-configuration": {
+                        "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status",
+                        "operation-key": "Operation key not yet provided."
+                      },
+                      "operation-client-interface-status": {
+                        "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                        "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "uuid": "alap-1-0-0-http-c-mwdi-1-0-0-000",
+                "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+                "client-ltp": [
+                  "alap-1-0-0-op-c-is-mwdi-1-0-0-000",
+                  "alap-1-0-0-op-c-is-mwdi-1-0-0-407",
+                  "alap-1-0-0-op-c-is-mwdi-1-0-0-110",
+                  "alap-1-0-0-op-c-is-mwdi-1-0-0-111",
+                  "alap-1-0-0-op-c-is-mwdi-1-0-0-114",
+                  "alap-1-0-0-op-c-is-mwdi-1-0-0-120",
+                  "alap-1-0-0-op-c-is-mwdi-1-0-0-201",
+                  "alap-1-0-0-op-c-is-mwdi-1-0-0-210",
+                  "alap-1-0-0-op-c-is-mwdi-1-0-0-211",
+                  "alap-1-0-0-op-c-is-mwdi-1-0-0-512",
+                  "alap-1-0-0-op-c-is-mwdi-1-0-0-261",
+                  "alap-1-0-0-op-c-is-mwdi-1-0-0-270",
+                  "alap-1-0-0-op-c-is-mwdi-1-0-0-272"
+                ],
+                "server-ltp": [
+                    "alap-1-0-0-tcp-c-mwdi-1-0-0-000"
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "0",
+                    "layer-protocol-name": "http-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER",
+                    "http-client-interface-1-0:http-client-interface-pac": {
+                      "http-client-interface-configuration": {
+                        "application-name": "MicroWaveDeviceInventory",
+                        "release-number": "1.0.0"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "uuid": "alap-1-0-0-tcp-c-mwdi-1-0-0-000",
+                "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+                "client-ltp": [
+                   "alap-1-0-0-http-c-mwdi-1-0-0-000"
+                ],
+                "server-ltp": [
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "0",
+                    "layer-protocol-name": "tcp-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER",
+                    "tcp-client-interface-1-0:tcp-client-interface-pac": {
+                      "tcp-client-interface-configuration": {
+                        "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
+                        "remote-address": {
+                          "ip-address": {
+                            "ipv-4-address": "1.1.4.4"
+                          }
+                        },
+                        "remote-port": 4004
+                      }
+                    }
+                  }
+                ]
+              }
           ],
           "forwarding-domain": [
             {
