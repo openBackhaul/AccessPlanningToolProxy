@@ -1,0 +1,46 @@
+@startuml 140_RetrievingSfpInformation
+skinparam responseMessageBelowArrow true
+
+title
+RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation
+end title
+
+participant "LinkVis" as LinkVis
+participant "ALAP://v1/provide-acceptance-data-of-link-endpoint" as ALAP
+participant "<i>RequestForProvidingAcceptanceDataCausesReadingLtpStructure</i>" as LTPs
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac\n?fields=equipment" as EquipmentUuid
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment\n?fields=structure(category)" as EquipmentCategory
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac\n?fields=original-ltp-name" as WireInterfaceName
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-capability\n?fields=supported-pmd-kind-list(pmd-name)" as SupportedPmds
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status\n?fields=pmd-kind-cur" as OperatedPmd
+
+LinkVis -> ALAP: {MountName, LinkId} (apiKeyAuth)
+activate ALAP
+
+LTPs --> ALAP: {Uuid, LocalId, LayerProtocolName}
+
+note over ALAP
+WireInterfaceUuidList = Filter List of LTPs for LayerProtocolName == WireLayer
+For all WireInterfaces :
+end note
+
+ALAP -> EquipmentUuid: {uuid = WireInterfaceUuid} (apiKeyAuth)
+EquipmentUuid --> ALAP: {EquipmentUuid}
+
+ALAP -> EquipmentCategory: {uuid = EquipmentUuid} (apiKeyAuth)
+EquipmentCategory --> ALAP: {EquipmentCategory}
+
+note over ALAP
+For all WireInterfaces with EquipmentCategory == core-model-1-4:EQUIPMENT_CATEGORY_SMALL_FORMFACTOR_PLUGGABLE :
+end note
+
+ALAP -> WireInterfaceName: {uuid = WireInterfaceUuid} (apiKeyAuth)
+WireInterfaceName --> ALAP: {original-ltp-name}
+
+ALAP -> SupportedPmds: {uuid = WireInterfaceUuid,local-id} (apiKeyAuth)
+SupportedPmds --> ALAP: {supported-pmd-kind-list.pmd-name}
+
+ALAP -> OperatedPmd: {uuid = WireInterfaceUuid,local-id} (apiKeyAuth)
+OperatedPmd --> ALAP: {pmd-kind-cur}
+
+@enduml

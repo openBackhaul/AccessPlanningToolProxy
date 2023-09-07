@@ -1,0 +1,18 @@
+@startuml 100_ReadingLtpStructure
+skinparam responseMessageBelowArrow true
+
+title
+RequestForProvidingAcceptanceDataCausesReadingLtpStructure
+end title
+
+participant "LinkVis" as LinkVis
+participant "ALAP://v1/provide-acceptance-data-of-link-endpoint" as ALAP
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}?fields=logical-termination-point(uuid;server-ltp;client-ltp;layer-protocol(local-id;layer-protocol-name))" as ReadingLtpStructure
+
+LinkVis -> ALAP: {MountName, LinkId} (apiKeyAuth)
+activate ALAP
+
+ALAP -> ReadingLtpStructure: (apiKeyAuth)
+ReadingLtpStructure --> ALAP: {Uuid, LocalId, ServerLtp, ClientLtp, LayerProtocolName}
+
+@enduml

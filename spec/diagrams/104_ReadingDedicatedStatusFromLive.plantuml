@@ -1,0 +1,20 @@
+@startuml 104_ReadingDedicatedStatusFromLive
+skinparam responseMessageBelowArrow true
+
+title
+RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive
+end title
+
+participant "LinkVis" as LinkVis
+participant "ALAP://v1/provide-acceptance-data-of-link-endpoint" as ALAP
+participant "MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status?fields=tx-level-cur;rx-level-cur;transmission-mode-cur;xpd-cur;snir-cur" as MwdiStatus
+
+LinkVis -> ALAP: {MountName, LinkId} (apiKeyAuth)
+activate ALAP
+
+ALAP -> MwdiStatus: {uuid = UuidUnderTest and local-id = LocalIdUnderTest from RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest} (apiKeyAuth)
+MwdiStatus --> ALAP: {tx-level-cur and rx-level-cur from live}
+
+deactivate ALAP
+
+@enduml

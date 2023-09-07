@@ -1,0 +1,37 @@
+@startuml 130_DeterminingLanPortRole
+skinparam responseMessageBelowArrow true
+
+title
+RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole
+end title
+
+participant "LinkVis" as LinkVis
+participant "ALAP://v1/provide-acceptance-data-of-link-endpoint" as ALAP
+participant "<i>RequestForProvidingAcceptanceDataCausesReadingLtpStructure</i>" as LTPs
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac\n?fields=original-ltp-name" as ContainerName
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration\n?fields=interface-kind" as PortRole
+
+LinkVis -> ALAP: {MountName, LinkId} (apiKeyAuth)
+activate ALAP
+
+LTPs --> ALAP: {Uuid, LocalId, LayerProtocolName}
+
+note over ALAP
+WireInterfaceUuidList = Filter List of LTPs for LayerProtocolName == WireLayer
+
+Execute for all WireInterfaces:
+ClientStructureUuid = WireInterface.ClientLtp
+ClientContainerUuid = ClientStructure.ClientLtp
+ClientMacInterfaceUuid = ClientContainer.ClientLtp
+ClientVlanInterfaceUuid = ClientMacInterface.ClientLtp
+end note
+
+ALAP -> ContainerName: {uuid = ClientContainerUuid} (apiKeyAuth)
+ContainerName --> ALAP: {OriginalLtpName}
+
+ALAP -> PortRole: {uuid = ClientVlanInterface} (apiKeyAuth)
+PortRole --> ALAP: {VlanInterfaceKind}
+
+deactivate ALAP
+
+@enduml

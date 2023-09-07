@@ -1,0 +1,40 @@
+@startuml 115_AnalysingAggregation
+skinparam responseMessageBelowArrow true
+
+title
+RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation
+end title
+
+participant "LinkVis" as LinkVis
+participant "ALAP://v1/provide-acceptance-data-of-link-endpoint" as ALAP
+participant "<i>RequestForProvidingAcceptanceDataCausesReadingLtpStructure</i>" as LTPs
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name" as WireInterfaceName
+
+LinkVis -> ALAP: {MountName, LinkId} (apiKeyAuth)
+activate ALAP
+
+LTPs --> ALAP: {Uuid, LocalId, LayerProtocolName}
+
+note over ALAP
+ClientStructureUuid = LtpUnderTest.ClientLtp
+ClientContainerUuid = ClientStructure.ClientLtp
+ServingStructureUuidList = ClientContainer.ServerLtp
+List(ServingPhysicUuid) = List(ServingStructure.ServerLtp)
+end note
+
+note over ALAP
+For all ServingPhysic.LayerProtocol.LayerProtocolName == AirLayer :
+link-id = RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.response.body#AirInterfaceName
+end note
+
+note over ALAP
+For all ServingPhysic.LayerProtocol.LayerProtocolName == WireLayer :
+interface-name = original-ltp-name (according to following request)
+end note
+
+ALAP -> WireInterfaceName: (apiKeyAuth)
+WireInterfaceName --> ALAP: {original-ltp-name}
+
+deactivate ALAP
+
+@enduml

@@ -1,0 +1,20 @@
+@startuml 155_ReadingFirmware
+skinparam responseMessageBelowArrow true
+
+title
+RequestForProvidingAcceptanceDataCausesReadingFirmwareList
+end title
+
+participant "LinkVis" as LinkVis
+participant "ALAP://v1/provide-acceptance-data-of-link-endpoint" as ALAP
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/firmware-1-0:firmware-collection" as MwdiFirm
+
+LinkVis -> ALAP: {MountName, LinkId} (apiKeyAuth)
+activate ALAP
+
+ALAP -> MwdiFirm: (apiKeyAuth)
+MwdiFirm --> ALAP: {entire list of firmware components from cache}
+
+deactivate ALAP
+
+@enduml

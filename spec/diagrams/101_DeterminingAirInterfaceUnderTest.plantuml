@@ -1,0 +1,31 @@
+@startuml 101_DeterminingAirInterfaceUnderTest
+skinparam responseMessageBelowArrow true
+
+title
+RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest
+end title
+
+participant "LinkVis" as LinkVis
+participant "ALAP://v1/provide-acceptance-data-of-link-endpoint" as ALAP
+participant "<i>RequestForProvidingAcceptanceDataCausesReadingLtpStructure</i>" as LTPs
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/\nlayer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration?fields=air-interface-name" as AirInterfaceName
+
+LinkVis -> ALAP: {MountName, LinkId} (apiKeyAuth)
+activate ALAP
+
+LTPs --> ALAP: {Uuid, LocalId, LayerProtocolName}
+
+note over ALAP
+For all (UUID, Local-ID)s with LayerProtocolName == AirLayer
+until AirInterfaceName = LinkId
+end note
+
+ALAP -> AirInterfaceName: (apiKeyAuth)
+AirInterfaceName --> ALAP: {AirInterfaceName}
+
+note over ALAP
+UuidUnderTest/LocalIdUnderTest = 
+uuid/local-id of LTP with (LayerProtocolName == AirLayer) AND (AirInterfaceName==LinkId)
+end note
+
+@enduml
