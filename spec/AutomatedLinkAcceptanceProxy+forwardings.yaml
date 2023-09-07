@@ -16,7 +16,7 @@ forwardings:
       - server-name: /v1/register-yourself
         uuid: alap-1-0-0-op-s-bm-000
     consequent-requests:
-      - client-name: RegistryOffice://v1/register-application
+      - client-name: RO://v1/register-application
         uuid: alap-1-0-0-op-c-bm-ro-2-0-1-000
 
   - forwarding-name: PromptForEmbeddingCausesRequestForBequeathingData
@@ -31,7 +31,7 @@ forwardings:
       - server-name: /v1/embed-yourself
         uuid: alap-1-0-0-op-s-bm-001
     consequent-requests:
-      - client-name: OldRelease://v1/bequeath-your-data-and-die
+      - client-name: OR://v1/bequeath-your-data-and-die
         uuid: alap-1-0-0-op-c-bm-or-1-0-0-000
 
   - forwarding-name: ServiceRequestCausesLoggingRequest
@@ -86,7 +86,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: alap-1-0-0-op-s-is-000
     consequent-requests:
-      - client-name: ExecutionAndTraceLog://v1/record-service-request
+      - client-name: EATL://v1/record-service-request
         uuid: alap-1-0-0-op-c-bs-eatl-2-0-1-000
 
   - forwarding-name: OamRequestCausesLoggingRequest
@@ -103,7 +103,7 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
     consequent-requests:
-      - client-name: OamLog://v1/record-oam-request
+      - client-name: OL://v1/record-oam-request
         uuid: alap-1-0-0-op-c-bs-ol-2-0-1-000
 
   - forwarding-name: OamRequestCausesInquiryForAuthentication
@@ -120,7 +120,7 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
     consequent-requests:
-      - client-name: AdministratorAdministration://v1/approve-oam-request
+      - client-name: AA://v1/approve-oam-request
         uuid: alap-1-0-0-op-c-bs-aa-2-0-1-000
 
   - forwarding-name: PromptForBequeathingDataCausesRequestForBroadcastingInfoAboutServerReplacement
@@ -139,7 +139,7 @@ forwardings:
       - server-name: /v1/bequeath-your-data-and-die
         uuid: alap-1-0-0-op-s-im-000
     consequent-requests:
-      - client-name: RegistryOffice://v1/relay-server-replacement
+      - client-name: RO://v1/relay-server-replacement
         uuid: alap-1-0-0-op-c-bm-ro-2-0-1-001
 
   - forwarding-name: PromptForBequeathingDataCausesRequestForDeregisteringOfOldRelease
@@ -158,7 +158,7 @@ forwardings:
       - server-name: /v1/bequeath-your-data-and-die
         uuid: alap-1-0-0-op-s-im-000
     consequent-requests:
-      - client-name: RegistryOffice://v1/deregister-application
+      - client-name: RO://v1/deregister-application
         uuid: alap-1-0-0-op-c-bm-ro-2-0-1-002
 
   - forwarding-name: PromptingNewReleaseForUpdatingServerCausesRequestForBroadcastingInfoAboutBackwardCompatibleUpdateOfOperation
@@ -177,7 +177,7 @@ forwardings:
       - server-name: /v1/update-client
         uuid: alap-1-0-0-op-s-bm-007
     consequent-requests:
-      - client-name: RegistryOffice://v1/relay-operation-update
+      - client-name: RO://v1/relay-operation-update
         uuid: alap-1-0-0-op-c-bm-ro-2-0-1-003
 
   - forwarding-name: ServiceRequestCausesLtpUpdateRequest
@@ -212,7 +212,7 @@ forwardings:
       - server-name: /v1/bequeath-your-data-and-die
         uuid: alap-1-0-0-op-s-im-000
     consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/update-ltp
+      - client-name: ALT://v1/update-ltp
         uuid: alap-1-0-0-op-c-bm-alt-2-0-1-001
 
   - forwarding-name: ServiceRequestCausesLtpDeletionRequest
@@ -229,7 +229,7 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
     consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/delete-ltp-and-dependents
+      - client-name: ALT://v1/delete-ltp-and-dependents
         uuid: alap-1-0-0-op-c-bm-alt-2-0-1-002
 
   - forwarding-name: ServiceRequestCausesFcUpdateRequest
@@ -246,7 +246,7 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
     consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/update-fc
+      - client-name: ALT://v1/update-fc
         uuid: alap-1-0-0-op-c-bm-alt-2-0-1-003
 
   - forwarding-name: ServiceRequestCausesFcPortUpdateRequest
@@ -263,7 +263,7 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
     consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/update-fc-port
+      - client-name: ALT://v1/update-fc-port
         uuid: alap-1-0-0-op-c-bm-alt-2-0-1-004
 
   - forwarding-name: ServiceRequestCausesFcPortDeletionRequest
@@ -282,7 +282,7 @@ forwardings:
       - server-name: /v1/end-subscription
         uuid: alap-1-0-0-op-s-bm-004
     consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/delete-fc-port
+      - client-name: ALT://v1/delete-fc-port
         uuid: alap-1-0-0-op-c-bm-alt-2-0-1-005
 
   - forwarding-name: OamRequestCausesLtpUpdateRequest
@@ -299,7 +299,7 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
     consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/update-ltp
+      - client-name: ALT://v1/update-ltp
         uuid: alap-1-0-0-op-c-bm-alt-2-0-1-001
 
   - forwarding-name: OamRequestCausesLtpDeletionRequest
@@ -316,7 +316,7 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
     consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/delete-ltp-and-dependents
+      - client-name: ALT://v1/delete-ltp-and-dependents
         uuid: alap-1-0-0-op-c-bm-alt-2-0-1-002
 
   - forwarding-name: OamRequestCausesFcUpdateRequest
@@ -333,7 +333,7 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
     consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/update-fc
+      - client-name: ALT://v1/update-fc
         uuid: alap-1-0-0-op-c-bm-alt-2-0-1-003
 
   - forwarding-name: OamRequestCausesFcPortUpdateRequest
@@ -350,7 +350,7 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
     consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/update-fc-port
+      - client-name: ALT://v1/update-fc-port
         uuid: alap-1-0-0-op-c-bm-alt-2-0-1-004
 
   - forwarding-name: OamRequestCausesFcPortDeletionRequest
@@ -367,7 +367,7 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
     consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/delete-fc-port
+      - client-name: ALT://v1/delete-fc-port
         uuid: alap-1-0-0-op-c-bm-alt-2-0-1-005
 
 
@@ -581,7 +581,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: alap-1-0-0-op-s-is-000
     consequent-requests:
-      - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment\n?fields=structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier);equipment-instance(serial-number))
+      - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment?fields=structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier);equipment-instance(serial-number))
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-114
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesReadingFirmwareList
