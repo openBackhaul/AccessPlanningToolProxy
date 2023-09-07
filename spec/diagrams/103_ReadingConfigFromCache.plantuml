@@ -1,0 +1,20 @@
+@startuml 103_ReadingConfigFromCache
+skinparam responseMessageBelowArrow true
+
+title
+RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache
+end title
+
+participant "LinkVis" as LinkVis
+participant "ALAP://v1/provide-acceptance-data-of-link-endpoint" as ALAP
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration" as MwdiConfig
+
+LinkVis -> ALAP: {MountName, LinkId} (apiKeyAuth)
+activate ALAP
+
+ALAP -> MwdiConfig: {uuid = UuidUnderTest and local-id = LocalIdUnderTest from RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest} (apiKeyAuth)
+MwdiConfig --> ALAP: {entire AirInterfaceConfiguration from cache}
+
+deactivate ALAP
+
+@enduml

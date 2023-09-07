@@ -1,0 +1,20 @@
+@startuml 09x_BequeathYourDataAndDie
+skinparam responseMessageBelowArrow true
+
+title
+PromptForBequeathingDataCauses...
+end title
+
+participant "NR://v1/embed-yourself" as NewRelease
+participant "OR://v1/bequeath-your-data-and-die" as OldRelease
+
+NewRelease -> OldRelease
+activate OldRelease
+
+note over OldRelease
+No individual bequeathing steps identified
+end note
+
+deactivate OldRelease
+
+@enduml
