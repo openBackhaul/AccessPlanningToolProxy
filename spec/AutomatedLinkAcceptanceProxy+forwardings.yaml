@@ -492,6 +492,8 @@ forwardings:
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-201
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration?fields=interface-kind
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-261
+      - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status\n?fields=interface-status
+        uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-222
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole
     uuid: alap-1-0-0-op-fc-is-131

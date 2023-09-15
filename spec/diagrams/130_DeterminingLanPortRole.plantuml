@@ -10,6 +10,8 @@ participant "ALAP://v1/provide-acceptance-data-of-link-endpoint" as ALAP
 participant "<i>RequestForProvidingAcceptanceDataCausesReadingLtpStructure</i>" as LTPs
 participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac\n?fields=original-ltp-name" as ContainerName
 participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration\n?fields=interface-kind" as PortRole
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status\n?fields=interface-status" as PortStatus
+
 
 LinkVis -> ALAP: {MountName, LinkId} (apiKeyAuth)
 activate ALAP
@@ -31,6 +33,9 @@ ContainerName --> ALAP: {OriginalLtpName}
 
 ALAP -> PortRole: {uuid = ClientVlanInterface} (apiKeyAuth)
 PortRole --> ALAP: {VlanInterfaceKind}
+
+ALAP -> PortStatus: {uuid = ClientContainerUuid} (apiKeyAuth)
+PortStatus --> ALAP: {interfaceStatus}
 
 deactivate ALAP
 

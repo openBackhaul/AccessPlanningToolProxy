@@ -669,7 +669,7 @@ paths:
                                 ClientStructureUuid = WireInterface.ClientLtp
                                 ClientContainerUuid = ClientStructure.ClientLtp
                                 Based on the ClientContainerUuid the interface-name has to be retrieved
-                                from {$RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.originalLtpName.response.body#ltp-augment-1-0:ltp-augment-pac/original-ltp-name'
+                                from {$RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.OriginalLtpName.response.body#ltp-augment-1-0:ltp-augment-pac/original-ltp-name'
                             vlan-interface-kind:
                               type: string
                               description: >
@@ -678,7 +678,13 @@ paths:
                                 ClientMacInterfaceUuid = ClientContainer.ClientLtp
                                 ClientVlanInterfaceUuid = ClientMacInterface.ClientLtp
                                 Based on the ClientVlanInterfaceUuid the vlan-interface-kind has to be retrieved
-                                from {$RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.vlanInterfaceKind.response.body#vlan-interface-1-0:vlan-interface-configuration/interface-kind'
+                                from {$RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.VlanInterfaceKind.response.body#vlan-interface-1-0:vlan-interface-configuration/interface-kind'
+                            serving-ethernet-container-status:
+                              type: string
+                              description: >
+                                'Status of the EthernetContainer that is beneath the VLAN interface
+                                Based on the ClientContainerUuid the interface-status has to be retrieved
+                                from {$RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.EthernetContainerStatus.response.body#ethernet-container-2-0:ethernet-container-status/interface-status'
                       configured-wan-port-role-list:
                         description: 'Provided for Ericsson devices only'
                         type: array
@@ -948,6 +954,7 @@ paths:
                     configured-lan-port-role-list:
                       - interface-name: 'LAN 1/7/3'
                         vlan-interface-kind: 'vlan-interface-1-0:INTERFACE_KIND_TYPE_CUSTOMER_EDGE_PORT'
+                        serving-ethernet-container-status: 'ethernet-container-2-0:INTERFACE_STATUS_TYPE_UP'
                       - interface-name: 'LAN 1/7/1'
                         vlan-interface-kind: 'vlan-interface-1-0:INTERFACE_KIND_TYPE_CUSTOMER_EDGE_PORT'
                     configured-wan-port-role-list:
@@ -2028,6 +2035,109 @@ paths:
                         example:
                           vlan-interface-1-0:vlan-interface-configuration:
                             interface-kind: 'vlan-interface-1-0:INTERFACE_KIND_TYPE_CUSTOMER_EDGE_PORT'
+                  headers:
+                    x-correlator:
+                      schema:
+                        type: string
+                        example: '550e8400-e29b-11d4-a716-446655440000'
+                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+                    exec-time:
+                      schema:
+                        type: integer
+                        example: 1100
+                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+                    backend-time:
+                      schema:
+                        type: integer
+                        example: 850
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                    life-cycle-state:
+                      schema:
+                        type: string
+                        enum:
+                          - 'EXPERIMENTAL'
+                          - 'OPERATIONAL'
+                          - 'DEPRECATED'
+                          - 'OBSOLETE'
+                          - 'UNKNOWN'
+                          - 'NOT_YET_DEFINED'
+                        example: 'EXPERIMENTAL'
+                      description: 'Life cycle state of the consumed service'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+          EthernetContainerStatus: #[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-op-c-is-mwdi-1-0-0-222/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mount-name of the device that is addressed by this callback
+                    from {$request.body#mount-name}'
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'VI-10'
+                  description: >
+                    'The UUID of the LogicalTerminationPoint that is addressed by the request.
+                    The UUID, which is to be used here, is the ClientContainer as it is determined in RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.originalLtpName
+                    uuid = ClientContainerUuid
+                    For all WireInterfaces this request shall be sent'
+                - name: local-id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '10'
+                  description: >
+                    'The Local-ID of the LayerProtocol that is addressed by the request
+                    from {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/layer-protocol/local-id}
+                    where {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/layer-protocol/uuid} == ClientContainerUuid'
+                - name: fields
+                  in: query
+                  required: true
+                  schema:
+                    type: string
+                    example: 'interface-status'
+                  description: >
+                    'If different from empty string, a fields filter with the following value to be added to the request
+                    from [/core-model-1-4:control-construct/profile-collection/profile=alap-1-0-0-string-p-009/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+              responses:
+                '200':
+                  description: 'EthernetContainerStatus provided from cache'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        properties:
+                          ethernet-container-2-0:ethernet-container-status:
+                            type: object
+                            properties:
+                              interface-status:
+                                type: string
+                        example:
+                          ethernet-container-2-0:ethernet-container-status:
+                            interface-status: 'ethernet-container-2-0:INTERFACE_STATUS_TYPE_UP'
                   headers:
                     x-correlator:
                       schema:
