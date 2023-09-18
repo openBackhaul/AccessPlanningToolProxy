@@ -2018,7 +2018,7 @@ paths:
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
                     from {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/layer-protocol/local-id}
-                    where {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/layer-protocol/uuid} == ClientVlanInterfaceUuid'
+                    where {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/uuid} == ClientVlanInterfaceUuid'
                 - name: fields
                   in: query
                   required: true
@@ -2121,7 +2121,7 @@ paths:
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
                     from {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/layer-protocol/local-id}
-                    where {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/layer-protocol/uuid} == ClientContainerUuid'
+                    where {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/uuid} == ClientContainerUuid'
                 - name: fields
                   in: query
                   required: true
@@ -2428,7 +2428,7 @@ paths:
                   description: >
                     'The Local-ID of the LayerProtocol that is addressed by the request
                     from {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/layer-protocol/local-id}
-                    where {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/layer-protocol/uuid} == ClientContainerUuid'
+                    where {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/uuid} == ClientContainerUuid'
                 - name: fields
                   in: query
                   required: true
