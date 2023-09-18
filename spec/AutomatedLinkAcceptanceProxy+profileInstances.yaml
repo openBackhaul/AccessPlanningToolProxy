@@ -166,6 +166,13 @@ profile-instances:
       string-value: 'original-ltp-name'
 
   - profile-name: 'StringProfile'
+    uuid: 'alap-1-0-0-string-p-008'
+    capability:
+      string-name: 'RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.EthernetContainerStatus'
+    configuration:
+      string-value: 'interface-status'
+
+  - profile-name: 'StringProfile'
     uuid: 'alap-1-0-0-string-p-009'
     capability:
       string-name: 'RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.EthernetContainerStatus'
