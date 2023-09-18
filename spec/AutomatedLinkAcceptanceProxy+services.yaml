@@ -287,6 +287,9 @@ clients:
           - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
             uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-512
 
+          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status
+            uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-222
+
           - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
             uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-261
 
