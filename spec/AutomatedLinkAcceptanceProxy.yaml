@@ -700,7 +700,7 @@ paths:
                                 ClientStructureUuid = AirInterface.ClientLtp
                                 ClientContainerUuid = ClientStructure.ClientLtp
                                 Based on the ClientContainerUuid the interface-name has to be retrieved
-                                from {$RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.originalLtpName.response.body#ltp-augment-1-0:ltp-augment-pac/original-ltp-name'
+                                from {$RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.OriginalLtpName.response.body#ltp-augment-1-0:ltp-augment-pac/original-ltp-name'
                             vlan-interface-kind:
                               type: string
                               description: >
@@ -709,7 +709,13 @@ paths:
                                 ClientMacInterfaceUuid = ClientContainer.ClientLtp
                                 ClientVlanInterfaceUuid = ClientMacInterface.ClientLtp
                                 Based on the ClientVlanInterfaceUuid the vlan-interface-kind has to be retrieved
-                                from {$RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.vlanInterfaceKind.response.body#vlan-interface-1-0:vlan-interface-configuration/interface-kind'
+                                from {$RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.VlanInterfaceKind.response.body#vlan-interface-1-0:vlan-interface-configuration/interface-kind'
+                            serving-ethernet-container-status:
+                              type: string
+                              description: >
+                                'Status of the EthernetContainer that is beneath the VLAN interface
+                                Based on the ClientContainerUuid the interface-status has to be retrieved
+                                from {$RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.EthernetContainerStatus.response.body#ethernet-container-2-0:ethernet-container-status/interface-status'
                   inventory:
                     type: object
                     properties:
@@ -957,11 +963,14 @@ paths:
                         serving-ethernet-container-status: 'ethernet-container-2-0:INTERFACE_STATUS_TYPE_UP'
                       - interface-name: 'LAN 1/7/1'
                         vlan-interface-kind: 'vlan-interface-1-0:INTERFACE_KIND_TYPE_CUSTOMER_EDGE_PORT'
+                        serving-ethernet-container-status: 'ethernet-container-2-0:INTERFACE_STATUS_TYPE_DOWN'
                     configured-wan-port-role-list:
                       - interface-name: 'WAN 1/7/100'
                         vlan-interface-kind: 'vlan-interface-1-0:INTERFACE_KIND_TYPE_PROVIDER_NETWORK_PORT'
+                        serving-ethernet-container-status: 'ethernet-container-2-0:INTERFACE_STATUS_TYPE_UP'
                       - interface-name: 'WAN 1/7/200'
                         vlan-interface-kind: 'vlan-interface-1-0:INTERFACE_KIND_TYPE_PROVIDER_NETWORK_PORT'
+                        serving-ethernet-container-status: 'ethernet-container-2-0:INTERFACE_STATUS_TYPE_DOWN'
                   inventory:
                     radio:
                       equipment-name: 'RAU2 X 23/79'
