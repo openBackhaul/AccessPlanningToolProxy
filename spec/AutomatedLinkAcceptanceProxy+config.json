@@ -959,7 +959,8 @@
           "alap-1-0-0-op-s-bs-002",
           "alap-1-0-0-op-s-bs-003",
           "alap-1-0-0-op-s-bs-004",
-          "alap-1-0-0-op-s-bs-005"
+          "alap-1-0-0-op-s-bs-005",
+          "alap-1-0-0-op-s-is-000"
         ],
         "server-ltp": [
           "alap-1-0-0-tcp-s-000",
