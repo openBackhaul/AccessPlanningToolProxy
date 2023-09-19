@@ -1127,8 +1127,8 @@
             "layer-protocol-name": "http-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER",
             "http-client-interface-1-0:http-client-interface-pac": {
               "http-client-interface-configuration": {
-                "application-name": "NewRelease",
-                "release-number": " >>> ReleaseNumber of the new release <<< "
+                "application-name": "AutomatedLinkAcceptanceProxy",
+                "release-number": "1.0.0"
               }
             }
           }
@@ -1151,10 +1151,10 @@
                 "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
                 "remote-address": {
                   "ip-address": {
-                    "ipv-4-address": " >>> IpAddress and Port (below) of the new release <<< "
+                    "ipv-4-address": "1.1.4.9"
                   }
                 },
-                "remote-port": 7000
+                "remote-port": 4009
               }
             }
           }
