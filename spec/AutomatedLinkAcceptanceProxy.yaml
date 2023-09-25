@@ -3448,7 +3448,7 @@ paths:
                                   type: object
                                   properties:
                                     sequence-id:
-                                      type: string
+                                      type: integer
                         example:
                           core-model-1-4:connector:
                             - equipment-augment-1-0:connector-pac:
