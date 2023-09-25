@@ -205,7 +205,7 @@
         },
         {
           "uuid": "alap-1-0-0-string-p-000",
-          "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure"
@@ -217,7 +217,7 @@
         },
         {
           "uuid": "alap-1-0-0-string-p-001",
-          "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceName"
@@ -229,7 +229,7 @@
         },
         {
           "uuid": "alap-1-0-0-string-p-002",
-          "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache"
@@ -241,7 +241,7 @@
         },
         {
           "uuid": "alap-1-0-0-string-p-003",
-          "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache"
@@ -253,7 +253,7 @@
         },
         {
           "uuid": "alap-1-0-0-string-p-004",
-          "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive.StatusFromLive"
@@ -265,7 +265,7 @@
         },
         {
           "uuid": "alap-1-0-0-string-p-005",
-          "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation.LtpName"
@@ -277,7 +277,7 @@
         },
         {
           "uuid": "alap-1-0-0-string-p-006",
-          "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive.AlarmsFromLive"
@@ -289,7 +289,7 @@
         },
         {
           "uuid": "alap-1-0-0-string-p-007",
-          "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.OriginalLtpName"
@@ -301,7 +301,7 @@
         },
         {
           "uuid": "alap-1-0-0-string-p-008",
-          "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.EthernetContainerStatus"
@@ -313,7 +313,7 @@
         },
         {
           "uuid": "alap-1-0-0-string-p-009",
-          "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.EthernetContainerStatus"
@@ -325,7 +325,7 @@
         },
         {
           "uuid": "alap-1-0-0-string-p-010",
-          "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.VlanInterfaceKind"
@@ -337,7 +337,7 @@
         },
         {
           "uuid": "alap-1-0-0-string-p-011",
-          "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.OriginalLtpName"
@@ -349,7 +349,7 @@
         },
         {
           "uuid": "alap-1-0-0-string-p-012",
-          "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.VlanInterfaceKind"
@@ -361,7 +361,7 @@
         },
         {
           "uuid": "alap-1-0-0-string-p-013",
-          "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentUuid"
@@ -373,7 +373,7 @@
         },
         {
           "uuid": "alap-1-0-0-string-p-014",
-          "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentCategory"
@@ -385,7 +385,7 @@
         },
         {
           "uuid": "alap-1-0-0-string-p-015",
-          "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.WireInterfaceName"
@@ -397,7 +397,7 @@
         },
         {
           "uuid": "alap-1-0-0-string-p-016",
-          "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.SupportedPmds"
@@ -409,7 +409,7 @@
         },
         {
           "uuid": "alap-1-0-0-string-p-017",
-          "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.OperatedPmd"
@@ -421,7 +421,7 @@
         },
         {
           "uuid": "alap-1-0-0-string-p-020",
-          "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentUuid"
@@ -433,7 +433,7 @@
         },
         {
           "uuid": "alap-1-0-0-string-p-021",
-          "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory"
@@ -445,7 +445,7 @@
         },
         {
           "uuid": "alap-1-0-0-string-p-022",
-          "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.HolderLabel"
@@ -457,7 +457,7 @@
         },
         {
           "uuid": "alap-1-0-0-string-p-023",
-          "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorId"
@@ -469,7 +469,7 @@
         },
         {
           "uuid": "alap-1-0-0-string-p-024",
-          "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorNumber"
@@ -481,7 +481,7 @@
         },
         {
           "uuid": "alap-1-0-0-string-p-025",
-          "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.EquipmentInfo"
@@ -493,7 +493,7 @@
         },
         {
           "uuid": "alap-1-0-0-string-p-026",
-          "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "RequestForProvidingAcceptanceDataCausesReadingFirmwareList.FirmwareFromCache"
