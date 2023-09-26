@@ -2,7 +2,6 @@
 'use strict';
 
 const fileOperation = require('onf-core-model-ap/applicationPattern/databaseDriver/JSONDriver');
-const profileConstants = require('../utils/profileConstants');
 const individualServicesService = require('./IndividualServicesService');
 const ProfileCollection = require('onf-core-model-ap/applicationPattern/onfModel/models/ProfileCollection');
 const Profile = require('onf-core-model-ap/applicationPattern/onfModel/models/Profile');
