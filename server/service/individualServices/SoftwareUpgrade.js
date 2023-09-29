@@ -12,10 +12,8 @@ const FcPort = require('onf-core-model-ap/applicationPattern/onfModel/models/FcP
  * @param {string} xCorrelator flow id of this request
  * @param {string} traceIndicator trace indicator of the request
  * @param {string} customerJourney customer journey of the request
- * @param {Boolean} isMethodGET true if method of the request is GET
- * @param {Object} params path and query params
  **/
-exports.forwardRequest = async function (forwardingKindName, attributeList, user, xCorrelator, traceIndicator, customerJourney, isMethodGET, params) {
+exports.forwardRequest = async function (forwardingKindName, attributeList, user, xCorrelator, traceIndicator, customerJourney) {
     let forwardingConstructInstance = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingKindName);
     let operationClientUuid = (getFcPortOutputLogicalTerminationPointList(forwardingConstructInstance))[0];
     let result = await eventDispatcher.dispatchEvent(
@@ -24,9 +22,7 @@ exports.forwardRequest = async function (forwardingKindName, attributeList, user
       user,
       xCorrelator,
       traceIndicator,
-      customerJourney,
-      isMethodGET,
-      params,
+      customerJourney
     );
     return result; 
   }
