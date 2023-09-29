@@ -50,5 +50,4 @@ exports.OAMLayerRequest = function (uuid) {
       reject(error);
     }
   });
-  
 }
