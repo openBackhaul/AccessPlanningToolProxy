@@ -1,6 +1,5 @@
 const prepareALTForwardingAutomation = require('onf-core-model-ap-bs/basicServices/services/PrepareALTForwardingAutomation');
 
-
 exports.bequeathYourDataAndDie = function (logicalTerminationPointconfigurationStatus) {
   return new Promise(async function (resolve, reject) {
     let forwardingConstructAutomationList = [];
