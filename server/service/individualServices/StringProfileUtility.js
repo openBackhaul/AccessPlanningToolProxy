@@ -1,4 +1,5 @@
 const ProfileCollection = require('onf-core-model-ap/applicationPattern/onfModel/models/ProfileCollection');
+const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 
 exports.getStringProfileInstanceValue = async function(expectedStringName) {
     let stringValue = "";

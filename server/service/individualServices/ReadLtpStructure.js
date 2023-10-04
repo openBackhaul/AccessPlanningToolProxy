@@ -10,15 +10,14 @@ exports.readLtpStructure = async function (mountName, user, xCorrelator, traceIn
   return new Promise(async function (resolve, reject) {
     let ltpStructure = {};
     try {
-
       ltpStructure = await RequestForProvidingAcceptanceDataCausesReadingLtpStructure(mountName, user, xCorrelator, traceIndicator, customerJourney);
-      
       let result = {
-        ltpStructure: ltpStructure, 
+        ltpStructure: ltpStructure,
         traceIndicatorIncrementer: traceIndicatorIncrementer
       };
       resolve(result);
     } catch (error) {
+      console.log(error);
       reject(error);
     }
   });
@@ -37,7 +36,8 @@ async function RequestForProvidingAcceptanceDataCausesReadingLtpStructure(mountN
       let readingLtpStructureFcName = "RequestForProvidingAcceptanceDataCausesReadingLtpStructure";
 
       let forwardingConstructInstance = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(readingLtpStructureFcName);
-      let operationClientUuid = ForwardingConstruct.getOutputFcPortsAsync(forwardingConstructInstance["uuid"])[0]["logical-termination-point"];
+      let outputFcPortForFc = await ForwardingConstruct.getOutputFcPortsAsync(forwardingConstructInstance["uuid"]);
+      let operationClientUuid = outputFcPortForFc[0]["logical-termination-point"];
 
       let operationName = await OperationClientInterface.getOperationNameAsync(operationClientUuid);
       let pathParamMatches = operationName.match(/\{(.*?)\}/g);
@@ -74,6 +74,7 @@ async function RequestForProvidingAcceptanceDataCausesReadingLtpStructure(mountN
       }
       resolve(response.data);
     } catch (error) {
+      console.log(error)
       reject(error);
     }
   });
