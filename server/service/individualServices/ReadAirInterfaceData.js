@@ -1,3 +1,5 @@
+var traceIndicatorIncrementer = 1;
+
 exports.readAirInterfaceData = function (mountName, linkId, ltpStructure, user, xCorrelator, traceIndicator, customerJourney, _traceIndicatorIncrementer) {
   return new Promise(async function (resolve, reject) {
     try {

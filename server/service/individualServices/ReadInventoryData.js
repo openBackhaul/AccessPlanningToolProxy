@@ -1,3 +1,5 @@
+var traceIndicatorIncrementer = 1;
+
 exports.readInventoryData = function (mountName, ltpStructure, user, xCorrelator, traceIndicator, customerJourney, _traceIndicatorIncrementer) {
     return new Promise(async function (resolve, reject) {
       try {

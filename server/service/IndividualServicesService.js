@@ -95,9 +95,7 @@ exports.provideAcceptanceDataOfLinkEndpoint = function(body, user, originator, x
       }
       traceIndicatorIncrementer = alarmsResult.traceIndicatorIncrementer;
 
-      console.log(acceptanceDataOfLinkEndPoint)
       acceptanceDataOfLinkEndPoint = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(acceptanceDataOfLinkEndPoint);
-      console.log(acceptanceDataOfLinkEndPoint)
       resolve(acceptanceDataOfLinkEndPoint);
 
     } catch (error) {
