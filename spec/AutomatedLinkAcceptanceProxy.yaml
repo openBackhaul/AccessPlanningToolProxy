@@ -1903,7 +1903,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                    example: 'ETH-2134638978'
+                    example: 'LTP-2134638978'
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     The UUID, which is to be used here, has to be determined by
@@ -2517,7 +2517,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                    example: 'ETH-2134638978'
+                    example: 'LTP-2134638978'
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request.
                     The UUID, which is to be used here, has to be determined by
@@ -2709,7 +2709,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                    example: 'ETH-2134638978'
+                    example: 'LTP-2134638978'
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request.
                     from list of LTPs from RequestForProvidingAcceptanceDataCausesReadingLtpStructure filtered for (LayerProtocolName == WireLayer) AND (EquipmentCategory == SMALL_FORMFACTOR_PLUGGABLE)
@@ -2801,7 +2801,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                    example: 'ETH-2134638978'
+                    example: 'LTP-2134638978'
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request.
                     from list of LTPs from RequestForProvidingAcceptanceDataCausesReadingLtpStructure filtered for (LayerProtocolName == WireLayer) AND (EquipmentCategory == SMALL_FORMFACTOR_PLUGGABLE)
@@ -2910,7 +2910,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                    example: 'ETH-2134638978'
+                    example: 'LTP-2134638978'
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request.
                     from list of LTPs from RequestForProvidingAcceptanceDataCausesReadingLtpStructure filtered for (LayerProtocolName == WireLayer) AND (EquipmentCategory == SMALL_FORMFACTOR_PLUGGABLE)
@@ -3013,7 +3013,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                    example: 'ETH-2134638978'
+                    example: 'LTP-2134638978'
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from UuidUnderTest determined in RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest'
@@ -3310,7 +3310,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                    example: 'ETH-2134638978'
+                    example: 'LTP-2134638978'
                   description: >
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from UuidUnderTest determined in RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest'
