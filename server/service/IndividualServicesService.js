@@ -53,11 +53,11 @@ exports.provideAcceptanceDataOfLinkEndpoint = function(body, user, originator, x
        * Setting up request header object
        ****************************************************************************************/
       let requestHeaders = {
-        "user": user, 
-        "originator": originator,
-        "x-correlator": xCorrelator, 
-        "trace-indicator": traceIndicator, 
-        "customer-journey": customerJourney
+        user: user, 
+        originator: originator,
+        xCorrelator: xCorrelator, 
+        traceIndicator: traceIndicator, 
+        customerJourney: customerJourney
       };
 
       /****************************************************************************************
