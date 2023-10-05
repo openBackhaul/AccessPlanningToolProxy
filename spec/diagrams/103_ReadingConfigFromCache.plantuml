@@ -12,7 +12,7 @@ participant "MWDI://core-model-1-4:network-control-domain=cache/control-construc
 LinkVis -> ALAP: {MountName, LinkId} (apiKeyAuth)
 activate ALAP
 
-ALAP -> MwdiConfig: {uuid = UuidUnderTest and local-id = LocalIdUnderTest from RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest} (apiKeyAuth)
+ALAP -> MwdiConfig: {uuid = Uuid of an AirInterface LTP and local-id = LocalId of the AirInterface LP} (apiKeyAuth)
 MwdiConfig --> ALAP: {entire AirInterfaceConfiguration from cache}
 
 deactivate ALAP
