@@ -476,7 +476,7 @@ forwardings:
       - client-name: MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-407
 
-  - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.OriginalLtpName
     uuid: alap-1-0-0-op-fc-is-130
     forwarding-type: InvariantProcessSnippet
     management-requests:
@@ -490,13 +490,39 @@ forwardings:
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-201
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.VlanInterfaceKind
+    uuid: alap-1-0-0-op-fc-is-131
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: alap-1-0-0-op-s-is-000
+    consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration?fields=interface-kind
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-261
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.EthernetContainerStatus
+    uuid: alap-1-0-0-op-fc-is-132
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: alap-1-0-0-op-s-is-000
+    consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status?fields=interface-status
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-222
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole
-    uuid: alap-1-0-0-op-fc-is-131
+    uuid: alap-1-0-0-op-fc-is-135
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
