@@ -3,7 +3,7 @@ const ForwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/
 const ForwardingConstruct = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingConstruct');
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 const eventDispatcher = require('./EventDispatcherWithResponse');
-const StringProfile = require('./StringProfileUtility');
+const IndividualServiceUtility = require('./IndividualServiceUtility');
 
 var traceIndicatorIncrementer = 1;
 var requestHeaders = {};
@@ -46,22 +46,15 @@ async function RequestForProvidingAcceptanceDataCausesReadingLtpStructure() {
       let operationClientUuid = outputFcPortForFc[0][onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT];
 
       let operationName = await OperationClientInterface.getOperationNameAsync(operationClientUuid);
-      let pathParamMatches = operationName.match(/\{(.*?)\}/g);
-      let pathParams = new Map([[pathParamMatches[0], mountName]]);
+      let pathParamList = [];
+      pathParamList.push(mountName);
 
       /* extracting string-profile based data */
       let readingLtpStructureStringName = "RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure";
-      let fields = await StringProfile.getStringProfileInstanceValue(readingLtpStructureStringName);
+      let fields = await IndividualServiceUtility.getStringProfileInstanceValue(readingLtpStructureStringName);
 
-      /* preparing request */
-      let queryParams = {
-        "fields": fields
-      }
-      let params = {
-        "query": queryParams,
-        "path": pathParams
-      }
-
+      params = await IndividualServiceUtility.getQueryAndPathParameter(operationName, pathParamList, fields);
+  
       /* forwarding the request */
       response = await eventDispatcher.dispatchEvent(
         operationClientUuid,
