@@ -25,3 +25,28 @@ exports.getStringProfileInstanceValue = async function(expectedStringName) {
     }
   
   }
+
+  exports.getQueryAndPathParameter = async function(operationName, pathParamList, fields) {
+    try {
+
+      let pathParamMatches = operationName.match(/\{(.*?)\}/g);
+      let pathParams = new Map();
+
+      for(let i=0; i<pathParamList.length; i++) {
+        pathParams.set(pathParamMatches[i], pathParamList[i]);
+      }
+
+      let queryParams = {
+        "fields": fields
+      }
+      let params = {
+        "query": queryParams,
+        "path": pathParams
+      }
+
+      return params;
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
