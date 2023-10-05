@@ -1,16 +1,22 @@
 const OperationClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationClientInterface');
 const ForwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
-const ForwardingConstruct = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingConstruct')
+const ForwardingConstruct = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingConstruct');
+const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 const eventDispatcher = require('./EventDispatcherWithResponse');
 const StringProfile = require('./StringProfileUtility');
 
 var traceIndicatorIncrementer = 1;
+var requestHeaders = {};
+var mountName = "";
 
-exports.readLtpStructure = async function (mountName, user, xCorrelator, traceIndicator, customerJourney) {
+exports.readLtpStructure = async function (_mountName, _requestHeaders) {
   return new Promise(async function (resolve, reject) {
-    let ltpStructure = {};
     try {
-      ltpStructure = await RequestForProvidingAcceptanceDataCausesReadingLtpStructure(mountName, user, xCorrelator, traceIndicator, customerJourney);
+      mountName = _mountName;
+      requestHeaders = _requestHeaders;
+
+      let ltpStructure = await RequestForProvidingAcceptanceDataCausesReadingLtpStructure();
+
       let result = {
         ltpStructure: ltpStructure,
         traceIndicatorIncrementer: traceIndicatorIncrementer
@@ -23,7 +29,7 @@ exports.readLtpStructure = async function (mountName, user, xCorrelator, traceIn
   });
 }
 
-async function RequestForProvidingAcceptanceDataCausesReadingLtpStructure(mountName, user, xCorrelator, traceIndicator, customerJourney) {
+async function RequestForProvidingAcceptanceDataCausesReadingLtpStructure() {
   return new Promise(async function (resolve, reject) {
     try {
 
@@ -36,8 +42,8 @@ async function RequestForProvidingAcceptanceDataCausesReadingLtpStructure(mountN
       let readingLtpStructureFcName = "RequestForProvidingAcceptanceDataCausesReadingLtpStructure";
 
       let forwardingConstructInstance = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(readingLtpStructureFcName);
-      let outputFcPortForFc = await ForwardingConstruct.getOutputFcPortsAsync(forwardingConstructInstance["uuid"]);
-      let operationClientUuid = outputFcPortForFc[0]["logical-termination-point"];
+      let outputFcPortForFc = await ForwardingConstruct.getOutputFcPortsAsync(forwardingConstructInstance[onfAttributes.GLOBAL_CLASS.UUID]);
+      let operationClientUuid = outputFcPortForFc[0][onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT];
 
       let operationName = await OperationClientInterface.getOperationNameAsync(operationClientUuid);
       let pathParamMatches = operationName.match(/\{(.*?)\}/g);
@@ -60,10 +66,10 @@ async function RequestForProvidingAcceptanceDataCausesReadingLtpStructure(mountN
       response = await eventDispatcher.dispatchEvent(
         operationClientUuid,
         {},
-        user,
-        xCorrelator,
-        traceIndicator + "." + traceIndicatorIncrementer++,
-        customerJourney,
+        requestHeaders.user,
+        requestHeaders.xCorrelator,
+        requestHeaders.traceIndicator + "." + traceIndicatorIncrementer++,
+        requestHeaders.customerJourney,
         "GET",
         params
       );
