@@ -3103,7 +3103,7 @@
                 "logical-termination-point": "alap-1-0-0-op-s-is-000"
               },
               {
-                "local-id": "201",
+                "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
                 "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-261"
               }
@@ -3128,7 +3128,7 @@
                 "logical-termination-point": "alap-1-0-0-op-s-is-000"
               },
               {
-                "local-id": "202",
+                "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
                 "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-222"
               }
