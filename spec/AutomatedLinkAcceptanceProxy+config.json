@@ -3143,7 +3143,7 @@
               },
               {
                 "value-name": "ForwardingName",
-                "value": "RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole"
+                "value": "RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.OriginalLtpName"
               }
             ],
             "fc-port": [
@@ -3156,14 +3156,54 @@
                 "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
                 "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-201"
+              }
+            ]
+          },
+          {
+            "uuid": "alap-1-0-0-op-fc-is-136",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
               },
               {
-                "local-id": "201",
+                "value-name": "ForwardingName",
+                "value": "RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.VlanInterfaceKind"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "alap-1-0-0-op-s-is-000"
+              },
+              {
+                "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
                 "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-261"
+              }
+            ]
+          },
+          {
+            "uuid": "alap-1-0-0-op-fc-is-137",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
               },
               {
-                "local-id": "202",
+                "value-name": "ForwardingName",
+                "value": "RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.EthernetContainerStatus"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "alap-1-0-0-op-s-is-000"
+              },
+              {
+                "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
                 "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-222"
               }
@@ -3178,7 +3218,7 @@
               },
               {
                 "value-name": "ForwardingName",
-                "value": "RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation"
+                "value": "RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentUuid"
               }
             ],
             "fc-port": [
@@ -3191,24 +3231,104 @@
                 "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
                 "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-201"
+              }
+            ]
+          },
+          {
+            "uuid": "alap-1-0-0-op-fc-is-141",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
               },
               {
-                "local-id": "201",
+                "value-name": "ForwardingName",
+                "value": "RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentCategory"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "alap-1-0-0-op-s-is-000"
+              },
+              {
+                "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
                 "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-114"
+              }
+            ]
+          },
+          {
+            "uuid": "alap-1-0-0-op-fc-is-142",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
               },
               {
-                "local-id": "202",
+                "value-name": "ForwardingName",
+                "value": "RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.WireInterfaceName"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "alap-1-0-0-op-s-is-000"
+              },
+              {
+                "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
                 "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-201"
+              }
+            ]
+          },
+          {
+            "uuid": "alap-1-0-0-op-fc-is-143",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
               },
               {
-                "local-id": "203",
+                "value-name": "ForwardingName",
+                "value": "RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.SupportedPmds"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "alap-1-0-0-op-s-is-000"
+              },
+              {
+                "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
                 "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-270"
+              }
+            ]
+          },
+          {
+            "uuid": "alap-1-0-0-op-fc-is-144",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
               },
               {
-                "local-id": "204",
+                "value-name": "ForwardingName",
+                "value": "RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.OperatedPmd"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "alap-1-0-0-op-s-is-000"
+              },
+              {
+                "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
                 "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-272"
               }
@@ -3223,7 +3343,7 @@
               },
               {
                 "value-name": "ForwardingName",
-                "value": "RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition"
+                "value": "RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentUuid"
               }
             ],
             "fc-port": [
@@ -3236,16 +3356,6 @@
                 "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
                 "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-201"
-              },
-              {
-                "local-id": "201",
-                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-114"
-              },
-              {
-                "local-id": "202",
-                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-000"
               }
             ]
           },
@@ -3258,7 +3368,57 @@
               },
               {
                 "value-name": "ForwardingName",
-                "value": "RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector"
+                "value": "RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "alap-1-0-0-op-s-is-000"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-114"
+              }
+            ]
+          },
+          {
+            "uuid": "alap-1-0-0-op-fc-is-152",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.HolderLabel"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "alap-1-0-0-op-s-is-000"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-000"
+              }
+            ]
+          },
+          {
+            "uuid": "alap-1-0-0-op-fc-is-155",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorId"
               }
             ],
             "fc-port": [
@@ -3271,16 +3431,36 @@
                 "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
                 "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-201"
+              }
+            ]
+          },
+          {
+            "uuid": "alap-1-0-0-op-fc-is-156",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
               },
               {
-                "local-id": "201",
+                "value-name": "ForwardingName",
+                "value": "RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorNumber"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "alap-1-0-0-op-s-is-000"
+              },
+              {
+                "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
                 "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-111"
               }
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-fc-is-152",
+            "uuid": "alap-1-0-0-op-fc-is-160",
             "name": [
               {
                 "value-name": "ForwardingKind",
@@ -3305,7 +3485,7 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-fc-is-155",
+            "uuid": "alap-1-0-0-op-fc-is-161",
             "name": [
               {
                 "value-name": "ForwardingKind",
