@@ -521,7 +521,7 @@ forwardings:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status?fields=interface-status
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-222
 
-  - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.OriginalLtpName
     uuid: alap-1-0-0-op-fc-is-135
     forwarding-type: InvariantProcessSnippet
     management-requests:
@@ -535,12 +535,38 @@ forwardings:
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-201
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.VlanInterfaceKind
+    uuid: alap-1-0-0-op-fc-is-136
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: alap-1-0-0-op-s-is-000
+    consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration?fields=interface-kind
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-261
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.EthernetContainerStatus
+    uuid: alap-1-0-0-op-fc-is-137
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: alap-1-0-0-op-s-is-000
+    consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status?fields=interface-status
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-222
 
-  - forwarding-name: RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentUuid
     uuid: alap-1-0-0-op-fc-is-140
     forwarding-type: InvariantProcessSnippet
     management-requests:
@@ -554,16 +580,68 @@ forwardings:
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-201
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentCategory
+    uuid: alap-1-0-0-op-fc-is-141
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: alap-1-0-0-op-s-is-000
+    consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment?fields=structure(category)
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-114
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.WireInterfaceName
+    uuid: alap-1-0-0-op-fc-is-142
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: alap-1-0-0-op-s-is-000
+    consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-201
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.SupportedPmds
+    uuid: alap-1-0-0-op-fc-is-143
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: alap-1-0-0-op-s-is-000
+    consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-capability?fields=supported-pmd-kind-list(pmd-name)
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-270
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.OperatedPmd
+    uuid: alap-1-0-0-op-fc-is-144
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: alap-1-0-0-op-s-is-000
+    consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status?fields=pmd-kind-cur
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-272
 
-  - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentUuid
     uuid: alap-1-0-0-op-fc-is-150
     forwarding-type: InvariantProcessSnippet
     management-requests:
@@ -577,13 +655,40 @@ forwardings:
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-201
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory
+    uuid: alap-1-0-0-op-fc-is-151
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: alap-1-0-0-op-s-is-000
+    consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment?fields=structure(category)
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-114
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.HolderLabel
+    uuid: alap-1-0-0-op-fc-is-152
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: alap-1-0-0-op-s-is-000
+    consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}?fields=equipment(contained-holder(occupying-fru;equipment-augment-1-0:holder-pac(vendor-label)))
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-000
 
-  - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector
-    uuid: alap-1-0-0-op-fc-is-151
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorId
+    uuid: alap-1-0-0-op-fc-is-155
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -596,11 +701,24 @@ forwardings:
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment;connector
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-201
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorNumber
+    uuid: alap-1-0-0-op-fc-is-156
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: alap-1-0-0-op-s-is-000
+    consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/connector={local-id}?fields=equipment-augment-1-0:connector-pac(sequence-id)
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-111
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers
-    uuid: alap-1-0-0-op-fc-is-152
+    uuid: alap-1-0-0-op-fc-is-160
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -615,7 +733,7 @@ forwardings:
         uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-114
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesReadingFirmwareList
-    uuid: alap-1-0-0-op-fc-is-155
+    uuid: alap-1-0-0-op-fc-is-161
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
