@@ -444,7 +444,7 @@ forwardings:
         uuid: alap-1-0-0-op-s-is-000
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status?fields=tx-level-cur;rx-level-cur;transmission-mode-cur;xpd-cur;snir-cur
-        uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-212
+        uuid: alap-1-0-0-op-c-is-mwdi-1-0-0-512
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation
     uuid: alap-1-0-0-op-fc-is-115
