@@ -50,10 +50,21 @@ exports.provideAcceptanceDataOfLinkEndpoint = function(body, user, originator, x
       let linkId = body["link-id"];
 
       /****************************************************************************************
+       * Setting up request header object
+       ****************************************************************************************/
+      let requestHeaders = {
+        user: user, 
+        originator: originator,
+        xCorrelator: xCorrelator, 
+        traceIndicator: traceIndicator, 
+        customerJourney: customerJourney
+      };
+
+      /****************************************************************************************
        * Collect complete ltp structure of mount-name in request bodys
        ****************************************************************************************/
-      let ltpStructureResult = await ReadLtpStructure.readLtpStructure(mountName, user, xCorrelator, traceIndicator, customerJourney)
-       .catch(err => console.log(` ${err}`));;
+      let ltpStructureResult = await ReadLtpStructure.readLtpStructure(mountName, requestHeaders)
+       .catch(err => console.log(` ${err}`));
 
       let ltpStructure = ltpStructureResult.ltpStructure;
       traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
@@ -61,7 +72,9 @@ exports.provideAcceptanceDataOfLinkEndpoint = function(body, user, originator, x
       /****************************************************************************************
        * Collect air-interface data
        ****************************************************************************************/
-      let airInterfaceResult = await ReadAirInterfaceData.readAirInterfaceData(mountName, linkId, ltpStructure, user, xCorrelator, traceIndicator, customerJourney, traceIndicatorIncrementer);
+      let airInterfaceResult = await ReadAirInterfaceData.readAirInterfaceData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer)
+      .catch(err => console.log(` ${err}`));
+
       let uuidUnderTest = airInterfaceResult.uuidUnderTest;
       if(Object.keys(airInterfaceResult.airInterface).length !=0 ) {
         acceptanceDataOfLinkEndPoint.airInterface = airInterfaceResult.airInterface;
@@ -71,7 +84,9 @@ exports.provideAcceptanceDataOfLinkEndpoint = function(body, user, originator, x
       /****************************************************************************************
        * Collect vlan-interface data
        ****************************************************************************************/
-      let vlanInterfaceResult = await ReadVlanInterfaceData.readVlanInterfaceData(mountName, ltpStructure, user, xCorrelator, traceIndicator, customerJourney, traceIndicatorIncrementer);
+      let vlanInterfaceResult = await ReadVlanInterfaceData.readVlanInterfaceData(mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer)
+      .catch(err => console.log(` ${err}`));
+
       if(Object.keys(vlanInterfaceResult.vlanInterface).length !=0 ) {
         acceptanceDataOfLinkEndPoint.vlanInterface = vlanInterfaceResult.vlanInterface;
       }
@@ -80,7 +95,9 @@ exports.provideAcceptanceDataOfLinkEndpoint = function(body, user, originator, x
       /****************************************************************************************
        * Collect inventory data
        ****************************************************************************************/
-      let inventoryResult = await ReadInventoryData.readInventoryData(mountName, linkId, ltpStructure, uuidUnderTest, user, xCorrelator, traceIndicator, customerJourney, traceIndicatorIncrementer);
+      let inventoryResult = await ReadInventoryData.readInventoryData(mountName, linkId, ltpStructure, uuidUnderTest, requestHeaders, traceIndicatorIncrementer)
+      .catch(err => console.log(` ${err}`));
+
       if(Object.keys(inventoryResult.inventory).length !=0 ) {
         acceptanceDataOfLinkEndPoint.inventory = inventoryResult.inventory;
       }
@@ -89,7 +106,9 @@ exports.provideAcceptanceDataOfLinkEndpoint = function(body, user, originator, x
       /****************************************************************************************
        * Collect alarms data
        ****************************************************************************************/
-      let alarmsResult = await ReadAlarmsData.readAlarmsData(mountName, user, xCorrelator, traceIndicator, customerJourney, traceIndicatorIncrementer);
+      let alarmsResult = await ReadAlarmsData.readAlarmsData(mountName, requestHeaders, traceIndicatorIncrementer)
+      .catch(err => console.log(` ${err}`));
+      
       if(Object.keys(alarmsResult.alarms).length !=0 ) {
         acceptanceDataOfLinkEndPoint.alarms = alarmsResult.alarms;
       }

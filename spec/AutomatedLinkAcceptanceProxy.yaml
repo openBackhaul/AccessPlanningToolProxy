@@ -1436,8 +1436,7 @@ paths:
                     type: string
                     example: 'LTP-MWPS-TTP-1-1'
                   description: >
-                    'The UUID of the LogicalTerminationPoint that is addressed by the request
-                    from UuidUnderTest determined in RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest'
+                    'The UUID of a LogicalTerminationPoint with LayerProtocolName == 'air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER' '
                 - name: local-id
                   in: path
                   required: true
@@ -1445,8 +1444,7 @@ paths:
                     type: string
                     example: 'LP-MWPS-TTP-1-1'
                   description: >
-                    'The Local-ID of the LayerProtocol that is addressed by the request
-                    from LocalIdUnderTest determined in RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest'
+                    'The Local-ID of the LayerProtocol with LayerProtocolName == 'air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER' '
                 - name: fields
                   in: query
                   schema:
