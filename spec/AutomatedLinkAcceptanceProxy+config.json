@@ -3005,7 +3005,7 @@
               {
                 "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-212"
+                "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-512"
               }
             ]
           },
