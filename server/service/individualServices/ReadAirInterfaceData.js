@@ -14,19 +14,14 @@ const AIR_INTERFACE_CAPABILITY = "air-interface-2-0:air-interface-capability";
 const AIR_INTERFACE_STATUS = "air-interface-2-0:air-interface-status"
 
 var traceIndicatorIncrementer = 1;
-var mountName = "";
-var linkId = "";
-var ltpStructure = {};
-var requestHeaders = {};
-
 
 /**
  * This method performs the set of procedure to gather the airInterface data
- * @param {String} _mountName Identifier of the device at the Controller
- * @param {String} _linkId Identifier of the microwave link in the planning
- * @param {Object} _ltpStructure ControlConstruct provided from cache
- * @param {Object} _requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
- * @param {Object} _traceIndicatorIncrementer _traceIndicatorIncrementer to increment the trace indicator
+ * @param {String} mountName Identifier of the device at the Controller
+ * @param {String} linkId Identifier of the microwave link in the planning
+ * @param {Object} ltpStructure ControlConstruct provided from cache
+ * @param {Object} requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
+ * @param {Integer} _traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
  * The following are the list of forwarding-construct that will be automated to gather the airInterface data 
  * 1. RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest
  * 2. RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache
@@ -34,38 +29,36 @@ var requestHeaders = {};
  * 4. RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive
    @returns {Object} result which contains the airInterface data and uuidUnderTest
 * **/
-exports.readAirInterfaceData = async function (_mountName, _linkId, _ltpStructure, _requestHeaders, _traceIndicatorIncrementer) {
+exports.readAirInterfaceData = async function (mountName, linkId, ltpStructure, requestHeaders, _traceIndicatorIncrementer) {
   try {
     /****************************************************************************************
-     * Setting up required global and local variables from the method variables
+     * Declaring required variables
      ****************************************************************************************/
-
-    traceIndicatorIncrementer = _traceIndicatorIncrementer;
-    mountName = _mountName;
-    linkId = _linkId;
-    ltpStructure = _ltpStructure;
-    requestHeaders = _requestHeaders;
-
     let uuidUnderTest = "";
     let airInterface = {};
+    traceIndicatorIncrementer = _traceIndicatorIncrementer;
 
     /****************************************************************************************
      *  Fetching and setting up UuidUnderTest and PathParameters
      ****************************************************************************************/
 
-    let uuidUnderTestAndPathParams = await RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest();
+    let uuidUnderTestAndPathParams = await RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest(
+      ltpStructure,
+      mountName,
+      linkId,
+      requestHeaders);
 
     if (Object.keys(uuidUnderTestAndPathParams).length !== 0) {
       uuidUnderTest = uuidUnderTestAndPathParams.uuidUnderTest;
-      pathParams = uuidUnderTestAndPathParams.pathParams;
+      let pathParams = uuidUnderTestAndPathParams.pathParams;
 
       /****************************************************************************************
        *  Fetching airInterfaceConfiguration , airInterfaceCapability, airInterfaceStatus
        ****************************************************************************************/
 
-      let airInterfaceConfiguration = await RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache(pathParams);
-      let airInterfaceCapability = await RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache(pathParams);
-      let airInterfaceStatus = await RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive(pathParams);
+      let airInterfaceConfiguration = await RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache(pathParams, requestHeaders);
+      let airInterfaceCapability = await RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache(pathParams, requestHeaders);
+      let airInterfaceStatus = await RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive(pathParams, requestHeaders);
 
       /****************************************************************************************
        *  Fetching the air interface data for response body
@@ -76,13 +69,13 @@ exports.readAirInterfaceData = async function (_mountName, _linkId, _ltpStructur
       throw new createHttpError.InternalServerError(`Unable to fetch UuidUnderTest and LocalIdUnderTest for linkId ${linkId} and muntName ${mountName}`);
     }
 
-    let result = {
+    let airInterfaceResult = {
       uuidUnderTest: uuidUnderTest,
       airInterface: airInterface,
       traceIndicatorIncrementer: traceIndicatorIncrementer
     };
 
-    return result;
+    return airInterfaceResult;
   } catch (error) {
     console.log(`readAirInterfaceData is not success with ${error}`);
     return new createHttpError.InternalServerError();
@@ -93,7 +86,7 @@ exports.readAirInterfaceData = async function (_mountName, _linkId, _ltpStructur
  * Prepare attributes and automate RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest
  * @returns {Object} return values of uuidUnderTestAndPathParams if air-Interface-name === linkId or empty object
  */
-async function RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest() {
+async function RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest(ltpStructure, mountName, linkId, requestHeaders) {
   const forwardingName = "RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest";
   const stringName = "RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceName";
   try {
@@ -104,12 +97,12 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUui
      * Preparing path paramrters list 
      ************************************************************************************/
 
-    let ltpList = await ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure(AIR_INTERFACE_LAYER_NAME, ltpStructure)
+    let airInterfaceLtpList = await ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure(AIR_INTERFACE_LAYER_NAME, ltpStructure)
     let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName)
-    for (let i = 0; i < ltpList.length; i++) {
-      for (let j = 0; j < ltpList[i]["layer-protocol"].length; j++) {
-        let uuid = ltpList[i]["uuid"];
-        let localId = ltpList[i]["layer-protocol"][j]["local-id"]
+    for (let i = 0; i < airInterfaceLtpList.length; i++) {
+      for (let j = 0; j < airInterfaceLtpList[i]["layer-protocol"].length; j++) {
+        let uuid = airInterfaceLtpList[i]["uuid"];
+        let localId = airInterfaceLtpList[i]["layer-protocol"][j]["local-id"]
         pathParamList = [];
         pathParamList.push(mountName);
         pathParamList.push(uuid);
@@ -123,13 +116,14 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUui
          * /air-interface-2-0:air-interface-pac/air-interface-configuration?fields=air-interface-name
          *****************************************************************************************************/
 
-        let response = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParamList, requestHeaders, _traceIndicatorIncrementer);
-        if (Object.keys(response).length === 0) {
+        let airInterfaceConfigurationResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParamList, requestHeaders, _traceIndicatorIncrementer);
+        if (Object.keys(airInterfaceConfigurationResponse).length === 0) {
           throw new createHttpError.InternalServerError(`${forwardingName} is not success`);
         } else {
-          if (response[AIR_INTERFACE_CONFIGURATION]["air-interface-name"] === linkId) {
+          if (airInterfaceConfigurationResponse[AIR_INTERFACE_CONFIGURATION]["air-interface-name"] === linkId) {
             uuidUnderTestAndPathParams.uuidUnderTest = uuid;
             uuidUnderTestAndPathParams.pathParams = pathParamList;
+            break;
           }
         }
       }
@@ -145,7 +139,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUui
  * @param {Object} pathParams path parameters.
  * @returns {Object} returns airInterfaceConfiguration for UuidUnderTest and LocalIdUnderTest
  */
-async function RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache(pathParams) {
+async function RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache(pathParams, requestHeaders) {
   const forwardingName = "RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache";
   const stringName = "RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache"
   try {
@@ -160,12 +154,12 @@ async function RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCa
 
     let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName)
     let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
-    let response = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
-    if (Object.keys(response).length === 0) {
+    let airInterfaceConfigurationResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
+    if (Object.keys(airInterfaceConfigurationResponse).length === 0) {
       console.log(`${forwardingName} is not success`);
       return new createHttpError.InternalServerError();
     } else {
-      airInterfaceConfiguration = response[AIR_INTERFACE_CONFIGURATION]
+      airInterfaceConfiguration = airInterfaceConfigurationResponse[AIR_INTERFACE_CONFIGURATION];
     }
 
     return airInterfaceConfiguration;
@@ -179,7 +173,7 @@ async function RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCa
  * @param {Object} pathParams path parameters.
  * @returns {Object} returns airInterfaceCapability for UuidUnderTest and LocalIdUnderTest
  */
-async function RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache(pathParams) {
+async function RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache(pathParams, requestHeaders) {
   const forwardingName = "RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache";
   const stringName = "RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache"
   try {
@@ -194,12 +188,12 @@ async function RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCac
 
     let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName)
     let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
-    let response = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
-    if (Object.keys(response).length === 0) {
+    let airInterfaceCapabilityResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
+    if (Object.keys(airInterfaceCapabilityResponse).length === 0) {
       console.log(`${forwardingName} is not success`);
       return new createHttpError.InternalServerError();
     } else {
-      airInterfaceCapability = response[AIR_INTERFACE_CAPABILITY]
+      airInterfaceCapability = airInterfaceCapabilityResponse[AIR_INTERFACE_CAPABILITY];
     }
     return airInterfaceCapability;
   } catch (error) {
@@ -213,7 +207,7 @@ async function RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCac
  * @param {Object} pathParams path parameters.
  * @returns {Object} returns airInterfaceStatus for UuidUnderTest and LocalIdUnderTest
  */
-async function RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive(pathParams) {
+async function RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive(pathParams, requestHeaders) {
   const forwardingName = "RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive";
   const stringName = "RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive.StatusFromLive";
   try {
@@ -229,12 +223,12 @@ async function RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValu
 
     let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName)
     let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
-    let response = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
-    if (Object.keys(response).length === 0) {
+    let airInterfaceStatusResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
+    if (Object.keys(airInterfaceStatusResponse).length === 0) {
       console.log(`${forwardingName} is not success`);
       return new createHttpError.InternalServerError();
     } else {
-      airInterfaceStatus = response[AIR_INTERFACE_STATUS];
+      airInterfaceStatus = airInterfaceStatusResponse[AIR_INTERFACE_STATUS];
     }
     return airInterfaceStatus;
   } catch (error) {
@@ -268,29 +262,29 @@ async function formulateAirInterfaceResponseBody(airInterfaceConfiguration, airI
   airInterface["configured-performance-monitoring-is-on"] = airInterfaceConfiguration["performance-monitoring-is-on"];
   airInterface["configured-xpic-is-on"] = airInterfaceConfiguration["xpic-is-on"];
   airInterface["current-signal-to-noise-ratio"] = airInterfaceStatus["snir-cur"];
-  let MinTransmissionMode = await getConfiguredModulation(
+  let minTransmissionMode = await getConfiguredModulation(
     airInterfaceCapability,
     airInterfaceConfiguration["transmission-mode-min"]);
-  let MaxTransmissionMode = await getConfiguredModulation(
+  let maxTransmissionMode = await getConfiguredModulation(
     airInterfaceCapability,
     airInterfaceConfiguration["transmission-mode-max"]);
-  let CurTransmissionMode = await getConfiguredModulation(
+  let curTransmissionMode = await getConfiguredModulation(
     airInterfaceCapability,
     airInterfaceStatus["transmission-mode-cur"]);
   airInterface["configured-modulation-minimum"] = {
-    "number-of-states": MinTransmissionMode["modulation-scheme"],
-    "name-at-lct": MinTransmissionMode["modulation-scheme-name-at-lct"]
-  }
+    "number-of-states": minTransmissionMode["modulation-scheme"],
+    "name-at-lct": minTransmissionMode["modulation-scheme-name-at-lct"]
+  };
   airInterface["configured-modulation-maximum"] = {
-    "number-of-states": MaxTransmissionMode["modulation-scheme"],
-    "name-at-lct": MaxTransmissionMode["modulation-scheme-name-at-lct"]
-  }
+    "number-of-states": maxTransmissionMode["modulation-scheme"],
+    "name-at-lct": maxTransmissionMode["modulation-scheme-name-at-lct"]
+  };
   airInterface["current-modulation"] = {
-    "number-of-states": CurTransmissionMode["modulation-scheme"],
-    "name-at-lct": CurTransmissionMode["modulation-scheme-name-at-lct"]
-  }
-  airInterface["configured-channel-bandwidth-min"] = MinTransmissionMode["channel-bandwidth"],
-    airInterface["configured-channel-bandwidth-max"] = MaxTransmissionMode["channel-bandwidth"]
+    "number-of-states": curTransmissionMode["modulation-scheme"],
+    "name-at-lct": curTransmissionMode["modulation-scheme-name-at-lct"]
+  };
+  airInterface["configured-channel-bandwidth-min"] = minTransmissionMode["channel-bandwidth"];
+  airInterface["configured-channel-bandwidth-max"] = maxTransmissionMode["channel-bandwidth"];
   return airInterface;
 }
 
