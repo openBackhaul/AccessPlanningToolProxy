@@ -1,3 +1,5 @@
+'use strict';
+
 const OperationClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationClientInterface');
 const ForwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
 const ForwardingConstruct = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingConstruct');
@@ -34,8 +36,8 @@ async function RequestForProvidingAcceptanceDataCausesReadingLtpStructure() {
     try {
 
       /***********************************************************************************
-      * Preparing request
-      ************************************************************************************/
+       * Preparing request
+       ************************************************************************************/
 
       /* extracting forwarding construct based data */
 
@@ -54,11 +56,10 @@ async function RequestForProvidingAcceptanceDataCausesReadingLtpStructure() {
       let fields = await IndividualServiceUtility.getStringProfileInstanceValue(readingLtpStructureStringName);
 
       params = await IndividualServiceUtility.getQueryAndPathParameter(operationName, pathParamList, fields);
-  
+
       /* forwarding the request */
       response = await eventDispatcher.dispatchEvent(
-        operationClientUuid,
-        {},
+        operationClientUuid, {},
         requestHeaders.user,
         requestHeaders.xCorrelator,
         requestHeaders.traceIndicator + "." + traceIndicatorIncrementer++,
@@ -67,11 +68,11 @@ async function RequestForProvidingAcceptanceDataCausesReadingLtpStructure() {
         params
       );
 
-      let responseCode = response.status;
-      if (!responseCode.toString().startsWith("2")) {
-        throw readingLtpStructureFcName + "forwarding is not success";
+      if (response) {
+        resolve(response);
+      } else {
+        throw new createHttpError.InternalServerError(`unable to fetch ltpStructure for mountName ${mountName}`);
       }
-      resolve(response.data);
     } catch (error) {
       console.log(error)
       reject(error);

@@ -1,3 +1,5 @@
+'use strict';
+
 const ProfileCollection = require('onf-core-model-ap/applicationPattern/onfModel/models/ProfileCollection');
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 const OperationClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationClientInterface');
@@ -6,6 +8,11 @@ const ForwardingConstruct = require('onf-core-model-ap/applicationPattern/onfMod
 const IndividualServiceUtility = require('./IndividualServiceUtility');
 const eventDispatcher = require('./EventDispatcherWithResponse');
 
+/**
+ * This function fetches the string value from the string profile based on the expected string name.
+ * @param {String} expectedStringName string name of the string profile.
+ * @return {String} string value of the string profile.
+ */
 exports.getStringProfileInstanceValue = async function (expectedStringName) {
   let stringValue = "";
   try {
@@ -26,11 +33,18 @@ exports.getStringProfileInstanceValue = async function (expectedStringName) {
     return stringValue;
 
   } catch (error) {
-    console.log(error);
+    console.log(`getStringProfileInstanceValue is not success with ${error}`);
+    return new createHttpError.InternalServerError();  
   }
-
 }
 
+/**
+ * This function formulates the query and path parameters from operationName and fields.
+ * @param {String} operationName name of the operation to fetch path parameters key .
+ * @param {List} pathParamList path parameters value list.
+ * @param {String} fields query parameters.
+ * @return {Object} params that contains query and path parameters.
+ */
 exports.getQueryAndPathParameter = async function (operationName, pathParamList, fields) {
   try {
     let pathParams = new Map();
@@ -53,32 +67,48 @@ exports.getQueryAndPathParameter = async function (operationName, pathParamList,
     return params;
 
   } catch (error) {
-    console.log(error);
-  }
+    console.log(`getQueryAndPathParameter is not success with ${error}`);
+    return new createHttpError.InternalServerError();    }
 }
 
-exports.getConsequentOperationClientAndFieldParams = async function (forwardingConstructName, stringName) {
+
+/**
+ * This function gets the consequent operation details like op-c uuid , operation-name, field parameters.
+ * @param {String} forwardingConstructName name of the forwarding construct to fetch consequent op-c uuid.
+ * @param {String} stringName string name to fetch the field parameter.
+ * @return {Object} consequentOperationClientAndFieldParams that contains op-c uuid , operation-name, field parameters.
+ */
+exports.getConsequentOperationClientAndFieldParams = async function(forwardingConstructName, stringName) {
   let consequentOperationClientAndFieldParams = {};
   try {
     let forwardingConstructInstance = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingConstructName);
     let outputFcPortForFc = await ForwardingConstruct.getOutputFcPortsAsync(forwardingConstructInstance[onfAttributes.GLOBAL_CLASS.UUID]);
-    consequentOperationClientAndFieldParams.operationClientUuid = outputFcPortForFc[0][onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT];
+    consequentOperationClientAndFieldParams.operationClientUuid = outputFcPortForFc[0][onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]; 
     consequentOperationClientAndFieldParams.operationName = await OperationClientInterface.getOperationNameAsync(consequentOperationClientAndFieldParams.operationClientUuid);
     consequentOperationClientAndFieldParams.fields = await IndividualServiceUtility.getStringProfileInstanceValue(stringName);
-  } catch (error) {
-    console.log(error);
+  } catch(error) {
+    console.log(`getConsequentOperationClientAndFieldParams is not success with ${error}`);
+    return new createHttpError.InternalServerError();
   }
   return consequentOperationClientAndFieldParams;
 }
 
-exports.forwardRequest = async function (consequentOperationClientAndFieldParams, pathParamList, requestHeaders, traceIndicatorIncrementer) {
+/**
+ * @description This function automates the forwarding of request with related pathParameters and consequent op-c.
+ * @param {Object} operationClientAndFieldParams operationClientAndFieldParams that contains op-c uuid , operation-name, field parameters of the request.
+ * @param {list}   pathParamList list of path parameters values to be sent in request.
+ * @param {Integer} traceIndicatorIncrementer incrementer value to increment the trace indicator.
+ * @returns {Object} response data fetched for the forwarded request
+ **/
+exports.forwardRequest = async function (operationClientAndFieldParams, pathParamList, requestHeaders, traceIndicatorIncrementer) {
   try {
-    let operationName = consequentOperationClientAndFieldParams.operationName;
-    let fields = consequentOperationClientAndFieldParams.fields;
-    let operationClientUuid = consequentOperationClientAndFieldParams.operationClientUuid;
+    let operationName = operationClientAndFieldParams.operationName;
+    let fields = operationClientAndFieldParams.fields;
+    let operationClientUuid = operationClientAndFieldParams.operationClientUuid;
     let params = await IndividualServiceUtility.getQueryAndPathParameter(operationName, pathParamList, fields);
     let responseData = await eventDispatcher.dispatchEvent(
-      operationClientUuid, {},
+      operationClientUuid,
+      {},
       requestHeaders.user,
       requestHeaders.xCorrelator,
       requestHeaders.traceIndicator + "." + traceIndicatorIncrementer,
