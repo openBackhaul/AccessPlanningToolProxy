@@ -27,7 +27,7 @@ exports.getLtpsOfLayerProtocolNameFromLtpStructure = async function (LayerProtoc
  */
 async function getLtpForUuidFromLtpStructure(uuid, ltpStructure) {
     let ltp = {};
-    let ltpList = ltpStructure["core-model-1-4:control-construct"][onfAttributes.CONTROL_CONSTRUCT.LOGICAL_TERMINATION_POINT];
+    let ltpList = ltpStructure["core-model-1-4:control-construct"][0][onfAttributes.CONTROL_CONSTRUCT.LOGICAL_TERMINATION_POINT];
     if (ltpList != undefined) {
         ltp = ltpList.find(ltp =>
             ltp[onfAttributes.GLOBAL_CLASS.UUID] === uuid);
