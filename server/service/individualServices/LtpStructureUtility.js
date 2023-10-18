@@ -25,7 +25,7 @@ exports.getLtpsOfLayerProtocolNameFromLtpStructure = async function (LayerProtoc
  * @param {Object} ltpStructure control construct.
  * @return {Object} ltp that matches the given uuid.
  */
-async function getLtpForUuidFromLtpStructure(uuid, ltpStructure) {
+exports.getLtpForUuidFromLtpStructure = async function(uuid, ltpStructure) {
     let ltp = {};
     let ltpList = ltpStructure["core-model-1-4:control-construct"][0][onfAttributes.CONTROL_CONSTRUCT.LOGICAL_TERMINATION_POINT];
     if (ltpList != undefined) {
@@ -34,7 +34,6 @@ async function getLtpForUuidFromLtpStructure(uuid, ltpStructure) {
     }
     return ltp;
 }
-exports.getLtpForUuidFromLtpStructure = getLtpForUuidFromLtpStructure;
 
 /**
  * This function finds the client LTP of the given ltp from ltp structure based on the list of layer-protocol-name given.
@@ -54,11 +53,11 @@ exports.getHierarchicalClientLtpForInterfaceListFromLtpStructure = async functio
                 return {};
             }
             for (let j = 0; j < clientLtpList.length; j++) {
-                let ltp = await getLtpForUuidFromLtpStructure(clientLtpList[j], ltpStructure);
+                let ltp = await exports.getLtpForUuidFromLtpStructure(clientLtpList[j], ltpStructure);
                 let layerProtocol = ltp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL];
                 for (let k = 0; k < layerProtocol.length; k++) {
                     let layerProtocolName = layerProtocol[k][onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME];
-                    if (layerProtocolName == layerProtocolNameList[i]) {
+                    if (layerProtocolNameList[i].includes(layerProtocolName)) {
                         expectedClientLtp = ltp;
                         break;
                     }

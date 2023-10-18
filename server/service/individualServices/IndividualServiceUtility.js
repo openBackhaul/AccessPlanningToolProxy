@@ -78,12 +78,9 @@ exports.getQueryAndPathParameter = async function (operationName, pathParamList,
  * @param {String} stringName string name to fetch the field parameter.
  * @return {Object} consequentOperationClientAndFieldParams that contains op-c uuid , operation-name, field parameters.
  */
-exports.getConsequentOperationClientAndFieldParams = async function(forwardingConstructName, stringName) {
+exports.getConsequentOperationClientAndFieldParams = async function(forwardingConstructName, stringName = forwardingConstructName) {
   let consequentOperationClientAndFieldParams = {};
   try {
-    if(stringName == undefined) {
-      stringName = forwardingConstructName;
-    }
     let forwardingConstructInstance = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingConstructName);
     let outputFcPortForFc = await ForwardingConstruct.getOutputFcPortsAsync(forwardingConstructInstance[onfAttributes.GLOBAL_CLASS.UUID]);
     consequentOperationClientAndFieldParams.operationClientUuid = outputFcPortForFc[0][onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]; 

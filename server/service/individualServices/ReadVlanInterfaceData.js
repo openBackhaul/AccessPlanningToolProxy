@@ -10,6 +10,7 @@ const WIRE_INTERFACE = { MODULE: "wire-interface-2-0:", LAYER_PROTOCOL_NAME: "LA
 const AIR_INTERFACE = { MODULE: "air-interface-2-0:", LAYER_PROTOCOL_NAME: "LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER" };
 const PURE_ETHERNET_STRUCTURE = { MODULE: "pure-ethernet-structure-2-0:", LAYER_PROTOCOL_NAME: "LAYER_PROTOCOL_NAME_TYPE_PURE_ETHERNET_STRUCTURE_LAYER" };
 const MAC_INTERFACE = { MODULE: "mac-interface-1-0:", LAYER_PROTOCOL_NAME: "LAYER_PROTOCOL_NAME_TYPE_MAC_LAYER" };
+const HYBRID_MW_STRUCTURE = { MODULE: "hybrid-mw-structure-2-0:", LAYER_PROTOCOL_NAME: "LAYER_PROTOCOL_NAME_TYPE_HYBRID_MW_STRUCTURE_LAYER" };
 
 /**
  * This method performs the set of procedure to gather the vlanInterface data
@@ -106,7 +107,10 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole(
         *     MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
         *       /logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name
         *****************************************************************************************************/
-      let originalLtpNameResponse = await fetchOriginalLtpName(mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer, wireInterfaceLtp, clientAndFieldParamsForOriginalLtpName);
+      let firstLayerToReachEthernetContainer = [PURE_ETHERNET_STRUCTURE.MODULE + PURE_ETHERNET_STRUCTURE.LAYER_PROTOCOL_NAME];
+      let secondLayerToReachEthernetContainer = [ETHERNET_CONTAINER.MODULE + ETHERNET_CONTAINER.LAYER_PROTOCOL_NAME];
+      let interfaceListToReachEthernetContainer = [firstLayerToReachEthernetContainer, secondLayerToReachEthernetContainer];
+      let originalLtpNameResponse = await fetchOriginalLtpNameOfEthernetContainer(mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer, wireInterfaceLtp, clientAndFieldParamsForOriginalLtpName, interfaceListToReachEthernetContainer);
       let clientContainerLtp = originalLtpNameResponse.clientContainerLtp;
       if (clientContainerLtp != undefined) {
         if (originalLtpNameResponse.interfaceName != undefined) {
@@ -125,7 +129,10 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole(
         *       /logical-termination-point={uuid}/layer-protocol={local-id}
         *         /vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration?fields=interface-kind
         *****************************************************************************************************/
-      let vlanInterfaceKindResponse = await fetchVlanInterfaceKind(mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer, clientContainerLtp, clientAndFieldParamsForVlanInterfaceKind);
+      let firstLayerToReachVlanInterface = [MAC_INTERFACE.MODULE + MAC_INTERFACE.LAYER_PROTOCOL_NAME];
+      let secondLayerToReachVlanInterface = [VLAN_INTERFACE.MODULE + VLAN_INTERFACE.LAYER_PROTOCOL_NAME];
+      let interfaceListToReachVlanInterface = [firstLayerToReachVlanInterface, secondLayerToReachVlanInterface];
+      let vlanInterfaceKindResponse = await fetchVlanInterfaceKind(mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer, clientContainerLtp, clientAndFieldParamsForVlanInterfaceKind, interfaceListToReachVlanInterface);
       if (Object.keys(vlanInterfaceKindResponse).length != 0) {
         if (vlanInterfaceKindResponse.vlanInterfaceKind != undefined) {
           configuredLanPortRole.vlanInterfaceKind = vlanInterfaceKindResponse.vlanInterfaceKind;
@@ -204,7 +211,10 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole(
         *     MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
         *       /logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name
         *****************************************************************************************************/
-      let originalLtpNameResponse = await fetchOriginalLtpName(mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer, airInterfaceLtp, clientAndFieldParamsForOriginalLtpName);
+      let firstLayerToReachEthernetContainer = [PURE_ETHERNET_STRUCTURE.MODULE + PURE_ETHERNET_STRUCTURE.LAYER_PROTOCOL_NAME, HYBRID_MW_STRUCTURE.MODULE + HYBRID_MW_STRUCTURE.LAYER_PROTOCOL_NAME];
+      let secondLayerToReachEthernetContainer = [ETHERNET_CONTAINER.MODULE + ETHERNET_CONTAINER.LAYER_PROTOCOL_NAME];
+      let interfaceListToReachEthernetContainer = [firstLayerToReachEthernetContainer, secondLayerToReachEthernetContainer];
+      let originalLtpNameResponse = await fetchOriginalLtpNameOfEthernetContainer(mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer, airInterfaceLtp, clientAndFieldParamsForOriginalLtpName, interfaceListToReachEthernetContainer);
       let clientContainerLtp = originalLtpNameResponse.clientContainerLtp;
       if (clientContainerLtp != undefined) {
         if (originalLtpNameResponse.interfaceName != undefined) {
@@ -222,7 +232,10 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole(
         *       /logical-termination-point={uuid}/layer-protocol={local-id}
         *         /vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration?fields=interface-kind
         *****************************************************************************************************/
-      let vlanInterfaceKindResponse = await fetchVlanInterfaceKind(mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer, clientContainerLtp, clientAndFieldParamsForVlanInterfaceKind);
+      let firstLayerToReachVlanInterface = [MAC_INTERFACE.MODULE + MAC_INTERFACE.LAYER_PROTOCOL_NAME];
+      let secondLayerToReachVlanInterface = [VLAN_INTERFACE.MODULE + VLAN_INTERFACE.LAYER_PROTOCOL_NAME];
+      let interfaceListToReachVlanInterface = [firstLayerToReachVlanInterface, secondLayerToReachVlanInterface];
+      let vlanInterfaceKindResponse = await fetchVlanInterfaceKind(mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer, clientContainerLtp, clientAndFieldParamsForVlanInterfaceKind, interfaceListToReachVlanInterface);
       if (Object.keys(vlanInterfaceKindResponse).length != 0) {
         if (vlanInterfaceKindResponse.vlanInterfaceKind != undefined) {
           configuredWanPortRole.vlanInterfaceKind = vlanInterfaceKindResponse.vlanInterfaceKind;
@@ -270,10 +283,9 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole(
  * @param {Object} clientAndFieldParams Holds information of the query and field parameters to use in request url
  * @returns {Object} returns original-ltp-name value and traceIndicatorIncrementer
  */
-async function fetchOriginalLtpName(mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer, ltp, clientAndFieldParams) {
+async function fetchOriginalLtpNameOfEthernetContainer(mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer, ltp, clientAndFieldParams, interfaceListForOriginalLtpName) {
   let originalLtpNameResponse = {};
   let pathParamList = [];
-  let interfaceListForOriginalLtpName = [PURE_ETHERNET_STRUCTURE.MODULE + PURE_ETHERNET_STRUCTURE.LAYER_PROTOCOL_NAME, ETHERNET_CONTAINER.MODULE + ETHERNET_CONTAINER.LAYER_PROTOCOL_NAME];
   let clientContainerLtp = await LtpStructureUtility.getHierarchicalClientLtpForInterfaceListFromLtpStructure(ltp, interfaceListForOriginalLtpName, ltpStructure);
   if (Object.keys(clientContainerLtp).length > 0) {
     originalLtpNameResponse.clientContainerLtp = clientContainerLtp;
@@ -298,10 +310,9 @@ async function fetchOriginalLtpName(mountName, ltpStructure, requestHeaders, tra
  * @param {Object} clientAndFieldParams Holds information of the query and field parameters to use in request url
  * @returns {Object} returns vlan-interface-kind value and traceIndicatorIncrementer
  */
-async function fetchVlanInterfaceKind(mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer, clientContainerltp, clientAndFieldParams) {
+async function fetchVlanInterfaceKind(mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer, clientContainerltp, clientAndFieldParams, interfaceListForVlanInterfaceKind) {
   let vlanInterfaceKindResponse = {};
   let pathParamList = [];
-  let interfaceListForVlanInterfaceKind = [MAC_INTERFACE.MODULE + MAC_INTERFACE.LAYER_PROTOCOL_NAME, VLAN_INTERFACE.MODULE + VLAN_INTERFACE.LAYER_PROTOCOL_NAME];
   let clientVlanInterfaceLtp = await LtpStructureUtility.getHierarchicalClientLtpForInterfaceListFromLtpStructure(clientContainerltp, interfaceListForVlanInterfaceKind, ltpStructure);
   if (Object.keys(clientVlanInterfaceLtp).length > 0) {
     let clientVlanInterfaceUuid = clientVlanInterfaceLtp[onfAttributes.GLOBAL_CLASS.UUID];
