@@ -95,7 +95,7 @@ exports.provideAcceptanceDataOfLinkEndpoint = function(body, user, originator, x
       /****************************************************************************************
        * Collect inventory data
        ****************************************************************************************/
-      let inventoryResult = await ReadInventoryData.readInventoryData(mountName, linkId, ltpStructure, uuidUnderTest, requestHeaders, traceIndicatorIncrementer)
+      let inventoryResult = await ReadInventoryData.readInventoryData(mountName, ltpStructure, uuidUnderTest, requestHeaders, traceIndicatorIncrementer)
       .catch(err => console.log(` ${err}`));
 
       if(Object.keys(inventoryResult.inventory).length !=0 ) {
