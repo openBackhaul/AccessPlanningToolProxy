@@ -17,7 +17,7 @@ const FIRMWARE = {
  * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
    @returns {Object} result which contains the inventory data and traceIndicatorIncrementer
 * **/
-exports.readInventoryData = function (mountName, linkId, ltpStructure, uuidUnderTest, requestHeaders, traceIndicatorIncrementer) {
+exports.readInventoryData = function (mountName, ltpStructure, uuidUnderTest, requestHeaders, traceIndicatorIncrementer) {
     return new Promise(async function (resolve, reject) {
       try {
       /****************************************************************************************
