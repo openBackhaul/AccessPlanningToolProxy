@@ -63,12 +63,12 @@ exports.provideAcceptanceDataOfLinkEndpoint = function(body, user, originator, x
       /****************************************************************************************
        * Collect complete ltp structure of mount-name in request bodys
        ****************************************************************************************/
-      let ltpStructureResult = await ReadLtpStructure.readLtpStructure(mountName, requestHeaders)
+      let ltpStructureResult = await ReadLtpStructure.readLtpStructure(mountName, requestHeaders, traceIndicatorIncrementer)
        .catch(err => console.log(` ${err}`));
 
       let ltpStructure = ltpStructureResult.ltpStructure;
       traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
-
+      
       /****************************************************************************************
        * Collect air-interface data
        ****************************************************************************************/

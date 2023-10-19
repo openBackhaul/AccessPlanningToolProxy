@@ -1,75 +1,35 @@
 'use strict';
 
-const OperationClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationClientInterface');
-const ForwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
-const ForwardingConstruct = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingConstruct');
-const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
-const eventDispatcher = require('./EventDispatcherWithResponse');
 const IndividualServiceUtility = require('./IndividualServiceUtility');
+const createHttpError = require('http-errors');
 
-var traceIndicatorIncrementer = 1;
-var requestHeaders = {};
-var mountName = "";
-
-exports.readLtpStructure = async function (_mountName, _requestHeaders) {
+/**
+ * This method performs the set of procedure to gather the ltp structure of given mount name
+ * @param {String} mountName Identifier of the device at the Controller
+ * @param {Object} requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
+ * RequestForProvidingAcceptanceDataCausesReadingLtpStructure fc is used to get ltp-structure of a mountName
+ * @returns {Object} ltpStructure ControlConstruct provided from cache
+* **/
+exports.readLtpStructure = async function (mountName, requestHeaders, traceIndicatorIncrementer) {
   return new Promise(async function (resolve, reject) {
+    const readingLtpStructureFcName = "RequestForProvidingAcceptanceDataCausesReadingLtpStructure";
+    const readingLtpStructureStringName = "RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure";
     try {
-      mountName = _mountName;
-      requestHeaders = _requestHeaders;
-
-      let ltpStructure = await RequestForProvidingAcceptanceDataCausesReadingLtpStructure();
-
-      let result = {
-        ltpStructure: ltpStructure,
-        traceIndicatorIncrementer: traceIndicatorIncrementer
-      };
-      resolve(result);
-    } catch (error) {
-      console.log(error);
-      reject(error);
-    }
-  });
-}
-
-async function RequestForProvidingAcceptanceDataCausesReadingLtpStructure() {
-  return new Promise(async function (resolve, reject) {
-    try {
-
-      /***********************************************************************************
-       * Preparing request
-       ************************************************************************************/
-
-      /* extracting forwarding construct based data */
-
-      let readingLtpStructureFcName = "RequestForProvidingAcceptanceDataCausesReadingLtpStructure";
-
-      let forwardingConstructInstance = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(readingLtpStructureFcName);
-      let outputFcPortForFc = await ForwardingConstruct.getOutputFcPortsAsync(forwardingConstructInstance[onfAttributes.GLOBAL_CLASS.UUID]);
-      let operationClientUuid = outputFcPortForFc[0][onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT];
-
-      let operationName = await OperationClientInterface.getOperationNameAsync(operationClientUuid);
+      let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(readingLtpStructureFcName, readingLtpStructureStringName);
       let pathParamList = [];
       pathParamList.push(mountName);
-
-      /* extracting string-profile based data */
-      let readingLtpStructureStringName = "RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure";
-      let fields = await IndividualServiceUtility.getStringProfileInstanceValue(readingLtpStructureStringName);
-
-      params = await IndividualServiceUtility.getQueryAndPathParameter(operationName, pathParamList, fields);
-
-      /* forwarding the request */
-      response = await eventDispatcher.dispatchEvent(
-        operationClientUuid, {},
-        requestHeaders.user,
-        requestHeaders.xCorrelator,
-        requestHeaders.traceIndicator + "." + traceIndicatorIncrementer++,
-        requestHeaders.customerJourney,
-        "GET",
-        params
-      );
-
-      if (response) {
-        resolve(response);
+      /****************************************************************************************************
+      * RequestForProvidingAcceptanceDataCausesReadingLtpStructure
+      *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+      *      ?fields=logical-termination-point(uuid;server-ltp;client-ltp;layer-protocol(local-id;layer-protocol-name))
+      *****************************************************************************************************/
+      let ltpStructure = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParamList, requestHeaders, traceIndicatorIncrementer++);
+      if (Object.keys(ltpStructure).length > 0) {
+        let result = {
+          ltpStructure: ltpStructure,
+          traceIndicatorIncrementer: traceIndicatorIncrementer
+        }
+        resolve(result);
       } else {
         throw new createHttpError.InternalServerError(`unable to fetch ltpStructure for mountName ${mountName}`);
       }
