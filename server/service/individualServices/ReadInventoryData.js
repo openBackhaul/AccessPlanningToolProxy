@@ -2,13 +2,22 @@ const IndividualServiceUtility = require('./IndividualServiceUtility');
 const createHttpError = require('http-errors');
 
 const FIRMWARE = {
-  MODULE: "firmware-1-0:", COLLECTION: "firmware-collection", CLASS_TYPE: "FIRMWARE_COMPONENT_CLASS_TYPE_PACKAGE",
-  COMPONENT_LIST: "firmware-component-list", PAC: "firmware-component-pac", CAPABILITY: "firmware-component-capability",
-  CLASS: "firmware-component-class", NAME: "firmware-component-name", VERSION: "firmware-component-version", STATUS: "firmware-component-status"
+  MODULE: "firmware-1-0:",
+  COLLECTION: "firmware-collection",
+  CLASS_TYPE: "FIRMWARE_COMPONENT_CLASS_TYPE_PACKAGE",
+  COMPONENT_LIST: "firmware-component-list",
+  PAC: "firmware-component-pac",
+  CAPABILITY: "firmware-component-capability",
+  CLASS: "firmware-component-class",
+  NAME: "firmware-component-name",
+  VERSION: "firmware-component-version",
+  STATUS: "firmware-component-status"
 };
 
 const LTP_AUGMENT = {
-  MODULE: "ltp-augment-1-0", PAC: "ltp-augment-pac", EQUIPMENT: "equipment"
+  MODULE: "ltp-augment-1-0",
+  PAC: "ltp-augment-pac",
+  EQUIPMENT: "equipment"
 }
 
 const EQUIPMENT = {
@@ -48,14 +57,14 @@ exports.readInventoryData = function (mountName, ltpStructure, uuidUnderTest, re
   return new Promise(async function (resolve, reject) {
     try {
       /****************************************************************************************
-      * Declaring required variables
-      ****************************************************************************************/
+       * Declaring required variables
+       ****************************************************************************************/
       let inventoryResult = {};
       let inventoryData = {};
 
       /****************************************************************************************
-      *  Fetching data for installed-firmware attribute
-      ****************************************************************************************/
+       *  Fetching data for installed-firmware attribute
+       ****************************************************************************************/
       let installedFirmwareResponse = await RequestForProvidingAcceptanceDataCausesReadingFirmwareList(mountName, requestHeaders, traceIndicatorIncrementer);
       if (Object.keys(installedFirmwareResponse).length > 0) {
         if (installedFirmwareResponse.installedFirmware != undefined) {
@@ -65,8 +74,8 @@ exports.readInventoryData = function (mountName, ltpStructure, uuidUnderTest, re
       }
 
       /****************************************************************************************
-        *  Fetch data for Components Radio, Modem, Device
-      ****************************************************************************************/
+       *  Fetch data for Components Radio, Modem, Device
+       ****************************************************************************************/
 
       let equipmentUuidResponse = await RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositionEquipmentUuid(mountName, uuidUnderTest, requestHeaders, traceIndicatorIncrementer);
 
@@ -103,13 +112,13 @@ exports.readInventoryData = function (mountName, ltpStructure, uuidUnderTest, re
 }
 
 /**
-* Prepare attributes and automate the RequestForProvidingAcceptanceDataCausesReadingFirmwareList forwarding-construct 
-*    to gather installed-firmware list of given mount-name
-* @param {String} mountName Identifier of the device at the Controller
-* @param {Object} requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
-* @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
-* @returns {Object} return values of installed-firmware list and traceIndicatorIncrementer
-*/
+ * Prepare attributes and automate the RequestForProvidingAcceptanceDataCausesReadingFirmwareList forwarding-construct 
+ *    to gather installed-firmware list of given mount-name
+ * @param {String} mountName Identifier of the device at the Controller
+ * @param {Object} requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
+ * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
+ * @returns {Object} return values of installed-firmware list and traceIndicatorIncrementer
+ */
 async function RequestForProvidingAcceptanceDataCausesReadingFirmwareList(mountName, requestHeaders, traceIndicatorIncrementer) {
   let installedFirmwareResponse = {};
   let installedFirmwareList = [];
@@ -120,10 +129,10 @@ async function RequestForProvidingAcceptanceDataCausesReadingFirmwareList(mountN
     let clientAndFieldParamsForFirmwareList = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(fcNameForReadingFirmwareList, stringNameForReadingFirmwareList);
     pathParamList.push(mountName);
     /****************************************************************************************************
-    * process required attributes from firmware-collection
-    *   RequestForProvidingAcceptanceDataCausesReadingFirmwareList
-    *     MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/firmware-1-0:firmware-collection
-    *****************************************************************************************************/
+     * process required attributes from firmware-collection
+     *   RequestForProvidingAcceptanceDataCausesReadingFirmwareList
+     *     MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/firmware-1-0:firmware-collection
+     *****************************************************************************************************/
     let response = await IndividualServiceUtility.forwardRequest(clientAndFieldParamsForFirmwareList, pathParamList, requestHeaders, traceIndicatorIncrementer++);
     if (Object.keys(response).length > 0) {
       let firmwareComponentList = response[FIRMWARE.MODULE + FIRMWARE.COLLECTION][FIRMWARE.COMPONENT_LIST];
@@ -154,14 +163,14 @@ async function RequestForProvidingAcceptanceDataCausesReadingFirmwareList(mountN
 }
 
 /**
-* Prepare attributes and automate the RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositionEquipmentUuid forwarding-construct 
-*    to get equipment list of given mount-name and uuidUnderTest.
-* @param {String} mountName Identifier of the device at the Controller
-* @param {String} uuidUnderTest uuidUnderTest Identifier of the air-interface under test
-* @param {Object} requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
-* @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
-* @returns {Object} return equipment uuid list and traceIndicatorIncrementer
-*/
+ * Prepare attributes and automate the RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositionEquipmentUuid forwarding-construct 
+ *    to get equipment list of given mount-name and uuidUnderTest.
+ * @param {String} mountName Identifier of the device at the Controller
+ * @param {String} uuidUnderTest uuidUnderTest Identifier of the air-interface under test
+ * @param {Object} requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
+ * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
+ * @returns {Object} return equipment uuid list and traceIndicatorIncrementer
+ */
 async function RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositionEquipmentUuid(mountName, uuidUnderTest, requestHeaders, traceIndicatorIncrementer) {
   const forwardingName = "RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentUuid";
   const stringName = "RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentUuid";
@@ -170,10 +179,10 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositio
     let pathParams = [];
 
     /********************************************************************************************************
-      * RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentUuid
-      *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
-      *    /logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment
-    ******************************************************************************************************/
+     * RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentUuid
+     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+     *    /logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment
+     ******************************************************************************************************/
 
     pathParams.push(mountName);
     pathParams.push(uuidUnderTest);
@@ -195,13 +204,13 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositio
 }
 
 /**
-* Prepare attributes and automate the RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers forwarding-construct 
-*    to get equipment information of given mount-name and equipmentuuid.
-* @param {String} mountName Identifier of the device at the Controller
-* @param {Object} equipmentUuidResponse Comprises of EquipmentUuidList and traceIndicatorIncrementer
-* @param {Object} requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
-* @returns {Object} return equipment uuid list and traceIndicatorIncrementer
-*/
+ * Prepare attributes and automate the RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers forwarding-construct 
+ *    to get equipment information of given mount-name and equipmentuuid.
+ * @param {String} mountName Identifier of the device at the Controller
+ * @param {Object} equipmentUuidResponse Comprises of EquipmentUuidList and traceIndicatorIncrementer
+ * @param {Object} requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
+ * @returns {Object} return equipment uuid list and traceIndicatorIncrementer
+ */
 async function RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers(mountName, equipmentUuidResponse, requestHeaders) {
   const forwardingName = "RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers";
   const stringName = "RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers";
@@ -211,12 +220,12 @@ async function RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentId
     let traceIndicatorIncrementer = equipmentUuidResponse.traceIndicatorIncrementer;
 
     /****************************************************************************************************
-      * RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers
-      *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
-      *      /equipment={uuid}/actual-equipment
-      *      ?fields=structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier)
-      *            ;equipment-instance(serial-number))
-    *****************************************************************************************************/
+     * RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers
+     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+     *      /equipment={uuid}/actual-equipment
+     *      ?fields=structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier)
+     *            ;equipment-instance(serial-number))
+     *****************************************************************************************************/
     let equipmentUuidList = equipmentUuidResponse.equipmentUuidList;
     for (let i = 0; i < equipmentUuidList.length; i++) {
       let equipmentUuid = equipmentUuidList[i];
@@ -234,8 +243,8 @@ async function RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentId
     }
 
     /****************************************************************************************************
-      * Formulate equipmentInfoResponse from eqipmentInfoList
-    *****************************************************************************************************/
+     * Formulate equipmentInfoResponse from eqipmentInfoList
+     *****************************************************************************************************/
 
     let equipmentInfo = await formulateEquipmentInfo(equipmentInfoList);
     equipmentInfoResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
@@ -248,10 +257,10 @@ async function RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentId
 }
 
 /**
-* Formulate equipment info from equipmentInfoList
-* @param {list} equipmentInfoList List of equipment information
-* @returns {Object} return classified equipment info 
-*/
+ * Formulate equipment info from equipmentInfoList
+ * @param {list} equipmentInfoList List of equipment information
+ * @returns {Object} return classified equipment info 
+ */
 async function formulateEquipmentInfo(equipmentInfoList) {
   let equipmentInfo = {};
   let equipment = {};
