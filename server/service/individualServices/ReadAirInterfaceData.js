@@ -7,21 +7,24 @@
 const IndividualServiceUtility = require('./IndividualServiceUtility');
 const ltpStructureUtility = require('./LtpStructureUtility');
 const createHttpError = require('http-errors');
+const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 
-const AIR_INTERFACE_LAYER_NAME = "air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER";
-const AIR_INTERFACE_CONFIGURATION = "air-interface-2-0:air-interface-configuration";
-const AIR_INTERFACE_CAPABILITY = "air-interface-2-0:air-interface-capability";
-const AIR_INTERFACE_STATUS = "air-interface-2-0:air-interface-status"
-
-var traceIndicatorIncrementer = 1;
+const AIR_INTERFACE = {
+  MODULE: "air-interface-2-0",
+  LAYER_PROTOCOL_NAME: "LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER",
+  CONFIGURATION: "air-interface-configuration",
+  CAPABILITY: "air-interface-capability",
+  STATUS: "air-interface-status",
+  NAME: "air-interface-name"
+}
 
 /**
  * This method performs the set of procedure to gather the airInterface data
- * @param {String} mountName Identifier of the device at the Controller
- * @param {String} linkId Identifier of the microwave link in the planning
- * @param {Object} ltpStructure ControlConstruct provided from cache
- * @param {Object} requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
- * @param {Integer} _traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
+ * @param {String}  mountName Identifier of the device at the Controller
+ * @param {String}  linkId Identifier of the microwave link in the planning
+ * @param {Object}  ltpStructure ControlConstruct provided from cache
+ * @param {Object}  requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
+ * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
  * The following are the list of forwarding-construct that will be automated to gather the airInterface data 
  * 1. RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest
  * 2. RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache
@@ -29,42 +32,57 @@ var traceIndicatorIncrementer = 1;
  * 4. RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive
    @returns {Object} result which contains the airInterface data and uuidUnderTest
 * **/
-exports.readAirInterfaceData = async function (mountName, linkId, ltpStructure, requestHeaders, _traceIndicatorIncrementer) {
+exports.readAirInterfaceData = async function (mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer) {
   try {
     /****************************************************************************************
      * Declaring required variables
      ****************************************************************************************/
     let uuidUnderTest = "";
     let airInterface = {};
-    traceIndicatorIncrementer = _traceIndicatorIncrementer;
 
     /****************************************************************************************
      *  Fetching and setting up UuidUnderTest and PathParameters
      ****************************************************************************************/
 
-    let uuidUnderTestAndPathParams = await RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest(
+    let uuidUnderTestResponse = await RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest(
       ltpStructure,
       mountName,
       linkId,
-      requestHeaders);
+      requestHeaders,
+      traceIndicatorIncrementer);
 
-    if (Object.keys(uuidUnderTestAndPathParams).length !== 0) {
-      uuidUnderTest = uuidUnderTestAndPathParams.uuidUnderTest;
-      let pathParams = uuidUnderTestAndPathParams.pathParams;
+    if (Object.keys(uuidUnderTestResponse).length !== 0) {
+
+      uuidUnderTest = uuidUnderTestResponse.uuidUnderTest;
+      let pathParams = uuidUnderTestResponse.pathParams;
+      traceIndicatorIncrementer = uuidUnderTestResponse.traceIndicatorIncrementer;
 
       /****************************************************************************************
        *  Fetching airInterfaceConfiguration , airInterfaceCapability, airInterfaceStatus
        ****************************************************************************************/
 
-      let airInterfaceConfiguration = await RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache(pathParams, requestHeaders);
-      let airInterfaceCapability = await RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache(pathParams, requestHeaders);
-      let airInterfaceStatus = await RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive(pathParams, requestHeaders);
+      let airInterfaceConfiguration = await RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache(pathParams, requestHeaders, traceIndicatorIncrementer);
+
+      if (airInterfaceConfiguration.traceIndicatorIncrementer) {
+        traceIndicatorIncrementer = airInterfaceConfiguration.traceIndicatorIncrementer;
+      }
+
+      let airInterfaceCapability = await RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache(pathParams, requestHeaders, traceIndicatorIncrementer);
+      if (airInterfaceCapability.traceIndicatorIncrementer) {
+        traceIndicatorIncrementer = airInterfaceCapability.traceIndicatorIncrementer;
+      }
+
+      let airInterfaceStatus = await RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive(pathParams, requestHeaders, traceIndicatorIncrementer);
+      if (airInterfaceStatus.traceIndicatorIncrementer) {
+        traceIndicatorIncrementer = airInterfaceStatus.traceIndicatorIncrementer;
+      }
 
       /****************************************************************************************
        *  Fetching the air interface data for response body
        ****************************************************************************************/
 
       airInterface = await formulateAirInterfaceResponseBody(airInterfaceConfiguration, airInterfaceCapability, airInterfaceStatus)
+
     } else {
       throw new createHttpError.InternalServerError(`Unable to fetch UuidUnderTest and LocalIdUnderTest for linkId ${linkId} and muntName ${mountName}`);
     }
@@ -84,25 +102,31 @@ exports.readAirInterfaceData = async function (mountName, linkId, ltpStructure, 
 
 /**
  * Prepare attributes and automate RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest
- * @returns {Object} return values of uuidUnderTestAndPathParams if air-Interface-name === linkId or empty object
+ * @param {Object}  ltpStructure ControlConstruct provided from cache.
+ * @param {String}  mountName Identifier of the device at the Controller
+ * @param {String}  linkId Identifier of the microwave link in the planning
+ * @param {Object}  requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
+ * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
+ * @returns {Object} return values of uuidUnderTest,PathParams,trace indicator incrementer if air-Interface-name === linkId
  */
-async function RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest(ltpStructure, mountName, linkId, requestHeaders) {
+async function RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest(ltpStructure, mountName, linkId, requestHeaders, traceIndicatorIncrementer) {
   const forwardingName = "RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest";
   const stringName = "RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceName";
   try {
     let pathParamList = [];
-    let uuidUnderTestAndPathParams = {};
+    let uuidUnderTestResponse = {};
 
     /***********************************************************************************
      * Preparing path paramrters list 
      ************************************************************************************/
 
-    let airInterfaceLtpList = await ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure(AIR_INTERFACE_LAYER_NAME, ltpStructure)
+    let airInterfaceLtpList = await ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure(
+      AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.LAYER_PROTOCOL_NAME, ltpStructure)
     let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName)
     for (let i = 0; i < airInterfaceLtpList.length; i++) {
-      for (let j = 0; j < airInterfaceLtpList[i]["layer-protocol"].length; j++) {
-        let uuid = airInterfaceLtpList[i]["uuid"];
-        let localId = airInterfaceLtpList[i]["layer-protocol"][j]["local-id"]
+      for (let j = 0; j < airInterfaceLtpList[i][onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL].length; j++) {
+        let uuid = airInterfaceLtpList[i][onfAttributes.GLOBAL_CLASS.UUID];
+        let localId = airInterfaceLtpList[i][onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][j][onfAttributes.LOCAL_CLASS.LOCAL_ID]
         pathParamList = [];
         pathParamList.push(mountName);
         pathParamList.push(uuid);
@@ -120,15 +144,16 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUui
         if (Object.keys(airInterfaceConfigurationResponse).length === 0) {
           throw new createHttpError.InternalServerError(`${forwardingName} is not success`);
         } else {
-          if (airInterfaceConfigurationResponse[AIR_INTERFACE_CONFIGURATION]["air-interface-name"] === linkId) {
-            uuidUnderTestAndPathParams.uuidUnderTest = uuid;
-            uuidUnderTestAndPathParams.pathParams = pathParamList;
+          if (airInterfaceConfigurationResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.CONFIGURATION][AIR_INTERFACE.NAME] === linkId) {
+            uuidUnderTestResponse.uuidUnderTest = uuid;
+            uuidUnderTestResponse.pathParams = pathParamList;
             break;
           }
         }
       }
     }
-    return uuidUnderTestAndPathParams;
+    uuidUnderTestResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
+    return uuidUnderTestResponse;
   } catch (error) {
     throw new createHttpError.InternalServerError(`${forwardingName} is not success with ${error}`);
   }
@@ -136,10 +161,12 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUui
 
 /**
  * Prepare attributes and automate RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache
- * @param {Object} pathParams path parameters.
+ * @param {Object}  pathParams path parameters UuidUnderTest and LocalIdUnderTest.
+ * @param {Object}  requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
+ * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
  * @returns {Object} returns airInterfaceConfiguration for UuidUnderTest and LocalIdUnderTest
  */
-async function RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache(pathParams, requestHeaders) {
+async function RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache(pathParams, requestHeaders, traceIndicatorIncrementer) {
   const forwardingName = "RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache";
   const stringName = "RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache"
   try {
@@ -159,9 +186,10 @@ async function RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCa
       console.log(`${forwardingName} is not success`);
       return new createHttpError.InternalServerError();
     } else {
-      airInterfaceConfiguration = airInterfaceConfigurationResponse[AIR_INTERFACE_CONFIGURATION];
+      airInterfaceConfiguration = airInterfaceConfigurationResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.CONFIGURATION];
     }
 
+    airInterfaceConfiguration.traceIndicatorIncrementer = traceIndicatorIncrementer;
     return airInterfaceConfiguration;
   } catch (error) {
     return new createHttpError.InternalServerError(`${forwardingName} is not success with ${error}`);
@@ -170,10 +198,12 @@ async function RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCa
 
 /**
  * Prepare attributes and automate RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache
- * @param {Object} pathParams path parameters.
+ * @param {Object}  pathParams path parameters UuidUnderTest and LocalIdUnderTest.
+ * @param {Object}  requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
+ * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
  * @returns {Object} returns airInterfaceCapability for UuidUnderTest and LocalIdUnderTest
  */
-async function RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache(pathParams, requestHeaders) {
+async function RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache(pathParams, requestHeaders, traceIndicatorIncrementer) {
   const forwardingName = "RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache";
   const stringName = "RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache"
   try {
@@ -193,8 +223,9 @@ async function RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCac
       console.log(`${forwardingName} is not success`);
       return new createHttpError.InternalServerError();
     } else {
-      airInterfaceCapability = airInterfaceCapabilityResponse[AIR_INTERFACE_CAPABILITY];
+      airInterfaceCapability = airInterfaceCapabilityResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.CAPABILITY];
     }
+    airInterfaceCapability.traceIndicatorIncrementer = traceIndicatorIncrementer;
     return airInterfaceCapability;
   } catch (error) {
     console.log(`${forwardingName} is not success with ${error}`);
@@ -204,10 +235,12 @@ async function RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCac
 
 /**
  * Prepare attributes and automate RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive
- * @param {Object} pathParams path parameters.
+ * @param {Object}  pathParams path parameters UuidUnderTest and LocalIdUnderTest.
+ * @param {Object}  requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
+ * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator * 
  * @returns {Object} returns airInterfaceStatus for UuidUnderTest and LocalIdUnderTest
  */
-async function RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive(pathParams, requestHeaders) {
+async function RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive(pathParams, requestHeaders, traceIndicatorIncrementer) {
   const forwardingName = "RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive";
   const stringName = "RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive.StatusFromLive";
   try {
@@ -228,8 +261,9 @@ async function RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValu
       console.log(`${forwardingName} is not success`);
       return new createHttpError.InternalServerError();
     } else {
-      airInterfaceStatus = airInterfaceStatusResponse[AIR_INTERFACE_STATUS];
+      airInterfaceStatus = airInterfaceStatusResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.STATUS];
     }
+    airInterfaceStatus.traceIndicatorIncrementer = traceIndicatorIncrementer;
     return airInterfaceStatus;
   } catch (error) {
     console.log(`${forwardingName} is not success with ${error}`);
