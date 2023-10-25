@@ -38,8 +38,8 @@ const EQUIPMENT = {
 /**
  * This method performs the set of procedure to gather the inventory data
  * @param {String} mountName Identifier of the device at the Controller
- * @param {String} uuidUnderTest Identifier of the air-interface under test
  * @param {Object} ltpStructure ControlConstruct provided from cache
+ * @param {String} uuidUnderTest Identifier of the air-interface under test
  * @param {Object} requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
  * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
    @returns {Object} result which contains the inventory data and traceIndicatorIncrementer
@@ -264,9 +264,9 @@ async function formulateEquipmentInfo(equipmentInfoList) {
     equipment[EQUIPMENT.ACTUAL_EQUIPMENT.PART_NUMBER] = manufacturedThing[EQUIPMENT.ACTUAL_EQUIPMENT.EQUIPMENT_TYPE][EQUIPMENT.ACTUAL_EQUIPMENT.PART_TYPE_IDENTIFIER];
     if (category === EQUIPMENT.EQUIPMENT_CATEGORY.MODULE + ":" + EQUIPMENT.EQUIPMENT_CATEGORY.MODEM) {
       equipmentInfo.modem = equipment;
-    } else if (category === EQUIPMENT.EQUIPMENT_CATEGORY.MODULE + ":" + EQUIPMENT.EQUIPMENT_CATEGORY.FULL_OUTDOOR_UNIT) {
-      equipmentInfo.radio = equipment;
     } else if (category === EQUIPMENT.EQUIPMENT_CATEGORY.MODULE + ":" + EQUIPMENT.EQUIPMENT_CATEGORY.OUTDOOR_UNIT) {
+      equipmentInfo.radio = equipment;
+    } else if (category === EQUIPMENT.EQUIPMENT_CATEGORY.MODULE + ":" + EQUIPMENT.EQUIPMENT_CATEGORY.FULL_OUTDOOR_UNIT) {
       equipmentInfo.device = equipment;
     }
   }
