@@ -168,7 +168,6 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositio
   try {
     let equipmentUuidResponse = {};
     let pathParams = [];
-    let _traceIndicatorIncrementer = traceIndicatorIncrementer;
 
     /********************************************************************************************************
       * RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentUuid
@@ -179,7 +178,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositio
     pathParams.push(mountName);
     pathParams.push(uuidUnderTest);
     let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName)
-    _traceIndicatorIncrementer = traceIndicatorIncrementer++;
+    let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
     let ltpAugmentResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
     if (Object.keys(ltpAugmentResponse).length === 0) {
       console.log(`${forwardingName} is not success`);
@@ -187,7 +186,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositio
     }
 
     equipmentUuidResponse.equipmentUuidList = ltpAugmentResponse[LTP_AUGMENT.MODULE + ":" + LTP_AUGMENT.PAC][LTP_AUGMENT.EQUIPMENT];
-    equipmentUuidResponse.traceIndicatorIncrementer = _traceIndicatorIncrementer;
+    equipmentUuidResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
 
     return equipmentUuidResponse;
   } catch (error) {
@@ -209,7 +208,7 @@ async function RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentId
   try {
     let equipmentInfoList = [];
     let equipmentInfoResponse = {};
-    let _traceIndicatorIncrementer = equipmentUuidResponse.traceIndicatorIncrementer;
+    let traceIndicatorIncrementer = equipmentUuidResponse.traceIndicatorIncrementer;
 
     /****************************************************************************************************
       * RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers
@@ -225,7 +224,7 @@ async function RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentId
       pathParams.push(mountName);
       pathParams.push(equipmentUuid);
       let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName)
-      _traceIndicatorIncrementer = ++_traceIndicatorIncrementer;
+      let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
       let equipmentInfoResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
       if (Object.keys(equipmentInfoResponse).length === 0) {
         console.log(`${forwardingName} is not success`);
@@ -239,7 +238,7 @@ async function RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentId
     *****************************************************************************************************/
 
     let equipmentInfo = await formulateEquipmentInfo(equipmentInfoList);
-    equipmentInfoResponse.traceIndicatorIncrementer = _traceIndicatorIncrementer;
+    equipmentInfoResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
     equipmentInfoResponse.equipmentInfo = equipmentInfo;
 
     return equipmentInfoResponse;
