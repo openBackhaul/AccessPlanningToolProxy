@@ -61,7 +61,7 @@ exports.readAirInterfaceData = async function (mountName, linkId, ltpStructure, 
        *  Fetching airInterfaceConfiguration , airInterfaceCapability, airInterfaceStatus
        ****************************************************************************************/
 
-      let airInterfaceConfiguration = await RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache(pathParams, requestHeaders, traceIndicatorIncrementer);
+      let airInterfaceConfiguration = await exports.RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache(pathParams, requestHeaders, traceIndicatorIncrementer);
 
       if (airInterfaceConfiguration.traceIndicatorIncrementer) {
         traceIndicatorIncrementer = airInterfaceConfiguration.traceIndicatorIncrementer;
@@ -166,7 +166,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUui
  * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
  * @returns {Object} returns airInterfaceConfiguration for UuidUnderTest and LocalIdUnderTest
  */
-async function RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache(pathParams, requestHeaders, traceIndicatorIncrementer) {
+exports.RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache = async function(pathParams, requestHeaders, traceIndicatorIncrementer) {
   const forwardingName = "RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache";
   const stringName = "RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache"
   try {
