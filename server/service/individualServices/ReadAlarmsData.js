@@ -12,6 +12,7 @@ let ALARMS = {
   ALARM_TYPE_QUALIFIER: "alarm-type-qualifier",
   ALARM_TYPE_ID: "alarm-type-id"
 }
+
 /**
  * This method performs the set of procedure to gather the live alarms data
  * @param {String} mountName Identifier of the device at the Controller
@@ -28,8 +29,11 @@ exports.readAlarmsData = async function (mountName, requestHeaders, traceIndicat
     let alarmsFromLiveResponse = await RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive(mountName, requestHeaders, traceIndicatorIncrementer);
 
     if (Object.keys(alarmsFromLiveResponse).length !== 0) {
-      alarms = await formulateResponseBodyForAlarms(alarmsFromLiveResponse.alarmsFromLive);
+      let alarmsFromLive = alarmsFromLiveResponse.alarmsFromLive;
       traceIndicatorIncrementer = alarmsFromLiveResponse.traceIndicatorIncrementer;
+      if (Object.keys(alarmsFromLive).length !== 0) {
+        alarms = await formulateResponseBodyForAlarms(alarmsFromLive);
+      }
     }
 
     let alarmsData = {
@@ -55,9 +59,10 @@ exports.readAlarmsData = async function (mountName, requestHeaders, traceIndicat
 async function RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive(mountName, requestHeaders, traceIndicatorIncrementer) {
   const forwardingName = "RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive";
   const stringName = "RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive.AlarmsFromLive";
+  let alarmsFromLive = {};
+  let alarms = {};
   try {
     let pathParams = [];
-    let alarmsFromLive = {};
 
     /****************************************************************************************************
      * RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive
@@ -70,14 +75,15 @@ async function RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLi
     let alarmsFromLiveResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
     if (Object.keys(alarmsFromLiveResponse).length === 0) {
       console.log(`${forwardingName} is not success`);
-      return new createHttpError.InternalServerError();
+    } else {
+      alarms = alarmsFromLiveResponse;
     }
-    alarmsFromLive.traceIndicatorIncrementer = traceIndicatorIncrementer;
-    alarmsFromLive.alarmsFromLive = alarmsFromLiveResponse;
-    return alarmsFromLive;
   } catch (error) {
-    return new createHttpError.InternalServerError(`${forwardingName} is not success with ${error}`);
+    console.log(`${forwardingName} is not success with ${error}`);
   }
+  alarmsFromLive.traceIndicatorIncrementer = traceIndicatorIncrementer;
+  alarmsFromLive.alarmsFromLive = alarms;
+  return alarmsFromLive;
 }
 
 
@@ -90,17 +96,20 @@ async function formulateResponseBodyForAlarms(alarmsFromLive) {
   let alarms = {
     "current-alarms": {}
   };
-  let numberOfCurrentAlarms = alarmsFromLive[ALARMS.MODULE + ":" + ALARMS.CURRENT_ALARMS][ALARMS.NUMBER_OF_CURRENT_ALARMS];
-  let currentAlarmList = alarmsFromLive[ALARMS.MODULE + ":" + ALARMS.CURRENT_ALARMS][ALARMS.CURRENT_ALARM_LIST];
-  let alarmList = [];
-  for (let i = 0; i < currentAlarmList.length; i++) {
-    let alarm = {};
-    alarm[ALARMS.ALARM_SEVERITY] = currentAlarmList[i][ALARMS.ALARM_SEVERITY];
-    alarm[ALARMS.ALARM_TYPE_QUALIFIER] = currentAlarmList[i][ALARMS.ALARM_TYPE_QUALIFIER];
-    alarm[ALARMS.ALARM_TYPE_ID] = currentAlarmList[i][ALARMS.ALARM_TYPE_ID];
-    alarmList.push(alarm);
+  let currentAlarms = alarmsFromLive[ALARMS.MODULE + ":" + ALARMS.CURRENT_ALARMS];
+  if (currentAlarms && Object.keys(currentAlarms).length !== 0) {
+    let numberOfCurrentAlarms = alarmsFromLive[ALARMS.MODULE + ":" + ALARMS.CURRENT_ALARMS][ALARMS.NUMBER_OF_CURRENT_ALARMS];
+    let currentAlarmList = alarmsFromLive[ALARMS.MODULE + ":" + ALARMS.CURRENT_ALARMS][ALARMS.CURRENT_ALARM_LIST];
+    let alarmList = [];
+    for (let i = 0; i < currentAlarmList.length; i++) {
+      let alarm = {};
+      alarm[ALARMS.ALARM_SEVERITY] = currentAlarmList[i][ALARMS.ALARM_SEVERITY];
+      alarm[ALARMS.ALARM_TYPE_QUALIFIER] = currentAlarmList[i][ALARMS.ALARM_TYPE_QUALIFIER];
+      alarm[ALARMS.ALARM_TYPE_ID] = currentAlarmList[i][ALARMS.ALARM_TYPE_ID];
+      alarmList.push(alarm);
+    }
+    alarms[ALARMS.CURRENT_ALARMS][ALARMS.NUMBER_OF_CURRENT_ALARMS] = numberOfCurrentAlarms;
+    alarms[ALARMS.CURRENT_ALARMS][ALARMS.CURRENT_ALARM_LIST] = alarmList;
   }
-  alarms[ALARMS.CURRENT_ALARMS][ALARMS.NUMBER_OF_CURRENT_ALARMS] = numberOfCurrentAlarms;
-  alarms[ALARMS.CURRENT_ALARMS][ALARMS.CURRENT_ALARM_LIST] = alarmList;
   return alarms;
 }
