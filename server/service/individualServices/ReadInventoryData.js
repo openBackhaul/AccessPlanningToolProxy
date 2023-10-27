@@ -19,16 +19,51 @@ const FIRMWARE = {
   STATUS: "firmware-component-status"
 };
 
-const PURE_ETHERNET_STRUCTURE = { MODULE: "pure-ethernet-structure-2-0:", LAYER_PROTOCOL_NAME: "LAYER_PROTOCOL_NAME_TYPE_PURE_ETHERNET_STRUCTURE_LAYER" };
-const ETHERNET_CONTAINER = { MODULE: "ethernet-container-2-0:", STATUS: "ethernet-container-status", INTERFACE_STATUS: "interface-status", LAYER_PROTOCOL_NAME: "LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER" };
-const WIRE_INTERFACE = { MODULE: "wire-interface-2-0:", LAYER_PROTOCOL_NAME: "LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER", CAPABILITY: "wire-interface-capability", STATUS: "wire-interface-status", SUPPORTED_PMD_LIST: "supported-pmd-kind-list", PMD_NAME: "pmd-name", PMD_KIND_CUR: "pmd-kind-cur" };
-const AIR_INTERFACE = { MODULE: "air-interface-2-0:", LAYER_PROTOCOL_NAME: "LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER", CONFIGURAION: "air-interface-configuration", NAME: "air-interface-name" };
-const LTP_AUGMENT = { MODULE: "ltp-augment-1-0:", PAC: "ltp-augment-pac", ORIGINAL_LTP_NAME: "original-ltp-name", EQUIPMENT: "equipment", CONNECTOR: "connector" };
-const HYBRID_MW_STRUCTURE = { MODULE: "hybrid-mw-structure-2-0:", LAYER_PROTOCOL_NAME: "LAYER_PROTOCOL_NAME_TYPE_HYBRID_MW_STRUCTURE_LAYER" };
-const CORE = { MODULE: "core-model-1-4:" }
+const PURE_ETHERNET_STRUCTURE = {
+  MODULE: "pure-ethernet-structure-2-0:",
+  LAYER_PROTOCOL_NAME: "LAYER_PROTOCOL_NAME_TYPE_PURE_ETHERNET_STRUCTURE_LAYER"
+};
+const ETHERNET_CONTAINER = {
+  MODULE: "ethernet-container-2-0:",
+  STATUS: "ethernet-container-status",
+  INTERFACE_STATUS: "interface-status",
+  LAYER_PROTOCOL_NAME: "LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER"
+};
+const WIRE_INTERFACE = {
+  MODULE: "wire-interface-2-0:",
+  LAYER_PROTOCOL_NAME: "LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
+  CAPABILITY: "wire-interface-capability",
+  STATUS: "wire-interface-status",
+  SUPPORTED_PMD_LIST: "supported-pmd-kind-list",
+  PMD_NAME: "pmd-name",
+  PMD_KIND_CUR: "pmd-kind-cur"
+};
+const AIR_INTERFACE = {
+  MODULE: "air-interface-2-0:",
+  LAYER_PROTOCOL_NAME: "LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER",
+  CONFIGURAION: "air-interface-configuration",
+  NAME: "air-interface-name"
+};
+const LTP_AUGMENT = {
+  MODULE: "ltp-augment-1-0:",
+  PAC: "ltp-augment-pac",
+  ORIGINAL_LTP_NAME: "original-ltp-name",
+  EQUIPMENT: "equipment",
+  CONNECTOR: "connector"
+};
+const HYBRID_MW_STRUCTURE = {
+  MODULE: "hybrid-mw-structure-2-0:",
+  LAYER_PROTOCOL_NAME: "LAYER_PROTOCOL_NAME_TYPE_HYBRID_MW_STRUCTURE_LAYER"
+};
+const CORE = {
+  MODULE: "core-model-1-4:",
+  CONTROL_CONSTRUCT: "control-construct",
+  EQUIPMENT: "equipment"
+}
 const EQUIPMENT = {
   MODULE: "equipment-augment-1-0:",
   EQUIPMENT: {
+    CONTAINED_HOLDER: "contained-holder",
     ACTUAL_EQUIPMENT: "actual-equipment",
     CONNECTOR: "connector"
   },
@@ -54,6 +89,14 @@ const EQUIPMENT = {
     OUTDOOR_UNIT: "EQUIPMENT_CATEGORY_OUTDOOR_UNIT",
     FULL_OUTDOOR_UNIT: "EQUIPMENT_CATEGORY_FULL_OUTDOOR_UNIT",
     SFP: "EQUIPMENT_CATEGORY_SMALL_FORMFACTOR_PLUGGABLE"
+  }
+}
+
+const CONTAINED_HOLDER = {
+  EQUIPMENT_AUGMENT: {
+    MODULE: "equipment-augment-1-0:",
+    VENDORL_LABEL: "vendor-label",
+    HOLDER_PAC: "holder-pac"
   }
 }
 
@@ -87,33 +130,68 @@ exports.readInventoryData = function (mountName, ltpStructure, uuidUnderTest, re
       }
 
       /****************************************************************************************
-       *  Fetch data for Components Radio, Modem, Device
+       *  Fetch data for Components Radio, Modem, Device  
+       * The following are the list of forwarding-construct that are automated to fetch data
+       * 1. RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentUuid
+       * 2. RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.EquipmentInfo  
        ****************************************************************************************/
 
-      let equipmentUuidResponse = await RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositionEquipmentUuid(mountName, uuidUnderTest, requestHeaders, traceIndicatorIncrementer);
+      if (uuidUnderTest != "") {
+        let equipmentUuidList = [];
+        let equipmentInfo = {};
+        let equipmentUuidResponse = await RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositionEquipmentUuid(mountName, uuidUnderTest, requestHeaders, traceIndicatorIncrementer);
 
-      if (Object.keys(equipmentUuidResponse).length > 0) {
-        let equipmentInfoResponse = await RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers(mountName, equipmentUuidResponse, requestHeaders);
+        if (Object.keys(equipmentUuidResponse).length !== 0) {
+          traceIndicatorIncrementer = equipmentUuidResponse.traceIndicatorIncrementer;
+          equipmentUuidList = equipmentUuidResponse.equipmentUuidList;
+          if (equipmentUuidList && equipmentUuidList.length !== 0) {
+            let equipmentInfoResponse = await RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers(mountName, equipmentUuidResponse, requestHeaders);
+            if (Object.keys(equipmentInfoResponse).length !== 0) {
+              traceIndicatorIncrementer = equipmentInfoResponse.traceIndicatorIncrementer;
+              equipmentInfo = equipmentInfoResponse.equipmentInfo
+            }
+          }
+        }
 
-        let equipmentInfo = equipmentInfoResponse.equipmentInfo;
-
-        if (Object.keys(equipmentInfo).length > 0) {
-          if (equipmentInfo.radio != undefined) {
+        if (equipmentInfo && Object.keys(equipmentInfo).length !== 0) {
+          if (equipmentInfo.radio) {
             inventoryData.radio = equipmentInfo.radio;
           }
-          if (equipmentInfo.modem != undefined) {
+          if (equipmentInfo.modem) {
             inventoryData.modem = equipmentInfo.modem;
           }
-          if (equipmentInfo.device != undefined) {
+          if (equipmentInfo.device) {
             inventoryData.device = equipmentInfo.device;
           }
-          traceIndicatorIncrementer = equipmentInfoResponse.traceIndicatorIncrementer;
+        }
+
+        /****************************************************************************************
+         *  Fetch data for position-of-modem-board
+         * The following are the list of forwarding-construct that are automated to fetch data
+         * 1. RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory
+         * 2. RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.HolderLabel  
+         ****************************************************************************************/
+
+        if (equipmentUuidList && equipmentUuidList.length !== 0) {
+          let equipmentCategoryResponse = await RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositionEquipmentCategory(mountName, equipmentUuidList, requestHeaders, traceIndicatorIncrementer);
+          let equipmentUuidOfModemCategory = equipmentCategoryResponse.equipmentUuidOfModemCategory;
+          traceIndicatorIncrementer = equipmentCategoryResponse.traceIndicatorIncrementer;
+          if (Object.keys(equipmentCategoryResponse).length !== 0 &&
+            equipmentUuidOfModemCategory && equipmentUuidOfModemCategory != "") {
+            let positionOfModemBoardResponse = await RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositionHolderLabel(mountName, equipmentCategoryResponse, requestHeaders);
+            if (Object.keys(positionOfModemBoardResponse).length !== 0) {
+              traceIndicatorIncrementer = positionOfModemBoardResponse.traceIndicatorIncrementer;
+              if (positionOfModemBoardResponse.positionOfModemBoard !== "") {
+                inventoryData.positionOfModemBoard = positionOfModemBoardResponse.positionOfModemBoard;
+              }
+            }
+          }
         }
       }
 
       /****************************************************************************************
-      *  Fetching data for configured-group-of-air-interfaces attribute
-      ****************************************************************************************/
+       *  Fetching data for configured-group-of-air-interfaces attribute
+       ****************************************************************************************/
       let configuredGroupOfAirInterfacesResponse = await FetchConfiguredGroupOfAirInterfaces(mountName, ltpStructure, uuidUnderTest, requestHeaders, traceIndicatorIncrementer);
       if (Object.keys(configuredGroupOfAirInterfacesResponse).length > 0) {
         if (Object.keys(configuredGroupOfAirInterfacesResponse.configuredGroupOfAirInterfaceList).length != 0) {
@@ -123,8 +201,8 @@ exports.readInventoryData = function (mountName, ltpStructure, uuidUnderTest, re
       }
 
       /****************************************************************************************
-      *  Fetching data for plugged-sfp-pmd-list attribute
-      ****************************************************************************************/
+       *  Fetching data for plugged-sfp-pmd-list attribute
+       ****************************************************************************************/
       let pluggedSfpPmdListResponse = await FetchPluggedSfpPmdList(mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer);
       if (Object.keys(pluggedSfpPmdListResponse).length > 0) {
         if (Object.keys(pluggedSfpPmdListResponse.pluggedSfpPmdList).length > 0) {
@@ -134,8 +212,8 @@ exports.readInventoryData = function (mountName, ltpStructure, uuidUnderTest, re
       }
 
       /****************************************************************************************
-      *  Fetching data for connector-plugging-the-outdoor-unit attribute
-      ****************************************************************************************/
+       *  Fetching data for connector-plugging-the-outdoor-unit attribute
+       ****************************************************************************************/
       let connectorPluggingTheOutdoorUnitResponse = await FetchConnectorPluggingTheOutdoorUnit(mountName, ltpStructure, uuidUnderTest, requestHeaders, traceIndicatorIncrementer);
       if (Object.keys(connectorPluggingTheOutdoorUnitResponse).length > 0) {
         if (connectorPluggingTheOutdoorUnitResponse.connectorPluggingTheOutdoorUnit != undefined) {
@@ -221,16 +299,16 @@ async function RequestForProvidingAcceptanceDataCausesReadingFirmwareList(mountN
 async function RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositionEquipmentUuid(mountName, uuidUnderTest, requestHeaders, traceIndicatorIncrementer) {
   const forwardingName = "RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentUuid";
   const stringName = "RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentUuid";
+  let equipmentUuidResponse = {};
+  let equipmentUuidList = [];
   try {
-    let equipmentUuidResponse = {};
-    let pathParams = [];
 
     /********************************************************************************************************
      * RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentUuid
      *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
      *    /logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment
      ******************************************************************************************************/
-
+    let pathParams = [];
     pathParams.push(mountName);
     pathParams.push(uuidUnderTest);
     let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName)
@@ -239,14 +317,110 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositio
     if (Object.keys(ltpAugmentResponse).length === 0) {
       console.log(`${forwardingName} is not success`);
     } else {
-      equipmentUuidResponse.equipmentUuidList = ltpAugmentResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.EQUIPMENT];
+      equipmentUuidList = ltpAugmentResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.EQUIPMENT];
     }
-    equipmentUuidResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
-    return equipmentUuidResponse;
   } catch (error) {
-    return new createHttpError.InternalServerError(`${forwardingName} is not success with ${error}`);
+    console.log(`${forwardingName} is not success with ${error}`);
   }
+  equipmentUuidResponse.equipmentUuidList = equipmentUuidList;
+  equipmentUuidResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
+  return equipmentUuidResponse;
 }
+
+/**
+ * Prepare attributes and automate the RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositionEquipmentCategory forwarding-construct 
+ *    to get equipment information of given mount-name and equipmentuuid.
+ * @param {String} mountName Identifier of the device at the Controller
+ * @param {List}  equipmentUuidList List of equipment uuids for air-interface under test.
+ * @param {Object} requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
+ * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
+ * @returns {Object} return equipment uuid list of category modem and traceIndicatorIncrementer
+ */
+async function RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositionEquipmentCategory(mountName, equipmentUuidList, requestHeaders, traceIndicatorIncrementer) {
+  const forwardingName = "RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory";
+  const stringName = "RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory";
+  let equipmentUuidOfModemCategory = "";
+  let equipmentCategoryResponse = {};
+  try {
+
+    /****************************************************************************************************
+     * RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory
+     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+     *        /equipment={uuid}/actual-equipment?fields=structure(category)
+     *****************************************************************************************************/
+    for (let i = 0; i < equipmentUuidList.length; i++) {
+      let equipmentUuid = equipmentUuidList[i];
+      let pathParams = [];
+      pathParams.push(mountName);
+      pathParams.push(equipmentUuid);
+      let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName)
+      let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
+      let equipmentCategoryResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
+      if (Object.keys(equipmentCategoryResponse).length === 0) {
+        console.log(`${forwardingName} is not success`);
+      } else {
+        if ((await isEquipmentCategoryModem(equipmentCategoryResponse))) {
+          equipmentUuidOfModemCategory = equipmentUuid;
+        }
+        break;
+      }
+    }
+  } catch (error) {
+    console.log(`${forwardingName} is not success with ${error}`);
+  }
+
+  equipmentCategoryResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
+  equipmentCategoryResponse.equipmentUuidOfModemCategory = equipmentUuidOfModemCategory;
+  return equipmentCategoryResponse;
+}
+
+/**
+ * Prepare attributes and automate the RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositionHolderLabel forwarding-construct 
+ *    to get vendor label of given mount-name and equipmentuuid.
+ * @param {String} mountName Identifier of the device at the Controller
+ * @param {List}  equipmentCategoryResponse equipment uuid of category modem and traceIndicatorIncrementer
+ * @param {Object} requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
+ * @returns {Object} return equipment uuid list of category modem and traceIndicatorIncrementer
+ */
+async function RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositionHolderLabel(mountName, equipmentCategoryResponse, requestHeaders) {
+  const forwardingName = "RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.HolderLabel";
+  const stringName = "RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.HolderLabel";
+  let positionOfModemBoardResponse = {};
+  let positionOfModemBoard = "";
+  let traceIndicatorIncrementer = equipmentCategoryResponse.traceIndicatorIncrementer;
+  try {
+
+    let equipmentUuidOfModemCategory = equipmentCategoryResponse.equipmentUuidOfModemCategory;
+
+    /****************************************************************************************************
+     * RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.HolderLabel
+     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+     *     ?fields=equipment(contained-holder
+     *         (occupying-fru;equipment-augment-1-0:holder-pac(vendor-label)))
+     *****************************************************************************************************/
+
+    let pathParams = [];
+    pathParams.push(mountName);
+    let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName)
+    let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
+    let equipmentHolderLabelResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
+    if (Object.keys(equipmentHolderLabelResponse).length === 0) {
+      console.log(`${forwardingName} is not success`);
+    } else {
+
+      /************************************************************************************************************
+       * Formulate position-of-modem-board from eqipmentHolderLabelResponse and equipmentUuidListOfModemCategory
+       ************************************************************************************************************/
+      positionOfModemBoard = await formulatePositionofModemBoard(equipmentHolderLabelResponse, equipmentUuidOfModemCategory);
+    }
+  } catch (error) {
+    console.log(`${forwardingName} is not success with ${error}`);
+  }
+  positionOfModemBoardResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
+  positionOfModemBoardResponse.positionOfModemBoard = positionOfModemBoard;
+  return positionOfModemBoardResponse;
+}
+
 
 /**
  * Prepare attributes and automate the RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers forwarding-construct 
@@ -259,10 +433,10 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositio
 async function RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers(mountName, equipmentUuidResponse, requestHeaders) {
   const forwardingName = "RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers";
   const stringName = "RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers";
+  let equipmentInfoResponse = {};
+  let equipmentInfoList = [];
+  let traceIndicatorIncrementer = equipmentUuidResponse.traceIndicatorIncrementer;
   try {
-    let equipmentInfoList = [];
-    let equipmentInfoResponse = {};
-    let traceIndicatorIncrementer = equipmentUuidResponse.traceIndicatorIncrementer;
 
     /****************************************************************************************************
      * RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers
@@ -280,63 +454,36 @@ async function RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentId
       let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName)
       let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
       let equipmentInfoResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
-      if (Object.keys(equipmentInfoResponse).length === 0) {
+      if (!equipmentInfoResponse || Object.keys(equipmentInfoResponse).length === 0) {
         console.log(`${forwardingName} is not success`);
       } else {
         equipmentInfoList.push(equipmentInfoResponse);
       }
     }
-
-    /****************************************************************************************************
-     * Formulate equipmentInfoResponse from eqipmentInfoList
-     *****************************************************************************************************/
-
-    let equipmentInfo = await formulateEquipmentInfo(equipmentInfoList);
-    equipmentInfoResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
-    equipmentInfoResponse.equipmentInfo = equipmentInfo;
-
-    return equipmentInfoResponse;
   } catch (error) {
-    return new createHttpError.InternalServerError(`${forwardingName} is not success with ${error}`);
+    console.log(`${forwardingName} is not success with ${error}`);
   }
+
+  /****************************************************************************************************
+   * Formulate equipmentInfoResponse from eqipmentInfoList
+   *****************************************************************************************************/
+  let equipmentInfo = await formulateEquipmentInfo(equipmentInfoList);
+  equipmentInfoResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
+  equipmentInfoResponse.equipmentInfo = equipmentInfo;
+  return equipmentInfoResponse;
 }
 
 /**
- * Formulate equipment info from equipmentInfoList
- * @param {list} equipmentInfoList List of equipment information
- * @returns {Object} return classified equipment info 
+ * Function to gather the Configured group of resources (of type AirInterface or WireInterface) that are transporting fragments of the same Ethernet frames
+ * If the client ethernet-container is shared with an air-interface(radio-link-bonding), RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache shall be used to get link-id
+ * Else if the client ethernet-container is shared with the wire-interface (physical-link-aggregation), RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation shall be used to get original-ltp-name
+ * @param {String} mountName Identifier of the device at the Controller
+ * @param {Object} ltpStructure ControlConstruct provided from cache
+ * @param {String} uuidUnderTest Identifier of the air-interface under test
+ * @param {Object} requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
+ * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
+ * @returns {Object} return values of installed-firmware list and traceIndicatorIncrementer
  */
-async function formulateEquipmentInfo(equipmentInfoList) {
-  let equipmentInfo = {};
-  let equipment = {};
-  for (let i = 0; i < equipmentInfoList.length; i++) {
-    let manufacturedThing = equipmentInfoList[i][CORE.MODULE + EQUIPMENT.EQUIPMENT.ACTUAL_EQUIPMENT][EQUIPMENT.ACTUAL_EQUIPMENT.MANUFACTURED_THING];
-    let category = equipmentInfoList[i][CORE.MODULE + EQUIPMENT.EQUIPMENT.ACTUAL_EQUIPMENT][EQUIPMENT.ACTUAL_EQUIPMENT.STRUCTURE][EQUIPMENT.ACTUAL_EQUIPMENT.CATEGORY];
-    equipment[EQUIPMENT.ACTUAL_EQUIPMENT.EQUIPMENT_NAME] = manufacturedThing[EQUIPMENT.ACTUAL_EQUIPMENT.EQUIPMENT_TYPE][EQUIPMENT.ACTUAL_EQUIPMENT.TYPE_NAME];
-    equipment[EQUIPMENT.ACTUAL_EQUIPMENT.SERIAL_NUMBER] = manufacturedThing[EQUIPMENT.ACTUAL_EQUIPMENT.EQUIPMENT_INSTANCE][EQUIPMENT.ACTUAL_EQUIPMENT.SERIAL_NUMBER];
-    equipment[EQUIPMENT.ACTUAL_EQUIPMENT.PART_NUMBER] = manufacturedThing[EQUIPMENT.ACTUAL_EQUIPMENT.EQUIPMENT_TYPE][EQUIPMENT.ACTUAL_EQUIPMENT.PART_TYPE_IDENTIFIER];
-    if (category === EQUIPMENT.MODULE + EQUIPMENT.EQUIPMENT_CATEGORY.MODEM) {
-      equipmentInfo.modem = equipment;
-    } else if (category === EQUIPMENT.MODULE + EQUIPMENT.EQUIPMENT_CATEGORY.OUTDOOR_UNIT) {
-      equipmentInfo.radio = equipment;
-    } else if (category === EQUIPMENT.MODULE + EQUIPMENT.EQUIPMENT_CATEGORY.FULL_OUTDOOR_UNIT) {
-      equipmentInfo.device = equipment;
-    }
-  }
-  return equipmentInfo;
-}
-
-/**
-* Function to gather the Configured group of resources (of type AirInterface or WireInterface) that are transporting fragments of the same Ethernet frames
-* If the client ethernet-container is shared with an air-interface(radio-link-bonding), RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache shall be used to get link-id
-* Else if the client ethernet-container is shared with the wire-interface (physical-link-aggregation), RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation shall be used to get original-ltp-name
-* @param {String} mountName Identifier of the device at the Controller
-* @param {Object} ltpStructure ControlConstruct provided from cache
-* @param {String} uuidUnderTest Identifier of the air-interface under test
-* @param {Object} requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
-* @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
-* @returns {Object} return values of installed-firmware list and traceIndicatorIncrementer
-*/
 async function FetchConfiguredGroupOfAirInterfaces(mountName, ltpStructure, uuidUnderTest, requestHeaders, traceIndicatorIncrementer) {
   let configuredGroupOfAirInterfacesResponse = {};
   let configuredGroupOfAirInterfaceList = [];
@@ -352,41 +499,41 @@ async function FetchConfiguredGroupOfAirInterfaces(mountName, ltpStructure, uuid
     if (Object.keys(clientContainerLtp).length > 0) {
       let servingPhysicLtpList = await getServingPhysicLtpList(clientContainerLtp, ltpStructure);
       if (servingPhysicLtpList != undefined) {
-      if( servingPhysicLtpList.length > 1) {
-        for (let i = 0; i < servingPhysicLtpList.length; i++) {
-          let configuredResource = {};
-          let servingPhysicLtp = servingPhysicLtpList[i];
-          let layerProtocolName = servingPhysicLtp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME];
-          let airInterfaceLayerProtocolName = AIR_INTERFACE.MODULE + AIR_INTERFACE.LAYER_PROTOCOL_NAME;
-          let wireInterfaceLayerProtocolName = WIRE_INTERFACE.MODULE + WIRE_INTERFACE.LAYER_PROTOCOL_NAME;
-          /****************************************************************************************
-          * extracting link-id if radio-link-bonding
-          ****************************************************************************************/
-          if (layerProtocolName == airInterfaceLayerProtocolName) {
-            let linkIdResponse = await getAirInterfaceConfigurationLinkId(mountName, servingPhysicLtp, requestHeaders, traceIndicatorIncrementer);
-            if (Object.keys(linkIdResponse).length != 0) {
-              if (linkIdResponse.airInterfaceName != undefined) {
-                configuredResource.linkId = linkIdResponse.airInterfaceName;
-              }
-            }
-            traceIndicatorIncrementer = linkIdResponse.traceIndicatorIncrementer;
+        if (servingPhysicLtpList.length > 1) {
+          for (let i = 0; i < servingPhysicLtpList.length; i++) {
+            let configuredResource = {};
+            let servingPhysicLtp = servingPhysicLtpList[i];
+            let layerProtocolName = servingPhysicLtp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME];
+            let airInterfaceLayerProtocolName = AIR_INTERFACE.MODULE + AIR_INTERFACE.LAYER_PROTOCOL_NAME;
+            let wireInterfaceLayerProtocolName = WIRE_INTERFACE.MODULE + WIRE_INTERFACE.LAYER_PROTOCOL_NAME;
             /****************************************************************************************
-            * extracting link-id if physical-link-aggregation
-            ****************************************************************************************/
-          } else if (layerProtocolName == wireInterfaceLayerProtocolName) {
-            let interfaceNameResponse = await getWireInterfaceOriginalLtpName(mountName, servingPhysicLtp, requestHeaders, traceIndicatorIncrementer);
-            if (Object.keys(interfaceNameResponse).length != 0) {
-              if (interfaceNameResponse.originalLtpName != undefined) {
-                configuredResource.interfaceName = interfaceNameResponse.originalLtpName;
+             * extracting link-id if radio-link-bonding
+             ****************************************************************************************/
+            if (layerProtocolName == airInterfaceLayerProtocolName) {
+              let linkIdResponse = await getAirInterfaceConfigurationLinkId(mountName, servingPhysicLtp, requestHeaders, traceIndicatorIncrementer);
+              if (Object.keys(linkIdResponse).length != 0) {
+                if (linkIdResponse.airInterfaceName != undefined) {
+                  configuredResource.linkId = linkIdResponse.airInterfaceName;
+                }
               }
+              traceIndicatorIncrementer = linkIdResponse.traceIndicatorIncrementer;
+              /****************************************************************************************
+               * extracting link-id if physical-link-aggregation
+               ****************************************************************************************/
+            } else if (layerProtocolName == wireInterfaceLayerProtocolName) {
+              let interfaceNameResponse = await getWireInterfaceOriginalLtpName(mountName, servingPhysicLtp, requestHeaders, traceIndicatorIncrementer);
+              if (Object.keys(interfaceNameResponse).length != 0) {
+                if (interfaceNameResponse.originalLtpName != undefined) {
+                  configuredResource.interfaceName = interfaceNameResponse.originalLtpName;
+                }
+              }
+              traceIndicatorIncrementer = interfaceNameResponse.traceIndicatorIncrementer;
             }
-            traceIndicatorIncrementer = interfaceNameResponse.traceIndicatorIncrementer;
+            configuredGroupOfAirInterfaceList.push(configuredResource);
           }
-          configuredGroupOfAirInterfaceList.push(configuredResource);
         }
       }
     }
-      }
     configuredGroupOfAirInterfacesResponse = {
       configuredGroupOfAirInterfaceList: configuredGroupOfAirInterfaceList,
       traceIndicatorIncrementer: traceIndicatorIncrementer
@@ -398,11 +545,11 @@ async function FetchConfiguredGroupOfAirInterfaces(mountName, ltpStructure, uuid
   }
 }
 /**
-* Collects the list of serving physical layer ltps for given ethernet-container
-* @param {String} clientContainerLtp ethernet-container ltp for which serving physic ltps to be found
-* @param {Object} ltpStructure ControlConstruct provided from cache
-* @returns {Array} servingPhysicLtpList return list of serving physical layer ltp (air or wire)
-*/
+ * Collects the list of serving physical layer ltps for given ethernet-container
+ * @param {String} clientContainerLtp ethernet-container ltp for which serving physic ltps to be found
+ * @param {Object} ltpStructure ControlConstruct provided from cache
+ * @returns {Array} servingPhysicLtpList return list of serving physical layer ltp (air or wire)
+ */
 async function getServingPhysicLtpList(clientContainerLtp, ltpStructure) {
   let servingPhysicLtpList = [];
   let servingStructureUuidList = clientContainerLtp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP];
@@ -494,19 +641,19 @@ async function getWireInterfaceOriginalLtpName(mountName, ltp, requestHeaders, t
 }
 
 /**
-* Function to gather the list of plugged sfp pmd
-* The following forwardings shall be used for collecting the needed:
-* 1. RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentUuid
-* 2. RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentCategory
-* 3. RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.WireInterfaceName
-* 4. RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.SupportedPmds
-* 5. RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.OperatedPmd
-* @param {String} mountName Identifier of the device at the Controller
-* @param {Object} ltpStructure ControlConstruct provided from cache
-* @param {Object} requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
-* @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
-* @returns {Object} return values of installed-firmware list and traceIndicatorIncrementer
-*/
+ * Function to gather the list of plugged sfp pmd
+ * The following forwardings shall be used for collecting the needed:
+ * 1. RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentUuid
+ * 2. RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentCategory
+ * 3. RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.WireInterfaceName
+ * 4. RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.SupportedPmds
+ * 5. RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.OperatedPmd
+ * @param {String} mountName Identifier of the device at the Controller
+ * @param {Object} ltpStructure ControlConstruct provided from cache
+ * @param {Object} requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
+ * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
+ * @returns {Object} return values of installed-firmware list and traceIndicatorIncrementer
+ */
 async function FetchPluggedSfpPmdList(mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer) {
   let pluggedSfpPmdListResponse = {};
   let pluggedSfpPmdList = [];
@@ -528,8 +675,8 @@ async function FetchPluggedSfpPmdList(mountName, ltpStructure, requestHeaders, t
       let wireInterfaceLocalId = wireInterfaceLtp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LOCAL_CLASS.LOCAL_ID];
 
       /****************************************************************************************
-      * fetching data for wire-interface-name
-      ****************************************************************************************/
+       * fetching data for wire-interface-name
+       ****************************************************************************************/
       let wireInterfaceNameResponse = await getWireInterfaceNameForRetrievingSfpInformation(mountName, wireInterfaceUuid, requestHeaders, traceIndicatorIncrementer);
       if (Object.keys(wireInterfaceNameResponse).length != 0) {
         if (wireInterfaceNameResponse.wireInterfaceName != undefined) {
@@ -538,8 +685,8 @@ async function FetchPluggedSfpPmdList(mountName, ltpStructure, requestHeaders, t
       }
       traceIndicatorIncrementer = wireInterfaceNameResponse.traceIndicatorIncrementer;
       /****************************************************************************************
-      * fetching data for supported-pmd-list
-      ****************************************************************************************/
+       * fetching data for supported-pmd-list
+       ****************************************************************************************/
       let supportedPmdListResponse = await getSupportedPmdListForRetrievingSfpInformation(mountName, wireInterfaceUuid, wireInterfaceLocalId, requestHeaders, traceIndicatorIncrementer);
       if (Object.keys(supportedPmdListResponse).length != 0) {
         if (supportedPmdListResponse.supportedPmdList != undefined) {
@@ -548,8 +695,8 @@ async function FetchPluggedSfpPmdList(mountName, ltpStructure, requestHeaders, t
       }
       traceIndicatorIncrementer = supportedPmdListResponse.traceIndicatorIncrementer;
       /****************************************************************************************
-      * fetching data for currently-operated-pmd
-      ****************************************************************************************/
+       * fetching data for currently-operated-pmd
+       ****************************************************************************************/
       let operatedPmdResponse = await getCurrentlyOperatedPmdForRetrievingSfpInformation(mountName, wireInterfaceUuid, wireInterfaceLocalId, requestHeaders, traceIndicatorIncrementer);
       if (Object.keys(operatedPmdResponse).length != 0) {
         if (operatedPmdResponse.currentlyOperatedPmd != undefined) {
@@ -571,7 +718,6 @@ async function FetchPluggedSfpPmdList(mountName, ltpStructure, requestHeaders, t
     return new createHttpError.InternalServerError();
   }
 }
-
 /**
  * Filters wire-interface-ltp for EQUIPMENT_CATEGORY = EQUIPMENT_CATEGORY_SMALL_FORMFACTOR_PLUGGABLE
  * @param {String} mountName Identifier of the device at the Controller
@@ -595,10 +741,10 @@ async function getListOfPluggableSfpLtp(mountName, ltpStructure, requestHeaders,
       let wireInterfaceUuid = wireInterfaceLtp[onfAttributes.GLOBAL_CLASS.UUID];
       pathParamList.push(mountName, wireInterfaceUuid);
       /****************************************************************************************************
-      * RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentUuid
-      *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
-      *    /logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment
-      *****************************************************************************************************/
+       * RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentUuid
+       *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+       *    /logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment
+       *****************************************************************************************************/
       let equipmentUuidResponse = await IndividualServiceUtility.forwardRequest(clientAndFieldParamsForEquipmentUuid, pathParamList, requestHeaders, traceIndicatorIncrementer++);
       if (Object.keys(equipmentUuidResponse).length == 0) {
         console.log(`${equipmentUuidCallback} is not success`);
@@ -611,10 +757,10 @@ async function getListOfPluggableSfpLtp(mountName, ltpStructure, requestHeaders,
               pathParamList = [];
               pathParamList.push(mountName, equipmentUuid);
               /****************************************************************************************************
-              * RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentCategory
-              *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
-              *    /equipment={uuid}/actual-equipment?fields=structure(category)
-              *****************************************************************************************************/
+               * RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentCategory
+               *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+               *    /equipment={uuid}/actual-equipment?fields=structure(category)
+               *****************************************************************************************************/
               let equipmentCategoryResponse = await IndividualServiceUtility.forwardRequest(clientAndFieldParamsForEquipmentCategory, pathParamList, requestHeaders, traceIndicatorIncrementer++);
               if (Object.keys(equipmentCategoryResponse).length == 0) {
                 console.log(`${equipmentCategoryCallback} is not success`);
@@ -634,13 +780,12 @@ async function getListOfPluggableSfpLtp(mountName, ltpStructure, requestHeaders,
         }
       }
     }
-    pluggableSfpListResponse.pluggableSfpList = pluggableSfpList;
-    pluggableSfpListResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
-    return pluggableSfpListResponse;
   } catch (error) {
     console.log(error);
-    return new createHttpError.InternalServerError();
   }
+  pluggableSfpListResponse.pluggableSfpList = pluggableSfpList;
+  pluggableSfpListResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
+  return pluggableSfpListResponse;
 }
 
 /**
@@ -659,10 +804,10 @@ async function getWireInterfaceNameForRetrievingSfpInformation(mountName, wireIn
     let clientAndFieldParamsForWireInterfaceName = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(wireInterfaceNameCallback);
     pathParamList.push(mountName, wireInterfaceUuid);
     /****************************************************************************************************
-      * RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.WireInterfaceName
-      *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
-      *    /logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name
-      *****************************************************************************************************/
+     * RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.WireInterfaceName
+     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+     *    /logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name
+     *****************************************************************************************************/
     let response = await IndividualServiceUtility.forwardRequest(clientAndFieldParamsForWireInterfaceName, pathParamList, requestHeaders, traceIndicatorIncrementer++);
     if (Object.keys(response).length == 0) {
       console.log(`${wireInterfaceNameCallback} is not success`);
@@ -694,11 +839,11 @@ async function getSupportedPmdListForRetrievingSfpInformation(mountName, wireInt
     let clientAndFieldParamsForSupportedPmds = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(supportedPmdsCallback);
     pathParamList.push(mountName, wireInterfaceUuid, wireInterfaceLocalId);
     /****************************************************************************************************
-      * RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.SupportedPmds
-      *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
-      *    /logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac
-      *     /wire-interface-capability?fields=supported-pmd-kind-list(pmd-name)
-      *****************************************************************************************************/
+     * RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.SupportedPmds
+     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+     *    /logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac
+     *     /wire-interface-capability?fields=supported-pmd-kind-list(pmd-name)
+     *****************************************************************************************************/
     let response = await IndividualServiceUtility.forwardRequest(clientAndFieldParamsForSupportedPmds, pathParamList, requestHeaders, traceIndicatorIncrementer++);
     if (Object.keys(response).length == 0) {
       console.log(`${supportedPmdsCallback} is not success`);
@@ -735,11 +880,11 @@ async function getCurrentlyOperatedPmdForRetrievingSfpInformation(mountName, wir
     let clientAndFieldParamsForOperatedPmd = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(operatedPmdCallback);
     pathParamList.push(mountName, wireInterfaceUuid, wireInterfaceLocalId);
     /****************************************************************************************************
-      * RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.OperatedPmd
-      *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
-      *    /logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac
-      *     /wire-interface-status?fields=pmd-kind-cur
-      *****************************************************************************************************/
+     * RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.OperatedPmd
+     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+     *    /logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac
+     *     /wire-interface-status?fields=pmd-kind-cur
+     *****************************************************************************************************/
     let response = await IndividualServiceUtility.forwardRequest(clientAndFieldParamsForOperatedPmd, pathParamList, requestHeaders, traceIndicatorIncrementer++);
     if (Object.keys(response).length == 0) {
       console.log(`${operatedPmdCallback} is not success`);
@@ -755,16 +900,16 @@ async function getCurrentlyOperatedPmdForRetrievingSfpInformation(mountName, wir
 }
 
 /**
-* Function to find Label of the connector, which is connecting the outdoor unit, as it is printed at the outside of the device
-* RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorId shall be used to find the expected equipment/connector instance
-* RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorNumber shall be used to get the required "label"
-* @param {String} mountName Identifier of the device at the Controller
-* @param {Object} ltpStructure ControlConstruct provided from cache
-* @param {String} uuidUnderTest Identifier of the air-interface under test
-* @param {Object} requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
-* @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
-* @returns {Object} return values of connector-plugging-the-outdoor-unit value and traceIndicatorIncrementer
-*/
+ * Function to find Label of the connector, which is connecting the outdoor unit, as it is printed at the outside of the device
+ * RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorId shall be used to find the expected equipment/connector instance
+ * RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorNumber shall be used to get the required "label"
+ * @param {String} mountName Identifier of the device at the Controller
+ * @param {Object} ltpStructure ControlConstruct provided from cache
+ * @param {String} uuidUnderTest Identifier of the air-interface under test
+ * @param {Object} requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
+ * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
+ * @returns {Object} return values of connector-plugging-the-outdoor-unit value and traceIndicatorIncrementer
+ */
 async function FetchConnectorPluggingTheOutdoorUnit(mountName, ltpStructure, uuidUnderTest, requestHeaders, traceIndicatorIncrementer) {
   let connectorPluggingTheOutdoorUnitResponse = {};
   let pathParamList = [];
@@ -775,10 +920,10 @@ async function FetchConnectorPluggingTheOutdoorUnit(mountName, ltpStructure, uui
     let clientAndFieldParamsForConnectorNumber = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(connectorNumberCallback);
     pathParamList.push(mountName, uuidUnderTest);
     /****************************************************************************************************
-      * RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorId
-      *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
-      *    /logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment;connector
-      *****************************************************************************************************/
+     * RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorId
+     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+     *    /logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment;connector
+     *****************************************************************************************************/
     let connectorIdResponse = await IndividualServiceUtility.forwardRequest(clientAndFieldParamsForConnectorId, pathParamList, requestHeaders, traceIndicatorIncrementer++);
     if (Object.keys(connectorIdResponse).length == 0) {
       console.log(`${connectorIdCallback} is not success`);
@@ -790,10 +935,10 @@ async function FetchConnectorPluggingTheOutdoorUnit(mountName, ltpStructure, uui
           pathParamList = [];
           pathParamList.push(mountName, equipmentUuid, connector);
           /****************************************************************************************************
-          * RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorNumber
-          *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
-          *    /equipment={uuid}/connector={local-id}?fields=equipment-augment-1-0:connector-pac(sequence-id)
-          *****************************************************************************************************/
+           * RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorNumber
+           *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+           *    /equipment={uuid}/connector={local-id}?fields=equipment-augment-1-0:connector-pac(sequence-id)
+           *****************************************************************************************************/
           let connectorNumberResponse = await IndividualServiceUtility.forwardRequest(clientAndFieldParamsForConnectorNumber, pathParamList, requestHeaders, traceIndicatorIncrementer++);
           if (Object.keys(connectorNumberResponse).length != 0) {
             let sequenceId = connectorNumberResponse[CORE.MODULE + EQUIPMENT.EQUIPMENT.CONNECTOR][0][EQUIPMENT.MODULE + EQUIPMENT.CONNECTOR.CONNECTOR_PAC][EQUIPMENT.CONNECTOR.SEQUENCE_ID];
@@ -811,4 +956,75 @@ async function FetchConnectorPluggingTheOutdoorUnit(mountName, ltpStructure, uui
     console.log(error);
     return new createHttpError.InternalServerError();
   }
+}
+
+/**
+ * Formulate equipment info from equipmentInfoList
+ * @param {list} equipmentInfoList List of equipment information
+ * @returns {Object} return classified equipment info 
+ */
+async function formulateEquipmentInfo(equipmentInfoList) {
+  let equipmentInfo = {};
+  let equipment = {};
+  for (let i = 0; i < equipmentInfoList.length; i++) {
+    let actualEquipment = equipmentInfoList[i][CORE.MODULE + EQUIPMENT.EQUIPMENT.ACTUAL_EQUIPMENT];
+    if (actualEquipment && Object.keys(actualEquipment).length !== 0) {
+      let manufacturedThing = actualEquipment[EQUIPMENT.ACTUAL_EQUIPMENT.MANUFACTURED_THING];
+      let category = actualEquipment[EQUIPMENT.ACTUAL_EQUIPMENT.STRUCTURE][EQUIPMENT.ACTUAL_EQUIPMENT.CATEGORY];
+      if (manufacturedThing && Object.keys(manufacturedThing).length !== 0) {
+        equipment[EQUIPMENT.ACTUAL_EQUIPMENT.EQUIPMENT_NAME] = manufacturedThing[EQUIPMENT.ACTUAL_EQUIPMENT.EQUIPMENT_TYPE][EQUIPMENT.ACTUAL_EQUIPMENT.TYPE_NAME];
+        equipment[EQUIPMENT.ACTUAL_EQUIPMENT.SERIAL_NUMBER] = manufacturedThing[EQUIPMENT.ACTUAL_EQUIPMENT.EQUIPMENT_INSTANCE][EQUIPMENT.ACTUAL_EQUIPMENT.SERIAL_NUMBER];
+        equipment[EQUIPMENT.ACTUAL_EQUIPMENT.PART_NUMBER] = manufacturedThing[EQUIPMENT.ACTUAL_EQUIPMENT.EQUIPMENT_TYPE][EQUIPMENT.ACTUAL_EQUIPMENT.PART_TYPE_IDENTIFIER];
+      }
+      if (category && Object.keys(category).length !== 0) {
+        if (category === EQUIPMENT.MODULE + EQUIPMENT.EQUIPMENT_CATEGORY.MODEM) {
+          equipmentInfo.modem = equipment;
+        } else if (category === EQUIPMENT.MODULE + EQUIPMENT.EQUIPMENT_CATEGORY.OUTDOOR_UNIT) {
+          equipmentInfo.radio = equipment;
+        } else if (category === EQUIPMENT.MODULE + EQUIPMENT.EQUIPMENT_CATEGORY.FULL_OUTDOOR_UNIT) {
+          equipmentInfo.device = equipment;
+        }
+      }
+    }
+  }
+  return equipmentInfo;
+}
+
+/**
+ * Check if equipment category is modem or not
+ * @param {Object} equipmentCategoryResponse Equipment category
+ * @returns {Boolean} return true if equipment category is modem else false
+ */
+async function isEquipmentCategoryModem(equipmentCategoryResponse) {
+  let isEquipmentCategoryModem = false;
+
+  let category = equipmentCategoryResponse[CORE.MODULE + EQUIPMENT.EQUIPMENT.ACTUAL_EQUIPMENT][EQUIPMENT.ACTUAL_EQUIPMENT.STRUCTURE][EQUIPMENT.ACTUAL_EQUIPMENT.CATEGORY];
+  if (category === EQUIPMENT.MODULE + EQUIPMENT.EQUIPMENT_CATEGORY.MODEM) {
+    isEquipmentCategoryModem = true;
+  }
+  return isEquipmentCategoryModem;
+}
+
+/**
+ * Formulate the response for position of modem board.
+ * @param {list} equipmentHolderLabelResponse Equipment Holder label.
+ * @param {list} equipmentUuidListOfModemCategory List of equipment uuid of category modem.
+ * @returns {String} returns vendor label.
+ */
+async function formulatePositionofModemBoard(equipmentHolderLabelResponse, equipmentUuidOfModemCategory) {
+  let equipmentList = equipmentHolderLabelResponse[CORE.MODULE + CORE.CONTROL_CONSTRUCT][0][CORE.EQUIPMENT];
+  let vendorLabelList = [];
+  for (let i = 0; i < equipmentList.length; i++) {
+    let equipment = equipmentList[i];
+    let uuid = equipment[onfAttributes.GLOBAL_CLASS.UUID];
+    if (uuid === equipmentUuidOfModemCategory) {
+      let containedHolder = equipment[EQUIPMENT.EQUIPMENT.CONTAINED_HOLDER]
+      for (let j = 0; j < containedHolder.length; j++) {
+        vendorLabelList.push(containedHolder[j][CONTAINED_HOLDER.EQUIPMENT_AUGMENT.MODULE + CONTAINED_HOLDER.EQUIPMENT_AUGMENT.HOLDER_PAC]
+          [CONTAINED_HOLDER.EQUIPMENT_AUGMENT.VENDORL_LABEL]);
+      }
+      break;
+    }
+  }
+  return vendorLabelList.toString();
 }
