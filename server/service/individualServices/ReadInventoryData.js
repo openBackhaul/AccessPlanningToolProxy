@@ -351,7 +351,8 @@ async function FetchConfiguredGroupOfAirInterfaces(mountName, ltpStructure, uuid
     let clientContainerLtp = await LtpStructureUtility.getHierarchicalClientLtpForInterfaceListFromLtpStructure(airInterfaceLtpUnderTest, interfaceListToReachEthernetContainer, ltpStructure);
     if (Object.keys(clientContainerLtp).length > 0) {
       let servingPhysicLtpList = await getServingPhysicLtpList(clientContainerLtp, ltpStructure);
-      if (servingPhysicLtpList != undefined || servingPhysicLtpList.length != 0) {
+      if (servingPhysicLtpList != undefined) {
+      if( servingPhysicLtpList.length > 1) {
         for (let i = 0; i < servingPhysicLtpList.length; i++) {
           let configuredResource = {};
           let servingPhysicLtp = servingPhysicLtpList[i];
@@ -385,6 +386,7 @@ async function FetchConfiguredGroupOfAirInterfaces(mountName, ltpStructure, uuid
         }
       }
     }
+      }
     configuredGroupOfAirInterfacesResponse = {
       configuredGroupOfAirInterfaceList: configuredGroupOfAirInterfaceList,
       traceIndicatorIncrementer: traceIndicatorIncrementer
@@ -447,7 +449,7 @@ async function getAirInterfaceConfigurationLinkId(mountName, ltp, requestHeaders
     } else {
       airInterfaceNameResponse.airInterfaceName = airInterfaceConfiguration[AIR_INTERFACE.NAME];
     }
-    airInterfaceNameResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
+    airInterfaceNameResponse.traceIndicatorIncrementer = airInterfaceConfiguration.traceIndicatorIncrementer;
     return airInterfaceNameResponse;
   } catch (error) {
     return new createHttpError.InternalServerError(`${airInterfaceConfigurationForwardingName} is not success with ${error}`);
@@ -501,7 +503,6 @@ async function getWireInterfaceOriginalLtpName(mountName, ltp, requestHeaders, t
 * 5. RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.OperatedPmd
 * @param {String} mountName Identifier of the device at the Controller
 * @param {Object} ltpStructure ControlConstruct provided from cache
-* @param {String} uuidUnderTest Identifier of the air-interface under test
 * @param {Object} requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
 * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
 * @returns {Object} return values of installed-firmware list and traceIndicatorIncrementer
