@@ -823,6 +823,8 @@ paths:
                           oneOf:
                             - description: 'AirInterfaces'
                               type: object
+                              required:
+                                - link-id
                               properties:
                                 link-id:
                                   type: string
@@ -831,6 +833,8 @@ paths:
                                     from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration.air-interface-name}'
                             - description: 'WireInterface'
                               type: object
+                              required:
+                                - interface-name
                               properties:
                                 interface-name:
                                   type: string
