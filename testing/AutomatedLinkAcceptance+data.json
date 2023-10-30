@@ -7,59 +7,56 @@
       "userName": " *** your name *** ",
       "authorizationCode": " *** your key *** ",
       "core-model-1-4:control-construct": {
-        "uuid": "alap-1-0-0",
+        "uuid": "alap-1-0-1",
         "profile-collection": {
           "profile": [
             {
-              "uuid": "alap-1-0-0-action-p-000",
+              "uuid": "alap-1-0-1-action-p-000",
               "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_ACTION_PROFILE",
               "action-profile-1-0:action-profile-pac": {
                 "action-profile-capability": {
                   "operation-name": "/v1/start-application-in-generic-representation",
                   "label": "Inform about Application",
-                  "input-value-list": [
-                  ],
+                  "input-value-list": [],
                   "display-in-new-browser-window": false
                 },
                 "action-profile-configuration": {
-                  "consequent-operation-reference": "/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-op-s-bs-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name"
+                  "consequent-operation-reference": "/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-op-s-bs-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name"
                 }
               }
             },
             {
-              "uuid": "alap-1-0-0-action-p-001",
+              "uuid": "alap-1-0-1-action-p-001",
               "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_ACTION_PROFILE",
               "action-profile-1-0:action-profile-pac": {
                 "action-profile-capability": {
                   "operation-name": "/v1/inform-about-application-in-generic-representation",
                   "label": "Release History",
-                  "input-value-list": [
-                  ],
+                  "input-value-list": [],
                   "display-in-new-browser-window": false
                 },
                 "action-profile-configuration": {
-                  "consequent-operation-reference": "/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-op-s-bs-004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name"
+                  "consequent-operation-reference": "/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-op-s-bs-004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name"
                 }
               }
             },
             {
-              "uuid": "alap-1-0-0-action-p-002",
+              "uuid": "alap-1-0-1-action-p-002",
               "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_ACTION_PROFILE",
               "action-profile-1-0:action-profile-pac": {
                 "action-profile-capability": {
                   "operation-name": "/v1/inform-about-application-in-generic-representation",
                   "label": "API Documentation",
-                  "input-value-list": [
-                  ],
+                  "input-value-list": [],
                   "display-in-new-browser-window": true
                 },
                 "action-profile-configuration": {
-                  "consequent-operation-reference": "/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-op-s-bs-005/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name"
+                  "consequent-operation-reference": "/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-op-s-bs-005/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name"
                 }
               }
             },
             {
-              "uuid": "alap-1-0-0-response-p-000",
+              "uuid": "alap-1-0-1-response-p-000",
               "profile-name": "response-profile-1-0:PROFILE_NAME_TYPE_GENERIC_RESPONSE_PROFILE",
               "response-profile-1-0:response-profile-pac": {
                 "response-profile-capability": {
@@ -72,13 +69,13 @@
                 },
                 "response-profile-configuration": {
                   "value": {
-                    "value-reference": "/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name"
+                    "value-reference": "/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name"
                   }
                 }
               }
             },
             {
-              "uuid": "alap-1-0-0-response-p-001",
+              "uuid": "alap-1-0-1-response-p-001",
               "profile-name": "response-profile-1-0:PROFILE_NAME_TYPE_GENERIC_RESPONSE_PROFILE",
               "response-profile-1-0:response-profile-pac": {
                 "response-profile-capability": {
@@ -91,13 +88,13 @@
                 },
                 "response-profile-configuration": {
                   "value": {
-                    "value-reference": "/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name"
+                    "value-reference": "/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name"
                   }
                 }
               }
             },
             {
-              "uuid": "alap-1-0-0-response-p-002",
+              "uuid": "alap-1-0-1-response-p-002",
               "profile-name": "response-profile-1-0:PROFILE_NAME_TYPE_GENERIC_RESPONSE_PROFILE",
               "response-profile-1-0:response-profile-pac": {
                 "response-profile-capability": {
@@ -110,13 +107,13 @@
                 },
                 "response-profile-configuration": {
                   "value": {
-                    "value-reference": "/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-number"
+                    "value-reference": "/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-number"
                   }
                 }
               }
             },
             {
-              "uuid": "alap-1-0-0-response-p-003",
+              "uuid": "alap-1-0-1-response-p-003",
               "profile-name": "response-profile-1-0:PROFILE_NAME_TYPE_GENERIC_RESPONSE_PROFILE",
               "response-profile-1-0:response-profile-pac": {
                 "response-profile-capability": {
@@ -129,13 +126,13 @@
                 },
                 "response-profile-configuration": {
                   "value": {
-                    "value-reference": "/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-purpose"
+                    "value-reference": "/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-purpose"
                   }
                 }
               }
             },
             {
-              "uuid": "alap-1-0-0-response-p-004",
+              "uuid": "alap-1-0-1-response-p-004",
               "profile-name": "response-profile-1-0:PROFILE_NAME_TYPE_GENERIC_RESPONSE_PROFILE",
               "response-profile-1-0:response-profile-pac": {
                 "response-profile-capability": {
@@ -148,13 +145,13 @@
                 },
                 "response-profile-configuration": {
                   "value": {
-                    "value-reference": "/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/data-update-period"
+                    "value-reference": "/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/data-update-period"
                   }
                 }
               }
             },
             {
-              "uuid": "alap-1-0-0-response-p-005",
+              "uuid": "alap-1-0-1-response-p-005",
               "profile-name": "response-profile-1-0:PROFILE_NAME_TYPE_GENERIC_RESPONSE_PROFILE",
               "response-profile-1-0:response-profile-pac": {
                 "response-profile-capability": {
@@ -167,13 +164,13 @@
                 },
                 "response-profile-configuration": {
                   "value": {
-                    "value-reference": "/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/owner-name"
+                    "value-reference": "/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/owner-name"
                   }
                 }
               }
             },
             {
-              "uuid": "alap-1-0-0-response-p-006",
+              "uuid": "alap-1-0-1-response-p-006",
               "profile-name": "response-profile-1-0:PROFILE_NAME_TYPE_GENERIC_RESPONSE_PROFILE",
               "response-profile-1-0:response-profile-pac": {
                 "response-profile-capability": {
@@ -186,33 +183,33 @@
                 },
                 "response-profile-configuration": {
                   "value": {
-                    "value-reference": "/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/owner-email-address"
+                    "value-reference": "/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/owner-email-address"
                   }
                 }
               }
             },
             {
-              "uuid": "alap-1-0-0-response-p-007",
+              "uuid": "alap-1-0-1-response-p-007",
               "profile-name": "response-profile-1-0:PROFILE_NAME_TYPE_GENERIC_RESPONSE_PROFILE",
               "response-profile-1-0:response-profile-pac": {
                 "response-profile-capability": {
                   "operation-name": "/v1/inform-about-release-history-in-generic-representation",
                   "field-name": {
-                    "field-name-reference": "/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=0/release-number"
+                    "field-name-reference": "/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=0/release-number"
                   },
                   "description": "Represents the first entry in the list of releases",
                   "datatype": "string"
                 },
                 "response-profile-configuration": {
                   "value": {
-                    "value-reference": "/core-model-1-4:control-construct/logical-termination-point=alap-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=0/changes"
+                    "value-reference": "/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=0/changes"
                   }
                 }
               }
             },
             {
-              "uuid": "alap-1-0-0-string-p-000",
-              "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+              "uuid": "alap-1-0-1-string-p-000",
+              "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
               "string-profile-1-0:string-profile-pac": {
                 "string-profile-capability": {
                   "string-name": "RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure"
@@ -223,8 +220,8 @@
               }
             },
             {
-              "uuid": "alap-1-0-0-string-p-001",
-              "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+              "uuid": "alap-1-0-1-string-p-001",
+              "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
               "string-profile-1-0:string-profile-pac": {
                 "string-profile-capability": {
                   "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceName"
@@ -235,8 +232,8 @@
               }
             },
             {
-              "uuid": "alap-1-0-0-string-p-002",
-              "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+              "uuid": "alap-1-0-1-string-p-002",
+              "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
               "string-profile-1-0:string-profile-pac": {
                 "string-profile-capability": {
                   "string-name": "RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache"
@@ -247,8 +244,8 @@
               }
             },
             {
-              "uuid": "alap-1-0-0-string-p-003",
-              "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+              "uuid": "alap-1-0-1-string-p-003",
+              "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
               "string-profile-1-0:string-profile-pac": {
                 "string-profile-capability": {
                   "string-name": "RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache"
@@ -259,8 +256,8 @@
               }
             },
             {
-              "uuid": "alap-1-0-0-string-p-004",
-              "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+              "uuid": "alap-1-0-1-string-p-004",
+              "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
               "string-profile-1-0:string-profile-pac": {
                 "string-profile-capability": {
                   "string-name": "RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive.StatusFromLive"
@@ -271,8 +268,8 @@
               }
             },
             {
-              "uuid": "alap-1-0-0-string-p-005",
-              "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+              "uuid": "alap-1-0-1-string-p-005",
+              "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
               "string-profile-1-0:string-profile-pac": {
                 "string-profile-capability": {
                   "string-name": "RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation.LtpName"
@@ -283,8 +280,8 @@
               }
             },
             {
-              "uuid": "alap-1-0-0-string-p-006",
-              "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+              "uuid": "alap-1-0-1-string-p-006",
+              "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
               "string-profile-1-0:string-profile-pac": {
                 "string-profile-capability": {
                   "string-name": "RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive.AlarmsFromLive"
@@ -295,8 +292,8 @@
               }
             },
             {
-              "uuid": "alap-1-0-0-string-p-007",
-              "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+              "uuid": "alap-1-0-1-string-p-007",
+              "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
               "string-profile-1-0:string-profile-pac": {
                 "string-profile-capability": {
                   "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.OriginalLtpName"
@@ -307,8 +304,32 @@
               }
             },
             {
-              "uuid": "alap-1-0-0-string-p-010",
-              "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+              "uuid": "alap-1-0-1-string-p-008",
+              "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+              "string-profile-1-0:string-profile-pac": {
+                "string-profile-capability": {
+                  "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.EthernetContainerStatus"
+                },
+                "string-profile-configuration": {
+                  "string-value": "interface-status"
+                }
+              }
+            },
+            {
+              "uuid": "alap-1-0-1-string-p-009",
+              "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+              "string-profile-1-0:string-profile-pac": {
+                "string-profile-capability": {
+                  "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.EthernetContainerStatus"
+                },
+                "string-profile-configuration": {
+                  "string-value": "interface-status"
+                }
+              }
+            },
+            {
+              "uuid": "alap-1-0-1-string-p-010",
+              "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
               "string-profile-1-0:string-profile-pac": {
                 "string-profile-capability": {
                   "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.VlanInterfaceKind"
@@ -319,8 +340,8 @@
               }
             },
             {
-              "uuid": "alap-1-0-0-string-p-011",
-              "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+              "uuid": "alap-1-0-1-string-p-011",
+              "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
               "string-profile-1-0:string-profile-pac": {
                 "string-profile-capability": {
                   "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.OriginalLtpName"
@@ -331,8 +352,8 @@
               }
             },
             {
-              "uuid": "alap-1-0-0-string-p-012",
-              "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+              "uuid": "alap-1-0-1-string-p-012",
+              "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
               "string-profile-1-0:string-profile-pac": {
                 "string-profile-capability": {
                   "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.VlanInterfaceKind"
@@ -343,8 +364,8 @@
               }
             },
             {
-              "uuid": "alap-1-0-0-string-p-013",
-              "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+              "uuid": "alap-1-0-1-string-p-013",
+              "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
               "string-profile-1-0:string-profile-pac": {
                 "string-profile-capability": {
                   "string-name": "RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentUuid"
@@ -355,8 +376,8 @@
               }
             },
             {
-              "uuid": "alap-1-0-0-string-p-014",
-              "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+              "uuid": "alap-1-0-1-string-p-014",
+              "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
               "string-profile-1-0:string-profile-pac": {
                 "string-profile-capability": {
                   "string-name": "RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentCategory"
@@ -367,8 +388,8 @@
               }
             },
             {
-              "uuid": "alap-1-0-0-string-p-015",
-              "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+              "uuid": "alap-1-0-1-string-p-015",
+              "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
               "string-profile-1-0:string-profile-pac": {
                 "string-profile-capability": {
                   "string-name": "RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.WireInterfaceName"
@@ -379,8 +400,8 @@
               }
             },
             {
-              "uuid": "alap-1-0-0-string-p-016",
-              "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+              "uuid": "alap-1-0-1-string-p-016",
+              "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
               "string-profile-1-0:string-profile-pac": {
                 "string-profile-capability": {
                   "string-name": "RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.SupportedPmds"
@@ -391,8 +412,8 @@
               }
             },
             {
-              "uuid": "alap-1-0-0-string-p-017",
-              "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+              "uuid": "alap-1-0-1-string-p-017",
+              "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
               "string-profile-1-0:string-profile-pac": {
                 "string-profile-capability": {
                   "string-name": "RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.OperatedPmd"
@@ -403,8 +424,8 @@
               }
             },
             {
-              "uuid": "alap-1-0-0-string-p-020",
-              "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+              "uuid": "alap-1-0-1-string-p-020",
+              "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
               "string-profile-1-0:string-profile-pac": {
                 "string-profile-capability": {
                   "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentUuid"
@@ -415,8 +436,8 @@
               }
             },
             {
-              "uuid": "alap-1-0-0-string-p-021",
-              "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+              "uuid": "alap-1-0-1-string-p-021",
+              "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
               "string-profile-1-0:string-profile-pac": {
                 "string-profile-capability": {
                   "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory"
@@ -427,8 +448,8 @@
               }
             },
             {
-              "uuid": "alap-1-0-0-string-p-022",
-              "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+              "uuid": "alap-1-0-1-string-p-022",
+              "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
               "string-profile-1-0:string-profile-pac": {
                 "string-profile-capability": {
                   "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.HolderLabel"
@@ -439,8 +460,8 @@
               }
             },
             {
-              "uuid": "alap-1-0-0-string-p-023",
-              "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+              "uuid": "alap-1-0-1-string-p-023",
+              "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
               "string-profile-1-0:string-profile-pac": {
                 "string-profile-capability": {
                   "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorId"
@@ -451,8 +472,8 @@
               }
             },
             {
-              "uuid": "alap-1-0-0-string-p-024",
-              "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+              "uuid": "alap-1-0-1-string-p-024",
+              "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
               "string-profile-1-0:string-profile-pac": {
                 "string-profile-capability": {
                   "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorNumber"
@@ -463,8 +484,8 @@
               }
             },
             {
-              "uuid": "alap-1-0-0-string-p-025",
-              "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+              "uuid": "alap-1-0-1-string-p-025",
+              "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
               "string-profile-1-0:string-profile-pac": {
                 "string-profile-capability": {
                   "string-name": "RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.EquipmentInfo"
@@ -475,8 +496,8 @@
               }
             },
             {
-              "uuid": "alap-1-0-0-string-p-026",
-              "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+              "uuid": "alap-1-0-1-string-p-026",
+              "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
               "string-profile-1-0:string-profile-pac": {
                 "string-profile-capability": {
                   "string-name": "RequestForProvidingAcceptanceDataCausesReadingFirmwareList.FirmwareFromCache"
@@ -490,12 +511,11 @@
         },
         "logical-termination-point": [
           {
-            "uuid": "alap-1-0-0-op-s-bm-000",
+            "uuid": "alap-1-0-1-op-s-bm-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-http-s-000"
+              "alap-1-0-1-http-s-000"
             ],
             "layer-protocol": [
               {
@@ -514,12 +534,11 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-s-bm-001",
+            "uuid": "alap-1-0-1-op-s-bm-001",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-http-s-000"
+              "alap-1-0-1-http-s-000"
             ],
             "layer-protocol": [
               {
@@ -538,12 +557,11 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-s-bm-002",
+            "uuid": "alap-1-0-1-op-s-bm-002",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-http-s-000"
+              "alap-1-0-1-http-s-000"
             ],
             "layer-protocol": [
               {
@@ -562,12 +580,11 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-s-bm-003",
+            "uuid": "alap-1-0-1-op-s-bm-003",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-http-s-000"
+              "alap-1-0-1-http-s-000"
             ],
             "layer-protocol": [
               {
@@ -586,12 +603,11 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-s-bm-004",
+            "uuid": "alap-1-0-1-op-s-bm-004",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-http-s-000"
+              "alap-1-0-1-http-s-000"
             ],
             "layer-protocol": [
               {
@@ -610,12 +626,11 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-s-bm-005",
+            "uuid": "alap-1-0-1-op-s-bm-005",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-http-s-000"
+              "alap-1-0-1-http-s-000"
             ],
             "layer-protocol": [
               {
@@ -634,12 +649,11 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-s-bm-007",
+            "uuid": "alap-1-0-1-op-s-bm-007",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-http-s-000"
+              "alap-1-0-1-http-s-000"
             ],
             "layer-protocol": [
               {
@@ -658,12 +672,11 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-s-bm-008",
+            "uuid": "alap-1-0-1-op-s-bm-008",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-http-s-000"
+              "alap-1-0-1-http-s-000"
             ],
             "layer-protocol": [
               {
@@ -682,12 +695,11 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-s-bm-009",
+            "uuid": "alap-1-0-1-op-s-bm-009",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-http-s-000"
+              "alap-1-0-1-http-s-000"
             ],
             "layer-protocol": [
               {
@@ -706,12 +718,11 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-s-bm-010",
+            "uuid": "alap-1-0-1-op-s-bm-010",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-http-s-000"
+              "alap-1-0-1-http-s-000"
             ],
             "layer-protocol": [
               {
@@ -730,12 +741,11 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-s-bm-011",
+            "uuid": "alap-1-0-1-op-s-bm-011",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-http-s-000"
+              "alap-1-0-1-http-s-000"
             ],
             "layer-protocol": [
               {
@@ -754,12 +764,11 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-s-im-000",
+            "uuid": "alap-1-0-1-op-s-im-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-http-s-000"
+              "alap-1-0-1-http-s-000"
             ],
             "layer-protocol": [
               {
@@ -778,12 +787,11 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-s-bs-000",
+            "uuid": "alap-1-0-1-op-s-bs-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-http-s-000"
+              "alap-1-0-1-http-s-000"
             ],
             "layer-protocol": [
               {
@@ -802,12 +810,11 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-s-bs-001",
+            "uuid": "alap-1-0-1-op-s-bs-001",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-http-s-000"
+              "alap-1-0-1-http-s-000"
             ],
             "layer-protocol": [
               {
@@ -826,12 +833,11 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-s-bs-002",
+            "uuid": "alap-1-0-1-op-s-bs-002",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-http-s-000"
+              "alap-1-0-1-http-s-000"
             ],
             "layer-protocol": [
               {
@@ -850,12 +856,11 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-s-bs-003",
+            "uuid": "alap-1-0-1-op-s-bs-003",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-http-s-000"
+              "alap-1-0-1-http-s-000"
             ],
             "layer-protocol": [
               {
@@ -874,12 +879,11 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-s-bs-004",
+            "uuid": "alap-1-0-1-op-s-bs-004",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-http-s-000"
+              "alap-1-0-1-http-s-000"
             ],
             "layer-protocol": [
               {
@@ -898,12 +902,11 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-s-bs-005",
+            "uuid": "alap-1-0-1-op-s-bs-005",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-http-s-000"
+              "alap-1-0-1-http-s-000"
             ],
             "layer-protocol": [
               {
@@ -922,31 +925,55 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-http-s-000",
+            "uuid": "alap-1-0-1-op-s-is-000",
+            "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
+            "client-ltp": [],
+            "server-ltp": [
+              "alap-1-0-1-http-s-000"
+            ],
+            "layer-protocol": [
+              {
+                "local-id": "0",
+                "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                "operation-server-interface-1-0:operation-server-interface-pac": {
+                  "operation-server-interface-capability": {
+                    "operation-name": "/v1/provide-acceptance-data-of-link-endpoint"
+                  },
+                  "operation-server-interface-configuration": {
+                    "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                    "operation-key": "n.a."
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "uuid": "alap-1-0-1-http-s-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
             "client-ltp": [
-              "alap-1-0-0-op-s-bm-000",
-              "alap-1-0-0-op-s-bm-001",
-              "alap-1-0-0-op-s-bm-002",
-              "alap-1-0-0-op-s-bm-003",
-              "alap-1-0-0-op-s-bm-004",
-              "alap-1-0-0-op-s-bm-005",
-              "alap-1-0-0-op-s-bm-007",
-              "alap-1-0-0-op-s-bm-008",
-              "alap-1-0-0-op-s-bm-009",
-              "alap-1-0-0-op-s-bm-010",
-              "alap-1-0-0-op-s-bm-011",
-              "alap-1-0-0-op-s-im-000",
-              "alap-1-0-0-op-s-bs-000",
-              "alap-1-0-0-op-s-bs-001",
-              "alap-1-0-0-op-s-bs-002",
-              "alap-1-0-0-op-s-bs-003",
-              "alap-1-0-0-op-s-bs-004",
-              "alap-1-0-0-op-s-bs-005"
+              "alap-1-0-1-op-s-bm-000",
+              "alap-1-0-1-op-s-bm-001",
+              "alap-1-0-1-op-s-bm-002",
+              "alap-1-0-1-op-s-bm-003",
+              "alap-1-0-1-op-s-bm-004",
+              "alap-1-0-1-op-s-bm-005",
+              "alap-1-0-1-op-s-bm-007",
+              "alap-1-0-1-op-s-bm-008",
+              "alap-1-0-1-op-s-bm-009",
+              "alap-1-0-1-op-s-bm-010",
+              "alap-1-0-1-op-s-bm-011",
+              "alap-1-0-1-op-s-im-000",
+              "alap-1-0-1-op-s-bs-000",
+              "alap-1-0-1-op-s-bs-001",
+              "alap-1-0-1-op-s-bs-002",
+              "alap-1-0-1-op-s-bs-003",
+              "alap-1-0-1-op-s-bs-004",
+              "alap-1-0-1-op-s-bs-005",
+              "alap-1-0-1-op-s-is-000"
             ],
             "server-ltp": [
-              "alap-1-0-0-tcp-s-000",
-              "alap-1-0-0-tcp-s-001"
+              "alap-1-0-1-tcp-s-000",
+              "alap-1-0-1-tcp-s-001"
             ],
             "layer-protocol": [
               {
@@ -955,16 +982,16 @@
                 "http-server-interface-1-0:http-server-interface-pac": {
                   "http-server-interface-capability": {
                     "application-name": "AutomatedLinkAcceptanceProxy",
-                    "release-number": "1.0.0",
+                    "release-number": "1.0.1",
                     "application-purpose": "Retrieves acceptance data of link endpoint and provides it to LinkVis for later validation",
-                    "data-update-period": "http-server-interface-1-0:DATA_UPDATE_PERIOD_TYPE_ON_DEMAND",
+                    "data-update-period": "http-server-interface-1-0:DATA_UPDATE_PERIOD_TYPE_MANUAL",
                     "owner-name": "Ana Cabello Barrera",
                     "owner-email-address": "ana.cabello-barrera@telefonica.com",
                     "release-list": [
                       {
                         "local-id": "0",
-                        "release-number": "1.0.0",
-                        "release-date": "06.09.2023",
+                        "release-number": "1.0.1",
+                        "release-date": "12.10.2023",
                         "changes": "Initial version"
                       }
                     ]
@@ -974,13 +1001,12 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-tcp-s-000",
+            "uuid": "alap-1-0-1-tcp-s-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
             "client-ltp": [
-              "alap-1-0-0-http-s-000"
+              "alap-1-0-1-http-s-000"
             ],
-            "server-ltp": [
-            ],
+            "server-ltp": [],
             "layer-protocol": [
               {
                 "local-id": "0",
@@ -999,13 +1025,12 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-tcp-s-001",
+            "uuid": "alap-1-0-1-tcp-s-001",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
             "client-ltp": [
-              "alap-1-0-0-http-s-000"
+              "alap-1-0-1-http-s-000"
             ],
-            "server-ltp": [
-            ],
+            "server-ltp": [],
             "layer-protocol": [
               {
                 "local-id": "0",
@@ -1024,12 +1049,11 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-c-bm-or-1-0-0-000",
+            "uuid": "alap-1-0-1-op-c-bm-or-1-0-0-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-http-c-or-1-0-0-000"
+              "alap-1-0-1-http-c-or-1-0-0-000"
             ],
             "layer-protocol": [
               {
@@ -1049,13 +1073,13 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-http-c-or-1-0-0-000",
+            "uuid": "alap-1-0-1-http-c-or-1-0-0-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
             "client-ltp": [
-              "alap-1-0-0-op-c-bm-or-1-0-0-000"
+              "alap-1-0-1-op-c-bm-or-1-0-0-000"
             ],
             "server-ltp": [
-              "alap-1-0-0-tcp-c-or-1-0-0-000"
+              "alap-1-0-1-tcp-c-or-1-0-0-000"
             ],
             "layer-protocol": [
               {
@@ -1064,20 +1088,19 @@
                 "http-client-interface-1-0:http-client-interface-pac": {
                   "http-client-interface-configuration": {
                     "application-name": "OldRelease",
-                    "release-number": " >>> ReleaseNumber of the existing release <<< "
+                    "release-number": "1.0.1"
                   }
                 }
               }
             ]
           },
           {
-            "uuid": "alap-1-0-0-tcp-c-or-1-0-0-000",
+            "uuid": "alap-1-0-1-tcp-c-or-1-0-0-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
             "client-ltp": [
-              "alap-1-0-0-http-c-or-1-0-0-000"
+              "alap-1-0-1-http-c-or-1-0-0-000"
             ],
-            "server-ltp": [
-            ],
+            "server-ltp": [],
             "layer-protocol": [
               {
                 "local-id": "0",
@@ -1087,22 +1110,21 @@
                     "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
                     "remote-address": {
                       "ip-address": {
-                        "ipv-4-address": " >>> IpAddress and Port (below) of the existing release <<< "
+                        "ipv-4-address": "1.1.4.9"
                       }
                     },
-                    "remote-port": 1000
+                    "remote-port": 4009
                   }
                 }
               }
             ]
           },
           {
-            "uuid": "alap-1-0-0-http-c-nr-1-0-0-000",
+            "uuid": "alap-1-0-1-http-c-nr-1-0-0-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-tcp-c-nr-1-0-0-000"
+              "alap-1-0-1-tcp-c-nr-1-0-0-000"
             ],
             "layer-protocol": [
               {
@@ -1111,20 +1133,19 @@
                 "http-client-interface-1-0:http-client-interface-pac": {
                   "http-client-interface-configuration": {
                     "application-name": "NewRelease",
-                    "release-number": " >>> ReleaseNumber of the new release <<< "
+                    "release-number": "1.0.1"
                   }
                 }
               }
             ]
           },
           {
-            "uuid": "alap-1-0-0-tcp-c-nr-1-0-0-000",
+            "uuid": "alap-1-0-1-tcp-c-nr-1-0-0-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
             "client-ltp": [
-              "alap-1-0-0-http-c-nr-1-0-0-000"
+              "alap-1-0-1-http-c-nr-1-0-0-000"
             ],
-            "server-ltp": [
-            ],
+            "server-ltp": [],
             "layer-protocol": [
               {
                 "local-id": "0",
@@ -1134,22 +1155,21 @@
                     "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
                     "remote-address": {
                       "ip-address": {
-                        "ipv-4-address": " >>> IpAddress and Port (below) of the new release <<< "
+                        "ipv-4-address": "1.1.4.9"
                       }
                     },
-                    "remote-port": 7000
+                    "remote-port": 4009
                   }
                 }
               }
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-c-bm-ro-2-0-1-000",
+            "uuid": "alap-1-0-1-op-c-bm-ro-2-0-1-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-http-c-ro-2-0-1-000"
+              "alap-1-0-1-http-c-ro-2-0-1-000"
             ],
             "layer-protocol": [
               {
@@ -1169,12 +1189,11 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-c-bm-ro-2-0-1-001",
+            "uuid": "alap-1-0-1-op-c-bm-ro-2-0-1-001",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-http-c-ro-2-0-1-000"
+              "alap-1-0-1-http-c-ro-2-0-1-000"
             ],
             "layer-protocol": [
               {
@@ -1194,12 +1213,11 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-c-bm-ro-2-0-1-002",
+            "uuid": "alap-1-0-1-op-c-bm-ro-2-0-1-002",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-http-c-ro-2-0-1-000"
+              "alap-1-0-1-http-c-ro-2-0-1-000"
             ],
             "layer-protocol": [
               {
@@ -1219,12 +1237,11 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-c-bm-ro-2-0-1-003",
+            "uuid": "alap-1-0-1-op-c-bm-ro-2-0-1-003",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-http-c-ro-2-0-1-000"
+              "alap-1-0-1-http-c-ro-2-0-1-000"
             ],
             "layer-protocol": [
               {
@@ -1244,16 +1261,16 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-http-c-ro-2-0-1-000",
+            "uuid": "alap-1-0-1-http-c-ro-2-0-1-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
             "client-ltp": [
-              "alap-1-0-0-op-c-bm-ro-2-0-1-000",
-              "alap-1-0-0-op-c-bm-ro-2-0-1-001",
-              "alap-1-0-0-op-c-bm-ro-2-0-1-002",
-              "alap-1-0-0-op-c-bm-ro-2-0-1-003"
+              "alap-1-0-1-op-c-bm-ro-2-0-1-000",
+              "alap-1-0-1-op-c-bm-ro-2-0-1-001",
+              "alap-1-0-1-op-c-bm-ro-2-0-1-002",
+              "alap-1-0-1-op-c-bm-ro-2-0-1-003"
             ],
             "server-ltp": [
-              "alap-1-0-0-tcp-c-ro-2-0-1-000"
+              "alap-1-0-1-tcp-c-ro-2-0-1-000"
             ],
             "layer-protocol": [
               {
@@ -1269,13 +1286,12 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-tcp-c-ro-2-0-1-000",
+            "uuid": "alap-1-0-1-tcp-c-ro-2-0-1-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
             "client-ltp": [
-              "alap-1-0-0-http-c-ro-2-0-1-000"
+              "alap-1-0-1-http-c-ro-2-0-1-000"
             ],
-            "server-ltp": [
-            ],
+            "server-ltp": [],
             "layer-protocol": [
               {
                 "local-id": "0",
@@ -1295,12 +1311,11 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-http-c-tar-2-0-1-000",
+            "uuid": "alap-1-0-1-http-c-tar-2-0-1-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-tcp-c-tar-2-0-1-000"
+              "alap-1-0-1-tcp-c-tar-2-0-1-000"
             ],
             "layer-protocol": [
               {
@@ -1316,13 +1331,12 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-tcp-c-tar-2-0-1-000",
+            "uuid": "alap-1-0-1-tcp-c-tar-2-0-1-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
             "client-ltp": [
-              "alap-1-0-0-http-c-tar-2-0-1-000"
+              "alap-1-0-1-http-c-tar-2-0-1-000"
             ],
-            "server-ltp": [
-            ],
+            "server-ltp": [],
             "layer-protocol": [
               {
                 "local-id": "0",
@@ -1342,12 +1356,11 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-c-bs-eatl-2-0-1-000",
+            "uuid": "alap-1-0-1-op-c-bs-eatl-2-0-1-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-http-c-eatl-2-0-1-000"
+              "alap-1-0-1-http-c-eatl-2-0-1-000"
             ],
             "layer-protocol": [
               {
@@ -1368,13 +1381,13 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-http-c-eatl-2-0-1-000",
+            "uuid": "alap-1-0-1-http-c-eatl-2-0-1-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
             "client-ltp": [
-              "alap-1-0-0-op-c-bs-eatl-2-0-1-000"
+              "alap-1-0-1-op-c-bs-eatl-2-0-1-000"
             ],
             "server-ltp": [
-              "alap-1-0-0-tcp-c-eatl-2-0-1-000"
+              "alap-1-0-1-tcp-c-eatl-2-0-1-000"
             ],
             "layer-protocol": [
               {
@@ -1390,13 +1403,12 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-tcp-c-eatl-2-0-1-000",
+            "uuid": "alap-1-0-1-tcp-c-eatl-2-0-1-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
             "client-ltp": [
-              "alap-1-0-0-http-c-eatl-2-0-1-000"
+              "alap-1-0-1-http-c-eatl-2-0-1-000"
             ],
-            "server-ltp": [
-            ],
+            "server-ltp": [],
             "layer-protocol": [
               {
                 "local-id": "0",
@@ -1416,12 +1428,11 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-c-bs-ol-2-0-1-000",
+            "uuid": "alap-1-0-1-op-c-bs-ol-2-0-1-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-http-c-ol-2-0-1-000"
+              "alap-1-0-1-http-c-ol-2-0-1-000"
             ],
             "layer-protocol": [
               {
@@ -1441,13 +1452,13 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-http-c-ol-2-0-1-000",
+            "uuid": "alap-1-0-1-http-c-ol-2-0-1-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
             "client-ltp": [
-              "alap-1-0-0-op-c-bs-ol-2-0-1-000"
+              "alap-1-0-1-op-c-bs-ol-2-0-1-000"
             ],
             "server-ltp": [
-              "alap-1-0-0-tcp-c-ol-2-0-1-000"
+              "alap-1-0-1-tcp-c-ol-2-0-1-000"
             ],
             "layer-protocol": [
               {
@@ -1463,13 +1474,12 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-tcp-c-ol-2-0-1-000",
+            "uuid": "alap-1-0-1-tcp-c-ol-2-0-1-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
             "client-ltp": [
-              "alap-1-0-0-http-c-ol-2-0-1-000"
+              "alap-1-0-1-http-c-ol-2-0-1-000"
             ],
-            "server-ltp": [
-            ],
+            "server-ltp": [],
             "layer-protocol": [
               {
                 "local-id": "0",
@@ -1489,12 +1499,11 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-c-bs-aa-2-0-1-000",
+            "uuid": "alap-1-0-1-op-c-bs-aa-2-0-1-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-http-c-aa-2-0-1-000"
+              "alap-1-0-1-http-c-aa-2-0-1-000"
             ],
             "layer-protocol": [
               {
@@ -1514,13 +1523,13 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-http-c-aa-2-0-1-000",
+            "uuid": "alap-1-0-1-http-c-aa-2-0-1-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
             "client-ltp": [
-              "alap-1-0-0-op-c-bs-aa-2-0-1-000"
+              "alap-1-0-1-op-c-bs-aa-2-0-1-000"
             ],
             "server-ltp": [
-              "alap-1-0-0-tcp-c-aa-2-0-1-000"
+              "alap-1-0-1-tcp-c-aa-2-0-1-000"
             ],
             "layer-protocol": [
               {
@@ -1536,13 +1545,12 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-tcp-c-aa-2-0-1-000",
+            "uuid": "alap-1-0-1-tcp-c-aa-2-0-1-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
             "client-ltp": [
-              "alap-1-0-0-http-c-aa-2-0-1-000"
+              "alap-1-0-1-http-c-aa-2-0-1-000"
             ],
-            "server-ltp": [
-            ],
+            "server-ltp": [],
             "layer-protocol": [
               {
                 "local-id": "0",
@@ -1562,12 +1570,11 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-c-bm-alt-2-0-1-000",
+            "uuid": "alap-1-0-1-op-c-bm-alt-2-0-1-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-http-c-alt-2-0-1-000"
+              "alap-1-0-1-http-c-alt-2-0-1-000"
             ],
             "layer-protocol": [
               {
@@ -1587,12 +1594,11 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-c-bm-alt-2-0-1-001",
+            "uuid": "alap-1-0-1-op-c-bm-alt-2-0-1-001",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-http-c-alt-2-0-1-000"
+              "alap-1-0-1-http-c-alt-2-0-1-000"
             ],
             "layer-protocol": [
               {
@@ -1612,12 +1618,11 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-c-bm-alt-2-0-1-002",
+            "uuid": "alap-1-0-1-op-c-bm-alt-2-0-1-002",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-http-c-alt-2-0-1-000"
+              "alap-1-0-1-http-c-alt-2-0-1-000"
             ],
             "layer-protocol": [
               {
@@ -1637,12 +1642,11 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-c-bm-alt-2-0-1-003",
+            "uuid": "alap-1-0-1-op-c-bm-alt-2-0-1-003",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-http-c-alt-2-0-1-000"
+              "alap-1-0-1-http-c-alt-2-0-1-000"
             ],
             "layer-protocol": [
               {
@@ -1662,12 +1666,11 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-c-bm-alt-2-0-1-004",
+            "uuid": "alap-1-0-1-op-c-bm-alt-2-0-1-004",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-http-c-alt-2-0-1-000"
+              "alap-1-0-1-http-c-alt-2-0-1-000"
             ],
             "layer-protocol": [
               {
@@ -1687,12 +1690,11 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-op-c-bm-alt-2-0-1-005",
+            "uuid": "alap-1-0-1-op-c-bm-alt-2-0-1-005",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-http-c-alt-2-0-1-000"
+              "alap-1-0-1-http-c-alt-2-0-1-000"
             ],
             "layer-protocol": [
               {
@@ -1712,18 +1714,18 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-http-c-alt-2-0-1-000",
+            "uuid": "alap-1-0-1-http-c-alt-2-0-1-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
             "client-ltp": [
-              "alap-1-0-0-op-c-bm-alt-2-0-1-000",
-              "alap-1-0-0-op-c-bm-alt-2-0-1-001",
-              "alap-1-0-0-op-c-bm-alt-2-0-1-002",
-              "alap-1-0-0-op-c-bm-alt-2-0-1-003",
-              "alap-1-0-0-op-c-bm-alt-2-0-1-004",
-              "alap-1-0-0-op-c-bm-alt-2-0-1-005"
+              "alap-1-0-1-op-c-bm-alt-2-0-1-000",
+              "alap-1-0-1-op-c-bm-alt-2-0-1-001",
+              "alap-1-0-1-op-c-bm-alt-2-0-1-002",
+              "alap-1-0-1-op-c-bm-alt-2-0-1-003",
+              "alap-1-0-1-op-c-bm-alt-2-0-1-004",
+              "alap-1-0-1-op-c-bm-alt-2-0-1-005"
             ],
             "server-ltp": [
-              "alap-1-0-0-tcp-c-alt-2-0-1-000"
+              "alap-1-0-1-tcp-c-alt-2-0-1-000"
             ],
             "layer-protocol": [
               {
@@ -1739,13 +1741,12 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-tcp-c-alt-2-0-1-000",
+            "uuid": "alap-1-0-1-tcp-c-alt-2-0-1-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
             "client-ltp": [
-              "alap-1-0-0-http-c-alt-2-0-1-000"
+              "alap-1-0-1-http-c-alt-2-0-1-000"
             ],
-            "server-ltp": [
-            ],
+            "server-ltp": [],
             "layer-protocol": [
               {
                 "local-id": "0",
@@ -1765,12 +1766,11 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-http-c-okm-2-0-1-000",
+            "uuid": "alap-1-0-1-http-c-okm-2-0-1-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-            "client-ltp": [
-            ],
+            "client-ltp": [],
             "server-ltp": [
-              "alap-1-0-0-tcp-c-okm-2-0-1-000"
+              "alap-1-0-1-tcp-c-okm-2-0-1-000"
             ],
             "layer-protocol": [
               {
@@ -1786,13 +1786,12 @@
             ]
           },
           {
-            "uuid": "alap-1-0-0-tcp-c-okm-2-0-1-000",
+            "uuid": "alap-1-0-1-tcp-c-okm-2-0-1-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
             "client-ltp": [
-              "alap-1-0-0-http-c-okm-2-0-1-000"
+              "alap-1-0-1-http-c-okm-2-0-1-000"
             ],
-            "server-ltp": [
-            ],
+            "server-ltp": [],
             "layer-protocol": [
               {
                 "local-id": "0",
@@ -1812,397 +1811,408 @@
             ]
           },
           {
-              "uuid": "alap-1-0-0-op-c-is-mwdi-1-0-0-000",
-              "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-              "client-ltp": [
-              ],
-              "server-ltp": [
-                "alap-1-0-0-http-c-mwdi-1-0-0-000"
-              ],
-              "layer-protocol": [
-                {
-                  "local-id": "0",
-                  "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
-                  "operation-client-interface-1-0:operation-client-interface-pac": {
-                    "operation-client-interface-configuration": {
-                      "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}",
-                      "operation-key": "Operation key not yet provided."
+            "uuid": "alap-1-0-1-op-c-is-mwdi-1-0-0-000",
+            "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+            "client-ltp": [],
+            "server-ltp": [
+              "alap-1-0-1-http-c-mwdi-1-0-0-000"
+            ],
+            "layer-protocol": [
+              {
+                "local-id": "0",
+                "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                "operation-client-interface-1-0:operation-client-interface-pac": {
+                  "operation-client-interface-configuration": {
+                    "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}",
+                    "operation-key": "Operation key not yet provided."
+                  },
+                  "operation-client-interface-status": {
+                    "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                    "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "uuid": "alap-1-0-1-op-c-is-mwdi-1-0-0-407",
+            "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+            "client-ltp": [],
+            "server-ltp": [
+              "alap-1-0-1-http-c-mwdi-1-0-0-000"
+            ],
+            "layer-protocol": [
+              {
+                "local-id": "0",
+                "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                "operation-client-interface-1-0:operation-client-interface-pac": {
+                  "operation-client-interface-configuration": {
+                    "operation-name": "/core-model-1-4:network-control-domain=live/control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms",
+                    "operation-key": "Operation key not yet provided."
+                  },
+                  "operation-client-interface-status": {
+                    "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                    "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "uuid": "alap-1-0-1-op-c-is-mwdi-1-0-0-110",
+            "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+            "client-ltp": [],
+            "server-ltp": [
+              "alap-1-0-1-http-c-mwdi-1-0-0-000"
+            ],
+            "layer-protocol": [
+              {
+                "local-id": "0",
+                "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                "operation-client-interface-1-0:operation-client-interface-pac": {
+                  "operation-client-interface-configuration": {
+                    "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}",
+                    "operation-key": "Operation key not yet provided."
+                  },
+                  "operation-client-interface-status": {
+                    "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                    "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "uuid": "alap-1-0-1-op-c-is-mwdi-1-0-0-111",
+            "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+            "client-ltp": [],
+            "server-ltp": [
+              "alap-1-0-1-http-c-mwdi-1-0-0-000"
+            ],
+            "layer-protocol": [
+              {
+                "local-id": "0",
+                "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                "operation-client-interface-1-0:operation-client-interface-pac": {
+                  "operation-client-interface-configuration": {
+                    "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/connector={local-id}",
+                    "operation-key": "Operation key not yet provided."
+                  },
+                  "operation-client-interface-status": {
+                    "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                    "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "uuid": "alap-1-0-1-op-c-is-mwdi-1-0-0-114",
+            "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+            "client-ltp": [],
+            "server-ltp": [
+              "alap-1-0-1-http-c-mwdi-1-0-0-000"
+            ],
+            "layer-protocol": [
+              {
+                "local-id": "0",
+                "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                "operation-client-interface-1-0:operation-client-interface-pac": {
+                  "operation-client-interface-configuration": {
+                    "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment",
+                    "operation-key": "Operation key not yet provided."
+                  },
+                  "operation-client-interface-status": {
+                    "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                    "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "uuid": "alap-1-0-1-op-c-is-mwdi-1-0-0-120",
+            "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+            "client-ltp": [],
+            "server-ltp": [
+              "alap-1-0-1-http-c-mwdi-1-0-0-000"
+            ],
+            "layer-protocol": [
+              {
+                "local-id": "0",
+                "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                "operation-client-interface-1-0:operation-client-interface-pac": {
+                  "operation-client-interface-configuration": {
+                    "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/firmware-1-0:firmware-collection",
+                    "operation-key": "Operation key not yet provided."
+                  },
+                  "operation-client-interface-status": {
+                    "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                    "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "uuid": "alap-1-0-1-op-c-is-mwdi-1-0-0-201",
+            "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+            "client-ltp": [],
+            "server-ltp": [
+              "alap-1-0-1-http-c-mwdi-1-0-0-000"
+            ],
+            "layer-protocol": [
+              {
+                "local-id": "0",
+                "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                "operation-client-interface-1-0:operation-client-interface-pac": {
+                  "operation-client-interface-configuration": {
+                    "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac",
+                    "operation-key": "Operation key not yet provided."
+                  },
+                  "operation-client-interface-status": {
+                    "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                    "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "uuid": "alap-1-0-1-op-c-is-mwdi-1-0-0-210",
+            "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+            "client-ltp": [],
+            "server-ltp": [
+              "alap-1-0-1-http-c-mwdi-1-0-0-000"
+            ],
+            "layer-protocol": [
+              {
+                "local-id": "0",
+                "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                "operation-client-interface-1-0:operation-client-interface-pac": {
+                  "operation-client-interface-configuration": {
+                    "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability",
+                    "operation-key": "Operation key not yet provided."
+                  },
+                  "operation-client-interface-status": {
+                    "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                    "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "uuid": "alap-1-0-1-op-c-is-mwdi-1-0-0-211",
+            "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+            "client-ltp": [],
+            "server-ltp": [
+              "alap-1-0-1-http-c-mwdi-1-0-0-000"
+            ],
+            "layer-protocol": [
+              {
+                "local-id": "0",
+                "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                "operation-client-interface-1-0:operation-client-interface-pac": {
+                  "operation-client-interface-configuration": {
+                    "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration",
+                    "operation-key": "Operation key not yet provided."
+                  },
+                  "operation-client-interface-status": {
+                    "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                    "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "uuid": "alap-1-0-1-op-c-is-mwdi-1-0-0-512",
+            "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+            "client-ltp": [],
+            "server-ltp": [
+              "alap-1-0-1-http-c-mwdi-1-0-0-000"
+            ],
+            "layer-protocol": [
+              {
+                "local-id": "0",
+                "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                "operation-client-interface-1-0:operation-client-interface-pac": {
+                  "operation-client-interface-configuration": {
+                    "operation-name": "/core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status",
+                    "operation-key": "Operation key not yet provided."
+                  },
+                  "operation-client-interface-status": {
+                    "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                    "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "uuid": "alap-1-0-1-op-c-is-mwdi-1-0-0-222",
+            "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+            "client-ltp": [],
+            "server-ltp": [
+              "alap-1-0-1-http-c-mwdi-1-0-0-000"
+            ],
+            "layer-protocol": [
+              {
+                "local-id": "0",
+                "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                "operation-client-interface-1-0:operation-client-interface-pac": {
+                  "operation-client-interface-configuration": {
+                    "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status",
+                    "operation-key": "Operation key not yet provided."
+                  },
+                  "operation-client-interface-status": {
+                    "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                    "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "uuid": "alap-1-0-1-op-c-is-mwdi-1-0-0-261",
+            "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+            "client-ltp": [],
+            "server-ltp": [
+              "alap-1-0-1-http-c-mwdi-1-0-0-000"
+            ],
+            "layer-protocol": [
+              {
+                "local-id": "0",
+                "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                "operation-client-interface-1-0:operation-client-interface-pac": {
+                  "operation-client-interface-configuration": {
+                    "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration",
+                    "operation-key": "Operation key not yet provided."
+                  },
+                  "operation-client-interface-status": {
+                    "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                    "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "uuid": "alap-1-0-1-op-c-is-mwdi-1-0-0-270",
+            "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+            "client-ltp": [],
+            "server-ltp": [
+              "alap-1-0-1-http-c-mwdi-1-0-0-000"
+            ],
+            "layer-protocol": [
+              {
+                "local-id": "0",
+                "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                "operation-client-interface-1-0:operation-client-interface-pac": {
+                  "operation-client-interface-configuration": {
+                    "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-capability",
+                    "operation-key": "Operation key not yet provided."
+                  },
+                  "operation-client-interface-status": {
+                    "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                    "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "uuid": "alap-1-0-1-op-c-is-mwdi-1-0-0-272",
+            "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+            "client-ltp": [],
+            "server-ltp": [
+              "alap-1-0-1-http-c-mwdi-1-0-0-000"
+            ],
+            "layer-protocol": [
+              {
+                "local-id": "0",
+                "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                "operation-client-interface-1-0:operation-client-interface-pac": {
+                  "operation-client-interface-configuration": {
+                    "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status",
+                    "operation-key": "Operation key not yet provided."
+                  },
+                  "operation-client-interface-status": {
+                    "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                    "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "uuid": "alap-1-0-1-http-c-mwdi-1-0-0-000",
+            "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+            "client-ltp": [
+              "alap-1-0-1-op-c-is-mwdi-1-0-0-000",
+              "alap-1-0-1-op-c-is-mwdi-1-0-0-407",
+              "alap-1-0-1-op-c-is-mwdi-1-0-0-110",
+              "alap-1-0-1-op-c-is-mwdi-1-0-0-111",
+              "alap-1-0-1-op-c-is-mwdi-1-0-0-114",
+              "alap-1-0-1-op-c-is-mwdi-1-0-0-120",
+              "alap-1-0-1-op-c-is-mwdi-1-0-0-201",
+              "alap-1-0-1-op-c-is-mwdi-1-0-0-210",
+              "alap-1-0-1-op-c-is-mwdi-1-0-0-211",
+              "alap-1-0-1-op-c-is-mwdi-1-0-0-512",
+              "alap-1-0-1-op-c-is-mwdi-1-0-0-222",
+              "alap-1-0-1-op-c-is-mwdi-1-0-0-261",
+              "alap-1-0-1-op-c-is-mwdi-1-0-0-270",
+              "alap-1-0-1-op-c-is-mwdi-1-0-0-272"
+            ],
+            "server-ltp": [
+              "alap-1-0-1-tcp-c-mwdi-1-0-0-000"
+            ],
+            "layer-protocol": [
+              {
+                "local-id": "0",
+                "layer-protocol-name": "http-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER",
+                "http-client-interface-1-0:http-client-interface-pac": {
+                  "http-client-interface-configuration": {
+                    "application-name": "MicroWaveDeviceInventory",
+                    "release-number": "1.0.0"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "uuid": "alap-1-0-1-tcp-c-mwdi-1-0-0-000",
+            "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+            "client-ltp": [
+              "alap-1-0-1-http-c-mwdi-1-0-0-000"
+            ],
+            "server-ltp": [],
+            "layer-protocol": [
+              {
+                "local-id": "0",
+                "layer-protocol-name": "tcp-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER",
+                "tcp-client-interface-1-0:tcp-client-interface-pac": {
+                  "tcp-client-interface-configuration": {
+                    "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
+                    "remote-address": {
+                      "ip-address": {
+                        "ipv-4-address": "1.1.4.4"
+                      }
                     },
-                    "operation-client-interface-status": {
-                      "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
-                      "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
-                    }
+                    "remote-port": 4004
                   }
                 }
-              ]
-            },
-            {
-              "uuid": "alap-1-0-0-op-c-is-mwdi-1-0-0-407",
-              "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-              "client-ltp": [
-              ],
-              "server-ltp": [
-                "alap-1-0-0-http-c-mwdi-1-0-0-000"
-              ],
-              "layer-protocol": [
-                {
-                  "local-id": "0",
-                  "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
-                  "operation-client-interface-1-0:operation-client-interface-pac": {
-                    "operation-client-interface-configuration": {
-                      "operation-name": "/core-model-1-4:network-control-domain=live/control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms",
-                      "operation-key": "Operation key not yet provided."
-                    },
-                    "operation-client-interface-status": {
-                      "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
-                      "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "uuid": "alap-1-0-0-op-c-is-mwdi-1-0-0-110",
-              "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-              "client-ltp": [
-              ],
-              "server-ltp": [
-                "alap-1-0-0-http-c-mwdi-1-0-0-000"
-              ],
-              "layer-protocol": [
-                {
-                  "local-id": "0",
-                  "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
-                  "operation-client-interface-1-0:operation-client-interface-pac": {
-                    "operation-client-interface-configuration": {
-                      "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}",
-                      "operation-key": "Operation key not yet provided."
-                    },
-                    "operation-client-interface-status": {
-                      "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
-                      "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "uuid": "alap-1-0-0-op-c-is-mwdi-1-0-0-111",
-              "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-              "client-ltp": [
-              ],
-              "server-ltp": [
-                "alap-1-0-0-http-c-mwdi-1-0-0-000"
-              ],
-              "layer-protocol": [
-                {
-                  "local-id": "0",
-                  "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
-                  "operation-client-interface-1-0:operation-client-interface-pac": {
-                    "operation-client-interface-configuration": {
-                      "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/connector={local-id}",
-                      "operation-key": "Operation key not yet provided."
-                    },
-                    "operation-client-interface-status": {
-                      "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
-                      "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "uuid": "alap-1-0-0-op-c-is-mwdi-1-0-0-114",
-              "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-              "client-ltp": [
-              ],
-              "server-ltp": [
-                "alap-1-0-0-http-c-mwdi-1-0-0-000"
-              ],
-              "layer-protocol": [
-                {
-                  "local-id": "0",
-                  "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
-                  "operation-client-interface-1-0:operation-client-interface-pac": {
-                    "operation-client-interface-configuration": {
-                      "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment",
-                      "operation-key": "Operation key not yet provided."
-                    },
-                    "operation-client-interface-status": {
-                      "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
-                      "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "uuid": "alap-1-0-0-op-c-is-mwdi-1-0-0-120",
-              "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-              "client-ltp": [
-              ],
-              "server-ltp": [
-                "alap-1-0-0-http-c-mwdi-1-0-0-000"
-              ],
-              "layer-protocol": [
-                {
-                  "local-id": "0",
-                  "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
-                  "operation-client-interface-1-0:operation-client-interface-pac": {
-                    "operation-client-interface-configuration": {
-                      "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/firmware-1-0:firmware-collection",
-                      "operation-key": "Operation key not yet provided."
-                    },
-                    "operation-client-interface-status": {
-                      "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
-                      "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "uuid": "alap-1-0-0-op-c-is-mwdi-1-0-0-201",
-              "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-              "client-ltp": [
-              ],
-              "server-ltp": [
-                "alap-1-0-0-http-c-mwdi-1-0-0-000"
-              ],
-              "layer-protocol": [
-                {
-                  "local-id": "0",
-                  "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
-                  "operation-client-interface-1-0:operation-client-interface-pac": {
-                    "operation-client-interface-configuration": {
-                      "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac",
-                      "operation-key": "Operation key not yet provided."
-                    },
-                    "operation-client-interface-status": {
-                      "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
-                      "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "uuid": "alap-1-0-0-op-c-is-mwdi-1-0-0-210",
-              "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-              "client-ltp": [
-              ],
-              "server-ltp": [
-                "alap-1-0-0-http-c-mwdi-1-0-0-000"
-              ],
-              "layer-protocol": [
-                {
-                  "local-id": "0",
-                  "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
-                  "operation-client-interface-1-0:operation-client-interface-pac": {
-                    "operation-client-interface-configuration": {
-                      "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability",
-                      "operation-key": "Operation key not yet provided."
-                    },
-                    "operation-client-interface-status": {
-                      "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
-                      "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "uuid": "alap-1-0-0-op-c-is-mwdi-1-0-0-211",
-              "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-              "client-ltp": [
-              ],
-              "server-ltp": [
-                "alap-1-0-0-http-c-mwdi-1-0-0-000"
-              ],
-              "layer-protocol": [
-                {
-                  "local-id": "0",
-                  "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
-                  "operation-client-interface-1-0:operation-client-interface-pac": {
-                    "operation-client-interface-configuration": {
-                      "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration",
-                      "operation-key": "Operation key not yet provided."
-                    },
-                    "operation-client-interface-status": {
-                      "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
-                      "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "uuid": "alap-1-0-0-op-c-is-mwdi-1-0-0-512",
-              "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-              "client-ltp": [
-              ],
-              "server-ltp": [
-                "alap-1-0-0-http-c-mwdi-1-0-0-000"
-              ],
-              "layer-protocol": [
-                {
-                  "local-id": "0",
-                  "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
-                  "operation-client-interface-1-0:operation-client-interface-pac": {
-                    "operation-client-interface-configuration": {
-                      "operation-name": "/core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status",
-                      "operation-key": "Operation key not yet provided."
-                    },
-                    "operation-client-interface-status": {
-                      "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
-                      "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "uuid": "alap-1-0-0-op-c-is-mwdi-1-0-0-261",
-              "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-              "client-ltp": [
-              ],
-              "server-ltp": [
-                "alap-1-0-0-http-c-mwdi-1-0-0-000"
-              ],
-              "layer-protocol": [
-                {
-                  "local-id": "0",
-                  "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
-                  "operation-client-interface-1-0:operation-client-interface-pac": {
-                    "operation-client-interface-configuration": {
-                      "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration",
-                      "operation-key": "Operation key not yet provided."
-                    },
-                    "operation-client-interface-status": {
-                      "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
-                      "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "uuid": "alap-1-0-0-op-c-is-mwdi-1-0-0-270",
-              "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-              "client-ltp": [
-              ],
-              "server-ltp": [
-                "alap-1-0-0-http-c-mwdi-1-0-0-000"
-              ],
-              "layer-protocol": [
-                {
-                  "local-id": "0",
-                  "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
-                  "operation-client-interface-1-0:operation-client-interface-pac": {
-                    "operation-client-interface-configuration": {
-                      "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-capability",
-                      "operation-key": "Operation key not yet provided."
-                    },
-                    "operation-client-interface-status": {
-                      "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
-                      "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "uuid": "alap-1-0-0-op-c-is-mwdi-1-0-0-272",
-              "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-              "client-ltp": [
-              ],
-              "server-ltp": [
-                "alap-1-0-0-http-c-mwdi-1-0-0-000"
-              ],
-              "layer-protocol": [
-                {
-                  "local-id": "0",
-                  "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
-                  "operation-client-interface-1-0:operation-client-interface-pac": {
-                    "operation-client-interface-configuration": {
-                      "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status",
-                      "operation-key": "Operation key not yet provided."
-                    },
-                    "operation-client-interface-status": {
-                      "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
-                      "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "uuid": "alap-1-0-0-http-c-mwdi-1-0-0-000",
-              "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-              "client-ltp": [
-                "alap-1-0-0-op-c-is-mwdi-1-0-0-000",
-                "alap-1-0-0-op-c-is-mwdi-1-0-0-407",
-                "alap-1-0-0-op-c-is-mwdi-1-0-0-110",
-                "alap-1-0-0-op-c-is-mwdi-1-0-0-111",
-                "alap-1-0-0-op-c-is-mwdi-1-0-0-114",
-                "alap-1-0-0-op-c-is-mwdi-1-0-0-120",
-                "alap-1-0-0-op-c-is-mwdi-1-0-0-201",
-                "alap-1-0-0-op-c-is-mwdi-1-0-0-210",
-                "alap-1-0-0-op-c-is-mwdi-1-0-0-211",
-                "alap-1-0-0-op-c-is-mwdi-1-0-0-512",
-                "alap-1-0-0-op-c-is-mwdi-1-0-0-261",
-                "alap-1-0-0-op-c-is-mwdi-1-0-0-270",
-                "alap-1-0-0-op-c-is-mwdi-1-0-0-272"
-              ],
-              "server-ltp": [
-                  "alap-1-0-0-tcp-c-mwdi-1-0-0-000"
-              ],
-              "layer-protocol": [
-                {
-                  "local-id": "0",
-                  "layer-protocol-name": "http-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER",
-                  "http-client-interface-1-0:http-client-interface-pac": {
-                    "http-client-interface-configuration": {
-                      "application-name": "MicroWaveDeviceInventory",
-                      "release-number": "1.0.0"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "uuid": "alap-1-0-0-tcp-c-mwdi-1-0-0-000",
-              "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-              "client-ltp": [
-                  "alap-1-0-0-http-c-mwdi-1-0-0-000"
-              ],
-              "server-ltp": [
-              ],
-              "layer-protocol": [
-                {
-                  "local-id": "0",
-                  "layer-protocol-name": "tcp-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER",
-                  "tcp-client-interface-1-0:tcp-client-interface-pac": {
-                    "tcp-client-interface-configuration": {
-                      "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
-                      "remote-address": {
-                        "ip-address": {
-                          "ipv-4-address": "1.1.4.4"
-                        }
-                      },
-                      "remote-port": 4004
-                    }
-                  }
-                }
-              ]
-            }
+              }
+            ]
+          }
         ],
         "forwarding-domain": [
           {
-            "uuid": "alap-1-0-0-op-fd-000",
+            "uuid": "alap-1-0-1-op-fd-000",
             "forwarding-construct": [
               {
-                "uuid": "alap-1-0-0-op-fc-bm-000",
+                "uuid": "alap-1-0-1-op-fc-bm-000",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -2217,22 +2227,22 @@
                   {
                     "local-id": "000",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-000"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-000"
                   },
                   {
                     "local-id": "100",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-000"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-000"
                   },
                   {
                     "local-id": "200",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-bm-ro-2-0-1-000"
+                    "logical-termination-point": "alap-1-0-1-op-c-bm-ro-2-0-1-000"
                   }
                 ]
               },
               {
-                "uuid": "alap-1-0-0-op-fc-bm-001",
+                "uuid": "alap-1-0-1-op-fc-bm-001",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -2247,17 +2257,17 @@
                   {
                     "local-id": "100",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-001"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-001"
                   },
                   {
                     "local-id": "200",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-bm-or-1-0-0-000"
+                    "logical-termination-point": "alap-1-0-1-op-c-bm-or-1-0-0-000"
                   }
                 ]
               },
               {
-                "uuid": "alap-1-0-0-op-fc-bm-002",
+                "uuid": "alap-1-0-1-op-fc-bm-002",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -2272,107 +2282,112 @@
                   {
                     "local-id": "000",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-002"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-002"
                   },
                   {
                     "local-id": "100",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-000"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-000"
                   },
                   {
                     "local-id": "101",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-001"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-001"
                   },
                   {
                     "local-id": "102",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-002"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-002"
                   },
                   {
                     "local-id": "103",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-003"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-003"
                   },
                   {
                     "local-id": "104",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-004"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-004"
                   },
                   {
                     "local-id": "105",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-005"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-005"
                   },
                   {
                     "local-id": "106",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-007"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-007"
                   },
                   {
                     "local-id": "107",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-008"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-008"
                   },
                   {
                     "local-id": "108",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-009"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-009"
                   },
                   {
                     "local-id": "109",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-010"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-010"
                   },
                   {
                     "local-id": "110",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-011"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-011"
                   },
                   {
                     "local-id": "111",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-im-000"
+                    "logical-termination-point": "alap-1-0-1-op-s-im-000"
                   },
                   {
                     "local-id": "112",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bs-000"
+                    "logical-termination-point": "alap-1-0-1-op-s-bs-000"
                   },
                   {
                     "local-id": "113",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bs-001"
+                    "logical-termination-point": "alap-1-0-1-op-s-bs-001"
                   },
                   {
                     "local-id": "114",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bs-002"
+                    "logical-termination-point": "alap-1-0-1-op-s-bs-002"
                   },
                   {
                     "local-id": "115",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bs-003"
+                    "logical-termination-point": "alap-1-0-1-op-s-bs-003"
                   },
                   {
                     "local-id": "116",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bs-004"
+                    "logical-termination-point": "alap-1-0-1-op-s-bs-004"
                   },
                   {
                     "local-id": "117",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bs-005"
+                    "logical-termination-point": "alap-1-0-1-op-s-bs-005"
+                  },
+                  {
+                    "local-id": "118",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "alap-1-0-1-op-s-is-000"
                   },
                   {
                     "local-id": "200",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-bs-eatl-2-0-1-000"
+                    "logical-termination-point": "alap-1-0-1-op-c-bs-eatl-2-0-1-000"
                   }
                 ]
               },
               {
-                "uuid": "alap-1-0-0-op-fc-bm-003",
+                "uuid": "alap-1-0-1-op-fc-bm-003",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -2387,17 +2402,17 @@
                   {
                     "local-id": "000",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-003"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-003"
                   },
                   {
                     "local-id": "200",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-bs-ol-2-0-1-000"
+                    "logical-termination-point": "alap-1-0-1-op-c-bs-ol-2-0-1-000"
                   }
                 ]
               },
               {
-                "uuid": "alap-1-0-0-op-fc-bm-004",
+                "uuid": "alap-1-0-1-op-fc-bm-004",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -2412,17 +2427,17 @@
                   {
                     "local-id": "000",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-005"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-005"
                   },
                   {
                     "local-id": "200",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-bs-aa-2-0-1-000"
+                    "logical-termination-point": "alap-1-0-1-op-c-bs-aa-2-0-1-000"
                   }
                 ]
               },
               {
-                "uuid": "alap-1-0-0-op-fc-bm-105",
+                "uuid": "alap-1-0-1-op-fc-bm-105",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -2437,22 +2452,22 @@
                   {
                     "local-id": "000",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-001"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-001"
                   },
                   {
                     "local-id": "100",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-im-000"
+                    "logical-termination-point": "alap-1-0-1-op-s-im-000"
                   },
                   {
                     "local-id": "200",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-bm-ro-2-0-1-001"
+                    "logical-termination-point": "alap-1-0-1-op-c-bm-ro-2-0-1-001"
                   }
                 ]
               },
               {
-                "uuid": "alap-1-0-0-op-fc-bm-106",
+                "uuid": "alap-1-0-1-op-fc-bm-106",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -2467,22 +2482,22 @@
                   {
                     "local-id": "000",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-001"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-001"
                   },
                   {
                     "local-id": "100",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-im-000"
+                    "logical-termination-point": "alap-1-0-1-op-s-im-000"
                   },
                   {
                     "local-id": "200",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-bm-ro-2-0-1-002"
+                    "logical-termination-point": "alap-1-0-1-op-c-bm-ro-2-0-1-002"
                   }
                 ]
               },
               {
-                "uuid": "alap-1-0-0-op-fc-bm-107",
+                "uuid": "alap-1-0-1-op-fc-bm-107",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -2497,22 +2512,22 @@
                   {
                     "local-id": "000",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-001"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-001"
                   },
                   {
                     "local-id": "100",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-007"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-007"
                   },
                   {
                     "local-id": "200",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-bm-ro-2-0-1-003"
+                    "logical-termination-point": "alap-1-0-1-op-c-bm-ro-2-0-1-003"
                   }
                 ]
               },
               {
-                "uuid": "alap-1-0-0-op-fc-bm-006",
+                "uuid": "alap-1-0-1-op-fc-bm-006",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -2527,62 +2542,62 @@
                   {
                     "local-id": "000",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-009"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-009"
                   },
                   {
                     "local-id": "100",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-000"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-000"
                   },
                   {
                     "local-id": "101",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-001"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-001"
                   },
                   {
                     "local-id": "102",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-002"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-002"
                   },
                   {
                     "local-id": "103",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-003"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-003"
                   },
                   {
                     "local-id": "104",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-005"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-005"
                   },
                   {
                     "local-id": "105",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-007"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-007"
                   },
                   {
                     "local-id": "106",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-009"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-009"
                   },
                   {
                     "local-id": "108",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-011"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-011"
                   },
                   {
                     "local-id": "109",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-im-000"
+                    "logical-termination-point": "alap-1-0-1-op-s-im-000"
                   },
                   {
                     "local-id": "200",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-bm-alt-2-0-1-001"
+                    "logical-termination-point": "alap-1-0-1-op-c-bm-alt-2-0-1-001"
                   }
                 ]
               },
               {
-                "uuid": "alap-1-0-0-op-fc-bm-007",
+                "uuid": "alap-1-0-1-op-fc-bm-007",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -2597,17 +2612,17 @@
                   {
                     "local-id": "000",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-009"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-009"
                   },
                   {
                     "local-id": "200",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-bm-alt-2-0-1-002"
+                    "logical-termination-point": "alap-1-0-1-op-c-bm-alt-2-0-1-002"
                   }
                 ]
               },
               {
-                "uuid": "alap-1-0-0-op-fc-bm-008",
+                "uuid": "alap-1-0-1-op-fc-bm-008",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -2622,17 +2637,17 @@
                   {
                     "local-id": "000",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-009"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-009"
                   },
                   {
                     "local-id": "200",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-bm-alt-2-0-1-003"
+                    "logical-termination-point": "alap-1-0-1-op-c-bm-alt-2-0-1-003"
                   }
                 ]
               },
               {
-                "uuid": "alap-1-0-0-op-fc-bm-009",
+                "uuid": "alap-1-0-1-op-fc-bm-009",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -2647,17 +2662,17 @@
                   {
                     "local-id": "000",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-009"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-009"
                   },
                   {
                     "local-id": "200",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-bm-alt-2-0-1-004"
+                    "logical-termination-point": "alap-1-0-1-op-c-bm-alt-2-0-1-004"
                   }
                 ]
               },
               {
-                "uuid": "alap-1-0-0-op-fc-bm-010",
+                "uuid": "alap-1-0-1-op-fc-bm-010",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -2672,22 +2687,22 @@
                   {
                     "local-id": "000",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-009"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-009"
                   },
                   {
                     "local-id": "100",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-004"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-004"
                   },
                   {
                     "local-id": "200",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-bm-alt-2-0-1-005"
+                    "logical-termination-point": "alap-1-0-1-op-c-bm-alt-2-0-1-005"
                   }
                 ]
               },
               {
-                "uuid": "alap-1-0-0-op-fc-bm-011",
+                "uuid": "alap-1-0-1-op-fc-bm-011",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -2702,17 +2717,17 @@
                   {
                     "local-id": "000",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-009"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-009"
                   },
                   {
                     "local-id": "200",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-bm-alt-2-0-1-001"
+                    "logical-termination-point": "alap-1-0-1-op-c-bm-alt-2-0-1-001"
                   }
                 ]
               },
               {
-                "uuid": "alap-1-0-0-op-fc-bm-012",
+                "uuid": "alap-1-0-1-op-fc-bm-012",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -2727,17 +2742,17 @@
                   {
                     "local-id": "000",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-009"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-009"
                   },
                   {
                     "local-id": "200",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-bm-alt-2-0-1-002"
+                    "logical-termination-point": "alap-1-0-1-op-c-bm-alt-2-0-1-002"
                   }
                 ]
               },
               {
-                "uuid": "alap-1-0-0-op-fc-bm-013",
+                "uuid": "alap-1-0-1-op-fc-bm-013",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -2752,17 +2767,17 @@
                   {
                     "local-id": "000",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-009"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-009"
                   },
                   {
                     "local-id": "200",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-bm-alt-2-0-1-003"
+                    "logical-termination-point": "alap-1-0-1-op-c-bm-alt-2-0-1-003"
                   }
                 ]
               },
               {
-                "uuid": "alap-1-0-0-op-fc-bm-014",
+                "uuid": "alap-1-0-1-op-fc-bm-014",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -2777,17 +2792,17 @@
                   {
                     "local-id": "000",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-009"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-009"
                   },
                   {
                     "local-id": "200",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-bm-alt-2-0-1-004"
+                    "logical-termination-point": "alap-1-0-1-op-c-bm-alt-2-0-1-004"
                   }
                 ]
               },
               {
-                "uuid": "alap-1-0-0-op-fc-bm-015",
+                "uuid": "alap-1-0-1-op-fc-bm-015",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -2802,17 +2817,17 @@
                   {
                     "local-id": "000",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
-                    "logical-termination-point": "alap-1-0-0-op-s-bm-009"
+                    "logical-termination-point": "alap-1-0-1-op-s-bm-009"
                   },
                   {
                     "local-id": "200",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-bm-alt-2-0-1-005"
+                    "logical-termination-point": "alap-1-0-1-op-c-bm-alt-2-0-1-005"
                   }
                 ]
               },
               {
-                "uuid": "alap-1-0-0-op-fc-is-100",
+                "uuid": "alap-1-0-1-op-fc-is-100",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -2827,17 +2842,17 @@
                   {
                     "local-id": "100",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-is-000"
+                    "logical-termination-point": "alap-1-0-1-op-s-is-000"
                   },
                   {
                     "local-id": "200",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-000"
+                    "logical-termination-point": "alap-1-0-1-op-c-is-mwdi-1-0-0-000"
                   }
                 ]
               },
               {
-                "uuid": "alap-1-0-0-op-fc-is-101",
+                "uuid": "alap-1-0-1-op-fc-is-101",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -2852,17 +2867,17 @@
                   {
                     "local-id": "100",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-is-000"
+                    "logical-termination-point": "alap-1-0-1-op-s-is-000"
                   },
                   {
                     "local-id": "200",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-211"
+                    "logical-termination-point": "alap-1-0-1-op-c-is-mwdi-1-0-0-211"
                   }
                 ]
               },
               {
-                "uuid": "alap-1-0-0-op-fc-is-102",
+                "uuid": "alap-1-0-1-op-fc-is-102",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -2877,17 +2892,17 @@
                   {
                     "local-id": "100",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-is-000"
+                    "logical-termination-point": "alap-1-0-1-op-s-is-000"
                   },
                   {
                     "local-id": "200",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-210"
+                    "logical-termination-point": "alap-1-0-1-op-c-is-mwdi-1-0-0-210"
                   }
                 ]
               },
               {
-                "uuid": "alap-1-0-0-op-fc-is-103",
+                "uuid": "alap-1-0-1-op-fc-is-103",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -2902,17 +2917,17 @@
                   {
                     "local-id": "100",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-is-000"
+                    "logical-termination-point": "alap-1-0-1-op-s-is-000"
                   },
                   {
                     "local-id": "200",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-211"
+                    "logical-termination-point": "alap-1-0-1-op-c-is-mwdi-1-0-0-211"
                   }
                 ]
               },
               {
-                "uuid": "alap-1-0-0-op-fc-is-104",
+                "uuid": "alap-1-0-1-op-fc-is-104",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -2927,17 +2942,17 @@
                   {
                     "local-id": "100",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-is-000"
+                    "logical-termination-point": "alap-1-0-1-op-s-is-000"
                   },
                   {
                     "local-id": "200",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-212"
+                    "logical-termination-point": "alap-1-0-1-op-c-is-mwdi-1-0-0-512"
                   }
                 ]
               },
               {
-                "uuid": "alap-1-0-0-op-fc-is-115",
+                "uuid": "alap-1-0-1-op-fc-is-115",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -2952,17 +2967,17 @@
                   {
                     "local-id": "100",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-is-000"
+                    "logical-termination-point": "alap-1-0-1-op-s-is-000"
                   },
                   {
                     "local-id": "200",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-201"
+                    "logical-termination-point": "alap-1-0-1-op-c-is-mwdi-1-0-0-201"
                   }
                 ]
               },
               {
-                "uuid": "alap-1-0-0-op-fc-is-120",
+                "uuid": "alap-1-0-1-op-fc-is-120",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -2977,17 +2992,17 @@
                   {
                     "local-id": "100",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-is-000"
+                    "logical-termination-point": "alap-1-0-1-op-s-is-000"
                   },
                   {
                     "local-id": "200",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-407"
+                    "logical-termination-point": "alap-1-0-1-op-c-is-mwdi-1-0-0-407"
                   }
                 ]
               },
               {
-                "uuid": "alap-1-0-0-op-fc-is-130",
+                "uuid": "alap-1-0-1-op-fc-is-130",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -2995,30 +3010,24 @@
                   },
                   {
                     "value-name": "ForwardingName",
-                    "value": "RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole"
+                    "value": "RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.OriginalLtpName"
                   }
                 ],
                 "fc-port": [
                   {
                     "local-id": "100",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-is-000"
+                    "logical-termination-point": "alap-1-0-1-op-s-is-000"
                   },
                   {
                     "local-id": "200",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-201"
-                  },
-                  {
-                    "local-id": "200",
-                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-261"
+                    "logical-termination-point": "alap-1-0-1-op-c-is-mwdi-1-0-0-201"
                   }
-                  
                 ]
               },
               {
-                "uuid": "alap-1-0-0-op-fc-is-131",
+                "uuid": "alap-1-0-1-op-fc-is-131",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -3026,29 +3035,24 @@
                   },
                   {
                     "value-name": "ForwardingName",
-                    "value": "RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole"
+                    "value": "RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.VlanInterfaceKind"
                   }
                 ],
                 "fc-port": [
                   {
                     "local-id": "100",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-is-000"
+                    "logical-termination-point": "alap-1-0-1-op-s-is-000"
                   },
                   {
                     "local-id": "200",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-201"
-                  },
-                  {
-                    "local-id": "200",
-                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-261"
+                    "logical-termination-point": "alap-1-0-1-op-c-is-mwdi-1-0-0-261"
                   }
                 ]
               },
               {
-                "uuid": "alap-1-0-0-op-fc-is-140",
+                "uuid": "alap-1-0-1-op-fc-is-132",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -3056,44 +3060,24 @@
                   },
                   {
                     "value-name": "ForwardingName",
-                    "value": "RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation"
+                    "value": "RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.EthernetContainerStatus"
                   }
                 ],
                 "fc-port": [
                   {
                     "local-id": "100",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-is-000"
+                    "logical-termination-point": "alap-1-0-1-op-s-is-000"
                   },
                   {
                     "local-id": "200",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-201"
-                  },
-                  {
-                    "local-id": "200",
-                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-114"
-                  },
-                  {
-                    "local-id": "200",
-                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-201"
-                  },
-                  {
-                    "local-id": "200",
-                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-270"
-                  },
-                  {
-                    "local-id": "200",
-                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-272"
+                    "logical-termination-point": "alap-1-0-1-op-c-is-mwdi-1-0-0-222"
                   }
                 ]
               },
               {
-                "uuid": "alap-1-0-0-op-fc-is-150",
+                "uuid": "alap-1-0-1-op-fc-is-135",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -3101,34 +3085,24 @@
                   },
                   {
                     "value-name": "ForwardingName",
-                    "value": "RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition"
+                    "value": "RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.OriginalLtpName"
                   }
                 ],
                 "fc-port": [
                   {
                     "local-id": "100",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-is-000"
+                    "logical-termination-point": "alap-1-0-1-op-s-is-000"
                   },
                   {
                     "local-id": "200",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-201"
-                  },
-                  {
-                    "local-id": "200",
-                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-114"
-                  },
-                  {
-                    "local-id": "200",
-                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-000"
+                    "logical-termination-point": "alap-1-0-1-op-c-is-mwdi-1-0-0-201"
                   }
                 ]
               },
               {
-                "uuid": "alap-1-0-0-op-fc-is-151",
+                "uuid": "alap-1-0-1-op-fc-is-136",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -3136,29 +3110,299 @@
                   },
                   {
                     "value-name": "ForwardingName",
-                    "value": "RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector"
+                    "value": "RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.VlanInterfaceKind"
                   }
                 ],
                 "fc-port": [
                   {
                     "local-id": "100",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-is-000"
+                    "logical-termination-point": "alap-1-0-1-op-s-is-000"
                   },
                   {
                     "local-id": "200",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-201"
-                  },
-                  {
-                    "local-id": "200",
-                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-111"
+                    "logical-termination-point": "alap-1-0-1-op-c-is-mwdi-1-0-0-261"
                   }
                 ]
               },
               {
-                "uuid": "alap-1-0-0-op-fc-is-152",
+                "uuid": "alap-1-0-1-op-fc-is-137",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.EthernetContainerStatus"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "100",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "alap-1-0-1-op-s-is-000"
+                  },
+                  {
+                    "local-id": "200",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "alap-1-0-1-op-c-is-mwdi-1-0-0-222"
+                  }
+                ]
+              },
+              {
+                "uuid": "alap-1-0-1-op-fc-is-140",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentUuid"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "100",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "alap-1-0-1-op-s-is-000"
+                  },
+                  {
+                    "local-id": "200",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "alap-1-0-1-op-c-is-mwdi-1-0-0-201"
+                  }
+                ]
+              },
+              {
+                "uuid": "alap-1-0-1-op-fc-is-141",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentCategory"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "100",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "alap-1-0-1-op-s-is-000"
+                  },
+                  {
+                    "local-id": "200",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "alap-1-0-1-op-c-is-mwdi-1-0-0-114"
+                  }
+                ]
+              },
+              {
+                "uuid": "alap-1-0-1-op-fc-is-142",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.WireInterfaceName"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "100",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "alap-1-0-1-op-s-is-000"
+                  },
+                  {
+                    "local-id": "200",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "alap-1-0-1-op-c-is-mwdi-1-0-0-201"
+                  }
+                ]
+              },
+              {
+                "uuid": "alap-1-0-1-op-fc-is-143",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.SupportedPmds"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "100",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "alap-1-0-1-op-s-is-000"
+                  },
+                  {
+                    "local-id": "200",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "alap-1-0-1-op-c-is-mwdi-1-0-0-270"
+                  }
+                ]
+              },
+              {
+                "uuid": "alap-1-0-1-op-fc-is-144",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.OperatedPmd"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "100",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "alap-1-0-1-op-s-is-000"
+                  },
+                  {
+                    "local-id": "200",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "alap-1-0-1-op-c-is-mwdi-1-0-0-272"
+                  }
+                ]
+              },
+              {
+                "uuid": "alap-1-0-1-op-fc-is-150",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentUuid"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "100",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "alap-1-0-1-op-s-is-000"
+                  },
+                  {
+                    "local-id": "200",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "alap-1-0-1-op-c-is-mwdi-1-0-0-201"
+                  }
+                ]
+              },
+              {
+                "uuid": "alap-1-0-1-op-fc-is-151",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "100",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "alap-1-0-1-op-s-is-000"
+                  },
+                  {
+                    "local-id": "200",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "alap-1-0-1-op-c-is-mwdi-1-0-0-114"
+                  }
+                ]
+              },
+              {
+                "uuid": "alap-1-0-1-op-fc-is-152",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.HolderLabel"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "100",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "alap-1-0-1-op-s-is-000"
+                  },
+                  {
+                    "local-id": "200",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "alap-1-0-1-op-c-is-mwdi-1-0-0-000"
+                  }
+                ]
+              },
+              {
+                "uuid": "alap-1-0-1-op-fc-is-155",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorId"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "100",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "alap-1-0-1-op-s-is-000"
+                  },
+                  {
+                    "local-id": "200",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "alap-1-0-1-op-c-is-mwdi-1-0-0-201"
+                  }
+                ]
+              },
+              {
+                "uuid": "alap-1-0-1-op-fc-is-156",
+                "name": [
+                  {
+                    "value-name": "ForwardingKind",
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                  },
+                  {
+                    "value-name": "ForwardingName",
+                    "value": "RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorNumber"
+                  }
+                ],
+                "fc-port": [
+                  {
+                    "local-id": "100",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "alap-1-0-1-op-s-is-000"
+                  },
+                  {
+                    "local-id": "200",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "alap-1-0-1-op-c-is-mwdi-1-0-0-111"
+                  }
+                ]
+              },
+              {
+                "uuid": "alap-1-0-1-op-fc-is-160",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -3173,17 +3417,17 @@
                   {
                     "local-id": "100",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-is-000"
+                    "logical-termination-point": "alap-1-0-1-op-s-is-000"
                   },
                   {
                     "local-id": "200",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-114"
+                    "logical-termination-point": "alap-1-0-1-op-c-is-mwdi-1-0-0-114"
                   }
                 ]
               },
               {
-                "uuid": "alap-1-0-0-op-fc-is-155",
+                "uuid": "alap-1-0-1-op-fc-is-161",
                 "name": [
                   {
                     "value-name": "ForwardingKind",
@@ -3198,12 +3442,12 @@
                   {
                     "local-id": "100",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "alap-1-0-0-op-s-is-000"
+                    "logical-termination-point": "alap-1-0-1-op-s-is-000"
                   },
                   {
                     "local-id": "200",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "alap-1-0-0-op-c-is-mwdi-1-0-0-120"
+                    "logical-termination-point": "alap-1-0-1-op-c-is-mwdi-1-0-0-120"
                   }
                 ]
               }
