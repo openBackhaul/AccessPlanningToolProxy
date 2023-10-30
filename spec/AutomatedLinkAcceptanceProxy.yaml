@@ -489,9 +489,6 @@ paths:
             application/json:
               schema:
                 type: object
-                required:
-                  - interface-name
-                  - link-id
                 properties:
                   air-interface:
                     type: object
