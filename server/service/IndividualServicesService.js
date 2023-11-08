@@ -90,11 +90,16 @@ exports.provideAcceptanceDataOfLinkEndpoint = function (body, user, originator, 
       let airInterfaceResult = await ReadAirInterfaceData.readAirInterfaceData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer)
         .catch(err => console.log(` ${err}`));
 
-      let uuidUnderTest = airInterfaceResult.uuidUnderTest;
-      if (Object.keys(airInterfaceResult.airInterface).length != 0) {
-        acceptanceDataOfLinkEndPoint.airInterface = airInterfaceResult.airInterface;
+      let uuidUnderTest = "";
+      if (airInterfaceResult) {
+        if (airInterfaceResult.uuidUnderTest) {
+          uuidUnderTest = airInterfaceResult.uuidUnderTest;
+        }
+        if (Object.keys(airInterfaceResult.airInterface).length != 0) {
+          acceptanceDataOfLinkEndPoint.airInterface = airInterfaceResult.airInterface;
+        }
+        traceIndicatorIncrementer = airInterfaceResult.traceIndicatorIncrementer;
       }
-      traceIndicatorIncrementer = airInterfaceResult.traceIndicatorIncrementer;
 
       /****************************************************************************************
        * Collect vlan-interface data
