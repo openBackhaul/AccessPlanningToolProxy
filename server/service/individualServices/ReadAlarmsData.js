@@ -44,7 +44,7 @@ exports.readAlarmsData = async function (mountName, requestHeaders, traceIndicat
     return alarmsData;
 
   } catch (error) {
-    return new createHttpError.InternalServerError(`readAlarmsData is not success with ${error}`);
+    console.log(`readAlarmsData is not success with ${error}`);
   }
 }
 
@@ -73,10 +73,14 @@ async function RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLi
     let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName)
     let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
     let alarmsFromLiveResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
-    if (Object.keys(alarmsFromLiveResponse).length === 0) {
-      console.log(`${forwardingName} is not success`);
+    if (alarmsFromLiveResponse) {
+      if (Object.keys(alarmsFromLiveResponse).length === 0) {
+        console.log(`${forwardingName} is not success`);
+      } else {
+        alarms = alarmsFromLiveResponse;
+      }
     } else {
-      alarms = alarmsFromLiveResponse;
+      console.log(`${forwardingName} is not success`);
     }
   } catch (error) {
     console.log(`${forwardingName} is not success with ${error}`);
@@ -96,20 +100,26 @@ async function formulateResponseBodyForAlarms(alarmsFromLive) {
   let alarms = {
     "current-alarms": {}
   };
-  let currentAlarms = alarmsFromLive[ALARMS.MODULE + ":" + ALARMS.CURRENT_ALARMS];
-  if (currentAlarms && Object.keys(currentAlarms).length !== 0) {
-    let numberOfCurrentAlarms = alarmsFromLive[ALARMS.MODULE + ":" + ALARMS.CURRENT_ALARMS][ALARMS.NUMBER_OF_CURRENT_ALARMS];
-    let currentAlarmList = alarmsFromLive[ALARMS.MODULE + ":" + ALARMS.CURRENT_ALARMS][ALARMS.CURRENT_ALARM_LIST];
-    let alarmList = [];
-    for (let i = 0; i < currentAlarmList.length; i++) {
-      let alarm = {};
-      alarm[ALARMS.ALARM_SEVERITY] = currentAlarmList[i][ALARMS.ALARM_SEVERITY];
-      alarm[ALARMS.ALARM_TYPE_QUALIFIER] = currentAlarmList[i][ALARMS.ALARM_TYPE_QUALIFIER];
-      alarm[ALARMS.ALARM_TYPE_ID] = currentAlarmList[i][ALARMS.ALARM_TYPE_ID];
-      alarmList.push(alarm);
+  if (alarmsFromLive) {
+    let currentAlarms = alarmsFromLive[ALARMS.MODULE + ":" + ALARMS.CURRENT_ALARMS];
+    if (currentAlarms) {
+      if (Object.keys(currentAlarms).length !== 0) {
+        let numberOfCurrentAlarms = alarmsFromLive[ALARMS.MODULE + ":" + ALARMS.CURRENT_ALARMS][ALARMS.NUMBER_OF_CURRENT_ALARMS];
+        let alarmList = [];
+        if (numberOfCurrentAlarms != 0) {
+          let currentAlarmList = alarmsFromLive[ALARMS.MODULE + ":" + ALARMS.CURRENT_ALARMS][ALARMS.CURRENT_ALARM_LIST];
+          for (let i = 0; i < currentAlarmList.length; i++) {
+            let alarm = {};
+            alarm[ALARMS.ALARM_SEVERITY] = currentAlarmList[i][ALARMS.ALARM_SEVERITY];
+            alarm[ALARMS.ALARM_TYPE_QUALIFIER] = currentAlarmList[i][ALARMS.ALARM_TYPE_QUALIFIER];
+            alarm[ALARMS.ALARM_TYPE_ID] = currentAlarmList[i][ALARMS.ALARM_TYPE_ID];
+            alarmList.push(alarm);
+          }
+        }
+        alarms[ALARMS.CURRENT_ALARMS][ALARMS.NUMBER_OF_CURRENT_ALARMS] = numberOfCurrentAlarms;
+        alarms[ALARMS.CURRENT_ALARMS][ALARMS.CURRENT_ALARM_LIST] = alarmList;
+      }
     }
-    alarms[ALARMS.CURRENT_ALARMS][ALARMS.NUMBER_OF_CURRENT_ALARMS] = numberOfCurrentAlarms;
-    alarms[ALARMS.CURRENT_ALARMS][ALARMS.CURRENT_ALARM_LIST] = alarmList;
   }
   return alarms;
 }
