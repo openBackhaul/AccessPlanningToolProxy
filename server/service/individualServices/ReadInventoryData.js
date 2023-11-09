@@ -580,6 +580,7 @@ async function getServingPhysicLtpList(clientContainerLtp, ltpStructure) {
  */
 async function getAirInterfaceConfigurationLinkId(mountName, ltp, requestHeaders, traceIndicatorIncrementer) {
   let airInterfaceNameResponse = {};
+  let airInterfaceConfiguration = {};
   let pathParamList = [];
   try {
     let uuid = ltp[onfAttributes.GLOBAL_CLASS.UUID];
@@ -592,7 +593,7 @@ async function getAirInterfaceConfigurationLinkId(mountName, ltp, requestHeaders
      *    /logical-termination-point={uuid}/layer-protocol={local-id}
      *        /air-interface-2-0:air-interface-pac/air-interface-configuration
      *****************************************************************************************************/
-    let airInterfaceConfiguration = await ReadAirInterfaceData.RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache(pathParamList, requestHeaders, traceIndicatorIncrementer);
+    airInterfaceConfiguration = await ReadAirInterfaceData.RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache(pathParamList, requestHeaders, traceIndicatorIncrementer);
     if (Object.keys(airInterfaceConfiguration).length === 0) {
       console.log(`${airInterfaceConfigurationForwardingName} is not success`);
     } else {
