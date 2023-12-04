@@ -121,7 +121,7 @@ profile-instances:
     capability:
       string-name: 'RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceName'
     configuration:
-      string-value: 'air-interface-name'
+      string-value: 'external-label'
 
   - profile-name: 'StringProfile'
     uuid: 'alap-1-0-1-string-p-002'
