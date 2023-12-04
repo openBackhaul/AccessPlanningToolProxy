@@ -828,7 +828,7 @@ paths:
                                   type: string
                                   description: >
                                     'Identifier of the microwave link as used in the Telefonica planing tools
-                                    from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration.air-interface-name}'
+                                    from {$RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation.LtpName.response.body#ltp-augment-1-0:ltp-augment-pac/external-label}'
                             - description: 'WireInterface'
                               type: object
                               properties:
