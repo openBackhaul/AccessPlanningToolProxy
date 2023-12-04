@@ -16,8 +16,8 @@ activate ALAP
 LTPs --> ALAP: {Uuid, LocalId, LayerProtocolName}
 
 note over ALAP
-For all (UUID, Local-ID)s with LayerProtocolName == AirLayer
-until ExternalLabel == LinkId
+For all UUIDs with LayerProtocolName == AirLayer
+until (9 first characters of ExternalLabel) == LinkId
 end note
 
 ALAP -> ExternalLabel: (apiKeyAuth)
@@ -25,7 +25,7 @@ ExternalLabel --> ALAP: {ExternalLabel}
 
 note over ALAP
 UuidUnderTest/LocalIdUnderTest = 
-uuid/local-id of LTP with (LayerProtocolName == AirLayer) AND (ExternalLabel==LinkId)
+uuid/local-id of LTP with (LayerProtocolName == AirLayer) AND (ExternalLabel.substring(0,9)==LinkId)
 end note
 
 @enduml
