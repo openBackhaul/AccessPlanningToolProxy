@@ -1185,7 +1185,7 @@ paths:
           AirInterfaceName: #[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-op-c-is-mwdi-1-0-0-211/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             description: >
               'UuidUnderTest and LocalIdUnderTest to be determined by
-              repeating until {$RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceName.response.body@air-interface-name} == {$request.body#link-id}
+              repeating until the substring constituted by the 9 first characters of {$RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceName.response.body#external-label} == {$request.body#link-id}
             get:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -1212,41 +1212,31 @@ paths:
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/uuid}
                     where {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/layer-protocol/layer-protocol-name} == air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
-                - name: local-id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: 'LP-MWPS-TTP-1-1'
-                  description: >
-                    'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/layer-protocol/local-id}
-                    where {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/layer-protocol/layer-protocol-name} == air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
                 - name: fields
                   in: query
                   required: true
                   schema:
                     type: string
-                    example: 'air-interface-name'
+                    example: 'external-label'
                   description: >
                     'If different from empty string, a fields filter with the following value to be added to the request
                     from [/core-model-1-4:control-construct/profile-collection/profile=alap-1-0-1-string-p-001/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
               responses:
                 '200':
-                  description: 'AirInterfaceConfiguration provided from cache'
+                  description: 'LtpAugment provided from cache'
                   content:
                     application/json:
                       schema:
                         type: object
                         properties:
-                          air-interface-2-0:air-interface-configuration:
+                          ltp-augment-1-0:ltp-augment-pac:
                             type: object
                             properties:
-                              air-interface-name:
+                              external-label:
                                 type: string
                         example:
-                          air-interface-2-0:air-interface-configuration:
-                            air-interface-name: '513550010'
+                          ltp-augment-1-0:ltp-augment-pac:
+                            external-label: '513550010B'
                   headers:
                     x-correlator:
                       schema:
