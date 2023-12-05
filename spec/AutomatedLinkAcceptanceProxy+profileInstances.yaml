@@ -149,7 +149,7 @@ profile-instances:
     capability:
       string-name: 'RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation.LtpName'
     configuration:
-      string-value: 'original-ltp-name'
+      string-value: 'original-ltp-name;external-label'
 
   - profile-name: 'StringProfile'
     uuid: 'alap-1-0-1-string-p-006'
