@@ -493,6 +493,11 @@ paths:
                   air-interface:
                     type: object
                     properties:
+                      air-interface-endpoint-name:
+                        type: string
+                        description: >
+                          'Identifier of the microwave link endpoint as used in the Telefonica planing tools 
+                          from {$RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceName.response.body#external-label}'
                       configured-tx-power:
                         type: integer
                         description: >
