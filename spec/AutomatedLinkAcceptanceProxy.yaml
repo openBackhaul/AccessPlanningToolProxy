@@ -1455,8 +1455,6 @@ paths:
                           air-interface-2-0:air-interface-configuration:
                             type: object
                             properties:
-                              air-interface-name:
-                                type: string
                               transmitted-radio-signal-id:
                                 type: object
                                 properties:
@@ -1497,7 +1495,6 @@ paths:
                                 type: boolean
                         example:
                           air-interface-2-0:air-interface-configuration:
-                            air-interface-name: '513550010'
                             transmitted-radio-signal-id:
                               alphanumeric-radio-signal-id: 'Not yet defined.'
                               numeric-radio-signal-id: 407
