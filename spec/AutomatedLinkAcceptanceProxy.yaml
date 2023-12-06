@@ -496,8 +496,8 @@ paths:
                       air-interface-endpoint-name:
                         type: string
                         description: >
-                          'Identifier of the microwave link endpoint as used in the Telefonica planing tools 
-                          from {$RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceName.response.body#external-label}'
+                          'Identifier of the microwave link endpoint as used in the Telefonica planing tools
+                           from {$RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceName.response.body#external-label}'
                       configured-tx-power:
                         type: integer
                         description: >
@@ -832,7 +832,7 @@ paths:
                                 link-id:
                                   type: string
                                   description: >
-                                    'Identifier of the microwave link as used in the Telefonica planing tools. To be obtained by extracting the substring constituted by the 9 first characters 
+                                    'Identifier of the microwave link as used in the Telefonica planing tools. To be obtained by extracting the substring constituted by the 9 first characters
                                     from {$RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation.LtpName.response.body#ltp-augment-1-0:ltp-augment-pac/external-label}'
                             - description: 'WireInterface'
                               type: object
@@ -1702,7 +1702,7 @@ paths:
                     ClientStructureUuid = LtpUnderTest.ClientLtp
                     ClientContainerUuid = ClientStructure.ClientLtp
                     ServingStructureUuidList = ClientContainer.ServerLtp
-                    List(ServingPhysicUuid) = List(ServingStructure.ServerLtp)                    
+                    List(ServingPhysicUuid) = List(ServingStructure.ServerLtp)
                 - name: fields
                   in: query
                   required: true
