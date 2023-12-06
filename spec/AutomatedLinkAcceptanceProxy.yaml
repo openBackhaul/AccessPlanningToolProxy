@@ -827,7 +827,7 @@ paths:
                                 link-id:
                                   type: string
                                   description: >
-                                    'Identifier of the microwave link as used in the Telefonica planing tools
+                                    'Identifier of the microwave link as used in the Telefonica planing tools. To be obtained by extracting the substring constituted by the 9 first characters 
                                     from {$RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation.LtpName.response.body#ltp-augment-1-0:ltp-augment-pac/external-label}'
                             - description: 'WireInterface'
                               type: object
@@ -1700,14 +1700,13 @@ paths:
                     ClientStructureUuid = LtpUnderTest.ClientLtp
                     ClientContainerUuid = ClientStructure.ClientLtp
                     ServingStructureUuidList = ClientContainer.ServerLtp
-                    List(ServingPhysicUuid) = List(ServingStructure.ServerLtp)
-                    For all LTPs identified by List(ServingPhysicUuid) of type ServingPhysic.LayerProtocolName == WIRE_LAYER this request shall be sent'
+                    List(ServingPhysicUuid) = List(ServingStructure.ServerLtp)                    
                 - name: fields
                   in: query
                   required: true
                   schema:
                     type: string
-                    example: 'original-ltp-name'
+                    example: 'original-ltp-name;external-label'
                   description: >
                     'If different from empty string, a fields filter with the following value to be added to the request
                     from [/core-model-1-4:control-construct/profile-collection/profile=alap-1-0-1-string-p-005/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
@@ -1724,9 +1723,12 @@ paths:
                             properties:
                               original-ltp-name:
                                 type: string
+                              external-label:
+                                type: string
                         example:
                           ltp-augment-1-0:ltp-augment-pac:
                             original-ltp-name: 'LAN 1/3/3'
+                            external-label: '513550010B'
                   headers:
                     x-correlator:
                       schema:
