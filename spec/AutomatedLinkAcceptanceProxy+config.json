@@ -223,7 +223,7 @@
               "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceName"
             },
             "string-profile-configuration": {
-              "string-value": "air-interface-name"
+              "string-value": "external-label"
             }
           }
         },
@@ -271,7 +271,7 @@
               "string-name": "RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation.LtpName"
             },
             "string-profile-configuration": {
-              "string-value": "original-ltp-name"
+              "string-value": "original-ltp-name;external-label"
             }
           }
         },
