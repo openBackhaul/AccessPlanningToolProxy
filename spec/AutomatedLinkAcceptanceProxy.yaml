@@ -930,6 +930,7 @@ paths:
                                     from {$RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive.AlarmsFromLive.response.body#alarms-1-0:current-alarms/current-alarm-list/alarm-severity'
                 example:
                   air-interface:
+                    air-interface-endpoint-name: '513550010B'
                     configured-tx-power: 10
                     current-tx-power: 5
                     current-rx-level: -45
