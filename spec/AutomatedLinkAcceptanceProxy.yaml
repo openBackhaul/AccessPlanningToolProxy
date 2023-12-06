@@ -1,7 +1,7 @@
 ﻿openapi: 3.0.0
 info:
   title: AutomatedLinkAcceptanceProxy
-  version: 1.0.1
+  version: 1.0.2
 
 x-gui-paths:
 ########################################################################################################################
@@ -1023,21 +1023,6 @@ paths:
                           alarm-type-qualifier: ''
                           alarm-severity: 'alarms-1-0:SEVERITY_TYPE_CRITICAL'
           headers:
-            x-correlator:
-              schema:
-                type: string
-                example: '550e8400-e29b-11d4-a716-446655440000'
-              description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
-            exec-time:
-              schema:
-                type: integer
-                example: 1100
-              description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
-            backend-time:
-              schema:
-                type: integer
-                example: 850
-              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
             life-cycle-state:
               schema:
                 type: string
@@ -1053,17 +1038,17 @@ paths:
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-op-s-is-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
         '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
         '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
         '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
         '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
         default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
       callbacks:
         RequestForProvidingAcceptanceDataCausesReadingLtpStructure:
           LtpStructure: #[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-op-c-is-mwdi-1-0-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
@@ -11027,6 +11012,12 @@ components:
             type: integer
             example: 850
           description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+    responseForErroredOutOfDomainServiceRequests:
+      description: 'Response in case of errored service requests from out of MW SDN domain'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/errorDescription'
     responseForErroredOamRequests:
       description: 'Response in case of errored OaM requests'
       content:
