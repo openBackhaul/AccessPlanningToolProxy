@@ -268,7 +268,7 @@
           "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
-              "string-name": "RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation.LtpName"
+              "string-name": "RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation.LtpDesignation"
             },
             "string-profile-configuration": {
               "string-value": "original-ltp-name;external-label"

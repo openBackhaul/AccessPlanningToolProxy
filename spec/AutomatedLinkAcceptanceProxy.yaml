@@ -833,7 +833,7 @@ paths:
                                   type: string
                                   description: >
                                     'Identifier of the microwave link as used in the Telefonica planing tools. To be obtained by extracting the substring constituted by the 9 first characters
-                                    from {$RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation.LtpName.response.body#ltp-augment-1-0:ltp-augment-pac/external-label}'
+                                    from {$RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation.LtpDesignation.response.body#ltp-augment-1-0:ltp-augment-pac/external-label}'
                             - description: 'WireInterface'
                               type: object
                               properties:
@@ -841,7 +841,7 @@ paths:
                                   type: string
                                   description: >
                                     'Interface name as it is represented at the vendor's own management interface
-                                    from {$RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation.LtpName.response.body#ltp-augment-1-0:ltp-augment-pac/original-ltp-name}'
+                                    from {$RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation.LtpDesignation.response.body#ltp-augment-1-0:ltp-augment-pac/original-ltp-name}'
                       plugged-sfp-pmd-list:
                         description: >
                           'First the list of LTPs from RequestForProvidingAcceptanceDataCausesReadingLtpStructure has to be filtered for LayerProtocolName == WireLayer
@@ -1659,7 +1659,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
         RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation:
-          LtpName: #[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-op-c-is-mwdi-1-0-0-201/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          LtpDesignation: #[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-op-c-is-mwdi-1-0-0-201/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               parameters:
                 - $ref: '#/components/parameters/user'
