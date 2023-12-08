@@ -8,7 +8,7 @@ end title
 participant "LinkVis" as LinkVis
 participant "ALAP://v1/provide-acceptance-data-of-link-endpoint" as ALAP
 participant "<i>RequestForProvidingAcceptanceDataCausesReadingLtpStructure</i>" as LTPs
-participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=(original-ltp-name;external-label)" as WireInterfaceName
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=(original-ltp-name;external-label)" as LtpDesignation
 
 LinkVis -> ALAP: {MountName, LinkId} (apiKeyAuth)
 activate ALAP
@@ -34,8 +34,8 @@ link-id = externalLabel.substring(0,9)
 end note
 
 
-ALAP -> WireInterfaceName: (apiKeyAuth)
-WireInterfaceName --> ALAP: {originalLtpName, externalLabel}
+ALAP -> LtpDesignation: (apiKeyAuth)
+LtpDesignation --> ALAP: {originalLtpName, externalLabel}
 
 deactivate ALAP
 
