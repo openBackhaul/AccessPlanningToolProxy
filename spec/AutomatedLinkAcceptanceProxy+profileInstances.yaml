@@ -119,7 +119,7 @@ profile-instances:
   - profile-name: 'StringProfile'
     uuid: 'alap-1-0-1-string-p-001'
     capability:
-      string-name: 'RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceName'
+      string-name: 'RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceLabel'
     configuration:
       string-value: 'external-label'
 

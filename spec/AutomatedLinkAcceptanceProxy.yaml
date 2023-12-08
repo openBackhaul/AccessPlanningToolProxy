@@ -497,7 +497,7 @@ paths:
                         type: string
                         description: >
                           'Identifier of the microwave link endpoint as used in the Telefonica planing tools
-                           from {$RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceName.response.body#external-label}'
+                           from {$RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceLabel.response.body#external-label}'
                       configured-tx-power:
                         type: integer
                         description: >
@@ -1173,10 +1173,10 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
         RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest:
-          AirInterfaceName: #[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-op-c-is-mwdi-1-0-0-211/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          AirInterfaceLabel: #[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-op-c-is-mwdi-1-0-0-201/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             description: >
               'UuidUnderTest and LocalIdUnderTest to be determined by
-              repeating until the substring constituted by the 9 first characters of {$RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceName.response.body#external-label} == {$request.body#link-id}
+              repeating until the substring constituted by the 9 first characters of {$RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceLabel.response.body#external-label} == {$request.body#link-id}
             get:
               parameters:
                 - $ref: '#/components/parameters/user'
