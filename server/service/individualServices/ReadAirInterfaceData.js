@@ -198,6 +198,9 @@ exports.RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache = a
   } catch (error) {
     console.log(`${forwardingName} is not success with ${error}`);
   }
+  if (airInterfaceConfiguration == undefined) {
+    airInterfaceConfiguration = {};
+  }
   airInterfaceConfiguration.traceIndicatorIncrementer = traceIndicatorIncrementer;
   return airInterfaceConfiguration;
 }
@@ -232,6 +235,9 @@ async function RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCac
     }
   } catch (error) {
     console.log(`${forwardingName} is not success with ${error}`);
+  }
+  if (airInterfaceCapability == undefined) {
+    airInterfaceCapability = {};
   }
   airInterfaceCapability.traceIndicatorIncrementer = traceIndicatorIncrementer;
   return airInterfaceCapability;
@@ -268,6 +274,9 @@ async function RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValu
     }
   } catch (error) {
     console.log(`${forwardingName} is not success with ${error}`);
+  }
+  if (airInterfaceStatus == undefined) {
+    airInterfaceStatus = {};
   }
   airInterfaceStatus.traceIndicatorIncrementer = traceIndicatorIncrementer;
   return airInterfaceStatus;
@@ -331,11 +340,13 @@ async function formulateAirInterfaceResponseBody(airInterfaceConfiguration, airI
  * @returns {Object} returns transmission mode fetched tansmission mode list of capability.
  */
 async function getConfiguredModulation(airInterfaceCapability, transmissioModeType) {
-  let transmissionModeList = airInterfaceCapability["transmission-mode-list"];
   let transmissionModeFromtransmissionModeList = {};
-  if (transmissionModeList != undefined) {
-    transmissionModeFromtransmissionModeList = transmissionModeList.find(transmissionMode =>
-      transmissionMode["transmission-mode-name"] === transmissioModeType)
+  if (airInterfaceCapability) {
+    let transmissionModeList = airInterfaceCapability["transmission-mode-list"];
+    if (transmissionModeList != undefined && transmissioModeType != undefined) {
+      transmissionModeFromtransmissionModeList = transmissionModeList.find(transmissionMode =>
+        transmissionMode["transmission-mode-name"] === transmissioModeType)
+    }
   }
   return transmissionModeFromtransmissionModeList;
 }

@@ -96,79 +96,80 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole(
      * extract configured-lan-port-role-list
      ****************************************************************************************/
     let wireInterfaceLtpList = await LtpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure(WIRE_INTERFACE.MODULE + WIRE_INTERFACE.LAYER_PROTOCOL_NAME, ltpStructure);
-    for (let i = 0; i < wireInterfaceLtpList.length; i++) {
-      let configuredLanPortRole = {};
-      let wireInterfaceLtp = wireInterfaceLtpList[i];
-      let wireInterfaceUuid = wireInterfaceLtp[onfAttributes.GLOBAL_CLASS.UUID];
+    if (wireInterfaceLtpList != undefined) {
+      for (let i = 0; i < wireInterfaceLtpList.length; i++) {
+        let configuredLanPortRole = {};
+        let wireInterfaceLtp = wireInterfaceLtpList[i];
+        let wireInterfaceUuid = wireInterfaceLtp[onfAttributes.GLOBAL_CLASS.UUID];
 
-      /****************************************************************************************************
-        * process OriginalLtpName for each wire_interface
-        *   RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.OriginalLtpName
-        *     MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
-        *       /logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name
-        *****************************************************************************************************/
-      let firstLayerToReachEthernetContainer = [PURE_ETHERNET_STRUCTURE.MODULE + PURE_ETHERNET_STRUCTURE.LAYER_PROTOCOL_NAME];
-      let secondLayerToReachEthernetContainer = [ETHERNET_CONTAINER.MODULE + ETHERNET_CONTAINER.LAYER_PROTOCOL_NAME];
-      let interfaceListToReachEthernetContainer = [firstLayerToReachEthernetContainer, secondLayerToReachEthernetContainer];
-      let originalLtpNameResponse = await fetchOriginalLtpNameOfEthernetContainer(mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer, wireInterfaceLtp, clientAndFieldParamsForOriginalLtpName, interfaceListToReachEthernetContainer);
-      let clientContainerLtp = originalLtpNameResponse.clientContainerLtp;
-      if (clientContainerLtp != undefined) {
-        if (originalLtpNameResponse.interfaceName != undefined) {
-          configuredLanPortRole.interfaceName = originalLtpNameResponse.interfaceName;
+        /****************************************************************************************************
+          * process OriginalLtpName for each wire_interface
+          *   RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.OriginalLtpName
+          *     MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+          *       /logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name
+          *****************************************************************************************************/
+        let firstLayerToReachEthernetContainer = [PURE_ETHERNET_STRUCTURE.MODULE + PURE_ETHERNET_STRUCTURE.LAYER_PROTOCOL_NAME];
+        let secondLayerToReachEthernetContainer = [ETHERNET_CONTAINER.MODULE + ETHERNET_CONTAINER.LAYER_PROTOCOL_NAME];
+        let interfaceListToReachEthernetContainer = [firstLayerToReachEthernetContainer, secondLayerToReachEthernetContainer];
+        let originalLtpNameResponse = await fetchOriginalLtpNameOfEthernetContainer(mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer, wireInterfaceLtp, clientAndFieldParamsForOriginalLtpName, interfaceListToReachEthernetContainer);
+        let clientContainerLtp = originalLtpNameResponse.clientContainerLtp;
+        if (clientContainerLtp != undefined) {
+          if (originalLtpNameResponse.interfaceName != undefined) {
+            configuredLanPortRole.interfaceName = originalLtpNameResponse.interfaceName;
+          }
+          traceIndicatorIncrementer = originalLtpNameResponse.traceIndicatorIncrementer;
+        } else {
+          console.log(`${originalLtpNameCallback} for ${wireInterfaceUuid} is not success`);
+          continue;
         }
-        traceIndicatorIncrementer = originalLtpNameResponse.traceIndicatorIncrementer;
-      } else {
-        console.log(`${originalLtpNameCallback} for ${wireInterfaceUuid} is not success`);
-        continue;
-      }
 
-      /****************************************************************************************************
-        * process VlanInterfaceKind for each wire_interface
-        *   RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.VlanInterfaceKind
-        *     MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
-        *       /logical-termination-point={uuid}/layer-protocol={local-id}
-        *         /vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration?fields=interface-kind
-        *****************************************************************************************************/
-      let firstLayerToReachVlanInterface = [MAC_INTERFACE.MODULE + MAC_INTERFACE.LAYER_PROTOCOL_NAME];
-      let secondLayerToReachVlanInterface = [VLAN_INTERFACE.MODULE + VLAN_INTERFACE.LAYER_PROTOCOL_NAME];
-      let interfaceListToReachVlanInterface = [firstLayerToReachVlanInterface, secondLayerToReachVlanInterface];
-      let vlanInterfaceKindResponse = await fetchVlanInterfaceKind(mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer, clientContainerLtp, clientAndFieldParamsForVlanInterfaceKind, interfaceListToReachVlanInterface);
-      if (Object.keys(vlanInterfaceKindResponse).length != 0) {
-        if (vlanInterfaceKindResponse.vlanInterfaceKind != undefined) {
-          configuredLanPortRole.vlanInterfaceKind = vlanInterfaceKindResponse.vlanInterfaceKind;
+        /****************************************************************************************************
+          * process VlanInterfaceKind for each wire_interface
+          *   RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.VlanInterfaceKind
+          *     MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+          *       /logical-termination-point={uuid}/layer-protocol={local-id}
+          *         /vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration?fields=interface-kind
+          *****************************************************************************************************/
+        let firstLayerToReachVlanInterface = [MAC_INTERFACE.MODULE + MAC_INTERFACE.LAYER_PROTOCOL_NAME];
+        let secondLayerToReachVlanInterface = [VLAN_INTERFACE.MODULE + VLAN_INTERFACE.LAYER_PROTOCOL_NAME];
+        let interfaceListToReachVlanInterface = [firstLayerToReachVlanInterface, secondLayerToReachVlanInterface];
+        let vlanInterfaceKindResponse = await fetchVlanInterfaceKind(mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer, clientContainerLtp, clientAndFieldParamsForVlanInterfaceKind, interfaceListToReachVlanInterface);
+        if (Object.keys(vlanInterfaceKindResponse).length != 0) {
+          if (vlanInterfaceKindResponse.vlanInterfaceKind != undefined) {
+            configuredLanPortRole.vlanInterfaceKind = vlanInterfaceKindResponse.vlanInterfaceKind;
+          }
+          traceIndicatorIncrementer = vlanInterfaceKindResponse.traceIndicatorIncrementer;
+        } else {
+          console.log(`${vlanInterfaceKindCallback} for ${wireInterfaceUuid} is not success`);
         }
-        traceIndicatorIncrementer = vlanInterfaceKindResponse.traceIndicatorIncrementer;
-      } else {
-        console.log(`${vlanInterfaceKindCallback} for ${wireInterfaceUuid} is not success`);
-      }
 
-      /****************************************************************************************************
-        * process EthernetContainerStatus for each wire_interface
-        *   RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.EthernetContainerStatus
-        *     MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
-        *       /logical-termination-point={uuid}/layer-protocol={local-id}
-        *         /ethernet-container-2-0:ethernet-container-pac/ethernet-container-status?fields=interface-status
-        *****************************************************************************************************/
-      let ethernetContainerStatusResponse = await fetchServingEthernetContainerStatus(mountName, requestHeaders, traceIndicatorIncrementer, clientContainerLtp, clientAndFieldParamsForEthernetContainerStatus, traceIndicatorIncrementer);
-      if (Object.keys(ethernetContainerStatusResponse).length != 0) {
-        if (ethernetContainerStatusResponse.servingEthernetContainerStatus != undefined) {
-          configuredLanPortRole.servingEthernetContainerStatus = ethernetContainerStatusResponse.servingEthernetContainerStatus;
+        /****************************************************************************************************
+          * process EthernetContainerStatus for each wire_interface
+          *   RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.EthernetContainerStatus
+          *     MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+          *       /logical-termination-point={uuid}/layer-protocol={local-id}
+          *         /ethernet-container-2-0:ethernet-container-pac/ethernet-container-status?fields=interface-status
+          *****************************************************************************************************/
+        let ethernetContainerStatusResponse = await fetchServingEthernetContainerStatus(mountName, requestHeaders, traceIndicatorIncrementer, clientContainerLtp, clientAndFieldParamsForEthernetContainerStatus, traceIndicatorIncrementer);
+        if (Object.keys(ethernetContainerStatusResponse).length != 0) {
+          if (ethernetContainerStatusResponse.servingEthernetContainerStatus != undefined) {
+            configuredLanPortRole.servingEthernetContainerStatus = ethernetContainerStatusResponse.servingEthernetContainerStatus;
+          }
+          traceIndicatorIncrementer = ethernetContainerStatusResponse.traceIndicatorIncrementer;
+        } else {
+          console.log(`${ethernetContainerStatusCallback} for ${wireInterfaceUuid} is not success`);
         }
-        traceIndicatorIncrementer = ethernetContainerStatusResponse.traceIndicatorIncrementer;
-      } else {
-        console.log(`${ethernetContainerStatusCallback} for ${wireInterfaceUuid} is not success`);
+        configuredLanPortRoleList.push(configuredLanPortRole);
       }
-      configuredLanPortRoleList.push(configuredLanPortRole);
     }
-    configuredLanPortRoleListResponse = {
-      configuredLanPortRoleList: configuredLanPortRoleList,
-      traceIndicatorIncrementer: traceIndicatorIncrementer
-    };
-    return configuredLanPortRoleListResponse;
   } catch (error) {
     console.log(error);
-    return new createHttpError.InternalServerError();
   }
+  configuredLanPortRoleListResponse = {
+    configuredLanPortRoleList: configuredLanPortRoleList,
+    traceIndicatorIncrementer: traceIndicatorIncrementer
+  };
+  return configuredLanPortRoleListResponse;
 }
 
 /**
@@ -200,77 +201,78 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole(
      * extract configured-wan-port-role-list
      ****************************************************************************************/
     let airInterfaceLtpList = await LtpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure(AIR_INTERFACE.MODULE + AIR_INTERFACE.LAYER_PROTOCOL_NAME, ltpStructure);
-    for (let i = 0; i < airInterfaceLtpList.length; i++) {
-      let configuredWanPortRole = {};
-      let airInterfaceLtp = airInterfaceLtpList[i];
-      let airInterfaceUuid = airInterfaceLtp[onfAttributes.GLOBAL_CLASS.UUID];
+    if (airInterfaceLtpList != undefined) {
+      for (let i = 0; i < airInterfaceLtpList.length; i++) {
+        let configuredWanPortRole = {};
+        let airInterfaceLtp = airInterfaceLtpList[i];
+        let airInterfaceUuid = airInterfaceLtp[onfAttributes.GLOBAL_CLASS.UUID];
 
-      /****************************************************************************************************
-        * process OriginalLtpName for each air_interface
-        *   RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.OriginalLtpName
-        *     MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
-        *       /logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name
-        *****************************************************************************************************/
-      let firstLayerToReachEthernetContainer = [PURE_ETHERNET_STRUCTURE.MODULE + PURE_ETHERNET_STRUCTURE.LAYER_PROTOCOL_NAME, HYBRID_MW_STRUCTURE.MODULE + HYBRID_MW_STRUCTURE.LAYER_PROTOCOL_NAME];
-      let secondLayerToReachEthernetContainer = [ETHERNET_CONTAINER.MODULE + ETHERNET_CONTAINER.LAYER_PROTOCOL_NAME];
-      let interfaceListToReachEthernetContainer = [firstLayerToReachEthernetContainer, secondLayerToReachEthernetContainer];
-      let originalLtpNameResponse = await fetchOriginalLtpNameOfEthernetContainer(mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer, airInterfaceLtp, clientAndFieldParamsForOriginalLtpName, interfaceListToReachEthernetContainer);
-      let clientContainerLtp = originalLtpNameResponse.clientContainerLtp;
-      if (clientContainerLtp != undefined) {
-        if (originalLtpNameResponse.interfaceName != undefined) {
-          configuredWanPortRole.interfaceName = originalLtpNameResponse.interfaceName;
+        /****************************************************************************************************
+          * process OriginalLtpName for each air_interface
+          *   RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.OriginalLtpName
+          *     MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+          *       /logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name
+          *****************************************************************************************************/
+        let firstLayerToReachEthernetContainer = [PURE_ETHERNET_STRUCTURE.MODULE + PURE_ETHERNET_STRUCTURE.LAYER_PROTOCOL_NAME, HYBRID_MW_STRUCTURE.MODULE + HYBRID_MW_STRUCTURE.LAYER_PROTOCOL_NAME];
+        let secondLayerToReachEthernetContainer = [ETHERNET_CONTAINER.MODULE + ETHERNET_CONTAINER.LAYER_PROTOCOL_NAME];
+        let interfaceListToReachEthernetContainer = [firstLayerToReachEthernetContainer, secondLayerToReachEthernetContainer];
+        let originalLtpNameResponse = await fetchOriginalLtpNameOfEthernetContainer(mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer, airInterfaceLtp, clientAndFieldParamsForOriginalLtpName, interfaceListToReachEthernetContainer);
+        let clientContainerLtp = originalLtpNameResponse.clientContainerLtp;
+        if (clientContainerLtp != undefined) {
+          if (originalLtpNameResponse.interfaceName != undefined) {
+            configuredWanPortRole.interfaceName = originalLtpNameResponse.interfaceName;
+          }
+          traceIndicatorIncrementer = originalLtpNameResponse.traceIndicatorIncrementer;
+        } else {
+          console.log(`${originalLtpNameCallback} for ${airInterfaceUuid} is not success`);
+          continue;
         }
-        traceIndicatorIncrementer = originalLtpNameResponse.traceIndicatorIncrementer;
-      } else {
-        console.log(`${originalLtpNameCallback} for ${airInterfaceUuid} is not success`);
-        continue;
-      }
-      /****************************************************************************************************
-        * process VlanInterfaceKind for each air_interface
-        *   RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.VlanInterfaceKind
+        /****************************************************************************************************
+          * process VlanInterfaceKind for each air_interface
+          *   RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.VlanInterfaceKind
+          *     MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+          *       /logical-termination-point={uuid}/layer-protocol={local-id}
+          *         /vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration?fields=interface-kind
+          *****************************************************************************************************/
+        let firstLayerToReachVlanInterface = [MAC_INTERFACE.MODULE + MAC_INTERFACE.LAYER_PROTOCOL_NAME];
+        let secondLayerToReachVlanInterface = [VLAN_INTERFACE.MODULE + VLAN_INTERFACE.LAYER_PROTOCOL_NAME];
+        let interfaceListToReachVlanInterface = [firstLayerToReachVlanInterface, secondLayerToReachVlanInterface];
+        let vlanInterfaceKindResponse = await fetchVlanInterfaceKind(mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer, clientContainerLtp, clientAndFieldParamsForVlanInterfaceKind, interfaceListToReachVlanInterface);
+        if (Object.keys(vlanInterfaceKindResponse).length != 0) {
+          if (vlanInterfaceKindResponse.vlanInterfaceKind != undefined) {
+            configuredWanPortRole.vlanInterfaceKind = vlanInterfaceKindResponse.vlanInterfaceKind;
+          }
+          traceIndicatorIncrementer = vlanInterfaceKindResponse.traceIndicatorIncrementer;
+        } else {
+          console.log(`${vlanInterfaceKindCallback} for ${airInterfaceUuid} is not success`);
+        }
+        /****************************************************************************************************
+        * process EthernetContainerStatus for each air_interface
+        *   RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.EthernetContainerStatus
         *     MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
         *       /logical-termination-point={uuid}/layer-protocol={local-id}
-        *         /vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration?fields=interface-kind
+        *         /ethernet-container-2-0:ethernet-container-pac/ethernet-container-status?fields=interface-status
         *****************************************************************************************************/
-      let firstLayerToReachVlanInterface = [MAC_INTERFACE.MODULE + MAC_INTERFACE.LAYER_PROTOCOL_NAME];
-      let secondLayerToReachVlanInterface = [VLAN_INTERFACE.MODULE + VLAN_INTERFACE.LAYER_PROTOCOL_NAME];
-      let interfaceListToReachVlanInterface = [firstLayerToReachVlanInterface, secondLayerToReachVlanInterface];
-      let vlanInterfaceKindResponse = await fetchVlanInterfaceKind(mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer, clientContainerLtp, clientAndFieldParamsForVlanInterfaceKind, interfaceListToReachVlanInterface);
-      if (Object.keys(vlanInterfaceKindResponse).length != 0) {
-        if (vlanInterfaceKindResponse.vlanInterfaceKind != undefined) {
-          configuredWanPortRole.vlanInterfaceKind = vlanInterfaceKindResponse.vlanInterfaceKind;
+        let ethernetContainerStatusResponse = await fetchServingEthernetContainerStatus(mountName, requestHeaders, traceIndicatorIncrementer, clientContainerLtp, clientAndFieldParamsForEthernetContainerStatus);
+        if (Object.keys(ethernetContainerStatusResponse).length != 0) {
+          if (ethernetContainerStatusResponse.servingEthernetContainerStatus != undefined) {
+            configuredWanPortRole.servingEthernetContainerStatus = ethernetContainerStatusResponse.servingEthernetContainerStatus;
+          }
+          traceIndicatorIncrementer = ethernetContainerStatusResponse.traceIndicatorIncrementer;
+        } else {
+          console.log(`${ethernetContainerStatusCallback} for ${airInterfaceUuid} is not success`);
         }
-        traceIndicatorIncrementer = vlanInterfaceKindResponse.traceIndicatorIncrementer;
-      } else {
-        console.log(`${vlanInterfaceKindCallback} for ${airInterfaceUuid} is not success`);
+        configuredWanPortRoleList.push(configuredWanPortRole);
       }
-      /****************************************************************************************************
-      * process EthernetContainerStatus for each air_interface
-      *   RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.EthernetContainerStatus
-      *     MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
-      *       /logical-termination-point={uuid}/layer-protocol={local-id}
-      *         /ethernet-container-2-0:ethernet-container-pac/ethernet-container-status?fields=interface-status
-      *****************************************************************************************************/
-      let ethernetContainerStatusResponse = await fetchServingEthernetContainerStatus(mountName, requestHeaders, traceIndicatorIncrementer, clientContainerLtp, clientAndFieldParamsForEthernetContainerStatus);
-      if (Object.keys(ethernetContainerStatusResponse).length != 0) {
-        if (ethernetContainerStatusResponse.servingEthernetContainerStatus != undefined) {
-          configuredWanPortRole.servingEthernetContainerStatus = ethernetContainerStatusResponse.servingEthernetContainerStatus;
-        }
-        traceIndicatorIncrementer = ethernetContainerStatusResponse.traceIndicatorIncrementer;
-      } else {
-        console.log(`${ethernetContainerStatusCallback} for ${airInterfaceUuid} is not success`);
-      }
-      configuredWanPortRoleList.push(configuredWanPortRole);
     }
-    configuredWanPortRoleListResponse = {
-      configuredWanPortRoleList: configuredWanPortRoleList,
-      traceIndicatorIncrementer: traceIndicatorIncrementer
-    };
-    return configuredWanPortRoleListResponse;
   } catch (error) {
     console.log(error);
-    return new createHttpError.InternalServerError();
   }
+  configuredWanPortRoleListResponse = {
+    configuredWanPortRoleList: configuredWanPortRoleList,
+    traceIndicatorIncrementer: traceIndicatorIncrementer
+  };
+  return configuredWanPortRoleListResponse;
 }
 
 /**
@@ -286,17 +288,21 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole(
 async function fetchOriginalLtpNameOfEthernetContainer(mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer, ltp, clientAndFieldParams, interfaceListForOriginalLtpName) {
   let originalLtpNameResponse = {};
   let pathParamList = [];
-  let clientContainerLtp = await LtpStructureUtility.getHierarchicalClientLtpForInterfaceListFromLtpStructure(ltp, interfaceListForOriginalLtpName, ltpStructure);
-  if (Object.keys(clientContainerLtp).length > 0) {
-    originalLtpNameResponse.clientContainerLtp = clientContainerLtp;
-    let clientContainerUuid = clientContainerLtp[onfAttributes.GLOBAL_CLASS.UUID];
-    pathParamList.push(mountName, clientContainerUuid);
-    let response = await IndividualServiceUtility.forwardRequest(clientAndFieldParams, pathParamList, requestHeaders, traceIndicatorIncrementer++);
-    if (Object.keys(response).length > 0) {
-      originalLtpNameResponse.interfaceName = response[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.ORIGINAL_LTP_NAME];
+  try {
+    let clientContainerLtp = await LtpStructureUtility.getHierarchicalClientLtpForInterfaceListFromLtpStructure(ltp, interfaceListForOriginalLtpName, ltpStructure);
+    if (Object.keys(clientContainerLtp).length > 0) {
+      originalLtpNameResponse.clientContainerLtp = clientContainerLtp;
+      let clientContainerUuid = clientContainerLtp[onfAttributes.GLOBAL_CLASS.UUID];
+      pathParamList.push(mountName, clientContainerUuid);
+      let response = await IndividualServiceUtility.forwardRequest(clientAndFieldParams, pathParamList, requestHeaders, traceIndicatorIncrementer++);
+      if (Object.keys(response).length > 0) {
+        originalLtpNameResponse.interfaceName = response[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.ORIGINAL_LTP_NAME];
+      }
     }
-    originalLtpNameResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
+  } catch (error) {
+    console.log(error);
   }
+  originalLtpNameResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
   return originalLtpNameResponse;
 }
 
@@ -313,17 +319,21 @@ async function fetchOriginalLtpNameOfEthernetContainer(mountName, ltpStructure, 
 async function fetchVlanInterfaceKind(mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer, clientContainerltp, clientAndFieldParams, interfaceListForVlanInterfaceKind) {
   let vlanInterfaceKindResponse = {};
   let pathParamList = [];
-  let clientVlanInterfaceLtp = await LtpStructureUtility.getHierarchicalClientLtpForInterfaceListFromLtpStructure(clientContainerltp, interfaceListForVlanInterfaceKind, ltpStructure);
-  if (Object.keys(clientVlanInterfaceLtp).length > 0) {
-    let clientVlanInterfaceUuid = clientVlanInterfaceLtp[onfAttributes.GLOBAL_CLASS.UUID];
-    let clientVlanInterfaceLocalId = clientVlanInterfaceLtp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LOCAL_CLASS.LOCAL_ID];
-    pathParamList.push(mountName, clientVlanInterfaceUuid, clientVlanInterfaceLocalId);
-    let response = await IndividualServiceUtility.forwardRequest(clientAndFieldParams, pathParamList, requestHeaders, traceIndicatorIncrementer++);
-    if (Object.keys(response).length > 0) {
-      vlanInterfaceKindResponse.vlanInterfaceKind = response[VLAN_INTERFACE.MODULE + VLAN_INTERFACE.CONFIGURATION][VLAN_INTERFACE.INTERFACE_KIND];
+  try {
+    let clientVlanInterfaceLtp = await LtpStructureUtility.getHierarchicalClientLtpForInterfaceListFromLtpStructure(clientContainerltp, interfaceListForVlanInterfaceKind, ltpStructure);
+    if (Object.keys(clientVlanInterfaceLtp).length > 0) {
+      let clientVlanInterfaceUuid = clientVlanInterfaceLtp[onfAttributes.GLOBAL_CLASS.UUID];
+      let clientVlanInterfaceLocalId = clientVlanInterfaceLtp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LOCAL_CLASS.LOCAL_ID];
+      pathParamList.push(mountName, clientVlanInterfaceUuid, clientVlanInterfaceLocalId);
+      let response = await IndividualServiceUtility.forwardRequest(clientAndFieldParams, pathParamList, requestHeaders, traceIndicatorIncrementer++);
+      if (Object.keys(response).length > 0) {
+        vlanInterfaceKindResponse.vlanInterfaceKind = response[VLAN_INTERFACE.MODULE + VLAN_INTERFACE.CONFIGURATION][VLAN_INTERFACE.INTERFACE_KIND];
+      }
     }
-    vlanInterfaceKindResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
+  } catch (error) {
+    console.log(error);
   }
+  vlanInterfaceKindResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
   return vlanInterfaceKindResponse;
 }
 
@@ -339,12 +349,16 @@ async function fetchVlanInterfaceKind(mountName, ltpStructure, requestHeaders, t
 async function fetchServingEthernetContainerStatus(mountName, requestHeaders, traceIndicatorIncrementer, clientContainerLtp, clientAndFieldParams) {
   let ethernetContainerStatusResponse = {};
   let pathParamList = [];
-  let clientContainerUuid = clientContainerLtp[onfAttributes.GLOBAL_CLASS.UUID];
-  let clientContainerLocalId = clientContainerLtp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LOCAL_CLASS.LOCAL_ID];
-  pathParamList.push(mountName, clientContainerUuid, clientContainerLocalId);
-  let response = await IndividualServiceUtility.forwardRequest(clientAndFieldParams, pathParamList, requestHeaders, traceIndicatorIncrementer++);
-  if (Object.keys(response).length > 0) {
-    ethernetContainerStatusResponse.servingEthernetContainerStatus = response[ETHERNET_CONTAINER.MODULE + ETHERNET_CONTAINER.STATUS][ETHERNET_CONTAINER.INTERFACE_STATUS];
+  try {
+    let clientContainerUuid = clientContainerLtp[onfAttributes.GLOBAL_CLASS.UUID];
+    let clientContainerLocalId = clientContainerLtp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LOCAL_CLASS.LOCAL_ID];
+    pathParamList.push(mountName, clientContainerUuid, clientContainerLocalId);
+    let response = await IndividualServiceUtility.forwardRequest(clientAndFieldParams, pathParamList, requestHeaders, traceIndicatorIncrementer++);
+    if (Object.keys(response).length > 0) {
+      ethernetContainerStatusResponse.servingEthernetContainerStatus = response[ETHERNET_CONTAINER.MODULE + ETHERNET_CONTAINER.STATUS][ETHERNET_CONTAINER.INTERFACE_STATUS];
+    }
+  } catch (error) {
+    console.log(error);
   }
   ethernetContainerStatusResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
   return ethernetContainerStatusResponse;

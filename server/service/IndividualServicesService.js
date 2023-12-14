@@ -8,13 +8,14 @@ const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfM
 const createHttpError = require('http-errors');
 
 const softwareUpgrade = require('./individualServices/SoftwareUpgrade');
+const HttpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
 
 /**
  * Initiates process of embedding a new release
  *
  * body V1_bequeathyourdataanddie_body 
  * user String User identifier from the system starting the service call
- * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-capability/application-name]' 
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
  * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
  * traceIndicator String Sequence of request numbers along the flow
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
@@ -23,9 +24,14 @@ const softwareUpgrade = require('./individualServices/SoftwareUpgrade');
 exports.bequeathYourDataAndDie = async function (body, user, originator, xCorrelator, traceIndicator, customerJourney, operationServerName) {
 
   let newApplicationDetails = body;
+  let currentReleaseNumber = await HttpServerInterface.getReleaseNumberAsync();
+  let newReleaseNumber = body["new-application-release"];
 
-  softwareUpgrade.upgradeSoftwareVersion(user, xCorrelator, traceIndicator, customerJourney, newApplicationDetails)
-    .catch(err => console.log(`upgradeSoftwareVersion failed with error: ${err}`));
+  if (newReleaseNumber !== currentReleaseNumber) {
+
+    softwareUpgrade.upgradeSoftwareVersion(user, xCorrelator, traceIndicator, customerJourney, newApplicationDetails)
+      .catch(err => console.log(`upgradeSoftwareVersion failed with error: ${err}`));
+  }
 }
 
 
@@ -84,11 +90,16 @@ exports.provideAcceptanceDataOfLinkEndpoint = function (body, user, originator, 
       let airInterfaceResult = await ReadAirInterfaceData.readAirInterfaceData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer)
         .catch(err => console.log(` ${err}`));
 
-      let uuidUnderTest = airInterfaceResult.uuidUnderTest;
-      if (Object.keys(airInterfaceResult.airInterface).length != 0) {
-        acceptanceDataOfLinkEndPoint.airInterface = airInterfaceResult.airInterface;
+      let uuidUnderTest = "";
+      if (airInterfaceResult) {
+        if (airInterfaceResult.uuidUnderTest) {
+          uuidUnderTest = airInterfaceResult.uuidUnderTest;
+        }
+        if (Object.keys(airInterfaceResult.airInterface).length != 0) {
+          acceptanceDataOfLinkEndPoint.airInterface = airInterfaceResult.airInterface;
+        }
+        traceIndicatorIncrementer = airInterfaceResult.traceIndicatorIncrementer;
       }
-      traceIndicatorIncrementer = airInterfaceResult.traceIndicatorIncrementer;
 
       /****************************************************************************************
        * Collect vlan-interface data
@@ -117,11 +128,14 @@ exports.provideAcceptanceDataOfLinkEndpoint = function (body, user, originator, 
        ****************************************************************************************/
       let alarmsResult = await ReadAlarmsData.readAlarmsData(mountName, requestHeaders, traceIndicatorIncrementer)
         .catch(err => console.log(` ${err}`));
-
-      if (Object.keys(alarmsResult.alarms).length != 0) {
-        acceptanceDataOfLinkEndPoint.alarms = alarmsResult.alarms;
+      if (alarmsResult) {
+        if (Object.keys(alarmsResult.alarms).length != 0) {
+          if (alarmsResult.alarms) {
+            acceptanceDataOfLinkEndPoint.alarms = alarmsResult.alarms;
+          }
+        }
+        traceIndicatorIncrementer = alarmsResult.traceIndicatorIncrementer;
       }
-      traceIndicatorIncrementer = alarmsResult.traceIndicatorIncrementer;
 
       acceptanceDataOfLinkEndPoint = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(acceptanceDataOfLinkEndPoint);
       resolve(acceptanceDataOfLinkEndPoint);

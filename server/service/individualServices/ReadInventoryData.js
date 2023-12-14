@@ -214,7 +214,7 @@ exports.readInventoryData = function (mountName, ltpStructure, uuidUnderTest, re
       /****************************************************************************************
        *  Fetching data for connector-plugging-the-outdoor-unit attribute
        ****************************************************************************************/
-      let connectorPluggingTheOutdoorUnitResponse = await FetchConnectorPluggingTheOutdoorUnit(mountName, ltpStructure, uuidUnderTest, requestHeaders, traceIndicatorIncrementer);
+      let connectorPluggingTheOutdoorUnitResponse = await FetchConnectorPluggingTheOutdoorUnit(mountName, uuidUnderTest, requestHeaders, traceIndicatorIncrementer);
       if (Object.keys(connectorPluggingTheOutdoorUnitResponse).length > 0) {
         if (connectorPluggingTheOutdoorUnitResponse.connectorPluggingTheOutdoorUnit != undefined) {
           inventoryData.connectorPluggingTheOutdoorUnit = connectorPluggingTheOutdoorUnitResponse.connectorPluggingTheOutdoorUnit;
@@ -275,15 +275,14 @@ async function RequestForProvidingAcceptanceDataCausesReadingFirmwareList(mountN
         }
       }
     }
-    installedFirmwareResponse = {
-      installedFirmware: installedFirmwareList,
-      traceIndicatorIncrementer: traceIndicatorIncrementer
-    };
-    return installedFirmwareResponse;
   } catch (error) {
-    console.log(error);
-    return new createHttpError.InternalServerError();
+    console.log(`${fcNameForReadingFirmwareList} is not success with ${error}`);
   }
+  installedFirmwareResponse = {
+    installedFirmware: installedFirmwareList,
+    traceIndicatorIncrementer: traceIndicatorIncrementer
+  };
+  return installedFirmwareResponse;
 
 }
 
@@ -534,15 +533,14 @@ async function FetchConfiguredGroupOfAirInterfaces(mountName, ltpStructure, uuid
         }
       }
     }
-    configuredGroupOfAirInterfacesResponse = {
-      configuredGroupOfAirInterfaceList: configuredGroupOfAirInterfaceList,
-      traceIndicatorIncrementer: traceIndicatorIncrementer
-    }
-    return configuredGroupOfAirInterfacesResponse;
   } catch (error) {
-    console.log(error);
-    return new createHttpError.InternalServerError();
+    console.log(`${fcNameForReadingFirmwareList} is not success with ${error}`);
   }
+  configuredGroupOfAirInterfacesResponse = {
+    configuredGroupOfAirInterfaceList: configuredGroupOfAirInterfaceList,
+    traceIndicatorIncrementer: traceIndicatorIncrementer
+  }
+  return configuredGroupOfAirInterfacesResponse;
 }
 /**
  * Collects the list of serving physical layer ltps for given ethernet-container
@@ -552,18 +550,22 @@ async function FetchConfiguredGroupOfAirInterfaces(mountName, ltpStructure, uuid
  */
 async function getServingPhysicLtpList(clientContainerLtp, ltpStructure) {
   let servingPhysicLtpList = [];
-  let servingStructureUuidList = clientContainerLtp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP];
-  if (servingStructureUuidList != undefined) {
-    for (let i = 0; i < servingStructureUuidList.length; i++) {
-      let servingStructureLtp = await LtpStructureUtility.getLtpForUuidFromLtpStructure(servingStructureUuidList[i], ltpStructure);
-      let servingPhysicUuidList = servingStructureLtp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP];
-      if (servingPhysicUuidList != undefined) {
-        for (let j = 0; j < servingPhysicUuidList.length; j++) {
-          let servingPhysicLtp = await LtpStructureUtility.getLtpForUuidFromLtpStructure(servingPhysicUuidList[j], ltpStructure);
-          servingPhysicLtpList.push(servingPhysicLtp);
+  try {
+    let servingStructureUuidList = clientContainerLtp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP];
+    if (servingStructureUuidList != undefined) {
+      for (let i = 0; i < servingStructureUuidList.length; i++) {
+        let servingStructureLtp = await LtpStructureUtility.getLtpForUuidFromLtpStructure(servingStructureUuidList[i], ltpStructure);
+        let servingPhysicUuidList = servingStructureLtp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP];
+        if (servingPhysicUuidList != undefined) {
+          for (let j = 0; j < servingPhysicUuidList.length; j++) {
+            let servingPhysicLtp = await LtpStructureUtility.getLtpForUuidFromLtpStructure(servingPhysicUuidList[j], ltpStructure);
+            servingPhysicLtpList.push(servingPhysicLtp);
+          }
         }
       }
     }
+  } catch (error) {
+    console.log(error);
   }
   return servingPhysicLtpList;
 }
@@ -578,6 +580,7 @@ async function getServingPhysicLtpList(clientContainerLtp, ltpStructure) {
  */
 async function getAirInterfaceConfigurationLinkId(mountName, ltp, requestHeaders, traceIndicatorIncrementer) {
   let airInterfaceNameResponse = {};
+  let airInterfaceConfiguration = {};
   let pathParamList = [];
   try {
     let uuid = ltp[onfAttributes.GLOBAL_CLASS.UUID];
@@ -590,18 +593,17 @@ async function getAirInterfaceConfigurationLinkId(mountName, ltp, requestHeaders
      *    /logical-termination-point={uuid}/layer-protocol={local-id}
      *        /air-interface-2-0:air-interface-pac/air-interface-configuration
      *****************************************************************************************************/
-    let airInterfaceConfiguration = await ReadAirInterfaceData.RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache(pathParamList, requestHeaders, traceIndicatorIncrementer);
+    airInterfaceConfiguration = await ReadAirInterfaceData.RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache(pathParamList, requestHeaders, traceIndicatorIncrementer);
     if (Object.keys(airInterfaceConfiguration).length === 0) {
       console.log(`${airInterfaceConfigurationForwardingName} is not success`);
     } else {
       airInterfaceNameResponse.airInterfaceName = airInterfaceConfiguration[AIR_INTERFACE.NAME];
     }
-    airInterfaceNameResponse.traceIndicatorIncrementer = airInterfaceConfiguration.traceIndicatorIncrementer;
-    return airInterfaceNameResponse;
   } catch (error) {
-    return new createHttpError.InternalServerError(`${airInterfaceConfigurationForwardingName} is not success with ${error}`);
+    console.log(`${airInterfaceConfigurationForwardingName} is not success with ${error}`);
   }
-
+  airInterfaceNameResponse.traceIndicatorIncrementer = airInterfaceConfiguration.traceIndicatorIncrementer;
+  return airInterfaceNameResponse;
 }
 
 /**
@@ -632,12 +634,11 @@ async function getWireInterfaceOriginalLtpName(mountName, ltp, requestHeaders, t
     } else {
       originalLtpNameResponse.originalLtpName = ltpAugmentResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.ORIGINAL_LTP_NAME];
     }
-    originalLtpNameResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
-    return originalLtpNameResponse;
-
   } catch (error) {
-    return new createHttpError.InternalServerError(`${physicalLinkAggregationForwardingName} is not success with ${error}`);
+    console.log(`${physicalLinkAggregationForwardingName} is not success with ${error}`);
   }
+  originalLtpNameResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
+  return originalLtpNameResponse;
 }
 
 /**
@@ -707,16 +708,14 @@ async function FetchPluggedSfpPmdList(mountName, ltpStructure, requestHeaders, t
       pluggedSfpPmdList.push(supportedSfpPmd);
 
     }
-    pluggedSfpPmdListResponse = {
-      pluggedSfpPmdList: pluggedSfpPmdList,
-      traceIndicatorIncrementer: traceIndicatorIncrementer
-    }
-    return pluggedSfpPmdListResponse;
-
   } catch (error) {
     console.log(error);
-    return new createHttpError.InternalServerError();
   }
+  pluggedSfpPmdListResponse = {
+    pluggedSfpPmdList: pluggedSfpPmdList,
+    traceIndicatorIncrementer: traceIndicatorIncrementer
+  }
+  return pluggedSfpPmdListResponse;
 }
 /**
  * Filters wire-interface-ltp for EQUIPMENT_CATEGORY = EQUIPMENT_CATEGORY_SMALL_FORMFACTOR_PLUGGABLE
@@ -814,12 +813,11 @@ async function getWireInterfaceNameForRetrievingSfpInformation(mountName, wireIn
     } else {
       wireInterfaceNameResponse.wireInterfaceName = response[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.ORIGINAL_LTP_NAME];
     }
-    wireInterfaceNameResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
-    return wireInterfaceNameResponse;
   } catch (error) {
     console.log(error);
-    return new createHttpError.InternalServerError();
   }
+  wireInterfaceNameResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
+  return wireInterfaceNameResponse;
 }
 
 /**
@@ -855,12 +853,11 @@ async function getSupportedPmdListForRetrievingSfpInformation(mountName, wireInt
       }
       supportedPmdListResponse.supportedPmdList = supportedPmdList;
     }
-    supportedPmdListResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
-    return supportedPmdListResponse;
   } catch (error) {
     console.log(error);
-    return new createHttpError.InternalServerError();
   }
+  supportedPmdListResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
+  return supportedPmdListResponse;
 }
 
 /**
@@ -891,12 +888,11 @@ async function getCurrentlyOperatedPmdForRetrievingSfpInformation(mountName, wir
     } else {
       operatedPmdResponse.currentlyOperatedPmd = response[WIRE_INTERFACE.MODULE + WIRE_INTERFACE.STATUS][WIRE_INTERFACE.PMD_KIND_CUR];
     }
-    operatedPmdResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
-    return operatedPmdResponse;
   } catch (error) {
     console.log(error);
-    return new createHttpError.InternalServerError();
   }
+  operatedPmdResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
+  return operatedPmdResponse;
 }
 
 /**
@@ -910,7 +906,7 @@ async function getCurrentlyOperatedPmdForRetrievingSfpInformation(mountName, wir
  * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
  * @returns {Object} return values of connector-plugging-the-outdoor-unit value and traceIndicatorIncrementer
  */
-async function FetchConnectorPluggingTheOutdoorUnit(mountName, ltpStructure, uuidUnderTest, requestHeaders, traceIndicatorIncrementer) {
+async function FetchConnectorPluggingTheOutdoorUnit(mountName, uuidUnderTest, requestHeaders, traceIndicatorIncrementer) {
   let connectorPluggingTheOutdoorUnitResponse = {};
   let pathParamList = [];
   const connectorIdCallback = "RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorId";
@@ -950,12 +946,11 @@ async function FetchConnectorPluggingTheOutdoorUnit(mountName, ltpStructure, uui
         }
       }
     }
-    connectorPluggingTheOutdoorUnitResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
-    return connectorPluggingTheOutdoorUnitResponse;
   } catch (error) {
     console.log(error);
-    return new createHttpError.InternalServerError();
   }
+  connectorPluggingTheOutdoorUnitResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
+  return connectorPluggingTheOutdoorUnitResponse;
 }
 
 /**
@@ -1021,7 +1016,7 @@ async function formulatePositionofModemBoard(equipmentHolderLabelResponse, equip
       let containedHolder = equipment[EQUIPMENT.EQUIPMENT.CONTAINED_HOLDER]
       for (let j = 0; j < containedHolder.length; j++) {
         vendorLabelList.push(containedHolder[j][CONTAINED_HOLDER.EQUIPMENT_AUGMENT.MODULE + CONTAINED_HOLDER.EQUIPMENT_AUGMENT.HOLDER_PAC]
-          [CONTAINED_HOLDER.EQUIPMENT_AUGMENT.VENDORL_LABEL]);
+        [CONTAINED_HOLDER.EQUIPMENT_AUGMENT.VENDORL_LABEL]);
       }
       break;
     }
