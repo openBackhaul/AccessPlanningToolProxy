@@ -90,11 +90,16 @@ exports.provideAcceptanceDataOfLinkEndpoint = function (body, user, originator, 
       let airInterfaceResult = await ReadAirInterfaceData.readAirInterfaceData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer)
         .catch(err => console.log(` ${err}`));
 
-      let uuidUnderTest = airInterfaceResult.uuidUnderTest;
-      if (Object.keys(airInterfaceResult.airInterface).length != 0) {
-        acceptanceDataOfLinkEndPoint.airInterface = airInterfaceResult.airInterface;
+      let uuidUnderTest = "";
+      if (airInterfaceResult) {
+        if (airInterfaceResult.uuidUnderTest) {
+          uuidUnderTest = airInterfaceResult.uuidUnderTest;
+        }
+        if (Object.keys(airInterfaceResult.airInterface).length != 0) {
+          acceptanceDataOfLinkEndPoint.airInterface = airInterfaceResult.airInterface;
+        }
+        traceIndicatorIncrementer = airInterfaceResult.traceIndicatorIncrementer;
       }
-      traceIndicatorIncrementer = airInterfaceResult.traceIndicatorIncrementer;
 
       /****************************************************************************************
        * Collect vlan-interface data
@@ -123,11 +128,14 @@ exports.provideAcceptanceDataOfLinkEndpoint = function (body, user, originator, 
        ****************************************************************************************/
       let alarmsResult = await ReadAlarmsData.readAlarmsData(mountName, requestHeaders, traceIndicatorIncrementer)
         .catch(err => console.log(` ${err}`));
-
-      if (Object.keys(alarmsResult.alarms).length != 0) {
-        acceptanceDataOfLinkEndPoint.alarms = alarmsResult.alarms;
+      if (alarmsResult) {
+        if (Object.keys(alarmsResult.alarms).length != 0) {
+          if (alarmsResult.alarms) {
+            acceptanceDataOfLinkEndPoint.alarms = alarmsResult.alarms;
+          }
+        }
+        traceIndicatorIncrementer = alarmsResult.traceIndicatorIncrementer;
       }
-      traceIndicatorIncrementer = alarmsResult.traceIndicatorIncrementer;
 
       acceptanceDataOfLinkEndPoint = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(acceptanceDataOfLinkEndPoint);
       resolve(acceptanceDataOfLinkEndPoint);

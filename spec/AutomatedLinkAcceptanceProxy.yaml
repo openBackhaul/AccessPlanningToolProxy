@@ -1,7 +1,7 @@
 ﻿openapi: 3.0.0
 info:
   title: AutomatedLinkAcceptanceProxy
-  version: 1.0.1
+  version: 1.0.2
 
 x-gui-paths:
 ########################################################################################################################
@@ -493,6 +493,11 @@ paths:
                   air-interface:
                     type: object
                     properties:
+                      air-interface-endpoint-name:
+                        type: string
+                        description: >
+                          'Identifier of the microwave link endpoint as used in the Telefonica planing tools
+                           from {$RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceLabel.response.body#external-label}'
                       configured-tx-power:
                         type: integer
                         description: >
@@ -829,8 +834,8 @@ paths:
                                 link-id:
                                   type: string
                                   description: >
-                                    'Identifier of the microwave link as used in the Telefonica planing tools
-                                    from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration.air-interface-name}'
+                                    'Identifier of the microwave link as used in the Telefonica planing tools. To be obtained by extracting the substring constituted by the 9 first characters
+                                    from {$RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation.LtpDesignation.response.body#ltp-augment-1-0:ltp-augment-pac/external-label}'
                             - description: 'WireInterface'
                               type: object
                               required:
@@ -840,7 +845,7 @@ paths:
                                   type: string
                                   description: >
                                     'Interface name as it is represented at the vendor's own management interface
-                                    from {$RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation.LtpName.response.body#ltp-augment-1-0:ltp-augment-pac/original-ltp-name}'
+                                    from {$RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation.LtpDesignation.response.body#ltp-augment-1-0:ltp-augment-pac/original-ltp-name}'
                       plugged-sfp-pmd-list:
                         description: >
                           'First the list of LTPs from RequestForProvidingAcceptanceDataCausesReadingLtpStructure has to be filtered for LayerProtocolName == WireLayer
@@ -929,6 +934,7 @@ paths:
                                     from {$RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive.AlarmsFromLive.response.body#alarms-1-0:current-alarms/current-alarm-list/alarm-severity'
                 example:
                   air-interface:
+                    air-interface-endpoint-name: '513550010B'
                     configured-tx-power: 10
                     current-tx-power: 5
                     current-rx-level: -45
@@ -1021,21 +1027,6 @@ paths:
                           alarm-type-qualifier: ''
                           alarm-severity: 'alarms-1-0:SEVERITY_TYPE_CRITICAL'
           headers:
-            x-correlator:
-              schema:
-                type: string
-                example: '550e8400-e29b-11d4-a716-446655440000'
-              description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
-            exec-time:
-              schema:
-                type: integer
-                example: 1100
-              description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
-            backend-time:
-              schema:
-                type: integer
-                example: 850
-              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
             life-cycle-state:
               schema:
                 type: string
@@ -1051,17 +1042,17 @@ paths:
                   'Life cycle state of the consumed service
                   find in [/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-op-s-is-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
         '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
         '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
         '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
         '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
         default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
       callbacks:
         RequestForProvidingAcceptanceDataCausesReadingLtpStructure:
           LtpStructure: #[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-op-c-is-mwdi-1-0-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
@@ -1186,10 +1177,10 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
         RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest:
-          AirInterfaceName: #[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-op-c-is-mwdi-1-0-0-211/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          AirInterfaceLabel: #[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-op-c-is-mwdi-1-0-0-201/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             description: >
               'UuidUnderTest and LocalIdUnderTest to be determined by
-              repeating until {$RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceName.response.body@air-interface-name} == {$request.body#link-id}
+              repeating until the substring constituted by the 9 first characters of {$RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceLabel.response.body#external-label} == {$request.body#link-id}
             get:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -1216,41 +1207,31 @@ paths:
                     'The UUID of the LogicalTerminationPoint that is addressed by the request
                     from {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/uuid}
                     where {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/layer-protocol/layer-protocol-name} == air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
-                - name: local-id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: 'LP-MWPS-TTP-1-1'
-                  description: >
-                    'The Local-ID of the LayerProtocol that is addressed by the request
-                    from {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/layer-protocol/local-id}
-                    where {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/layer-protocol/layer-protocol-name} == air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
                 - name: fields
                   in: query
                   required: true
                   schema:
                     type: string
-                    example: 'air-interface-name'
+                    example: 'external-label'
                   description: >
                     'If different from empty string, a fields filter with the following value to be added to the request
                     from [/core-model-1-4:control-construct/profile-collection/profile=alap-1-0-1-string-p-001/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
               responses:
                 '200':
-                  description: 'AirInterfaceConfiguration provided from cache'
+                  description: 'LtpAugment provided from cache'
                   content:
                     application/json:
                       schema:
                         type: object
                         properties:
-                          air-interface-2-0:air-interface-configuration:
+                          ltp-augment-1-0:ltp-augment-pac:
                             type: object
                             properties:
-                              air-interface-name:
+                              external-label:
                                 type: string
                         example:
-                          air-interface-2-0:air-interface-configuration:
-                            air-interface-name: '513550010'
+                          ltp-augment-1-0:ltp-augment-pac:
+                            external-label: '513550010B'
                   headers:
                     x-correlator:
                       schema:
@@ -1469,8 +1450,6 @@ paths:
                           air-interface-2-0:air-interface-configuration:
                             type: object
                             properties:
-                              air-interface-name:
-                                type: string
                               transmitted-radio-signal-id:
                                 type: object
                                 properties:
@@ -1511,7 +1490,6 @@ paths:
                                 type: boolean
                         example:
                           air-interface-2-0:air-interface-configuration:
-                            air-interface-name: '513550010'
                             transmitted-radio-signal-id:
                               alphanumeric-radio-signal-id: 'Not yet defined.'
                               numeric-radio-signal-id: 407
@@ -1685,7 +1663,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
         RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation:
-          LtpName: #[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-op-c-is-mwdi-1-0-0-201/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          LtpDesignation: #[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-tcp-c-mwdi-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-op-c-is-mwdi-1-0-0-201/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -1715,13 +1693,12 @@ paths:
                     ClientContainerUuid = ClientStructure.ClientLtp
                     ServingStructureUuidList = ClientContainer.ServerLtp
                     List(ServingPhysicUuid) = List(ServingStructure.ServerLtp)
-                    For all LTPs identified by List(ServingPhysicUuid) of type ServingPhysic.LayerProtocolName == WIRE_LAYER this request shall be sent'
                 - name: fields
                   in: query
                   required: true
                   schema:
                     type: string
-                    example: 'original-ltp-name'
+                    example: 'original-ltp-name;external-label'
                   description: >
                     'If different from empty string, a fields filter with the following value to be added to the request
                     from [/core-model-1-4:control-construct/profile-collection/profile=alap-1-0-1-string-p-005/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
@@ -1738,9 +1715,12 @@ paths:
                             properties:
                               original-ltp-name:
                                 type: string
+                              external-label:
+                                type: string
                         example:
                           ltp-augment-1-0:ltp-augment-pac:
                             original-ltp-name: 'LAN 1/3/3'
+                            external-label: '513550010B'
                   headers:
                     x-correlator:
                       schema:
@@ -11036,6 +11016,12 @@ components:
             type: integer
             example: 850
           description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+    responseForErroredOutOfDomainServiceRequests:
+      description: 'Response in case of errored service requests from out of MW SDN domain'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/errorDescription'
     responseForErroredOamRequests:
       description: 'Response in case of errored OaM requests'
       content:

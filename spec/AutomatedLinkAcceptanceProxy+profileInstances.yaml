@@ -119,9 +119,9 @@ profile-instances:
   - profile-name: 'StringProfile'
     uuid: 'alap-1-0-1-string-p-001'
     capability:
-      string-name: 'RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceName'
+      string-name: 'RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceLabel'
     configuration:
-      string-value: 'air-interface-name'
+      string-value: 'external-label'
 
   - profile-name: 'StringProfile'
     uuid: 'alap-1-0-1-string-p-002'
@@ -147,9 +147,9 @@ profile-instances:
   - profile-name: 'StringProfile'
     uuid: 'alap-1-0-1-string-p-005'
     capability:
-      string-name: 'RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation.LtpName'
+      string-name: 'RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation.LtpDesignation'
     configuration:
-      string-value: 'original-ltp-name'
+      string-value: 'original-ltp-name;external-label'
 
   - profile-name: 'StringProfile'
     uuid: 'alap-1-0-1-string-p-006'
