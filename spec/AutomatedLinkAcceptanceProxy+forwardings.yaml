@@ -458,7 +458,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: alap-1-0-1-op-s-is-000
     consequent-requests:
-      - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name
+      - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name;external-label
         uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-201
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive
