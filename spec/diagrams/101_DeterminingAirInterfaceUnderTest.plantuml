@@ -8,7 +8,7 @@ end title
 participant "LinkVis" as LinkVis
 participant "ALAP://v1/provide-acceptance-data-of-link-endpoint" as ALAP
 participant "<i>RequestForProvidingAcceptanceDataCausesReadingLtpStructure</i>" as LTPs
-participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/\nlayer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration?fields=air-interface-name" as AirInterfaceName
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/\nltp-augment-1-0:ltp-augment-pac?fields=external-label" as ExternalLabel
 
 LinkVis -> ALAP: {MountName, LinkId} (apiKeyAuth)
 activate ALAP
@@ -16,16 +16,16 @@ activate ALAP
 LTPs --> ALAP: {Uuid, LocalId, LayerProtocolName}
 
 note over ALAP
-For all (UUID, Local-ID)s with LayerProtocolName == AirLayer
-until AirInterfaceName = LinkId
+For all UUIDs with LayerProtocolName == AirLayer
+until (9 first characters of ExternalLabel) == LinkId
 end note
 
-ALAP -> AirInterfaceName: (apiKeyAuth)
-AirInterfaceName --> ALAP: {AirInterfaceName}
+ALAP -> ExternalLabel: (apiKeyAuth)
+ExternalLabel --> ALAP: {ExternalLabel}
 
 note over ALAP
 UuidUnderTest/LocalIdUnderTest = 
-uuid/local-id of LTP with (LayerProtocolName == AirLayer) AND (AirInterfaceName==LinkId)
+uuid/local-id of LTP with (LayerProtocolName == AirLayer) AND (ExternalLabel.substring(0,9)==LinkId)
 end note
 
 @enduml

@@ -8,7 +8,7 @@ end title
 participant "LinkVis" as LinkVis
 participant "ALAP://v1/provide-acceptance-data-of-link-endpoint" as ALAP
 participant "<i>RequestForProvidingAcceptanceDataCausesReadingLtpStructure</i>" as LTPs
-participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name" as WireInterfaceName
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=(original-ltp-name;external-label)" as LtpDesignation
 
 LinkVis -> ALAP: {MountName, LinkId} (apiKeyAuth)
 activate ALAP
@@ -23,17 +23,19 @@ List(ServingPhysicUuid) = List(ServingStructure.ServerLtp)
 end note
 
 note over ALAP
-For all ServingPhysic.LayerProtocol.LayerProtocolName == AirLayer :
-link-id = RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.response.body#AirInterfaceName
-end note
+From the following request,
 
-note over ALAP
 For all ServingPhysic.LayerProtocol.LayerProtocolName == WireLayer :
-interface-name = original-ltp-name (according to following request)
+interface-name = originalLtpName 
+
+For all ServingPhysic.LayerProtocol.LayerProtocolName == AirLayer :
+link-id = externalLabel.substring(0,9)
+
 end note
 
-ALAP -> WireInterfaceName: (apiKeyAuth)
-WireInterfaceName --> ALAP: {original-ltp-name}
+
+ALAP -> LtpDesignation: (apiKeyAuth)
+LtpDesignation --> ALAP: {originalLtpName, externalLabel}
 
 deactivate ALAP
 
