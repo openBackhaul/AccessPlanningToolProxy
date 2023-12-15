@@ -4,7 +4,6 @@ const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/con
 const IndividualServiceUtility = require('./IndividualServiceUtility');
 const LtpStructureUtility = require('./LtpStructureUtility');
 const ReadAirInterfaceData = require('./ReadAirInterfaceData');
-const createHttpError = require('http-errors');
 
 const FIRMWARE = {
   MODULE: "firmware-1-0:",
@@ -49,7 +48,8 @@ const LTP_AUGMENT = {
   PAC: "ltp-augment-pac",
   ORIGINAL_LTP_NAME: "original-ltp-name",
   EQUIPMENT: "equipment",
-  CONNECTOR: "connector"
+  CONNECTOR: "connector",
+  EXTERNAL_LABEL: "external-label"
 };
 const HYBRID_MW_STRUCTURE = {
   MODULE: "hybrid-mw-structure-2-0:",
@@ -231,6 +231,7 @@ exports.readInventoryData = function (mountName, ltpStructure, uuidUnderTest, re
       };
       resolve(inventoryResult);
     } catch (error) {
+      console.log(error);
       reject(error);
     }
   });
@@ -506,27 +507,21 @@ async function FetchConfiguredGroupOfAirInterfaces(mountName, ltpStructure, uuid
             let airInterfaceLayerProtocolName = AIR_INTERFACE.MODULE + AIR_INTERFACE.LAYER_PROTOCOL_NAME;
             let wireInterfaceLayerProtocolName = WIRE_INTERFACE.MODULE + WIRE_INTERFACE.LAYER_PROTOCOL_NAME;
             /****************************************************************************************
-             * extracting link-id if radio-link-bonding
+             * extracting link-id if radio-link-bonding or interface-name for physical-link-aggregation
              ****************************************************************************************/
-            if (layerProtocolName == airInterfaceLayerProtocolName) {
-              let linkIdResponse = await getAirInterfaceConfigurationLinkId(mountName, servingPhysicLtp, requestHeaders, traceIndicatorIncrementer);
-              if (Object.keys(linkIdResponse).length != 0) {
-                if (linkIdResponse.airInterfaceName != undefined) {
-                  configuredResource.linkId = linkIdResponse.airInterfaceName;
+            if (layerProtocolName == airInterfaceLayerProtocolName || layerProtocolName == wireInterfaceLayerProtocolName) {
+              let ltpDesignationResponse = await getLtpDesignation(mountName, servingPhysicLtp, requestHeaders, traceIndicatorIncrementer);
+              if (Object.keys(ltpDesignationResponse).length != 0) {
+                let ltpDesignation = ltpDesignationResponse.ltpDesignation;
+                if (ltpDesignation != undefined) {
+                  if(layerProtocolName == airInterfaceLayerProtocolName) {
+                    configuredResource.linkId = ltpDesignation[LTP_AUGMENT.EXTERNAL_LABEL];
+                  } else if(layerProtocolName == wireInterfaceLayerProtocolName) {
+                    configuredResource.interfaceName = ltpDesignation[LTP_AUGMENT.ORIGINAL_LTP_NAME];
+                  }
                 }
               }
-              traceIndicatorIncrementer = linkIdResponse.traceIndicatorIncrementer;
-              /****************************************************************************************
-               * extracting link-id if physical-link-aggregation
-               ****************************************************************************************/
-            } else if (layerProtocolName == wireInterfaceLayerProtocolName) {
-              let interfaceNameResponse = await getWireInterfaceOriginalLtpName(mountName, servingPhysicLtp, requestHeaders, traceIndicatorIncrementer);
-              if (Object.keys(interfaceNameResponse).length != 0) {
-                if (interfaceNameResponse.originalLtpName != undefined) {
-                  configuredResource.interfaceName = interfaceNameResponse.originalLtpName;
-                }
-              }
-              traceIndicatorIncrementer = interfaceNameResponse.traceIndicatorIncrementer;
+              traceIndicatorIncrementer = ltpDesignationResponse.traceIndicatorIncrementer;
             }
             configuredGroupOfAirInterfaceList.push(configuredResource);
           }
@@ -534,7 +529,7 @@ async function FetchConfiguredGroupOfAirInterfaces(mountName, ltpStructure, uuid
       }
     }
   } catch (error) {
-    console.log(`${fcNameForReadingFirmwareList} is not success with ${error}`);
+    console.log(error);
   }
   configuredGroupOfAirInterfacesResponse = {
     configuredGroupOfAirInterfaceList: configuredGroupOfAirInterfaceList,
@@ -571,42 +566,6 @@ async function getServingPhysicLtpList(clientContainerLtp, ltpStructure) {
 }
 
 /**
- * Fetches air-interface-name for air-interface ltp found on radio-link-bonding
- * @param {String} mountName Identifier of the device at the Controller
- * @param {Object} ltp air-interface ltp found on radio-link-bonding
- * @param {Object} requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
- * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
- * @returns {Object} returns air-interface-name(link-id) value and traceIndicatorIncrementer
- */
-async function getAirInterfaceConfigurationLinkId(mountName, ltp, requestHeaders, traceIndicatorIncrementer) {
-  let airInterfaceNameResponse = {};
-  let airInterfaceConfiguration = {};
-  let pathParamList = [];
-  try {
-    let uuid = ltp[onfAttributes.GLOBAL_CLASS.UUID];
-    let localId = ltp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LOCAL_CLASS.LOCAL_ID];
-    pathParamList.push(mountName, uuid, localId);
-
-    /****************************************************************************************************
-     * RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache
-     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
-     *    /logical-termination-point={uuid}/layer-protocol={local-id}
-     *        /air-interface-2-0:air-interface-pac/air-interface-configuration
-     *****************************************************************************************************/
-    airInterfaceConfiguration = await ReadAirInterfaceData.RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache(pathParamList, requestHeaders, traceIndicatorIncrementer);
-    if (Object.keys(airInterfaceConfiguration).length === 0) {
-      console.log(`${airInterfaceConfigurationForwardingName} is not success`);
-    } else {
-      airInterfaceNameResponse.airInterfaceName = airInterfaceConfiguration[AIR_INTERFACE.NAME];
-    }
-  } catch (error) {
-    console.log(`${airInterfaceConfigurationForwardingName} is not success with ${error}`);
-  }
-  airInterfaceNameResponse.traceIndicatorIncrementer = airInterfaceConfiguration.traceIndicatorIncrementer;
-  return airInterfaceNameResponse;
-}
-
-/**
  * Fetches original-ltp-name for wire-interface ltp found on physical-link-aggregation
  * @param {String} mountName Identifier of the device at the Controller
  * @param {Object} ltp wire-interface ltp found on physical-link-aggregation
@@ -614,31 +573,31 @@ async function getAirInterfaceConfigurationLinkId(mountName, ltp, requestHeaders
  * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
  * @returns {Object} returns original-ltp-name(interface-name) value and traceIndicatorIncrementer
  */
-async function getWireInterfaceOriginalLtpName(mountName, ltp, requestHeaders, traceIndicatorIncrementer) {
-  let originalLtpNameResponse = {};
+async function getLtpDesignation(mountName, ltp, requestHeaders, traceIndicatorIncrementer) {
+  let ltpDesignationResponse = {};
   let pathParamList = [];
-  const physicalLinkAggregationForwardingName = "RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation";
-  const physicalLinkAggregationStringName = "RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation.LtpName";
+  const forwardingName = "RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation";
+  const stringName = "RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation.LtpDesignation";
   try {
     let uuid = ltp[onfAttributes.GLOBAL_CLASS.UUID];
     pathParamList.push(mountName, uuid);
     /****************************************************************************************************
      * RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation
-     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
-     *    /logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name
+     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}
+     *      /ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name;external-label
      *****************************************************************************************************/
-    let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(physicalLinkAggregationForwardingName, physicalLinkAggregationStringName);
+    let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName);
     let ltpAugmentResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParamList, requestHeaders, traceIndicatorIncrementer++);
     if (Object.keys(ltpAugmentResponse).length == 0) {
-      console.log(`${physicalLinkAggregationForwardingName} is not success`);
+      console.log(`${forwardingName} is not success`);
     } else {
-      originalLtpNameResponse.originalLtpName = ltpAugmentResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.ORIGINAL_LTP_NAME];
+      ltpDesignationResponse.ltpDesignation = ltpAugmentResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC];
     }
   } catch (error) {
-    console.log(`${physicalLinkAggregationForwardingName} is not success with ${error}`);
+    console.log(`${forwardingName} is not success with ${error}`);
   }
-  originalLtpNameResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
-  return originalLtpNameResponse;
+  ltpDesignationResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
+  return ltpDesignationResponse;
 }
 
 /**

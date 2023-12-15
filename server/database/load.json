@@ -220,10 +220,10 @@
           "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
-              "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceName"
+              "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceLabel"
             },
             "string-profile-configuration": {
-              "string-value": "air-interface-name"
+              "string-value": "external-label"
             }
           }
         },
@@ -268,10 +268,10 @@
           "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
-              "string-name": "RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation.LtpName"
+              "string-name": "RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation.LtpDesignation"
             },
             "string-profile-configuration": {
-              "string-value": "original-ltp-name"
+              "string-value": "original-ltp-name;external-label"
             }
           }
         },
@@ -1005,8 +1005,8 @@
                 "release-list": [
                   {
                     "local-id": "0",
-                    "release-number": "1.0.1",
-                    "release-date": "12.10.2023",
+                    "release-number": "1.0.2",
+                    "release-date": "07.12.2023",
                     "changes": "Initial version"
                   }
                 ]
@@ -2930,7 +2930,7 @@
               {
                 "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "alap-1-0-1-op-c-is-mwdi-1-0-0-211"
+                "logical-termination-point": "alap-1-0-1-op-c-is-mwdi-1-0-0-201"
               }
             ]
           },

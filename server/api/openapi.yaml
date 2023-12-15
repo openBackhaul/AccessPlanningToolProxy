@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: AutomatedLinkAcceptanceProxy
-  version: 1.0.1
+  version: 1.0.2
 servers:
 - url: /
 paths:
@@ -1437,34 +1437,6 @@ paths:
         "200":
           description: Data for device acceptance provided
           headers:
-            x-correlator:
-              description: UUID for the service execution flow that allows to correlate
-                requests and responses. Its value must be identical at the response
-                compared with its corresponding request
-              style: simple
-              explode: false
-              schema:
-                type: string
-                example: 550e8400-e29b-11d4-a716-446655440000
-            exec-time:
-              description: "Value written by the service provider, reporting the total\
-                \ elapsed time for the execution, including all the additional processing\
-                \ needed to retrieve the data from the backend service. Expressed\
-                \ in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 1100
-            backend-time:
-              description: "Value written by the service provider, reporting the elapsed\
-                \ time for data retrieval from the backend (service invocation, database\
-                \ access…). Expressed in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 850
             life-cycle-state:
               description: |
                 'Life cycle state of the consumed service find in [/core-model-1-4:control-construct/logical-termination-point=alap-1-0-1-op-s-is-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
@@ -1485,217 +1457,43 @@ paths:
               schema:
                 $ref: '#/components/schemas/inline_response_200'
         "400":
-          description: Response in case of errored service requests
-          headers:
-            x-correlator:
-              description: UUID for the service execution flow that allows to correlate
-                requests and responses. Its value must be identical at the response
-                compared with its corresponding request
-              style: simple
-              explode: false
-              schema:
-                pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                type: string
-                example: 550e8400-e29b-11d4-a716-446655440000
-            exec-time:
-              description: "Value written by the service provider, reporting the total\
-                \ elapsed time for the execution, including all the additional processing\
-                \ needed to retrieve the data from the backend service. Expressed\
-                \ in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 1100
-            backend-time:
-              description: "Value written by the service provider, reporting the elapsed\
-                \ time for data retrieval from the backend (service invocation, database\
-                \ access…). Expressed in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 850
+          description: Response in case of errored service requests from out of MW
+            SDN domain
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/errorDescription'
         "401":
-          description: Response in case of errored service requests
-          headers:
-            x-correlator:
-              description: UUID for the service execution flow that allows to correlate
-                requests and responses. Its value must be identical at the response
-                compared with its corresponding request
-              style: simple
-              explode: false
-              schema:
-                pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                type: string
-                example: 550e8400-e29b-11d4-a716-446655440000
-            exec-time:
-              description: "Value written by the service provider, reporting the total\
-                \ elapsed time for the execution, including all the additional processing\
-                \ needed to retrieve the data from the backend service. Expressed\
-                \ in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 1100
-            backend-time:
-              description: "Value written by the service provider, reporting the elapsed\
-                \ time for data retrieval from the backend (service invocation, database\
-                \ access…). Expressed in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 850
+          description: Response in case of errored service requests from out of MW
+            SDN domain
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/errorDescription'
         "403":
-          description: Response in case of errored service requests
-          headers:
-            x-correlator:
-              description: UUID for the service execution flow that allows to correlate
-                requests and responses. Its value must be identical at the response
-                compared with its corresponding request
-              style: simple
-              explode: false
-              schema:
-                pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                type: string
-                example: 550e8400-e29b-11d4-a716-446655440000
-            exec-time:
-              description: "Value written by the service provider, reporting the total\
-                \ elapsed time for the execution, including all the additional processing\
-                \ needed to retrieve the data from the backend service. Expressed\
-                \ in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 1100
-            backend-time:
-              description: "Value written by the service provider, reporting the elapsed\
-                \ time for data retrieval from the backend (service invocation, database\
-                \ access…). Expressed in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 850
+          description: Response in case of errored service requests from out of MW
+            SDN domain
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/errorDescription'
         "404":
-          description: Response in case of errored service requests
-          headers:
-            x-correlator:
-              description: UUID for the service execution flow that allows to correlate
-                requests and responses. Its value must be identical at the response
-                compared with its corresponding request
-              style: simple
-              explode: false
-              schema:
-                pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                type: string
-                example: 550e8400-e29b-11d4-a716-446655440000
-            exec-time:
-              description: "Value written by the service provider, reporting the total\
-                \ elapsed time for the execution, including all the additional processing\
-                \ needed to retrieve the data from the backend service. Expressed\
-                \ in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 1100
-            backend-time:
-              description: "Value written by the service provider, reporting the elapsed\
-                \ time for data retrieval from the backend (service invocation, database\
-                \ access…). Expressed in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 850
+          description: Response in case of errored service requests from out of MW
+            SDN domain
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/errorDescription'
         "500":
-          description: Response in case of errored service requests
-          headers:
-            x-correlator:
-              description: UUID for the service execution flow that allows to correlate
-                requests and responses. Its value must be identical at the response
-                compared with its corresponding request
-              style: simple
-              explode: false
-              schema:
-                pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                type: string
-                example: 550e8400-e29b-11d4-a716-446655440000
-            exec-time:
-              description: "Value written by the service provider, reporting the total\
-                \ elapsed time for the execution, including all the additional processing\
-                \ needed to retrieve the data from the backend service. Expressed\
-                \ in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 1100
-            backend-time:
-              description: "Value written by the service provider, reporting the elapsed\
-                \ time for data retrieval from the backend (service invocation, database\
-                \ access…). Expressed in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 850
+          description: Response in case of errored service requests from out of MW
+            SDN domain
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/errorDescription'
         default:
-          description: Response in case of errored service requests
-          headers:
-            x-correlator:
-              description: UUID for the service execution flow that allows to correlate
-                requests and responses. Its value must be identical at the response
-                compared with its corresponding request
-              style: simple
-              explode: false
-              schema:
-                pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
-                type: string
-                example: 550e8400-e29b-11d4-a716-446655440000
-            exec-time:
-              description: "Value written by the service provider, reporting the total\
-                \ elapsed time for the execution, including all the additional processing\
-                \ needed to retrieve the data from the backend service. Expressed\
-                \ in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 1100
-            backend-time:
-              description: "Value written by the service provider, reporting the elapsed\
-                \ time for data retrieval from the backend (service invocation, database\
-                \ access…). Expressed in milliseconds"
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                example: 850
+          description: Response in case of errored service requests from out of MW
+            SDN domain
           content:
             application/json:
               schema:
@@ -2094,9 +1892,9 @@ paths:
                       schema:
                         $ref: '#/components/schemas/errorDescription'
         RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest:
-          AirInterfaceName:
+          AirInterfaceLabel:
             description: |
-              'UuidUnderTest and LocalIdUnderTest to be determined by repeating until {$RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceName.response.body@air-interface-name} == {$request.body#link-id}
+              'UuidUnderTest and LocalIdUnderTest to be determined by repeating until the substring constituted by the 9 first characters of {$RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceLabel.response.body#external-label} == {$request.body#link-id}
             get:
               parameters:
               - name: user
@@ -2174,16 +1972,6 @@ paths:
                 schema:
                   type: string
                   example: LTP-MWPS-TTP-1-1
-              - name: local-id
-                in: path
-                description: |
-                  'The Local-ID of the LayerProtocol that is addressed by the request from {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/layer-protocol/local-id} where {$RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/layer-protocol/layer-protocol-name} == air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
-                required: true
-                style: simple
-                explode: false
-                schema:
-                  type: string
-                  example: LP-MWPS-TTP-1-1
               - name: fields
                 in: query
                 description: |
@@ -2193,10 +1981,10 @@ paths:
                 explode: true
                 schema:
                   type: string
-                  example: air-interface-name
+                  example: external-label
               responses:
                 "200":
-                  description: AirInterfaceConfiguration provided from cache
+                  description: LtpAugment provided from cache
                   headers:
                     x-correlator:
                       description: UUID for the service execution flow that allows
@@ -2245,14 +2033,14 @@ paths:
                       schema:
                         type: object
                         properties:
-                          air-interface-2-0:air-interface-configuration:
+                          ltp-augment-1-0:ltp-augment-pac:
                             type: object
                             properties:
-                              air-interface-name:
+                              external-label:
                                 type: string
                         example:
-                          air-interface-2-0:air-interface-configuration:
-                            air-interface-name: "513550010"
+                          ltp-augment-1-0:ltp-augment-pac:
+                            external-label: 513550010B
                 "400":
                   description: Response in case of errored service requests
                   headers:
@@ -3025,8 +2813,6 @@ paths:
                           air-interface-2-0:air-interface-configuration:
                             type: object
                             properties:
-                              air-interface-name:
-                                type: string
                               transmitted-radio-signal-id:
                                 type: object
                                 properties:
@@ -3068,7 +2854,6 @@ paths:
                         description: Only relevant attributes listed
                         example:
                           air-interface-2-0:air-interface-configuration:
-                            air-interface-name: "513550010"
                             transmitted-radio-signal-id:
                               alphanumeric-radio-signal-id: Not yet defined.
                               numeric-radio-signal-id: 407
@@ -3691,7 +3476,7 @@ paths:
                       schema:
                         $ref: '#/components/schemas/errorDescription'
         RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation:
-          LtpName:
+          LtpDesignation:
             get:
               parameters:
               - name: user
@@ -3762,7 +3547,7 @@ paths:
               - name: uuid
                 in: path
                 description: |
-                  'The UUID of the LogicalTerminationPoint that is addressed by the request. The UUID, which is to be used here, has to be determined by stepping through the hierarchy of LTPs on top of the AirInterface, which is identified by request.body#link-id. ClientStructureUuid = LtpUnderTest.ClientLtp ClientContainerUuid = ClientStructure.ClientLtp ServingStructureUuidList = ClientContainer.ServerLtp List(ServingPhysicUuid) = List(ServingStructure.ServerLtp) For all LTPs identified by List(ServingPhysicUuid) of type ServingPhysic.LayerProtocolName == WIRE_LAYER this request shall be sent'
+                  'The UUID of the LogicalTerminationPoint that is addressed by the request. The UUID, which is to be used here, has to be determined by stepping through the hierarchy of LTPs on top of the AirInterface, which is identified by request.body#link-id. ClientStructureUuid = LtpUnderTest.ClientLtp ClientContainerUuid = ClientStructure.ClientLtp ServingStructureUuidList = ClientContainer.ServerLtp List(ServingPhysicUuid) = List(ServingStructure.ServerLtp)
                 required: true
                 style: simple
                 explode: false
@@ -3778,7 +3563,7 @@ paths:
                 explode: true
                 schema:
                   type: string
-                  example: original-ltp-name
+                  example: original-ltp-name;external-label
               responses:
                 "200":
                   description: LtpAugment provided from cache
@@ -3835,9 +3620,12 @@ paths:
                             properties:
                               original-ltp-name:
                                 type: string
+                              external-label:
+                                type: string
                         example:
                           ltp-augment-1-0:ltp-augment-pac:
                             original-ltp-name: LAN 1/3/3
+                            external-label: 513550010B
                 "400":
                   description: Response in case of errored service requests
                   headers:
@@ -25546,6 +25334,7 @@ components:
           $ref: '#/components/schemas/inline_response_200_alarms'
       example:
         air-interface:
+          air-interface-endpoint-name: 513550010B
           configured-tx-power: 10
           current-tx-power: 5
           current-rx-level: -45
@@ -27713,6 +27502,11 @@ components:
     inline_response_200_airinterface:
       type: object
       properties:
+        air-interface-endpoint-name:
+          type: string
+          description: |
+            'Identifier of the microwave link endpoint as used in the Telefonica planing tools
+             from {$RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceLabel.response.body#external-label}'
         configured-tx-power:
           type: integer
           description: |
@@ -27935,7 +27729,7 @@ components:
                 link-id:
                   type: string
                   description: |
-                    'Identifier of the microwave link as used in the Telefonica planing tools from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration.air-interface-name}'
+                    'Identifier of the microwave link as used in the Telefonica planing tools. To be obtained by extracting the substring constituted by the 9 first characters from {$RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation.LtpDesignation.response.body#ltp-augment-1-0:ltp-augment-pac/external-label}'
               description: AirInterfaces
             - required:
               - interface-name
@@ -27944,7 +27738,7 @@ components:
                 interface-name:
                   type: string
                   description: |
-                    'Interface name as it is represented at the vendor's own management interface from {$RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation.LtpName.response.body#ltp-augment-1-0:ltp-augment-pac/original-ltp-name}'
+                    'Interface name as it is represented at the vendor's own management interface from {$RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation.LtpDesignation.response.body#ltp-augment-1-0:ltp-augment-pac/original-ltp-name}'
               description: WireInterface
         plugged-sfp-pmd-list:
           type: array
@@ -29549,6 +29343,13 @@ components:
           schema:
             type: integer
             example: 850
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/errorDescription'
+    responseForErroredOutOfDomainServiceRequests:
+      description: Response in case of errored service requests from out of MW SDN
+        domain
       content:
         application/json:
           schema:
