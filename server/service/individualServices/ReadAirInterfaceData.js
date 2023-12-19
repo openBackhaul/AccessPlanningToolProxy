@@ -156,7 +156,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUui
           console.log(createHttpError.InternalServerError(`${forwardingName} is not success`));
         } else {
           externalLabelResponse = externalLabelResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.EXTERNAL_LABEL];
-          let linkIdFromExternalLabel = externalLabel.substring(0, 9);
+          let linkIdFromExternalLabel = externalLabelResponse.substring(0, 9);
           if (linkIdFromExternalLabel === linkId) {
             uuidUnderTest = uuid;
             externalLabel = externalLabelResponse;
