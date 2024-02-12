@@ -919,8 +919,8 @@ async function FetchConnectorPluggingTheOutdoorUnit(mountName, uuidUnderTest, re
  */
 async function formulateEquipmentInfo(equipmentInfoList) {
   let equipmentInfo = {};
-  let equipment = {};
   for (let i = 0; i < equipmentInfoList.length; i++) {
+    let equipment = {};
     let actualEquipment = equipmentInfoList[i][CORE.MODULE + EQUIPMENT.EQUIPMENT.ACTUAL_EQUIPMENT];
     if (actualEquipment && Object.keys(actualEquipment).length !== 0) {
       let manufacturedThing = actualEquipment[EQUIPMENT.ACTUAL_EQUIPMENT.MANUFACTURED_THING];
