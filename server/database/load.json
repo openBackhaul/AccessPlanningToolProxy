@@ -997,7 +997,7 @@
             "http-server-interface-1-0:http-server-interface-pac": {
               "http-server-interface-capability": {
                 "application-name": "AutomatedLinkAcceptanceProxy",
-                "release-number": "1.0.1",
+                "release-number": "1.0.2",
                 "application-purpose": "Retrieves acceptance data of link endpoint and provides it to LinkVis for later validation",
                 "data-update-period": "http-server-interface-1-0:DATA_UPDATE_PERIOD_TYPE_MANUAL",
                 "owner-name": "Ana Cabello Barrera",
