@@ -34,7 +34,7 @@ exports.getStringProfileInstanceValue = async function (expectedStringName) {
 
   } catch (error) {
     console.log(`getStringProfileInstanceValue is not success with ${error}`);
-    return new createHttpError.InternalServerError();  
+    return new createHttpError.InternalServerError(`${error}`);  
   }
 }
 
@@ -68,7 +68,7 @@ exports.getQueryAndPathParameter = async function (operationName, pathParamList,
 
   } catch (error) {
     console.log(`getQueryAndPathParameter is not success with ${error}`);
-    return new createHttpError.InternalServerError();    }
+    return new createHttpError.InternalServerError(`${error}`);    }
 }
 
 
@@ -88,7 +88,7 @@ exports.getConsequentOperationClientAndFieldParams = async function(forwardingCo
     consequentOperationClientAndFieldParams.fields = await IndividualServiceUtility.getStringProfileInstanceValue(stringName);
   } catch(error) {
     console.log(`getConsequentOperationClientAndFieldParams is not success with ${error}`);
-    return new createHttpError.InternalServerError();
+    return new createHttpError.InternalServerError(`${error}`);
   }
   return consequentOperationClientAndFieldParams;
 }
@@ -119,6 +119,6 @@ exports.forwardRequest = async function (operationClientAndFieldParams, pathPara
     return responseData;
   } catch (error) {
     console.log(`forwardRequest is not success with ${error}`);
-    return new createHttpError.InternalServerError();
+    return new createHttpError.InternalServerError(`${error}`);
   }
 }

@@ -451,7 +451,7 @@
               "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.HolderLabel"
             },
             "string-profile-configuration": {
-              "string-value": "equipment(contained-holder(occupying-fru;equipment-augment-1-0:holder-pac(vendor-label)))"
+              "string-value": "equipment(uuid;contained-holder(occupying-fru;equipment-augment-1-0:holder-pac(vendor-label)))"
             }
           }
         },

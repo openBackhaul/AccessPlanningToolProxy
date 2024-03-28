@@ -137,33 +137,33 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUui
       AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.LAYER_PROTOCOL_NAME, ltpStructure);
     let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName)
     for (let i = 0; i < airInterfaceLtpList.length; i++) {
-        let uuid = airInterfaceLtpList[i][onfAttributes.GLOBAL_CLASS.UUID];
-        let localId = airInterfaceLtpList[i][onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LOCAL_CLASS.LOCAL_ID];
-        pathParamList = [];
-        pathParamList.push(mountName);
-        pathParamList.push(uuid);
-        pathParamList.push(localId);
-        let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
+      let uuid = airInterfaceLtpList[i][onfAttributes.GLOBAL_CLASS.UUID];
+      let localId = airInterfaceLtpList[i][onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LOCAL_CLASS.LOCAL_ID];
+      pathParamList = [];
+      pathParamList.push(mountName);
+      pathParamList.push(uuid);
+      pathParamList.push(localId);
+      let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
 
-        /****************************************************************************************************
-         * RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest
-         *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}
-         *      /ltp-augment-1-0:ltp-augment-pac?fields=external-label
-         *****************************************************************************************************/
+      /****************************************************************************************************
+       * RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest
+       *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}
+       *      /ltp-augment-1-0:ltp-augment-pac?fields=external-label
+       *****************************************************************************************************/
 
-        let externalLabelResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParamList, requestHeaders, _traceIndicatorIncrementer);
-        if (Object.keys(externalLabelResponse).length === 0) {
-          console.log(createHttpError.InternalServerError(`${forwardingName} is not success`));
-        } else {
-          externalLabelResponse = externalLabelResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.EXTERNAL_LABEL];
-          let linkIdFromExternalLabel = externalLabelResponse.substring(0, 9);
-          if (linkIdFromExternalLabel === linkId) {
-            uuidUnderTest = uuid;
-            externalLabel = externalLabelResponse;
-            pathParams = pathParamList;
-            break;
-          }
+      let externalLabelResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParamList, requestHeaders, _traceIndicatorIncrementer);
+      if (Object.keys(externalLabelResponse).length === 0) {
+        console.log(createHttpError.InternalServerError(`${forwardingName} is not success`));
+      } else {
+        externalLabelResponse = externalLabelResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.EXTERNAL_LABEL];
+        let linkIdFromExternalLabel = externalLabelResponse.substring(0, 9);
+        if (linkIdFromExternalLabel === linkId) {
+          uuidUnderTest = uuid;
+          externalLabel = externalLabelResponse;
+          pathParams = pathParamList;
+          break;
         }
+      }
     }
   } catch (error) {
     console.log(`${forwardingName} is not success with ${error}`);
@@ -299,46 +299,56 @@ async function RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValu
  */
 async function formulateAirInterfaceResponseBody(airInterfaceEndPointName, airInterfaceConfiguration, airInterfaceCapability, airInterfaceStatus) {
   let airInterface = {};
-  airInterface["air-interface-endpoint-name"] = airInterfaceEndPointName;
-  airInterface["configured-tx-power"] = airInterfaceConfiguration["tx-power"];
-  airInterface["current-tx-power"] = airInterfaceStatus["tx-level-cur"];
-  airInterface["current-rx-level"] = airInterfaceStatus["rx-level-cur"];
-  airInterface["configured-tx-frequency"] = airInterfaceConfiguration["tx-frequency"];
-  airInterface["configured-rx-frequency"] = airInterfaceConfiguration["rx-frequency"];
-  airInterface["configured-transmitted-radio-signal-id"] = airInterfaceConfiguration["transmitted-radio-signal-id"];
-  airInterface["configured-expected-radio-signal-id"] = airInterfaceConfiguration["expected-radio-signal-id"];
-  airInterface["configured-atpc-is-on"] = airInterfaceConfiguration["atpc-is-on"];
-  airInterface["configured-atpc-threshold-upper"] = airInterfaceConfiguration["atpc-thresh-upper"];
-  airInterface["configured-atpc-threshold-lower"] = airInterfaceConfiguration["atpc-thresh-lower"];
-  airInterface["configured-atpc-tx-power-min"] = airInterfaceConfiguration["atpc-tx-power-min"];
-  airInterface["configured-adaptive-modulation-is-on"] = airInterfaceConfiguration["adaptive-modulation-is-on"];
-  airInterface["current-cross-polarization-discrimination"] = airInterfaceStatus["xpd-cur"];
-  airInterface["configured-performance-monitoring-is-on"] = airInterfaceConfiguration["performance-monitoring-is-on"];
-  airInterface["configured-xpic-is-on"] = airInterfaceConfiguration["xpic-is-on"];
-  airInterface["current-signal-to-noise-ratio"] = airInterfaceStatus["snir-cur"];
-  let minTransmissionMode = await getConfiguredModulation(
-    airInterfaceCapability,
-    airInterfaceConfiguration["transmission-mode-min"]);
-  let maxTransmissionMode = await getConfiguredModulation(
-    airInterfaceCapability,
-    airInterfaceConfiguration["transmission-mode-max"]);
-  let curTransmissionMode = await getConfiguredModulation(
-    airInterfaceCapability,
-    airInterfaceStatus["transmission-mode-cur"]);
-  airInterface["configured-modulation-minimum"] = {
-    "number-of-states": minTransmissionMode["modulation-scheme"],
-    "name-at-lct": minTransmissionMode["modulation-scheme-name-at-lct"]
-  };
-  airInterface["configured-modulation-maximum"] = {
-    "number-of-states": maxTransmissionMode["modulation-scheme"],
-    "name-at-lct": maxTransmissionMode["modulation-scheme-name-at-lct"]
-  };
-  airInterface["current-modulation"] = {
-    "number-of-states": curTransmissionMode["modulation-scheme"],
-    "name-at-lct": curTransmissionMode["modulation-scheme-name-at-lct"]
-  };
-  airInterface["configured-channel-bandwidth-min"] = minTransmissionMode["channel-bandwidth"];
-  airInterface["configured-channel-bandwidth-max"] = maxTransmissionMode["channel-bandwidth"];
+  try {
+    if (airInterfaceEndPointName) airInterface["air-interface-endpoint-name"] = airInterfaceEndPointName;
+    if (airInterfaceConfiguration.hasOwnProperty("tx-power")) airInterface["configured-tx-power"] = airInterfaceConfiguration["tx-power"];
+    if (airInterfaceStatus.hasOwnProperty("tx-level-cur")) airInterface["current-tx-power"] = airInterfaceStatus["tx-level-cur"];
+    if (airInterfaceStatus.hasOwnProperty("rx-level-cur")) airInterface["current-rx-level"] = airInterfaceStatus["rx-level-cur"];
+    if (airInterfaceConfiguration.hasOwnProperty("tx-frequency")) airInterface["configured-tx-frequency"] = airInterfaceConfiguration["tx-frequency"];
+    if (airInterfaceConfiguration.hasOwnProperty("rx-frequency")) airInterface["configured-rx-frequency"] = airInterfaceConfiguration["rx-frequency"];
+    if (airInterfaceConfiguration.hasOwnProperty("transmitted-radio-signal-id")) airInterface["configured-transmitted-radio-signal-id"] = airInterfaceConfiguration["transmitted-radio-signal-id"];
+    if (airInterfaceConfiguration.hasOwnProperty("expected-radio-signal-id")) airInterface["configured-expected-radio-signal-id"] = airInterfaceConfiguration["expected-radio-signal-id"];
+    if (airInterfaceConfiguration.hasOwnProperty("atpc-is-on")) airInterface["configured-atpc-is-on"] = airInterfaceConfiguration["atpc-is-on"];
+    if (airInterfaceConfiguration.hasOwnProperty("atpc-thresh-upper")) airInterface["configured-atpc-threshold-upper"] = airInterfaceConfiguration["atpc-thresh-upper"];
+    if (airInterfaceConfiguration.hasOwnProperty("atpc-thresh-lower")) airInterface["configured-atpc-threshold-lower"] = airInterfaceConfiguration["atpc-thresh-lower"];
+    if (airInterfaceConfiguration.hasOwnProperty("atpc-tx-power-min")) airInterface["configured-atpc-tx-power-min"] = airInterfaceConfiguration["atpc-tx-power-min"];
+    if (airInterfaceConfiguration.hasOwnProperty("adaptive-modulation-is-on")) airInterface["configured-adaptive-modulation-is-on"] = airInterfaceConfiguration["adaptive-modulation-is-on"];
+    if (airInterfaceStatus.hasOwnProperty("xpd-cur")) airInterface["current-cross-polarization-discrimination"] = airInterfaceStatus["xpd-cur"];
+    if (airInterfaceConfiguration.hasOwnProperty("performance-monitoring-is-on")) airInterface["configured-performance-monitoring-is-on"] = airInterfaceConfiguration["performance-monitoring-is-on"];
+    if (airInterfaceConfiguration.hasOwnProperty("xpic-is-on")) airInterface["configured-xpic-is-on"] = airInterfaceConfiguration["xpic-is-on"];
+    if (airInterfaceStatus.hasOwnProperty("snir-cur")) airInterface["current-signal-to-noise-ratio"] = airInterfaceStatus["snir-cur"];
+    let minTransmissionMode = await getConfiguredModulation(
+      airInterfaceCapability,
+      airInterfaceConfiguration["transmission-mode-min"]);
+    let maxTransmissionMode = await getConfiguredModulation(
+      airInterfaceCapability,
+      airInterfaceConfiguration["transmission-mode-max"]);
+    let curTransmissionMode = await getConfiguredModulation(
+      airInterfaceCapability,
+      airInterfaceStatus["transmission-mode-cur"]);
+    if (minTransmissionMode) {
+      airInterface["configured-modulation-minimum"] = {
+        "number-of-states": minTransmissionMode["modulation-scheme"],
+        "name-at-lct": minTransmissionMode["modulation-scheme-name-at-lct"]
+      };
+    }
+    if (maxTransmissionMode) {
+      airInterface["configured-modulation-maximum"] = {
+        "number-of-states": maxTransmissionMode["modulation-scheme"],
+        "name-at-lct": maxTransmissionMode["modulation-scheme-name-at-lct"]
+      };
+    }
+    if (curTransmissionMode) {
+      airInterface["current-modulation"] = {
+        "number-of-states": curTransmissionMode["modulation-scheme"],
+        "name-at-lct": curTransmissionMode["modulation-scheme-name-at-lct"]
+      };
+    }
+    if (minTransmissionMode.hasOwnProperty("channel-bandwidth")) airInterface["configured-channel-bandwidth-min"] = minTransmissionMode["channel-bandwidth"];
+    if (maxTransmissionMode.hasOwnProperty("channel-bandwidth")) airInterface["configured-channel-bandwidth-max"] = maxTransmissionMode["channel-bandwidth"];
+  } catch (error) {
+    console.log(error);
+  }
   return airInterface;
 }
 
@@ -350,7 +360,7 @@ async function formulateAirInterfaceResponseBody(airInterfaceEndPointName, airIn
  */
 async function getConfiguredModulation(airInterfaceCapability, transmissioModeType) {
   let transmissionModeFromtransmissionModeList = {};
-  if (airInterfaceCapability) {
+  if (airInterfaceCapability && airInterfaceCapability.hasOwnProperty("transmission-mode-list")) {
     let transmissionModeList = airInterfaceCapability["transmission-mode-list"];
     if (transmissionModeList != undefined && transmissioModeType != undefined) {
       transmissionModeFromtransmissionModeList = transmissionModeList.find(transmissionMode =>
