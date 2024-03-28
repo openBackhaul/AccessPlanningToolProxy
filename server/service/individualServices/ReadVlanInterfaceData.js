@@ -159,7 +159,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole(
         } else {
           console.log(`${ethernetContainerStatusCallback} for ${wireInterfaceUuid} is not success`);
         }
-        configuredLanPortRoleList.push(configuredLanPortRole);
+        if(Object.keys(configuredLanPortRole).length != 0) configuredLanPortRoleList.push(configuredLanPortRole);
       }
     }
   } catch (error) {
@@ -262,7 +262,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole(
         } else {
           console.log(`${ethernetContainerStatusCallback} for ${airInterfaceUuid} is not success`);
         }
-        configuredWanPortRoleList.push(configuredWanPortRole);
+        if(Object.keys(configuredWanPortRole).length != 0) configuredWanPortRoleList.push(configuredWanPortRole);
       }
     }
   } catch (error) {
@@ -296,7 +296,9 @@ async function fetchOriginalLtpNameOfEthernetContainer(mountName, ltpStructure, 
       pathParamList.push(mountName, clientContainerUuid);
       let response = await IndividualServiceUtility.forwardRequest(clientAndFieldParams, pathParamList, requestHeaders, traceIndicatorIncrementer++);
       if (Object.keys(response).length > 0) {
-        originalLtpNameResponse.interfaceName = response[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.ORIGINAL_LTP_NAME];
+        let ltpAugmentPac = response[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC];
+        if(ltpAugmentPac && ltpAugmentPac.hasOwnProperty(LTP_AUGMENT.ORIGINAL_LTP_NAME)) 
+          originalLtpNameResponse.interfaceName = ltpAugmentPac[LTP_AUGMENT.ORIGINAL_LTP_NAME];
       }
     }
   } catch (error) {
@@ -355,7 +357,10 @@ async function fetchServingEthernetContainerStatus(mountName, requestHeaders, tr
     pathParamList.push(mountName, clientContainerUuid, clientContainerLocalId);
     let response = await IndividualServiceUtility.forwardRequest(clientAndFieldParams, pathParamList, requestHeaders, traceIndicatorIncrementer++);
     if (Object.keys(response).length > 0) {
-      ethernetContainerStatusResponse.servingEthernetContainerStatus = response[ETHERNET_CONTAINER.MODULE + ETHERNET_CONTAINER.STATUS][ETHERNET_CONTAINER.INTERFACE_STATUS];
+      let etherContainerStatus = response[ETHERNET_CONTAINER.MODULE + ETHERNET_CONTAINER.STATUS];
+      if(etherContainerStatus && etherContainerStatus.hasOwnProperty(ETHERNET_CONTAINER.INTERFACE_STATUS)) {
+        ethernetContainerStatusResponse.servingEthernetContainerStatus = etherContainerStatus[ETHERNET_CONTAINER.INTERFACE_STATUS];
+      }
     }
   } catch (error) {
     console.log(error);
