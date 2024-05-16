@@ -746,3 +746,20 @@ forwardings:
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/firmware-1-0:firmware-collection
         uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-120
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData
+    uuid: alap-1-0-1-op-fc-is-170
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: alap-1-0-1-op-s-is-000
+    consequent-requests:
+      - client-name: APT
+        uuid: n.a.
+
+ 
