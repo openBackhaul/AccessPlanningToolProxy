@@ -1,0 +1,19 @@
+@startuml 170_DeliveringRequestedAcceptanceData
+skinparam responseMessageBelowArrow true
+
+title
+RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData
+end title
+
+participant "LinkVis" as LinkVis
+participant "ALAP://v1/provide-acceptance-data-of-link-endpoint" as ALAP
+
+
+LinkVis -> ALAP: {MountName, LinkId} (apiKeyAuth)
+activate ALAP
+
+ALAP -> LinkVis: {requestId, structured acceptance data}
+
+deactivate ALAP
+
+@enduml

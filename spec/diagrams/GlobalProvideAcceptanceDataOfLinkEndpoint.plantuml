@@ -1,0 +1,46 @@
+@startuml GlobalProvideAcceptanceDataOfLinkEndpoint
+skinparam responseMessageBelowArrow true
+
+title
+RequestForProvidingAcceptanceDataCausesReadingFirmwareList
+end title
+
+participant "LinkVis" as LinkVis
+participant "ALAP://v1/provide-acceptance-data-of-link-endpoint" as ALAP
+participant "<i>RequestForProviding\n<i>AcceptanceDataCauses\n<i>DeterminingAirInterfaceUnderTest</i>" as LTPs
+participant "<i>RequestForProviding\n<i>AcceptanceDataCauses\n<i>ReadingCapabilitiesFromCache</i>" as MwdiCapa
+participant "<i>RequestForProviding\n<i>AcceptanceDataCauses\n<i>ReadingConfigurationFromCache</i>" as MwdiConfig
+participant "<i>RequestForProviding\n<i>AcceptanceDataCauses\n<i>ReadingDedicatedStatusFromLive</i>" as Status
+participant "<i>RequestForProviding\n<i>AcceptanceDataCauses\n<i>AnalysingTheAggregation</i>" as Aggregation
+participant "<i>RequestForProviding\n<i>AcceptanceDataCauses\n<i>ReadingCurrentAlarmsFromLive</i>" as Alarms
+participant "<i>RequestForProviding\n<i>AcceptanceDataCauses\n<i>DeterminingLanPortRole</i>" as LanPortRole
+participant "<i>RequestForProviding\n<i>AcceptanceDataCauses\n<i>DeterminingWanPortRole</i>" as WanPortRole
+participant "<i>RequestForProviding\n<i>AcceptanceDataCauses\n<i>RetrievingSpfInformation</i>" as Sfp
+participant "<i>RequestForProviding\n<i>AcceptanceDataCauses\n<i>DeterminingTheModemPosition</i>" as Modem
+participant "<i>RequestForProviding\n<i>AcceptanceDataCauses\n<i>DeterminingTheOduConnector</i>" as Odu
+participant "<i>RequestForProviding\n<i>AcceptanceDataCauses\n<i>ReadingTheRadioComponentIdentifiers</i>" as RadioComponents
+participant "<i>RequestForProviding\n<i>AcceptanceDataCauses\n<i>ReadingFirmwareList</i>" as Firmware
+participant "<i>RequestForProviding\n<i>AcceptanceDataCauses\n<i>DeliveringRequestedAcceptanceData</i>" as Delivery
+
+LinkVis -> ALAP: {MountName, LinkId} (apiKeyAuth)
+activate ALAP
+
+ALAP --> LinkVis: {requestId}
+MwdiCapa --> ALAP: {entire AirInterfaceCapabilities from cache}
+MwdiConfig --> ALAP: {entire AirInterfaceConfigurations from cache}
+Status --> ALAP: {tx-level-cur and rx-level-cur from live}
+Aggregation --> ALAP: {originalLtpName, externalLabel}
+Alarms --> ALAP: {entire list of firmware components from cache}
+LanPortRole --> ALAP: {OriginalLtpName}{VlanInterfaceKind}{interfaceStatus}
+WanPortRole --> ALAP: {OriginalLtpName}{VlanInterfaceKind}{interfaceStatus}
+Sfp --> ALAP: {original-ltp-name}{supported-pmd-kind-list.pmd-name}{pmd-kind-cur}
+Modem --> ALAP: {vendor-label}
+Odu --> ALAP: {sequence-id}
+RadioComponents --> ALAP: {EquipmentCategory, type-name, serial-number, part-type-identifier}
+Firmware --> ALAP: {entire list of firmware components from cache}
+Delivery -> LinkVis: {requestId, structured acceptance data}
+
+
+deactivate ALAP
+
+@enduml
