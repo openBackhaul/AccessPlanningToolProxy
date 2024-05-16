@@ -456,6 +456,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
   /v1/provide-acceptance-data-of-link-endpoint:
+    description: 'The number of requests to be executed in parallel shall be limited to the value stated in [/core-model-1-4:control-construct/profile-collection/profile=alap-1-0-1-integer-p-000/integer-profile-1-0:integer-profile-pac/integer-profile-configuration/integer-value]'
     post:
       operationId: provideAcceptanceDataOfLinkEndpoint
       summary: 'Provides the data required for the acceptance of a device'
@@ -494,7 +495,7 @@ paths:
                 properties:
                   request-id:
                     type: string
-                    description: 'Identifier of the request for switching redundant transmitter pair off'
+                    description: 'Identifier of the request for providing acceptance data of link endpoint'
                 example:
                   request-id: '305251234-101120-1400'
           headers:

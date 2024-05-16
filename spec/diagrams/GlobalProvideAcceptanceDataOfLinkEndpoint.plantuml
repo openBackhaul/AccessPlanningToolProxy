@@ -23,9 +23,18 @@ participant "<i>RequestForProviding\n<i>AcceptanceDataCauses\n<i>ReadingFirmware
 participant "<i>RequestForProviding\n<i>AcceptanceDataCauses\n<i>DeliveringRequestedAcceptanceData</i>" as Delivery
 
 LinkVis -> ALAP: {MountName, LinkId} (apiKeyAuth)
+
+note over ALAP
+Number of requests to be executed in parallel shall not exceed the value stated in
+<b>profile=alap-1-0-1-integer-p-000</b>
+<b>IntegerProfilePac::IntegerProfileConfiguration:integerValue</b>
+end note
+
 activate ALAP
 
 ALAP --> LinkVis: {requestId}
+
+
 MwdiCapa --> ALAP: {entire AirInterfaceCapabilities from cache}
 MwdiConfig --> ALAP: {entire AirInterfaceConfigurations from cache}
 Status --> ALAP: {tx-level-cur and rx-level-cur from live}

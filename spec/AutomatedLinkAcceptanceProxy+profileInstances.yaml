@@ -283,3 +283,13 @@ profile-instances:
       string-name: 'RequestForProvidingAcceptanceDataCausesReadingFirmwareList.FirmwareFromCache'
     configuration:
       string-value: ''
+
+  - profile-name: 'IntegerProfile'
+    uuid: 'alap-1-0-1-integer-p-000'
+    capability:
+      integer-name: 'ProvideAcceptanceDataOfLinkEndPoint.MaxNumberOfParallelRequests'
+      purpose: 'Maximum number of parallel request executions allowed for the service /v1/provide-acceptance-data-of-link-endpoint'
+      minimum: 0
+      maximum: 5
+    configuration:
+      integer-value: 1
