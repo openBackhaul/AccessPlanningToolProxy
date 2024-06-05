@@ -45,6 +45,23 @@ servers:
       individual:
         - operation-name: /v1/provide-acceptance-data-of-link-endpoint
           uuid: alap-1-0-1-op-s-is-000
+        - operation-name: /v1/provide-historical-pm-data-of-device
+          uuid: alap-1-0-1-op-s-is-001        
+        - operation-name: /v1/check-registered-availability-of-device
+          uuid: aptp-1-1-0-op-s-is-002  
+
+        - operation-name: /v1/provide-configuration-for-livenetview
+          uuid: aptp-1-1-0-op-s-is-007
+        - operation-name: /v1/provide-equipment-for-livenetview
+          uuid: aptp-1-1-0-op-s-is-008
+        - operation-name: /v1/provide-alarms-for-livenetview
+          uuid: aptp-1-1-0-op-s-is-009
+        - operation-name: /v1/provide-status-for-livenetview
+          uuid: aptp-1-1-0-op-s-is-010
+
+        - operation-name: /v1/update-apt-client
+          uuid: alap-1-0-1-op-s-is-100
+        
   http-server:
     own-application-name: AutomatedLinkAcceptanceProxy
     own-release-number: 1.0.2
@@ -245,6 +262,7 @@ clients:
         basic:
         individual:
 
+  
   - http-client:
       application-name: MicroWaveDeviceInventory
       release-number: 1.0.0
@@ -297,3 +315,25 @@ clients:
             uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-270
           - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
             uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-272
+
+  - http-client:
+      application-name: APT
+      release-number: ##find release number
+      uuid: alap-1-0-1-http-c-apt-x-x-x-000
+    tcp-client:
+      remote-protocol: http
+      ip-address: 127.0.0.1
+      tcp-port: 5001
+      uuid: alap-1-0-1-tcp-c-apt-x-x-x-000
+    operation-clients:
+      own-oam:
+        basic:
+        individual:
+      service:
+        basic:
+        individual:
+          - operation-name: /v1/receive-acceptance-data-of-link-endpoint
+            uuid: alap-1-0-1-op-c-is-apt-x-x-x-
+          - operation-name: /v1/receive-historical-pm-data-of-device
+            uuid: alap-1-0-1-op-c-is-apt-x-x-x-000
+
