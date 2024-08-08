@@ -52,7 +52,7 @@ servers:
 
         - operation-name: /v1/provide-configuration-for-livenetview
           uuid: aptp-1-1-0-op-s-is-007
-        - operation-name: /v1/provide-equipment-for-livenetview
+        - operation-name: /v1/provide-equipment-info-for-livenetview
           uuid: aptp-1-1-0-op-s-is-008
         - operation-name: /v1/provide-alarms-for-livenetview
           uuid: aptp-1-1-0-op-s-is-009
@@ -61,6 +61,9 @@ servers:
 
         - operation-name: /v1/update-apt-client
           uuid: alap-1-0-1-op-s-is-100
+
+       ## - operation-name: /v1/receive-device-updates-from-mwdi
+       ##   uuid: alap-1-0-1-op-s-is-101
         
   http-server:
     own-application-name: AutomatedLinkAcceptanceProxy
@@ -279,9 +282,17 @@ clients:
       service:
         basic:
         individual:
+          - operation-name: /v1/provide-list-of-connected-devices
+            uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-010
+          
+          - operation-name: /v1/notify-attribute-value-changes
+            uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-020
+
           - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}
             uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-000
 
+          ##- operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/alarms-1-0:alarm-pac/current-alarms
+          ##  uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-107
           - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms
             uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-407
 
@@ -302,11 +313,17 @@ clients:
             uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-210
           - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
             uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-211
+          ##- operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
+          ##  uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-212
+          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-historical-performances
+            uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-214
           - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
             uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-512
 
           - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status
             uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-222
+          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances
+            uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-224
 
           - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
             uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-261
@@ -318,13 +335,13 @@ clients:
 
   - http-client:
       application-name: APT
-      release-number: ##find release number
-      uuid: alap-1-0-1-http-c-apt-x-x-x-000
+      release-number: 24.5.0
+      uuid: alap-1-0-1-http-c-apt-24-05-0-000
     tcp-client:
       remote-protocol: http
       ip-address: 127.0.0.1
       tcp-port: 5001
-      uuid: alap-1-0-1-tcp-c-apt-x-x-x-000
+      uuid: alap-1-0-1-tcp-c-apt-24-05-0-000
     operation-clients:
       own-oam:
         basic:
@@ -333,7 +350,7 @@ clients:
         basic:
         individual:
           - operation-name: /v1/receive-acceptance-data-of-link-endpoint
-            uuid: alap-1-0-1-op-c-is-apt-x-x-x-
+            uuid: alap-1-0-1-op-c-is-apt-24-5-0-000
           - operation-name: /v1/receive-historical-pm-data-of-device
-            uuid: alap-1-0-1-op-c-is-apt-x-x-x-000
+            uuid: alap-1-0-1-op-c-is-apt-24-5-0-001
 
