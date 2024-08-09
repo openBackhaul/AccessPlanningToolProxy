@@ -1,0 +1,31 @@
+@startuml 206_ReadingHistoricalEthernetContainerPerformanceFromCache
+skinparam responseMessageBelowArrow true
+
+title
+RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache
+end title
+
+participant "LinkVis" as LinkVis
+participant "APTP://v1/provide-historical-pm-data-of-device" as APTP_Pm
+participant "<i>RequestForProvidingHistoricalPmDataCausesReadingLtpStructure</i>" as LTPs
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/\nlayer-protocol={localId}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances" as EthernetPm
+
+LinkVis -> APTP_Pm: {MountName, timeStamp}<sub>i</sub> (apiKeyAuth)
+activate APTP_Pm
+LTPs --> APTP_Pm: [{uuid, localId, layerProtocolName}]
+loop for each Ltp where LayerProtocolName==ETHERNET_CONTAINER_LAYER obtained from RequestForProvidingHistoricalPmDataCausesReadingLtpStructure
+    APTP_Pm -> EthernetPm: {MountName,uuid, localId} (apiKeyAuth)
+    EthernetPm --> APTP_Pm: {entire EthernetContainerPerformances from cache}
+
+    note over APTP_Pm
+    Keep only entries of performance measurements 
+    WHERE
+    granularity-period == TYPE_PERIOD-15-MIN
+    AND
+    period-end-time > timeStamp
+    Discard the rest
+    end note
+end
+deactivate APTP_Pm
+
+@enduml

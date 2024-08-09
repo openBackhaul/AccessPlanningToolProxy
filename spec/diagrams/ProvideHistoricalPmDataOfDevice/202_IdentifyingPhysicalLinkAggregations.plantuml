@@ -1,0 +1,56 @@
+@startuml 202_IdentifyingPhysicalLinkAggregations
+skinparam responseMessageBelowArrow true
+
+title
+RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregations
+end title
+
+participant "LinkVis" as LinkVis
+participant "APTP://v1/provide-historical-pm-data-of-device" as APTP_Pm
+participant "<i>RequestForProvidingHistoricalPmDataCausesReadingLtpStructure</i>" as LTPs
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/\nltp-augment-1-0:ltp-augment-pac?fields=(original-ltp-name;external-label)" as LtpDesignation
+
+LinkVis -> APTP_Pm: {MountName, timeStamp}<sub>i</sub> (apiKeyAuth)
+activate APTP_Pm
+
+LTPs --> APTP_Pm: [{Uuid, LocalId, ServerLtp, ClientLtp, LayerProtocolName}]
+
+loop for each uuid of Ltps where LayerProtocolName==AIR_LAYER obtained from RequestForProvidingHistoricalPmDataCausesReadingLtpStructure
+
+	note over APTP_Pm
+
+	Starting from an AirInterfaceUuid, navigate recursively upwards thru the hierarchy of client ltps up to the associated EthernetContainerUuid:
+	AirInterface -> HybridMWStructure/PureEthernetStructure -> EthernetContainer
+	Then from this EthernetContainerUuid, navigate downwards thru the hierarchy of server ltps, in order to determine 
+	all the AirInterfaces/WireInterfaces that (also) point to this EthernetContainer
+	EthernetContainer ->List-of HybridMWStructure/PureEthernetStructure -> AirInterface/WireInterface
+	As follows:
+
+		ClientLtp OF **AirInterfaceUuid** = **ClientStructureUuid** 
+		ClientLtp OF **ClientStructureUuid** = **ClientEthernetContainerUuid**
+		ServerLtp OF **ClientEthernetContainerUuid** = LIST-OF **ServingStructureUuid**	
+
+		FOR EACH **ServingStructureUuid** in LIST-OF **ServingStructureUuid**:	
+				ServerLtp OF **ServingStructureUuid** = **Wire/AirInterfaceUuid**
+
+	(Result: LIST-OF **Wire/AirInterfaceUuid**)
+	end note
+
+	note over APTP_Pm
+	
+	In following Request,
+	IF LayerProtocolName == WIRE_LAYER :
+	interface-name = originalLtpName 
+
+	ELSE IF LayerProtocolName == AIR_LAYER :
+	link-id = externalLabel.substring(0,9)
+
+	end note
+
+	APTP_Pm -> LtpDesignation: [{MountName, Uuid=Wire/AirInterfaceUuid}] (apiKeyAuth)
+	LtpDesignation --> APTP_Pm: [{originalLtpName, externalLabel}]
+
+end
+deactivate APTP_Pm
+
+@enduml

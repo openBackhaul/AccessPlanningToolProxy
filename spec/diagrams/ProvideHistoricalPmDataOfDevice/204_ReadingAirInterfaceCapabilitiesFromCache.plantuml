@@ -1,0 +1,23 @@
+@startuml 204_ReadingAirInterfaceCapabilitiesFromCache
+skinparam responseMessageBelowArrow true
+
+title
+RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceCapabilitiesFromCache
+end title
+
+participant "LinkVis" as LinkVis
+participant "APTP://v1/provide-historical-pm-data-of-device" as APTP_Pm
+participant "<i>RequestForProvidingHistoricalPmDataCausesReadingLtpStructure</i>" as LTPs
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-capability" as AirInterfaceCapa
+
+LinkVis -> APTP_Pm: {MountName, timeStamp}<sub>i</sub> (apiKeyAuth)
+activate APTP_Pm
+LTPs --> APTP_Pm: [{uuid, localId, layerProtocolName}]
+
+loop for each Ltp where LayerProtocolName==AIR_LAYER obtained from RequestForProvidingHistoricalPmDataCausesReadingLtpStructure
+    APTP_Pm -> AirInterfaceCapa: {MountName,uuid,localId} (apiKeyAuth)
+    AirInterfaceCapa --> APTP_Pm: {entire AirInterfaceCapabilities from cache}
+end
+deactivate APTP_Pm
+
+@enduml
