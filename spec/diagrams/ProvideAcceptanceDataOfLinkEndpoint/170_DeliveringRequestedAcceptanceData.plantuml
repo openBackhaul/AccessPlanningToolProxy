@@ -6,14 +6,15 @@ RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData
 end title
 
 participant "LinkVis" as LinkVis
-participant "ALAP://v1/provide-acceptance-data-of-link-endpoint" as ALAP
+participant "LinkVis://v1/receive-acceptance-data-of-link-endpoint" as LinkVisReceiveAcc
+participant "APTP://v1/provide-acceptance-data-of-link-endpoint" as APTP
 
 
-LinkVis -> ALAP: {MountName, LinkId} (apiKeyAuth)
-activate ALAP
+LinkVis -> APTP: {MountName, LinkId} (apiKeyAuth)
+activate APTP
 
-ALAP -> LinkVis: {requestId, structured acceptance data}
+APTP -> LinkVisReceiveAcc: {requestId, structured acceptance data}
 
-deactivate ALAP
+deactivate APTP
 
 @enduml

@@ -6,32 +6,32 @@ RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition
 end title
 
 participant "LinkVis" as LinkVis
-participant "ALAP://v1/provide-acceptance-data-of-link-endpoint" as ALAP
+participant "APTP://v1/provide-acceptance-data-of-link-endpoint" as APTP
 participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}\n/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment" as EquipmentUuid
 participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}\n/equipment={uuid}/actual-equipment?fields=structure(category)" as EquipmentCategory
 participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}\n?fields=equipment(contained-holder(occupying-fru;equipment-augment-1-0:holder-pac(vendor-label)))" as HolderLabel
 
 
-LinkVis -> ALAP: {MountName, LinkId} (apiKeyAuth)
-activate ALAP
+LinkVis -> APTP: {MountName, LinkId} (apiKeyAuth)
+activate APTP
 
-ALAP -> EquipmentUuid: {with uuid of AirInterfaceUnderTest} (apiKeyAuth)
-EquipmentUuid --> ALAP: {EquipmentUuidList}
+APTP -> EquipmentUuid: {with uuid of AirInterfaceUnderTest} (apiKeyAuth)
+EquipmentUuid --> APTP: {EquipmentUuidList}
 
-ALAP -> EquipmentCategory: {with uuid from EquipmentUuidList} (apiKeyAuth)
-EquipmentCategory --> ALAP: {EquipmentCategory}
+APTP -> EquipmentCategory: {with uuid from EquipmentUuidList} (apiKeyAuth)
+EquipmentCategory --> APTP: {EquipmentCategory}
 
-note over ALAP
+note over APTP
 If EquipmentCategory == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM :
 end note
 
-ALAP -> HolderLabel: (apiKeyAuth)
-HolderLabel --> ALAP: {Holder with occupyingFru and label}
+APTP -> HolderLabel: (apiKeyAuth)
+HolderLabel --> APTP: {Holder with occupyingFru and label}
 
-note over ALAP
+note over APTP
 position-of-modem-board = equipment-augment-1-0:holder-pac/vendor-label for Holder with occupyingFru == (uuid from EquipmentUuidList with EquipmentCategory == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM)
 end note
 
-deactivate ALAP
+deactivate APTP
 
 @enduml

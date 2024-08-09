@@ -6,29 +6,29 @@ RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector
 end title
 
 participant "LinkVis" as LinkVis
-participant "ALAP://v1/provide-acceptance-data-of-link-endpoint" as ALAP
-participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}\n/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment;connector" as ConnectorId
-participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}\n/equipment={uuid}/connector={local-id}?fields=equipment-augment-1-0:connector-pac(sequence-id)" as ConnectorNumber
+participant "APTP://v1/provide-acceptance-data-of-link-endpoint" as APTP
+participant "MWDI://core-model-1-4:network-control-domain=cache\n/control-construct={mount-name}/logical-termination-point={uuid}\n/ltp-augment-1-0:ltp-augment-pac?fields=equipment;connector" as ConnectorId
+participant "MWDI://core-model-1-4:network-control-domain=cache\n/control-construct={mount-name}/equipment={uuid}/connector={local-id}\n?fields=equipment-augment-1-0:connector-pac(sequence-id)" as ConnectorNumber
 
 
-LinkVis -> ALAP: {MountName, LinkId} (apiKeyAuth)
-activate ALAP
+LinkVis -> APTP: {MountName, LinkId} (apiKeyAuth)
+activate APTP
 
-ALAP -> ConnectorId: {with uuid of AirInterfaceUnderTest} (apiKeyAuth)
-ConnectorId --> ALAP: {EquipmentUuidList, ConnectorLocalId}
+APTP -> ConnectorId: {with uuid of AirInterfaceUnderTest} (apiKeyAuth)
+ConnectorId --> APTP: {EquipmentUuidList, ConnectorLocalId}
 
-note over ALAP
+note over APTP
 EquipmentUuidList might contain multiple UUIDs (modem, ODU)
 Following request has to be repeated until combination of uuid and local-id leads to connector instance
 end note
 
-ALAP -> ConnectorNumber: {uuid from EquipmentUuidList, local-id=ConnectorLocalId} (apiKeyAuth)
-ConnectorNumber --> ALAP: {sequence-id}
+APTP -> ConnectorNumber: {uuid from EquipmentUuidList, local-id=ConnectorLocalId} (apiKeyAuth)
+ConnectorNumber --> APTP: {sequence-id}
 
-note over ALAP
+note over APTP
 connector-plugging-the-outdoor-unit = sequence-id
 end note
 
-deactivate ALAP
+deactivate APTP
 
 @enduml

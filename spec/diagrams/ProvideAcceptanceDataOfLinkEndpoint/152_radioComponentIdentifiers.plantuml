@@ -6,23 +6,23 @@ RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers
 end title
 
 participant "LinkVis" as LinkVis
-participant "ALAP://v1/provide-acceptance-data-of-link-endpoint" as ALAP
+participant "APTP://v1/provide-acceptance-data-of-link-endpoint" as APTP
 participant "<i>RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition</i>" as EquipmentUuid
 participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment\n?fields=structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier);equipment-instance(serial-number))" as RadioComponentIdentifiers
 
-LinkVis -> ALAP: {MountName, LinkId} (apiKeyAuth)
-activate ALAP
+LinkVis -> APTP: {MountName, LinkId} (apiKeyAuth)
+activate APTP
 
-EquipmentUuid --> ALAP: {EquipmentUuidList}
+EquipmentUuid --> APTP: {EquipmentUuidList}
 
-note over ALAP
+note over APTP
 For all EquipmentUuids provided in EquipmentUuidList :
 end note
 
-ALAP -> RadioComponentIdentifiers: {with uuid from EquipmentUuidList} (apiKeyAuth)
-RadioComponentIdentifiers --> ALAP: {EquipmentCategory, type-name, serial-number, part-type-identifier}
+APTP -> RadioComponentIdentifiers: {with uuid from EquipmentUuidList} (apiKeyAuth)
+RadioComponentIdentifiers --> APTP: {EquipmentCategory, type-name, serial-number, part-type-identifier}
 
-note over ALAP
+note over APTP
 If EquipmentCategory == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT
 radio-equipment-name = type-name
 radio-equipment-serial-number = serial-number

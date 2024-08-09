@@ -1,12 +1,13 @@
-@startuml GlobalProvideAcceptanceDataOfLinkEndpoint
+@startuml ProvideAcceptanceDataOfLinkEndpoint
 skinparam responseMessageBelowArrow true
 
 title
-RequestForProvidingAcceptanceDataCausesReadingFirmwareList
+ProvideAcceptanceDataOfLinkEndpoint
 end title
 
 participant "LinkVis" as LinkVis
-participant "ALAP://v1/provide-acceptance-data-of-link-endpoint" as ALAP
+participant "LinkVis://v1/receive-acceptance-\ndata-of-link-endpoint" as LinkVisReceiveAcc
+participant "APTP://v1/provide-acceptance-\ndata-of-link-endpoint" as APTP
 participant "<i>RequestForProviding\n<i>AcceptanceDataCauses\n<i>DeterminingAirInterfaceUnderTest</i>" as LTPs
 participant "<i>RequestForProviding\n<i>AcceptanceDataCauses\n<i>ReadingCapabilitiesFromCache</i>" as MwdiCapa
 participant "<i>RequestForProviding\n<i>AcceptanceDataCauses\n<i>ReadingConfigurationFromCache</i>" as MwdiConfig
@@ -22,34 +23,34 @@ participant "<i>RequestForProviding\n<i>AcceptanceDataCauses\n<i>ReadingTheRadio
 participant "<i>RequestForProviding\n<i>AcceptanceDataCauses\n<i>ReadingFirmwareList</i>" as Firmware
 participant "<i>RequestForProviding\n<i>AcceptanceDataCauses\n<i>DeliveringRequestedAcceptanceData</i>" as Delivery
 
-LinkVis -> ALAP: {MountName, LinkId} (apiKeyAuth)
+LinkVis -> APTP: {MountName, LinkId} (apiKeyAuth)
 
-note over ALAP
+note over APTP
 Number of requests to be executed in parallel shall not exceed the value stated in
-<b>profile=alap-1-0-1-integer-p-000</b>
+<b>profile=APTP-1-0-1-integer-p-000</b>
 <b>IntegerProfilePac::IntegerProfileConfiguration:integerValue</b>
 end note
 
-activate ALAP
+activate APTP
 
-ALAP --> LinkVis: {requestId}
-
-
-MwdiCapa --> ALAP: {entire AirInterfaceCapabilities from cache}
-MwdiConfig --> ALAP: {entire AirInterfaceConfigurations from cache}
-Status --> ALAP: {tx-level-cur and rx-level-cur from live}
-Aggregation --> ALAP: {originalLtpName, externalLabel}
-Alarms --> ALAP: {entire list of firmware components from cache}
-LanPortRole --> ALAP: {OriginalLtpName}{VlanInterfaceKind}{interfaceStatus}
-WanPortRole --> ALAP: {OriginalLtpName}{VlanInterfaceKind}{interfaceStatus}
-Sfp --> ALAP: {original-ltp-name}{supported-pmd-kind-list.pmd-name}{pmd-kind-cur}
-Modem --> ALAP: {vendor-label}
-Odu --> ALAP: {sequence-id}
-RadioComponents --> ALAP: {EquipmentCategory, type-name, serial-number, part-type-identifier}
-Firmware --> ALAP: {entire list of firmware components from cache}
-Delivery -> LinkVis: {requestId, structured acceptance data}
+APTP --> LinkVis: {requestId}
 
 
-deactivate ALAP
+MwdiCapa --> APTP: {entire AirInterfaceCapabilities from cache}
+MwdiConfig --> APTP: {entire AirInterfaceConfigurations from cache}
+Status --> APTP: {tx-level-cur and rx-level-cur from live}
+Aggregation --> APTP: {originalLtpName, externalLabel}
+Alarms --> APTP: {entire list of firmware components from cache}
+LanPortRole --> APTP: {OriginalLtpName}{VlanInterfaceKind}{interfaceStatus}
+WanPortRole --> APTP: {OriginalLtpName}{VlanInterfaceKind}{interfaceStatus}
+Sfp --> APTP: {original-ltp-name}{supported-pmd-kind-list.pmd-name}{pmd-kind-cur}
+Modem --> APTP: {vendor-label}
+Odu --> APTP: {sequence-id}
+RadioComponents --> APTP: {EquipmentCategory, type-name, serial-number, part-type-identifier}
+Firmware --> APTP: {entire list of firmware components from cache}
+Delivery -> LinkVisReceiveAcc: {requestId, structured acceptance data}
+
+
+deactivate APTP
 
 @enduml
