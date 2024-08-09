@@ -1,0 +1,18 @@
+@startuml ReadingCurrentAlarmsFromLive
+skinparam responseMessageBelowArrow true
+
+title
+RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromLive
+end title
+
+participant "LinkVis" as LinkVis
+participant "APTP://v1/provide-alarms-for-livenetview" as Livenetview_Alarms
+participant "MWDI://core-model-1-4:network-control-domain=live/control-construct={mountName}/alarms-1-0:alarm-pac/current-alarms" as CurrentAlarmsLive
+
+LinkVis -> Livenetview_Alarms: {MountName, LinkId} (apiKeyAuth)
+activate Livenetview_Alarms
+
+Livenetview_Alarms -> CurrentAlarmsLive: (apiKeyAuth)
+CurrentAlarmsLive --> Livenetview_Alarms: {entire list of active alarms form live}
+
+@enduml
