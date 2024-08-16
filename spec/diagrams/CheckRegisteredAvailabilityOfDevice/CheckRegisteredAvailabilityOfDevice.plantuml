@@ -20,9 +20,6 @@ end note
 
 activate DeviceAvailableCheck
 
-
-
-
 note over DeviceAvailableCheck
 If MountName is found in the internal list of connected devices, return TRUE
 Else, return FALSE
