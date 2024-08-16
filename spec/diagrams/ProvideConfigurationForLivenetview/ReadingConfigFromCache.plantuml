@@ -1,0 +1,20 @@
+@startuml ReadingConfigFromCache
+skinparam responseMessageBelowArrow true
+
+title
+RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache
+end title
+
+participant "LinkVis" as LinkVis
+participant "APTP://v1/provide-configuration-for-livenetview" as APTP_Config
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration" as MwdiConfig
+
+LinkVis -> APTP_Config: {MountName, LinkId} (apiKeyAuth)
+activate APTP_Config
+
+APTP_Config -> MwdiConfig: {uuid = UuidUnderTest and local-id = LocalIdUnderTest from RequestForProvidingConfigurationForLivenetviewCausesDeterminingAirInterfaceUuidUnderTest} (apiKeyAuth)
+MwdiConfig --> APTP_Config: {entire AirInterfaceConfiguration from cache}
+
+deactivate APTP_Config
+
+@enduml
