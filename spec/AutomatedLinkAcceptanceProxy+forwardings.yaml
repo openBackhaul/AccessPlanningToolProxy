@@ -1,6 +1,25 @@
 forwardings:
 
   - forwarding-name: PromptForRegisteringCausesRegistrationRequest
+    uuid: alap-1-0-1-op-fc-bm-999
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/register-yourself
+          uuid: alap-1-0-1-op-s-bm-000
+      fc-port-update:
+        - server-name: /v1/register-yourself
+          uuid: alap-1-0-1-op-s-bm-000
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/register-yourself
+        uuid: alap-1-0-1-op-s-bm-000
+    consequent-requests:
+      - client-name: RegistryOffice://v2/register-application
+        uuid: alap-1-0-1-op-c-bm-ro-2-1-0-000
+
+  - forwarding-name: PromptForRegisteringCausesRegistrationRequest2
     uuid: alap-1-0-1-op-fc-bm-000
     forwarding-type: InvariantProcessSnippet
     management-requests:
@@ -16,8 +35,8 @@ forwardings:
       - server-name: /v1/register-yourself
         uuid: alap-1-0-1-op-s-bm-000
     consequent-requests:
-      - client-name: RO://v1/register-application
-        uuid: alap-1-0-1-op-c-bm-ro-2-0-1-000
+      - client-name: RegistryOffice://v2/register-application
+        uuid: alap-1-0-1-op-c-bm-ro-2-1-0-000
 
   - forwarding-name: PromptForEmbeddingCausesRequestForBequeathingData
     uuid: alap-1-0-1-op-fc-bm-001
@@ -31,7 +50,7 @@ forwardings:
       - server-name: /v1/embed-yourself
         uuid: alap-1-0-1-op-s-bm-001
     consequent-requests:
-      - client-name: OR://v1/bequeath-your-data-and-die
+      - client-name: OldRelease://v1/bequeath-your-data-and-die
         uuid: alap-1-0-1-op-c-bm-or-1-0-0-000
 
   - forwarding-name: ServiceRequestCausesLoggingRequest
@@ -69,6 +88,14 @@ forwardings:
         uuid: alap-1-0-1-op-s-bm-010
       - server-name: /v1/update-operation-client
         uuid: alap-1-0-1-op-s-bm-011
+      - server-name: /v1/inquire-basic-auth-approvals
+        uuid: alap-1-0-1-op-s-bm-012
+      - server-name: /v1/dispose-remainders-of-deregistered-application
+        uuid: alap-1-0-1-op-s-bm-013
+      - server-name: /v1/inform-about-preceding-release
+        uuid: alap-1-0-1-op-s-bm-014
+      - server-name: /v1/update-client-of-subsequent-release
+        uuid: alap-1-0-1-op-s-bm-015
       - server-name: /v1/bequeath-your-data-and-die
         uuid: alap-1-0-1-op-s-im-000
       - server-name: /v1/start-application-in-generic-representation
@@ -83,11 +110,10 @@ forwardings:
         uuid: alap-1-0-1-op-s-bs-004
       - server-name: /docs
         uuid: alap-1-0-1-op-s-bs-005
-      - server-name: /v1/provide-acceptance-data-of-link-endpoint
-        uuid: alap-1-0-1-op-s-is-000
+      ## TODO: All service requests to be complemented
     consequent-requests:
-      - client-name: EATL://v1/record-service-request
-        uuid: alap-1-0-1-op-c-bs-eatl-2-0-1-000
+      - client-name: ExecutionAndTraceLog://v1/record-service-request
+        uuid: alap-1-0-1-op-c-bs-eatl-2-1-0-000
 
   - forwarding-name: OamRequestCausesLoggingRequest
     uuid: alap-1-0-1-op-fc-bm-003
@@ -102,26 +128,40 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
+      # [all oam requests]
     consequent-requests:
-      - client-name: OL://v1/record-oam-request
-        uuid: alap-1-0-1-op-c-bs-ol-2-0-1-000
+      - client-name: OamLog://v1/record-oam-request
+        uuid: alap-1-0-1-op-c-bs-ol-2-1-0-000
 
-  - forwarding-name: OamRequestCausesInquiryForAuthentication
-    uuid: alap-1-0-1-op-fc-bm-004
+  - forwarding-name: BasicAuthRequestCausesInquiryForAuthentication
+    uuid: alap-1-0-1-op-fc-bm-005
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
+        - server-name: /v1/inquire-basic-auth-approvals
+          uuid: alap-1-0-1-op-s-bm-012
         - server-name: /v1/inquire-oam-request-approvals
           uuid: alap-1-0-1-op-s-bm-005
       fc-port-update:
+        - server-name: /v1/inquire-basic-auth-approvals
+          uuid: alap-1-0-1-op-s-bm-012
         - server-name: /v1/inquire-oam-request-approvals
           uuid: alap-1-0-1-op-s-bm-005
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
+      # [all oam requests]
     consequent-requests:
-      - client-name: AA://v1/approve-oam-request
-        uuid: alap-1-0-1-op-c-bs-aa-2-0-1-000
+      - client-name: AccessAdministration://v1/approve-basic-auth-request
+        uuid: alap-1-0-1-op-c-bs-aa-2-1-0-000
+
+## TODO: Potentially add Forwardings for configuring INDIVIDUAL subscriptions on NewRelease
+
+## TODO: Add Forwardings for transferring data to NewRelease
+
+## TODO: Potentially add Forwardings for creating INDIVIDUAL subscriptions to NewRelease
+
+## TODO: Potentially add Forwardings for ending INDIVIDUAL subscriptions to OldRelease
 
   - forwarding-name: PromptForBequeathingDataCausesRequestForBroadcastingInfoAboutServerReplacement
     uuid: alap-1-0-1-op-fc-bm-105
@@ -139,8 +179,8 @@ forwardings:
       - server-name: /v1/bequeath-your-data-and-die
         uuid: alap-1-0-1-op-s-im-000
     consequent-requests:
-      - client-name: RO://v1/relay-server-replacement
-        uuid: alap-1-0-1-op-c-bm-ro-2-0-1-001
+      - client-name: RegistryOffice://v1/relay-server-replacement
+        uuid: alap-1-0-1-op-c-bm-ro-2-1-0-001
 
   - forwarding-name: PromptForBequeathingDataCausesRequestForDeregisteringOfOldRelease
     uuid: alap-1-0-1-op-fc-bm-106
@@ -158,8 +198,8 @@ forwardings:
       - server-name: /v1/bequeath-your-data-and-die
         uuid: alap-1-0-1-op-s-im-000
     consequent-requests:
-      - client-name: RO://v1/deregister-application
-        uuid: alap-1-0-1-op-c-bm-ro-2-0-1-002
+      - client-name: RegistryOffice://v1/deregister-application
+        uuid: alap-1-0-1-op-c-bm-ro-2-1-0-002
 
   - forwarding-name: PromptingNewReleaseForUpdatingServerCausesRequestForBroadcastingInfoAboutBackwardCompatibleUpdateOfOperation
     uuid: alap-1-0-1-op-fc-bm-107
@@ -177,8 +217,8 @@ forwardings:
       - server-name: /v1/update-client
         uuid: alap-1-0-1-op-s-bm-007
     consequent-requests:
-      - client-name: RO://v1/relay-operation-update
-        uuid: alap-1-0-1-op-c-bm-ro-2-0-1-003
+      - client-name: RegistryOffice://v1/relay-operation-update
+        uuid: alap-1-0-1-op-c-bm-ro-2-1-0-003
 
   - forwarding-name: ServiceRequestCausesLtpUpdateRequest
     uuid: alap-1-0-1-op-fc-bm-006
@@ -209,11 +249,16 @@ forwardings:
         uuid: alap-1-0-1-op-s-bm-009
       - server-name: /v1/update-operation-client
         uuid: alap-1-0-1-op-s-bm-011
+      - server-name: /v1/inquire-basic-auth-approvals
+        uuid: alap-1-0-1-op-s-bm-012
+      - server-name: /v1/update-client-of-subsequent-release
+        uuid: alap-1-0-1-op-s-bm-015
       - server-name: /v1/bequeath-your-data-and-die
         uuid: alap-1-0-1-op-s-im-000
+      ## TODO: All INDIVIDUAL service requests, which are updating an LTP, to be complemented
     consequent-requests:
-      - client-name: ALT://v1/update-ltp
-        uuid: alap-1-0-1-op-c-bm-alt-2-0-1-001
+      - client-name: ApplicationLayerTopology://v1/update-ltp
+        uuid: alap-1-0-1-op-c-bm-alt-2-1-0-001
 
   - forwarding-name: ServiceRequestCausesLtpDeletionRequest
     uuid: alap-1-0-1-op-fc-bm-007
@@ -228,9 +273,12 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
+      - server-name: /v1/dispose-remainders-of-deregistered-application
+        uuid: alap-1-0-1-op-s-bm-013
+      ## TODO: All INDIVIDUAL service requests, which are deleting an LTP, to be complemented
     consequent-requests:
-      - client-name: ALT://v1/delete-ltp-and-dependents
-        uuid: alap-1-0-1-op-c-bm-alt-2-0-1-002
+      - client-name: ApplicationLayerTopology://v1/delete-ltp-and-dependents
+        uuid: alap-1-0-1-op-c-bm-alt-2-1-0-002
 
   - forwarding-name: ServiceRequestCausesFcUpdateRequest
     uuid: alap-1-0-1-op-fc-bm-008
@@ -245,9 +293,10 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
+      ## TODO: All INDIVIDUAL service requests, which are updating an FC, to be complemented
     consequent-requests:
-      - client-name: ALT://v1/update-fc
-        uuid: alap-1-0-1-op-c-bm-alt-2-0-1-003
+      - client-name: ApplicationLayerTopology://v1/update-fc
+        uuid: alap-1-0-1-op-c-bm-alt-2-1-0-003
 
   - forwarding-name: ServiceRequestCausesFcPortUpdateRequest
     uuid: alap-1-0-1-op-fc-bm-009
@@ -262,9 +311,10 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
+      ## TODO: All INDIVIDUAL service requests, which are updating an FC-Port, to be complemented
     consequent-requests:
-      - client-name: ALT://v1/update-fc-port
-        uuid: alap-1-0-1-op-c-bm-alt-2-0-1-004
+      - client-name: ApplicationLayerTopology://v1/update-fc-port
+        uuid: alap-1-0-1-op-c-bm-alt-2-1-0-004
 
   - forwarding-name: ServiceRequestCausesFcPortDeletionRequest
     uuid: alap-1-0-1-op-fc-bm-010
@@ -281,9 +331,10 @@ forwardings:
     initiating-requests:
       - server-name: /v1/end-subscription
         uuid: alap-1-0-1-op-s-bm-004
+      ## TODO: All INDIVIDUAL service requests, which are deleting an FC-Port, to be complemented
     consequent-requests:
-      - client-name: ALT://v1/delete-fc-port
-        uuid: alap-1-0-1-op-c-bm-alt-2-0-1-005
+      - client-name: ApplicationLayerTopology://v1/delete-fc-port
+        uuid: alap-1-0-1-op-c-bm-alt-2-1-0-005
 
   - forwarding-name: OamRequestCausesLtpUpdateRequest
     uuid: alap-1-0-1-op-fc-bm-011
@@ -299,8 +350,8 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
     consequent-requests:
-      - client-name: ALT://v1/update-ltp
-        uuid: alap-1-0-1-op-c-bm-alt-2-0-1-001
+      - client-name: ApplicationLayerTopology://v1/update-ltp
+        uuid: alap-1-0-1-op-c-bm-alt-2-1-0-001
 
   - forwarding-name: OamRequestCausesLtpDeletionRequest
     uuid: alap-1-0-1-op-fc-bm-012
@@ -316,8 +367,8 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
     consequent-requests:
-      - client-name: ALT://v1/delete-ltp-and-dependents
-        uuid: alap-1-0-1-op-c-bm-alt-2-0-1-002
+      - client-name: ApplicationLayerTopology://v1/delete-ltp-and-dependents
+        uuid: alap-1-0-1-op-c-bm-alt-2-1-0-002
 
   - forwarding-name: OamRequestCausesFcUpdateRequest
     uuid: alap-1-0-1-op-fc-bm-013
@@ -333,8 +384,8 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
     consequent-requests:
-      - client-name: ALT://v1/update-fc
-        uuid: alap-1-0-1-op-c-bm-alt-2-0-1-003
+      - client-name: ApplicationLayerTopology://v1/update-fc
+        uuid: alap-1-0-1-op-c-bm-alt-2-1-0-003
 
   - forwarding-name: OamRequestCausesFcPortUpdateRequest
     uuid: alap-1-0-1-op-fc-bm-014
@@ -350,8 +401,8 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
     consequent-requests:
-      - client-name: ALT://v1/update-fc-port
-        uuid: alap-1-0-1-op-c-bm-alt-2-0-1-004
+      - client-name: ApplicationLayerTopology://v1/update-fc-port
+        uuid: alap-1-0-1-op-c-bm-alt-2-1-0-004
 
   - forwarding-name: OamRequestCausesFcPortDeletionRequest
     uuid: alap-1-0-1-op-fc-bm-015
@@ -367,9 +418,10 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
     consequent-requests:
-      - client-name: ALT://v1/delete-fc-port
-        uuid: alap-1-0-1-op-c-bm-alt-2-0-1-005
+      - client-name: ApplicationLayerTopology://v1/delete-fc-port
+        uuid: alap-1-0-1-op-c-bm-alt-2-1-0-005
 
+  ## TODO: Potential INDIVIDUAL Forwardings to be added
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesReadingLtpStructure
     uuid: alap-1-0-1-op-fc-is-100
@@ -759,7 +811,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: alap-1-0-1-op-s-is-000
     consequent-requests:
-      - client-name: APT
-        uuid: n.a.
+      - client-name: APT://v1/receive-acceptance-data-of-link-endpoint
+        uuid: ##
 
  
