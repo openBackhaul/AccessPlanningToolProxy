@@ -1,0 +1,29 @@
+@startuml ProvideStatusForLivenetview
+skinparam responseMessageBelowArrow true
+
+title
+ProvideStatusForLivenetview
+end title
+
+participant "LinkVis" as LinkVis
+participant "APTP://v1/provide-status-for-livenetview" as APTP_Status
+participant "<i>RequestForProvidingStatusForLivenetviewCausesReadingStatusFromLive</i>" as ReadingStatusLive
+
+
+LinkVis -> APTP_Status: {MountName, LinkId} (apiKeyAuth)
+
+note over APTP_Status
+Number of requests to be executed in parallel shall not exceed the value stated in
+<b>profile=APTP-1-0-1-integer-p-006</b>
+<b>IntegerProfilePac::IntegerProfileConfiguration:integerValue</b>
+end note
+
+activate APTP_Status
+
+ReadingStatusLive --> APTP_Status: {rx-frequency-cur;tx-frequency-cur}
+
+APTP_Status --> LinkVis: {rx-frequency-cur;tx-frequency-cur}
+
+deactivate APTP_Status
+
+@enduml

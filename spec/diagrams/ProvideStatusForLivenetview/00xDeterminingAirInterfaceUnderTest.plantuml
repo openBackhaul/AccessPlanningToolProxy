@@ -1,0 +1,31 @@
+@startuml DeterminingAirInterfaceUnderTest
+skinparam responseMessageBelowArrow true
+
+title
+RequestForProvidingStatusForLiveNetViewCausesDeterminingAirInterfaceUuidUnderTest
+end title
+
+participant "LinkVis" as LinkVis
+participant "APTP://v1/provide-status-for-livenetview" as APTP_Status
+participant "<i>RequestForProvidingStatusForLivenetviewCausesReadingLtpStructure</i>" as LTPs
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/\nltp-augment-1-0:ltp-augment-pac?fields=external-label" as ExternalLabel
+
+LinkVis -> APTP_Status: {MountName, LinkId} (apiKeyAuth)
+activate APTP_Status
+
+LTPs --> APTP_Status: {Uuid, LocalId, LayerProtocolName}
+
+note over APTP_Status
+For all UUIDs with LayerProtocolName == AirLayer
+until (9 first characters of ExternalLabel) == LinkId
+end note
+
+APTP_Status -> ExternalLabel: (apiKeyAuth)
+ExternalLabel --> APTP_Status: {ExternalLabel}
+
+note over APTP_Status
+UuidUnderTest/LocalIdUnderTest = 
+uuid/local-id of LTP with (LayerProtocolName == AirLayer) AND (ExternalLabel.substring(0,9)==LinkId)
+end note
+
+@enduml
