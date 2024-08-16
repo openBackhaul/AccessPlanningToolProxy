@@ -69,9 +69,6 @@ servers:
 
         - operation-name: /v1/update-apt-client
           uuid: aptp-1-1-0-op-s-is-100
-
-       ## - operation-name: /v1/receive-device-updates-from-mwdi
-       ##   uuid: aptp-1-1-0-op-s-is-101
         
   http-server:
     own-application-name: AptProxy
