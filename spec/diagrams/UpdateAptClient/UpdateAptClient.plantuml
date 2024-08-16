@@ -1,0 +1,21 @@
+@startuml UpdateAptClient
+skinparam responseMessageBelowArrow true
+
+title
+UpdateAptClient
+end title
+
+participant "LinkVis" as LinkVis
+participant "APTP://v1/update-apt-client" as AptClientUpdate
+
+LinkVis -> AptClientUpdate: {apt-protocol, apt-ip-address, apt-tcp-port, apt-release-nr, /v1/receive-acceptance-data-of-link-endpoint, /v1/receive-historical-pm-data-of-device} (apiKeyAuth)
+
+note over AptClientUpdate
+After successful processing of this request, a minimum time interval defined in 
+<b>profile=aptp-1-0-1-integer-p-004</b>
+<b>IntegerProfilePac::IntegerProfileConfiguration:integerValue</b>
+must elapse before a new updation of the APT-client is permitted.
+end note
+
+
+@enduml
