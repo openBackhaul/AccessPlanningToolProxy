@@ -8,7 +8,7 @@ end title
 participant "RO" as ro
 participant "APTP://v1/embed-yourself" as aptp
 participant "MWDI://v1/provide-list-of-connected-devices" as mwdi
-participant "APTP://control-construct={mountName}" as InternalList
+
 
 
 ro -> aptp
@@ -23,18 +23,12 @@ To be periodically repeated after the elapsed time period stated in
 end note
 
 note over aptp
-Get list of connected devices from MWDI
+Get list of connected devices from MWDI and store it internally
 end note
 
 aptp -> mwdi
 mwdi --> aptp: list of-{mountName}
 
-note over aptp
-Save the connected devices in internal list
-end note
-
-
-aptp -> InternalList: list of-{mountName}
 
 
 deactivate aptp

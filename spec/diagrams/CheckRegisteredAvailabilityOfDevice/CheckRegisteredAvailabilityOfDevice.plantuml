@@ -7,7 +7,7 @@ end title
 
 participant "LinkVis" as LinkVis
 participant "APTP://v1/check-registered-availability-of-device" as DeviceAvailableCheck
-participant "APTP://control-construct={mountName}" as InternalList
+
 
 
 LinkVis -> DeviceAvailableCheck: {MountName} (apiKeyAuth)
@@ -21,14 +21,14 @@ end note
 activate DeviceAvailableCheck
 
 
-DeviceAvailableCheck -> InternalList: {MountName}
+
 
 note over DeviceAvailableCheck
 If MountName is found in the internal list of connected devices, return TRUE
 Else, return FALSE
 end note
 
-InternalList --> DeviceAvailableCheck: {boolean TRUE/FALSE}
+
 DeviceAvailableCheck --> LinkVis: {boolean TRUE/FALSE}
 
 deactivate DeviceAvailableCheck
