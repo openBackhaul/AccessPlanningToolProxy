@@ -71,21 +71,15 @@ servers:
           uuid: aptp-1-1-0-op-s-is-100
         
   http-server:
-    own-application-name: AptProxy
-    own-release-number: 1.0.2
+    own-application-name: AccessPlanningToolProxy
+    own-release-number: 1.1.0
     uuid: aptp-1-1-0-http-s-000
   tcp-server:
     - description: Without TLS layer
       local-protocol: http
-      own-ip-address: 1.1.4.9
-      own-tcp-port: 4009
+      own-ip-address: 127.0.0.1
+      own-tcp-port: 4020
       uuid: aptp-1-1-0-tcp-s-000
-    - description: With TLS layer
-      local-protocol: https
-      own-ip-address: 1.2.4.9
-      own-tcp-port: 4209
-      uuid: aptp-1-1-0-tcp-s-001
-
 
 clients:
 
