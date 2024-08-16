@@ -303,10 +303,31 @@ profile-instances:
       maximum: 5
     configuration:
       integer-value: 1
-  
+
+  - profile-name: 'IntegerProfile'
+    uuid: 'alap-1-0-1-integer-p-002'
+    capability:
+      integer-name: 'CheckRegisteredAvailabilityOfDevice.MaxNumberOfParallelRequests'
+      purpose: 'Maximum number of parallel request executions allowed for the service /v1/check-registered-availability-of-device'
+      minimum: 0
+      maximum: 100
+    configuration:
+      integer-value: 10
 
   - profile-name: 'IntegerProfile'
     uuid: 'alap-1-0-1-integer-p-003'
+    capability:
+      integer-name: 'EmbedYourself.DeviceListRefreshPeriod'
+      purpose: 'Duration between the consecutives refreshs of the list of connected devices from MWDI'
+      unit: 'minute'
+      minimum: 1
+      maximum: 600
+    configuration:
+      integer-value: 4
+  
+
+  - profile-name: 'IntegerProfile'
+    uuid: 'alap-1-0-1-integer-p-004'
     capability:
       integer-name: 'UpdateAptClient.ThrottlingPeriod'
       purpose: 'Minimum time that must elapse before a new processing of the service /v1/update-apt-client is allowed'
@@ -315,3 +336,23 @@ profile-instances:
       maximum: 72
     configuration:
       integer-value: 4
+
+  - profile-name: 'IntegerProfile'
+    uuid: 'alap-1-0-1-integer-p-005'
+    capability:
+      integer-name: 'ProvideAlarmsForLivenetview.MaxNumberOfParallelRequests'
+      purpose: 'Maximum number of parallel request executions allowed for the service /v1/provide-alarms-for-livenetview'
+      minimum: 0
+      maximum: 5
+    configuration:
+      integer-value: 1
+
+  - profile-name: 'IntegerProfile'
+    uuid: 'alap-1-0-1-integer-p-006'
+    capability:
+      integer-name: 'ProvideStatusForLivenetview.MaxNumberOfParallelRequests'
+      purpose: 'Maximum number of parallel request executions allowed for the service /v1/provide-status-for-livenetview'
+      minimum: 0
+      maximum: 5
+    configuration:
+      integer-value: 1
