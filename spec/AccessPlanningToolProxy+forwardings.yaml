@@ -834,7 +834,7 @@ forwardings:
         uuid: aptp-1-1-0-op-c-is-apt-24-5-0-000
 
   - forwarding-name: RequestForProvidingHistoricalPmDataCausesReadingLtpStructure
-    uuid: aptp-1-1-0-op-fc-is-000
+    uuid: aptp-1-1-0-op-fc-is-200
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -849,7 +849,7 @@ forwardings:
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-1-000
 
   - forwarding-name: RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInterfaces
-    uuid: aptp-1-1-0-op-fc-is-001
+    uuid: aptp-1-1-0-op-fc-is-210
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -864,7 +864,7 @@ forwardings:
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-1-201
 
   - forwarding-name: RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregations
-    uuid: aptp-1-1-0-op-fc-is-002
+    uuid: aptp-1-1-0-op-fc-is-220
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -879,7 +879,7 @@ forwardings:
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-1-201
 
   - forwarding-name: RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache
-    uuid: aptp-1-1-0-op-fc-is-003
+    uuid: aptp-1-1-0-op-fc-is-230
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -894,7 +894,7 @@ forwardings:
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-1-211
 
   - forwarding-name: RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceCapabilitiesFromCache
-    uuid: aptp-1-1-0-op-fc-is-004
+    uuid: aptp-1-1-0-op-fc-is-240
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -909,7 +909,7 @@ forwardings:
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-1-210
 
   - forwarding-name: RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePerformanceFromCache
-    uuid: aptp-1-1-0-op-fc-is-005
+    uuid: aptp-1-1-0-op-fc-is-250
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -924,7 +924,7 @@ forwardings:
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-1-214
 
   - forwarding-name: RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache
-    uuid: aptp-1-1-0-op-fc-is-006
+    uuid: aptp-1-1-0-op-fc-is-260
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -939,7 +939,7 @@ forwardings:
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-1-224
 
   - forwarding-name: RequestForProvidingHistoricalPmDataCausesDeliveringRequestedHistoricalPmData
-    uuid: aptp-1-1-0-op-fc-is-170
+    uuid: aptp-1-1-0-op-fc-is-270
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
