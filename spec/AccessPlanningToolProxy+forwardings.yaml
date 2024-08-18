@@ -1,45 +1,45 @@
 forwardings:
 
   - forwarding-name: PromptForRegisteringCausesRegistrationRequest
-    uuid: alap-1-0-1-op-fc-bm-999
+    uuid: aptp-1-1-0-op-fc-bm-999
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/register-yourself
-          uuid: alap-1-0-1-op-s-bm-000
+          uuid: aptp-1-1-0-op-s-bm-000
       fc-port-update:
         - server-name: /v1/register-yourself
-          uuid: alap-1-0-1-op-s-bm-000
+          uuid: aptp-1-1-0-op-s-bm-000
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/register-yourself
-        uuid: alap-1-0-1-op-s-bm-000
+        uuid: aptp-1-1-0-op-s-bm-000
     consequent-requests:
       - client-name: RegistryOffice://v2/register-application
-        uuid: alap-1-0-1-op-c-bm-ro-2-1-0-000
+        uuid: aptp-1-1-0-op-c-bm-ro-2-1-0-000
 
   - forwarding-name: PromptForRegisteringCausesRegistrationRequest2
-    uuid: alap-1-0-1-op-fc-bm-000
+    uuid: aptp-1-1-0-op-fc-bm-000
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/register-yourself
-          uuid: alap-1-0-1-op-s-bm-000
+          uuid: aptp-1-1-0-op-s-bm-000
       fc-port-update:
         - server-name: /v1/register-yourself
-          uuid: alap-1-0-1-op-s-bm-000
+          uuid: aptp-1-1-0-op-s-bm-000
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/register-yourself
-        uuid: alap-1-0-1-op-s-bm-000
+        uuid: aptp-1-1-0-op-s-bm-000
     consequent-requests:
       - client-name: RegistryOffice://v2/register-application
-        uuid: alap-1-0-1-op-c-bm-ro-2-1-0-000
+        uuid: aptp-1-1-0-op-c-bm-ro-2-1-0-000
 
   - forwarding-name: PromptForEmbeddingCausesRequestForBequeathingData
-    uuid: alap-1-0-1-op-fc-bm-001
+    uuid: aptp-1-1-0-op-fc-bm-001
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -48,112 +48,129 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/embed-yourself
-        uuid: alap-1-0-1-op-s-bm-001
+        uuid: aptp-1-1-0-op-s-bm-001
     consequent-requests:
       - client-name: OldRelease://v1/bequeath-your-data-and-die
-        uuid: alap-1-0-1-op-c-bm-or-1-0-0-000
+        uuid: aptp-1-1-0-op-c-bm-or-1-0-0-000
+
+  - forwarding-name: PromptForEmbeddingCausesCyclicLoadingOfDevicesFromMwdi
+    uuid: aptp-1-1-0-op-fc-im-001
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/embed-yourself
+        uuid: aptp-1-1-0-op-s-bm-001
+    consequent-requests:
+      - client-name: MicrowaveDeviceInventory://v1/provide-list-of-connected-devices
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-0-0-010
 
   - forwarding-name: ServiceRequestCausesLoggingRequest
-    uuid: alap-1-0-1-op-fc-bm-002
+    uuid: aptp-1-1-0-op-fc-bm-002
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/redirect-service-request-information
-          uuid: alap-1-0-1-op-s-bm-002
+          uuid: aptp-1-1-0-op-s-bm-002
       fc-port-update:
         - server-name: /v1/redirect-service-request-information
-          uuid: alap-1-0-1-op-s-bm-002
+          uuid: aptp-1-1-0-op-s-bm-002
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/register-yourself
-        uuid: alap-1-0-1-op-s-bm-000
+        uuid: aptp-1-1-0-op-s-bm-000
       - server-name: /v1/embed-yourself
-        uuid: alap-1-0-1-op-s-bm-001
+        uuid: aptp-1-1-0-op-s-bm-001
       - server-name: /v1/redirect-service-request-information
-        uuid: alap-1-0-1-op-s-bm-002
+        uuid: aptp-1-1-0-op-s-bm-002
       - server-name: /v1/redirect-oam-request-information
-        uuid: alap-1-0-1-op-s-bm-003
+        uuid: aptp-1-1-0-op-s-bm-003
       - server-name: /v1/end-subscription
-        uuid: alap-1-0-1-op-s-bm-004
+        uuid: aptp-1-1-0-op-s-bm-004
       - server-name: /v1/inquire-oam-request-approvals
-        uuid: alap-1-0-1-op-s-bm-005
+        uuid: aptp-1-1-0-op-s-bm-005
       - server-name: /v1/update-client
-        uuid: alap-1-0-1-op-s-bm-007
+        uuid: aptp-1-1-0-op-s-bm-007
       - server-name: /v1/list-ltps-and-fcs
-        uuid: alap-1-0-1-op-s-bm-008
+        uuid: aptp-1-1-0-op-s-bm-008
       - server-name: /v1/redirect-topology-change-information
-        uuid: alap-1-0-1-op-s-bm-009
+        uuid: aptp-1-1-0-op-s-bm-009
       - server-name: /v1/update-operation-key
-        uuid: alap-1-0-1-op-s-bm-010
+        uuid: aptp-1-1-0-op-s-bm-010
       - server-name: /v1/update-operation-client
-        uuid: alap-1-0-1-op-s-bm-011
+        uuid: aptp-1-1-0-op-s-bm-011
       - server-name: /v1/inquire-basic-auth-approvals
-        uuid: alap-1-0-1-op-s-bm-012
+        uuid: aptp-1-1-0-op-s-bm-012
       - server-name: /v1/dispose-remainders-of-deregistered-application
-        uuid: alap-1-0-1-op-s-bm-013
+        uuid: aptp-1-1-0-op-s-bm-013
       - server-name: /v1/inform-about-preceding-release
-        uuid: alap-1-0-1-op-s-bm-014
+        uuid: aptp-1-1-0-op-s-bm-014
       - server-name: /v1/update-client-of-subsequent-release
-        uuid: alap-1-0-1-op-s-bm-015
+        uuid: aptp-1-1-0-op-s-bm-015
       - server-name: /v1/bequeath-your-data-and-die
-        uuid: alap-1-0-1-op-s-im-000
+        uuid: aptp-1-1-0-op-s-im-000
       - server-name: /v1/start-application-in-generic-representation
-        uuid: alap-1-0-1-op-s-bs-000
+        uuid: aptp-1-1-0-op-s-bs-000
       - server-name: /v1/inform-about-application
-        uuid: alap-1-0-1-op-s-bs-001
+        uuid: aptp-1-1-0-op-s-bs-001
       - server-name: /v1/inform-about-application-in-generic-representation
-        uuid: alap-1-0-1-op-s-bs-002
+        uuid: aptp-1-1-0-op-s-bs-002
       - server-name: /v1/inform-about-release-history
-        uuid: alap-1-0-1-op-s-bs-003
+        uuid: aptp-1-1-0-op-s-bs-003
       - server-name: /v1/inform-about-release-history-in-generic-representation
-        uuid: alap-1-0-1-op-s-bs-004
+        uuid: aptp-1-1-0-op-s-bs-004
       - server-name: /docs
-        uuid: alap-1-0-1-op-s-bs-005
+        uuid: aptp-1-1-0-op-s-bs-005
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: aptp-1-1-0-op-s-is-000
       ## TODO: All service requests to be complemented
     consequent-requests:
       - client-name: ExecutionAndTraceLog://v1/record-service-request
-        uuid: alap-1-0-1-op-c-bs-eatl-2-1-0-000
+        uuid: aptp-1-1-0-op-c-bs-eatl-2-1-0-000
 
   - forwarding-name: OamRequestCausesLoggingRequest
-    uuid: alap-1-0-1-op-fc-bm-003
+    uuid: aptp-1-1-0-op-fc-bm-003
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/redirect-oam-request-information
-          uuid: alap-1-0-1-op-s-bm-003
+          uuid: aptp-1-1-0-op-s-bm-003
       fc-port-update:
         - server-name: /v1/redirect-oam-request-information
-          uuid: alap-1-0-1-op-s-bm-003
+          uuid: aptp-1-1-0-op-s-bm-003
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
       # [all oam requests]
     consequent-requests:
       - client-name: OamLog://v1/record-oam-request
-        uuid: alap-1-0-1-op-c-bs-ol-2-1-0-000
+        uuid: aptp-1-1-0-op-c-bs-ol-2-1-0-000
 
   - forwarding-name: BasicAuthRequestCausesInquiryForAuthentication
-    uuid: alap-1-0-1-op-fc-bm-005
+    uuid: aptp-1-1-0-op-fc-bm-005
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/inquire-basic-auth-approvals
-          uuid: alap-1-0-1-op-s-bm-012
+          uuid: aptp-1-1-0-op-s-bm-012
         - server-name: /v1/inquire-oam-request-approvals
-          uuid: alap-1-0-1-op-s-bm-005
+          uuid: aptp-1-1-0-op-s-bm-005
       fc-port-update:
         - server-name: /v1/inquire-basic-auth-approvals
-          uuid: alap-1-0-1-op-s-bm-012
+          uuid: aptp-1-1-0-op-s-bm-012
         - server-name: /v1/inquire-oam-request-approvals
-          uuid: alap-1-0-1-op-s-bm-005
+          uuid: aptp-1-1-0-op-s-bm-005
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
       # [all oam requests]
     consequent-requests:
       - client-name: AccessAdministration://v1/approve-basic-auth-request
-        uuid: alap-1-0-1-op-c-bs-aa-2-1-0-000
+        uuid: aptp-1-1-0-op-c-bs-aa-2-1-0-000
 
 ## TODO: Potentially add Forwardings for configuring INDIVIDUAL subscriptions on NewRelease
 
@@ -164,267 +181,267 @@ forwardings:
 ## TODO: Potentially add Forwardings for ending INDIVIDUAL subscriptions to OldRelease
 
   - forwarding-name: PromptForBequeathingDataCausesRequestForBroadcastingInfoAboutServerReplacement
-    uuid: alap-1-0-1-op-fc-bm-105
+    uuid: aptp-1-1-0-op-fc-bm-105
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/embed-yourself
-          uuid: alap-1-0-1-op-s-bm-001
+          uuid: aptp-1-1-0-op-s-bm-001
       fc-port-update:
         - server-name: /v1/embed-yourself
-          uuid: alap-1-0-1-op-s-bm-001
+          uuid: aptp-1-1-0-op-s-bm-001
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/bequeath-your-data-and-die
-        uuid: alap-1-0-1-op-s-im-000
+        uuid: aptp-1-1-0-op-s-im-000
     consequent-requests:
       - client-name: RegistryOffice://v1/relay-server-replacement
-        uuid: alap-1-0-1-op-c-bm-ro-2-1-0-001
+        uuid: aptp-1-1-0-op-c-bm-ro-2-1-0-001
 
   - forwarding-name: PromptForBequeathingDataCausesRequestForDeregisteringOfOldRelease
-    uuid: alap-1-0-1-op-fc-bm-106
+    uuid: aptp-1-1-0-op-fc-bm-106
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/embed-yourself
-          uuid: alap-1-0-1-op-s-bm-001
+          uuid: aptp-1-1-0-op-s-bm-001
       fc-port-update:
         - server-name: /v1/embed-yourself
-          uuid: alap-1-0-1-op-s-bm-001
+          uuid: aptp-1-1-0-op-s-bm-001
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/bequeath-your-data-and-die
-        uuid: alap-1-0-1-op-s-im-000
+        uuid: aptp-1-1-0-op-s-im-000
     consequent-requests:
       - client-name: RegistryOffice://v1/deregister-application
-        uuid: alap-1-0-1-op-c-bm-ro-2-1-0-002
+        uuid: aptp-1-1-0-op-c-bm-ro-2-1-0-002
 
   - forwarding-name: PromptingNewReleaseForUpdatingServerCausesRequestForBroadcastingInfoAboutBackwardCompatibleUpdateOfOperation
-    uuid: alap-1-0-1-op-fc-bm-107
+    uuid: aptp-1-1-0-op-fc-bm-107
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/embed-yourself
-          uuid: alap-1-0-1-op-s-bm-001
+          uuid: aptp-1-1-0-op-s-bm-001
       fc-port-update:
         - server-name: /v1/embed-yourself
-          uuid: alap-1-0-1-op-s-bm-001
+          uuid: aptp-1-1-0-op-s-bm-001
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/update-client
-        uuid: alap-1-0-1-op-s-bm-007
+        uuid: aptp-1-1-0-op-s-bm-007
     consequent-requests:
       - client-name: RegistryOffice://v1/relay-operation-update
-        uuid: alap-1-0-1-op-c-bm-ro-2-1-0-003
+        uuid: aptp-1-1-0-op-c-bm-ro-2-1-0-003
 
   - forwarding-name: ServiceRequestCausesLtpUpdateRequest
-    uuid: alap-1-0-1-op-fc-bm-006
+    uuid: aptp-1-1-0-op-fc-bm-006
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: alap-1-0-1-op-s-bm-009
+          uuid: aptp-1-1-0-op-s-bm-009
       fc-port-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: alap-1-0-1-op-s-bm-009
+          uuid: aptp-1-1-0-op-s-bm-009
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/register-yourself
-        uuid: alap-1-0-1-op-s-bm-000
+        uuid: aptp-1-1-0-op-s-bm-000
       - server-name: /v1/embed-yourself
-        uuid: alap-1-0-1-op-s-bm-001
+        uuid: aptp-1-1-0-op-s-bm-001
       - server-name: /v1/redirect-service-request-information
-        uuid: alap-1-0-1-op-s-bm-002
+        uuid: aptp-1-1-0-op-s-bm-002
       - server-name: /v1/redirect-oam-request-information
-        uuid: alap-1-0-1-op-s-bm-003
+        uuid: aptp-1-1-0-op-s-bm-003
       - server-name: /v1/inquire-oam-request-approvals
-        uuid: alap-1-0-1-op-s-bm-005
+        uuid: aptp-1-1-0-op-s-bm-005
       - server-name: /v1/update-client
-        uuid: alap-1-0-1-op-s-bm-007
+        uuid: aptp-1-1-0-op-s-bm-007
       - server-name: /v1/redirect-topology-change-information
-        uuid: alap-1-0-1-op-s-bm-009
+        uuid: aptp-1-1-0-op-s-bm-009
       - server-name: /v1/update-operation-client
-        uuid: alap-1-0-1-op-s-bm-011
+        uuid: aptp-1-1-0-op-s-bm-011
       - server-name: /v1/inquire-basic-auth-approvals
-        uuid: alap-1-0-1-op-s-bm-012
+        uuid: aptp-1-1-0-op-s-bm-012
       - server-name: /v1/update-client-of-subsequent-release
-        uuid: alap-1-0-1-op-s-bm-015
+        uuid: aptp-1-1-0-op-s-bm-015
       - server-name: /v1/bequeath-your-data-and-die
-        uuid: alap-1-0-1-op-s-im-000
+        uuid: aptp-1-1-0-op-s-im-000
       ## TODO: All INDIVIDUAL service requests, which are updating an LTP, to be complemented
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-ltp
-        uuid: alap-1-0-1-op-c-bm-alt-2-1-0-001
+        uuid: aptp-1-1-0-op-c-bm-alt-2-1-0-001
 
   - forwarding-name: ServiceRequestCausesLtpDeletionRequest
-    uuid: alap-1-0-1-op-fc-bm-007
+    uuid: aptp-1-1-0-op-fc-bm-007
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: alap-1-0-1-op-s-bm-009
+          uuid: aptp-1-1-0-op-s-bm-009
       fc-port-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: alap-1-0-1-op-s-bm-009
+          uuid: aptp-1-1-0-op-s-bm-009
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/dispose-remainders-of-deregistered-application
-        uuid: alap-1-0-1-op-s-bm-013
+        uuid: aptp-1-1-0-op-s-bm-013
       ## TODO: All INDIVIDUAL service requests, which are deleting an LTP, to be complemented
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/delete-ltp-and-dependents
-        uuid: alap-1-0-1-op-c-bm-alt-2-1-0-002
+        uuid: aptp-1-1-0-op-c-bm-alt-2-1-0-002
 
   - forwarding-name: ServiceRequestCausesFcUpdateRequest
-    uuid: alap-1-0-1-op-fc-bm-008
+    uuid: aptp-1-1-0-op-fc-bm-008
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: alap-1-0-1-op-s-bm-009
+          uuid: aptp-1-1-0-op-s-bm-009
       fc-port-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: alap-1-0-1-op-s-bm-009
+          uuid: aptp-1-1-0-op-s-bm-009
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
       ## TODO: All INDIVIDUAL service requests, which are updating an FC, to be complemented
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-fc
-        uuid: alap-1-0-1-op-c-bm-alt-2-1-0-003
+        uuid: aptp-1-1-0-op-c-bm-alt-2-1-0-003
 
   - forwarding-name: ServiceRequestCausesFcPortUpdateRequest
-    uuid: alap-1-0-1-op-fc-bm-009
+    uuid: aptp-1-1-0-op-fc-bm-009
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: alap-1-0-1-op-s-bm-009
+          uuid: aptp-1-1-0-op-s-bm-009
       fc-port-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: alap-1-0-1-op-s-bm-009
+          uuid: aptp-1-1-0-op-s-bm-009
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
       ## TODO: All INDIVIDUAL service requests, which are updating an FC-Port, to be complemented
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-fc-port
-        uuid: alap-1-0-1-op-c-bm-alt-2-1-0-004
+        uuid: aptp-1-1-0-op-c-bm-alt-2-1-0-004
 
   - forwarding-name: ServiceRequestCausesFcPortDeletionRequest
-    uuid: alap-1-0-1-op-fc-bm-010
+    uuid: aptp-1-1-0-op-fc-bm-010
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: alap-1-0-1-op-s-bm-009
+          uuid: aptp-1-1-0-op-s-bm-009
       fc-port-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: alap-1-0-1-op-s-bm-009
+          uuid: aptp-1-1-0-op-s-bm-009
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/end-subscription
-        uuid: alap-1-0-1-op-s-bm-004
+        uuid: aptp-1-1-0-op-s-bm-004
       ## TODO: All INDIVIDUAL service requests, which are deleting an FC-Port, to be complemented
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/delete-fc-port
-        uuid: alap-1-0-1-op-c-bm-alt-2-1-0-005
+        uuid: aptp-1-1-0-op-c-bm-alt-2-1-0-005
 
   - forwarding-name: OamRequestCausesLtpUpdateRequest
-    uuid: alap-1-0-1-op-fc-bm-011
+    uuid: aptp-1-1-0-op-fc-bm-011
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: alap-1-0-1-op-s-bm-009
+          uuid: aptp-1-1-0-op-s-bm-009
       fc-port-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: alap-1-0-1-op-s-bm-009
+          uuid: aptp-1-1-0-op-s-bm-009
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-ltp
-        uuid: alap-1-0-1-op-c-bm-alt-2-1-0-001
+        uuid: aptp-1-1-0-op-c-bm-alt-2-1-0-001
 
   - forwarding-name: OamRequestCausesLtpDeletionRequest
-    uuid: alap-1-0-1-op-fc-bm-012
+    uuid: aptp-1-1-0-op-fc-bm-012
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: alap-1-0-1-op-s-bm-009
+          uuid: aptp-1-1-0-op-s-bm-009
       fc-port-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: alap-1-0-1-op-s-bm-009
+          uuid: aptp-1-1-0-op-s-bm-009
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/delete-ltp-and-dependents
-        uuid: alap-1-0-1-op-c-bm-alt-2-1-0-002
+        uuid: aptp-1-1-0-op-c-bm-alt-2-1-0-002
 
   - forwarding-name: OamRequestCausesFcUpdateRequest
-    uuid: alap-1-0-1-op-fc-bm-013
+    uuid: aptp-1-1-0-op-fc-bm-013
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: alap-1-0-1-op-s-bm-009
+          uuid: aptp-1-1-0-op-s-bm-009
       fc-port-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: alap-1-0-1-op-s-bm-009
+          uuid: aptp-1-1-0-op-s-bm-009
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-fc
-        uuid: alap-1-0-1-op-c-bm-alt-2-1-0-003
+        uuid: aptp-1-1-0-op-c-bm-alt-2-1-0-003
 
   - forwarding-name: OamRequestCausesFcPortUpdateRequest
-    uuid: alap-1-0-1-op-fc-bm-014
+    uuid: aptp-1-1-0-op-fc-bm-014
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: alap-1-0-1-op-s-bm-009
+          uuid: aptp-1-1-0-op-s-bm-009
       fc-port-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: alap-1-0-1-op-s-bm-009
+          uuid: aptp-1-1-0-op-s-bm-009
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-fc-port
-        uuid: alap-1-0-1-op-c-bm-alt-2-1-0-004
+        uuid: aptp-1-1-0-op-c-bm-alt-2-1-0-004
 
   - forwarding-name: OamRequestCausesFcPortDeletionRequest
-    uuid: alap-1-0-1-op-fc-bm-015
+    uuid: aptp-1-1-0-op-fc-bm-015
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: alap-1-0-1-op-s-bm-009
+          uuid: aptp-1-1-0-op-s-bm-009
       fc-port-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: alap-1-0-1-op-s-bm-009
+          uuid: aptp-1-1-0-op-s-bm-009
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/delete-fc-port
-        uuid: alap-1-0-1-op-c-bm-alt-2-1-0-005
+        uuid: aptp-1-1-0-op-c-bm-alt-2-1-0-005
 
   ## TODO: Potential INDIVIDUAL Forwardings to be added
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesReadingLtpStructure
-    uuid: alap-1-0-1-op-fc-is-100
+    uuid: aptp-1-1-0-op-fc-is-100
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -433,13 +450,13 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
-        uuid: alap-1-0-1-op-s-is-000
+        uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}?fields=logical-termination-point(uuid;server-ltp;client-ltp;layer-protocol(local-id;layer-protocol-name))
-        uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-000
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-0-0-000
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest
-    uuid: alap-1-0-1-op-fc-is-101
+    uuid: aptp-1-1-0-op-fc-is-101
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -448,13 +465,13 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
-        uuid: alap-1-0-1-op-s-is-000
+        uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=external-label
-        uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-201
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-0-0-201
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache
-    uuid: alap-1-0-1-op-fc-is-102
+    uuid: aptp-1-1-0-op-fc-is-102
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -463,13 +480,13 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
-        uuid: alap-1-0-1-op-s-is-000
+        uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
-        uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-210
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-0-0-210
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache
-    uuid: alap-1-0-1-op-fc-is-103
+    uuid: aptp-1-1-0-op-fc-is-103
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -478,13 +495,13 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
-        uuid: alap-1-0-1-op-s-is-000
+        uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
-        uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-211
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-0-0-211
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive
-    uuid: alap-1-0-1-op-fc-is-104
+    uuid: aptp-1-1-0-op-fc-is-104
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -493,13 +510,13 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
-        uuid: alap-1-0-1-op-s-is-000
+        uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status?fields=tx-level-cur;rx-level-cur;transmission-mode-cur;xpd-cur;snir-cur
-        uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-512
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-0-0-512
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation
-    uuid: alap-1-0-1-op-fc-is-115
+    uuid: aptp-1-1-0-op-fc-is-115
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -508,13 +525,13 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
-        uuid: alap-1-0-1-op-s-is-000
+        uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name;external-label
-        uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-201
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-0-0-201
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive
-    uuid: alap-1-0-1-op-fc-is-120
+    uuid: aptp-1-1-0-op-fc-is-120
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -523,13 +540,13 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
-        uuid: alap-1-0-1-op-s-is-000
+        uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms
-        uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-407
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-0-0-407
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.OriginalLtpName
-    uuid: alap-1-0-1-op-fc-is-130
+    uuid: aptp-1-1-0-op-fc-is-130
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -538,13 +555,13 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
-        uuid: alap-1-0-1-op-s-is-000
+        uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name
-        uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-201
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-0-0-201
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.VlanInterfaceKind
-    uuid: alap-1-0-1-op-fc-is-131
+    uuid: aptp-1-1-0-op-fc-is-131
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -553,13 +570,13 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
-        uuid: alap-1-0-1-op-s-is-000
+        uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration?fields=interface-kind
-        uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-261
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-0-0-261
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.EthernetContainerStatus
-    uuid: alap-1-0-1-op-fc-is-132
+    uuid: aptp-1-1-0-op-fc-is-132
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -568,13 +585,13 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
-        uuid: alap-1-0-1-op-s-is-000
+        uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status?fields=interface-status
-        uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-222
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-0-0-222
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.OriginalLtpName
-    uuid: alap-1-0-1-op-fc-is-135
+    uuid: aptp-1-1-0-op-fc-is-135
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -583,13 +600,13 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
-        uuid: alap-1-0-1-op-s-is-000
+        uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name
-        uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-201
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-0-0-201
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.VlanInterfaceKind
-    uuid: alap-1-0-1-op-fc-is-136
+    uuid: aptp-1-1-0-op-fc-is-136
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -598,13 +615,13 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
-        uuid: alap-1-0-1-op-s-is-000
+        uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration?fields=interface-kind
-        uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-261
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-0-0-261
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.EthernetContainerStatus
-    uuid: alap-1-0-1-op-fc-is-137
+    uuid: aptp-1-1-0-op-fc-is-137
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -613,13 +630,13 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
-        uuid: alap-1-0-1-op-s-is-000
+        uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status?fields=interface-status
-        uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-222
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-0-0-222
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentUuid
-    uuid: alap-1-0-1-op-fc-is-140
+    uuid: aptp-1-1-0-op-fc-is-140
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -628,13 +645,13 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
-        uuid: alap-1-0-1-op-s-is-000
+        uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment
-        uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-201
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-0-0-201
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentCategory
-    uuid: alap-1-0-1-op-fc-is-141
+    uuid: aptp-1-1-0-op-fc-is-141
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -643,13 +660,13 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
-        uuid: alap-1-0-1-op-s-is-000
+        uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment?fields=structure(category)
-        uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-114
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-0-0-114
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.WireInterfaceName
-    uuid: alap-1-0-1-op-fc-is-142
+    uuid: aptp-1-1-0-op-fc-is-142
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -658,13 +675,13 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
-        uuid: alap-1-0-1-op-s-is-000
+        uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name
-        uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-201
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-0-0-201
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.SupportedPmds
-    uuid: alap-1-0-1-op-fc-is-143
+    uuid: aptp-1-1-0-op-fc-is-143
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -673,13 +690,13 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
-        uuid: alap-1-0-1-op-s-is-000
+        uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-capability?fields=supported-pmd-kind-list(pmd-name)
-        uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-270
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-0-0-270
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.OperatedPmd
-    uuid: alap-1-0-1-op-fc-is-144
+    uuid: aptp-1-1-0-op-fc-is-144
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -688,13 +705,13 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
-        uuid: alap-1-0-1-op-s-is-000
+        uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status?fields=pmd-kind-cur
-        uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-272
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-0-0-272
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentUuid
-    uuid: alap-1-0-1-op-fc-is-150
+    uuid: aptp-1-1-0-op-fc-is-150
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -703,13 +720,13 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
-        uuid: alap-1-0-1-op-s-is-000
+        uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment
-        uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-201
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-0-0-201
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory
-    uuid: alap-1-0-1-op-fc-is-151
+    uuid: aptp-1-1-0-op-fc-is-151
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -718,13 +735,13 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
-        uuid: alap-1-0-1-op-s-is-000
+        uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment?fields=structure(category)
-        uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-114
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-0-0-114
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.HolderLabel
-    uuid: alap-1-0-1-op-fc-is-152
+    uuid: aptp-1-1-0-op-fc-is-152
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -733,14 +750,14 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
-        uuid: alap-1-0-1-op-s-is-000
+        uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}?fields=equipment(contained-holder(occupying-fru;equipment-augment-1-0:holder-pac(vendor-label)))
-        uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-000
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-0-0-000
 
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorId
-    uuid: alap-1-0-1-op-fc-is-155
+    uuid: aptp-1-1-0-op-fc-is-155
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -749,13 +766,13 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
-        uuid: alap-1-0-1-op-s-is-000
+        uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment;connector
-        uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-201
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-0-0-201
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorNumber
-    uuid: alap-1-0-1-op-fc-is-156
+    uuid: aptp-1-1-0-op-fc-is-156
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -764,13 +781,13 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
-        uuid: alap-1-0-1-op-s-is-000
+        uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/connector={local-id}?fields=equipment-augment-1-0:connector-pac(sequence-id)
-        uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-111
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-0-0-111
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers
-    uuid: alap-1-0-1-op-fc-is-160
+    uuid: aptp-1-1-0-op-fc-is-160
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -779,13 +796,13 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
-        uuid: alap-1-0-1-op-s-is-000
+        uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment?fields=structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier);equipment-instance(serial-number))
-        uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-114
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-0-0-114
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesReadingFirmwareList
-    uuid: alap-1-0-1-op-fc-is-161
+    uuid: aptp-1-1-0-op-fc-is-161
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -794,13 +811,13 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
-        uuid: alap-1-0-1-op-s-is-000
+        uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/firmware-1-0:firmware-collection
-        uuid: alap-1-0-1-op-c-is-mwdi-1-0-0-120
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-0-0-120
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData
-    uuid: alap-1-0-1-op-fc-is-170
+    uuid: aptp-1-1-0-op-fc-is-170
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -809,9 +826,9 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
-        uuid: alap-1-0-1-op-s-is-000
+        uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
       - client-name: APT://v1/receive-acceptance-data-of-link-endpoint
-        uuid: ##
+        uuid: aptp-1-1-0-op-c-is-apt-24-5-0-000
 
  
