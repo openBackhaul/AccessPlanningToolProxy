@@ -142,7 +142,7 @@ profile-instances:
     capability:
       string-name: 'RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive.StatusFromLive'
     configuration:
-      string-value: 'tx-level-cur;rx-level-cur;transmission-mode-cur;xpd-cur;snir-cur'
+      string-value: 'tx-level-cur;rx-level-cur;transmission-mode-cur;rx-frequency-cur;tx-frequency-cur;xpd-cur;snir-cur'
 
   - profile-name: 'StringProfile'
     uuid: 'alap-1-0-1-string-p-005'
@@ -284,6 +284,132 @@ profile-instances:
     configuration:
       string-value: ''
 
+  - profile-name: 'StringProfile'
+    uuid: 'alap-1-0-1-string-p-040'
+    capability:
+      string-name: 'RequestForProvidingHistoricalPmDataCausesReadingLtpStructure'
+    configuration:
+      string-value: 'logical-termination-point(uuid;layer-protocol(local-id;layer-protocol-name))'
+  
+  - profile-name: 'StringProfile'
+    uuid: 'alap-1-0-1-string-p-041'
+    capability:
+      string-name: 'RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInterfaces'
+    configuration:
+      string-value: '(original-ltp-name;external-label)'
+
+  - profile-name: 'StringProfile'
+    uuid: 'alap-1-0-1-string-p-042'
+    capability:
+      string-name: 'RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregations'
+    configuration:
+      string-value: '(original-ltp-name;external-label)'
+
+  - profile-name: 'StringProfile'
+    uuid: 'alap-1-0-1-string-p-043'
+    capability:
+      string-name: 'RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache'
+    configuration:
+      string-value: ''
+  
+  - profile-name: 'StringProfile'
+    uuid: 'alap-1-0-1-string-p-044'
+    capability:
+      string-name: 'RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceCapabilitiesFromCache'
+    configuration:
+      string-value: ''
+
+  - profile-name: 'StringProfile'
+    uuid: 'alap-1-0-1-string-p-045'
+    capability:
+      string-name: 'RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache'
+    configuration:
+      string-value: ''
+
+  - profile-name: 'StringProfile'
+    uuid: 'alap-1-0-1-string-p-060'
+    capability:
+      string-name: 'RequestForProvidingConfigurationForLivenetviewCausesReadingLtpStructure'
+    configuration:
+      string-value: 'logical-termination-point(uuid;layer-protocol(local-id;layer-protocol-name))'
+
+  - profile-name: 'StringProfile'
+    uuid: 'alap-1-0-1-string-p-061'
+    capability:
+      string-name: 'RequestForProvidingConfigurationForLivenetviewCausesDeterminingAirInterfaceUnderTest'
+    configuration:
+      string-value: 'external-label'
+
+  - profile-name: 'StringProfile'
+    uuid: 'alap-1-0-1-string-p-062'
+    capability:
+      string-name: 'RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache'
+    configuration:
+      string-value: ''
+
+  - profile-name: 'StringProfile'
+    uuid: 'alap-1-0-1-string-p-063'
+    capability:
+      string-name: 'RequestForProvidingEquipmentInfoForLivenetviewCausesReadingLtpStructure'
+    configuration:
+      string-value: 'logical-termination-point(uuid;layer-protocol(local-id;layer-protocol-name))'
+
+  - profile-name: 'StringProfile'
+    uuid: 'alap-1-0-1-string-p-064'
+    capability:
+      string-name: 'RequestForProvidingEquipmentInfoForLivenetviewCausesDeterminingAirInterfaceUnderTest'
+    configuration:
+      string-value: 'external-label'
+
+  - profile-name: 'StringProfile'
+    uuid: 'alap-1-0-1-string-p-065'
+    capability:
+      string-name: 'RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentUuid'
+    configuration:
+      string-value: 'equipment'
+
+  - profile-name: 'StringProfile'
+    uuid: 'alap-1-0-1-string-p-066'
+    capability:
+      string-name: 'RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo'
+    configuration:
+      string-value: 'structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier);equipment-instance(serial-number))'
+
+  - profile-name: 'StringProfile'
+    uuid: 'alap-1-0-1-string-p-067'
+    capability:
+      string-name: 'RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromLive'
+    configuration:
+      string-value: ''
+
+  - profile-name: 'StringProfile'
+    uuid: 'alap-1-0-1-string-p-068'
+    capability:
+      string-name: 'RequestForProvidingStatusForLivenetviewCausesReadingLtpStructure'
+    configuration:
+      string-value: 'logical-termination-point(uuid;layer-protocol(local-id;layer-protocol-name))'
+
+  - profile-name: 'StringProfile'
+    uuid: 'alap-1-0-1-string-p-069'
+    capability:
+      string-name: 'RequestForProvidingStatusForLivenetviewCausesDeterminingAirInterfaceUnderTest'
+    configuration:
+      string-value: 'external-label'
+
+  - profile-name: 'StringProfile'
+    uuid: 'alap-1-0-1-string-p-070'
+    capability:
+      string-name: 'RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive'
+    configuration:
+      string-value: 'tx-level-cur;rx-level-cur;transmission-mode-cur;rx-frequency-cur;tx-frequency-cur'
+
+  - profile-name: 'StringProfile'
+    uuid: 'alap-1-0-1-string-p-1'
+    capability:
+      string-name: 'RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache'
+    configuration:
+      string-value: ''
+
   - profile-name: 'IntegerProfile'
     uuid: 'alap-1-0-1-integer-p-000'
     capability:
@@ -323,7 +449,7 @@ profile-instances:
       minimum: 1
       maximum: 600
     configuration:
-      integer-value: 4
+      integer-value: 5
   
 
   - profile-name: 'IntegerProfile'
