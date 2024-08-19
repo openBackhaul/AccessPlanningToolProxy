@@ -1,0 +1,18 @@
+@startuml 405_ReadingLtpStructure
+skinparam responseMessageBelowArrow true
+
+title
+RequestForProvidingStatusForLivenetviewCausesReadingLtpStructure
+end title
+
+participant "LinkVis" as LinkVis
+participant "APTP://v1/provide-status-for-livenetview" as APTP_Status
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}?fields=logical-termination-point(uuid;server-ltp;client-ltp;layer-protocol(local-id;layer-protocol-name))" as ReadingLtpStructure
+
+LinkVis -> APTP_Status: {MountName, LinkId} (apiKeyAuth)
+activate APTP_Status
+
+APTP_Status -> ReadingLtpStructure: {MountName} (apiKeyAuth)
+ReadingLtpStructure --> APTP_Status: {Uuid, LocalId, ServerLtp, ClientLtp, LayerProtocolName}
+
+@enduml

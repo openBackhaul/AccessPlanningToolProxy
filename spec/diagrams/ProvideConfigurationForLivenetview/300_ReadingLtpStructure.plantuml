@@ -1,0 +1,18 @@
+@startuml 300_ReadingLtpStructure
+skinparam responseMessageBelowArrow true
+
+title
+RequestForProvidingConfigurationForLivenetviewCausesReadingLtpStructure
+end title
+
+participant "LinkVis" as LinkVis
+participant "APTP://v1/provide-configuration-for-livenetview" as APTP_Config
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}?fields=logical-termination-point(uuid;server-ltp;client-ltp;layer-protocol(local-id;layer-protocol-name))" as ReadingLtpStructure
+
+LinkVis -> APTP_Config: {MountName, LinkId} (apiKeyAuth)
+activate APTP_Config
+
+APTP_Config -> ReadingLtpStructure: (apiKeyAuth)
+ReadingLtpStructure --> APTP_Config: {Uuid, LocalId, ServerLtp, ClientLtp, LayerProtocolName}
+
+@enduml

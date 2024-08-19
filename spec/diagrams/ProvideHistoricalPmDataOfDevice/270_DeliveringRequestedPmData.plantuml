@@ -1,0 +1,20 @@
+@startuml 270_DeliveringRequestedPmData
+skinparam responseMessageBelowArrow true
+
+title
+RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData
+end title
+
+participant "LinkVis" as LinkVis
+participant "LinkVis://v1/receive-historical-pm-data-of-device" as LinkVisReceivePm
+participant "APTP://v1/provide-historical-pm-data-of-device" as APTP_Pm
+
+activate APTP_Pm
+LinkVis -> APTP_Pm: [{MountName, timeStamp}<sub>i</sub>] (apiKeyAuth)
+
+
+APTP_Pm -> LinkVisReceivePm: {requestId,[[{Link-id, AirInterfaceConfigs, AirInterfaceCapabilities,AirInterfaceHistoricalPerformance, EthernetInterfaceName,\nEthernetHistoricalPerformance}] ]}
+
+deactivate APTP_Pm
+
+@enduml

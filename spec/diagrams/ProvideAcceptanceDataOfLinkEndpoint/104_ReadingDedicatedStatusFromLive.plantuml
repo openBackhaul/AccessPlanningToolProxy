@@ -7,7 +7,7 @@ end title
 
 participant "LinkVis" as LinkVis
 participant "APTP://v1/provide-acceptance-data-of-link-endpoint" as APTP
-participant "MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status?fields=tx-level-cur;rx-level-cur;transmission-mode-cur;xpd-cur;snir-cur" as MwdiStatus
+participant "MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status?fields=tx-level-cur;rx-level-cur;tx-frequency-cur;rx-frequency-cur;transmission-mode-cur;xpd-cur;snir-cur" as MwdiStatus
 
 LinkVis -> APTP: {MountName, LinkId} (apiKeyAuth)
 activate APTP
