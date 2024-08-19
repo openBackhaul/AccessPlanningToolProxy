@@ -289,7 +289,7 @@ profile-instances:
     capability:
       string-name: 'RequestForProvidingHistoricalPmDataCausesReadingLtpStructure'
     configuration:
-      string-value: 'logical-termination-point(uuid;layer-protocol(local-id;layer-protocol-name))'
+      string-value: 'logical-termination-point(uuid;server-ltp;client-ltp;layer-protocol(local-id;layer-protocol-name))'
   
   - profile-name: 'StringProfile'
     uuid: 'alap-1-0-1-string-p-041'
