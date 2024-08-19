@@ -7,6 +7,7 @@ end title
 
 participant "LinkVis" as LinkVis
 participant "APTP://v1/provide-status-for-livenetview" as APTP_Status
+participant "<i>RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache</i>" as ReadingCapa
 participant "<i>RequestForProvidingStatusForLivenetviewCausesReadingStatusFromLive</i>" as ReadingStatusLive
 
 
@@ -20,9 +21,21 @@ end note
 
 activate APTP_Status
 
-ReadingStatusLive --> APTP_Status: {rx-frequency-cur;tx-frequency-cur}
+ReadingCapa --> APTP_Status: {entire AirInterfaceCapability from cache}
 
-APTP_Status --> LinkVis: {rx-frequency-cur;tx-frequency-cur}
+ReadingStatusLive --> APTP_Status: {txLevelCur, rxLevelCur, rxFrequencyCur, txFrequencyCur, transmissionModeCur}
+
+note over APTP_Status
+
+Select the TransmissionMode from TransmissionModeList (from <i>ReadingCapabilitiesFromCache</i>)
+WHERE transmissionModeName == transmissionModeCur (from <i>ReadingDedicatedStatusFroLive</i>)
+
+CurrentModulation.numberOfStates = TransmissionMode.ModulationScheme
+CurrentModulation.nameAtLct = TransmissionMode.modulationSchemeNameAtLct
+
+end note
+
+APTP_Status --> LinkVis: {txLevelCur, rxLevelCur, rxFrequencyCur,txFrequencyCur, \nCurrentModulation.numberOfStates, CurrentModulation.nameAtLct}
 
 deactivate APTP_Status
 

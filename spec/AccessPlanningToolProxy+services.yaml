@@ -68,7 +68,7 @@ servers:
           uuid: aptp-1-1-0-op-s-is-010
 
         - operation-name: /v1/update-apt-client
-          uuid: aptp-1-1-0-op-s-is-100
+          uuid: aptp-1-1-0-op-s-is-999
         
   http-server:
     own-application-name: AccessPlanningToolProxy

@@ -3354,7 +3354,7 @@ paths:
                                     'Configured bandwidth in the lowest transmission mode of the radio channel in kHz
                                     transmissionModeMin = {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmission-mode-min}
                                     from {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/channel-bandwidth}
-                                    where {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeMin'
+                                    where {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interfacer-2-0:ai-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeMin'
                                 configured-channel-bandwidth-max:
                                   type: integer
                                   description: >
