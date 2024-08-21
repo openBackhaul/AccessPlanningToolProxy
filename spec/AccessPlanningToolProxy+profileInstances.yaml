@@ -290,7 +290,7 @@ profile-instances:
       string-name: 'RequestForProvidingHistoricalPmDataCausesReadingLtpStructure.LtpStructure'
     configuration:
       string-value: 'logical-termination-point(uuid;server-ltp;client-ltp;layer-protocol(local-id;layer-protocol-name))'
-  
+
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-041'
     capability:
@@ -311,7 +311,7 @@ profile-instances:
       string-name: 'RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache.AirInterfaceConfigurationFromCache'
     configuration:
       string-value: ''
-  
+
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-044'
     capability:
@@ -457,7 +457,6 @@ profile-instances:
       maximum: 600
     configuration:
       integer-value: 5
-  
 
   - profile-name: 'IntegerProfile'
     uuid: 'aptp-1-1-0-integer-p-004'

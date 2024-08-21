@@ -133,7 +133,7 @@ forwardings:
         uuid: aptp-1-1-0-op-s-is-007
       - server-name: /v1/provide-equipment-info-for-livenetview
         uuid: aptp-1-1-0-op-s-is-008
-      
+
       ## TODO: All service requests to be complemented
     consequent-requests:
       - client-name: ExecutionAndTraceLog://v1/record-service-request
@@ -972,7 +972,7 @@ forwardings:
     consequent-requests:
       - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}?fields=logical-termination-point(uuid;layer-protocol(local-id;layer-protocol-name))
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-000
-      
+
   - forwarding-name: RequestForProvidingConfigurationForLivenetviewCausesDeterminingAirInterfaceUnderTest
     uuid: aptp-1-1-0-op-fc-is-301
     forwarding-type: InvariantProcessSnippet
