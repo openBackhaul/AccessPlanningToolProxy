@@ -54,9 +54,9 @@ servers:
         - operation-name: /v1/provide-acceptance-data-of-link-endpoint
           uuid: aptp-1-1-0-op-s-is-000
         - operation-name: /v1/provide-historical-pm-data-of-device
-          uuid: aptp-1-1-0-op-s-is-001        
+          uuid: aptp-1-1-0-op-s-is-001
         - operation-name: /v1/check-registered-availability-of-device
-          uuid: aptp-1-1-0-op-s-is-002  
+          uuid: aptp-1-1-0-op-s-is-002
 
         - operation-name: /v1/provide-configuration-for-livenetview
           uuid: aptp-1-1-0-op-s-is-007
@@ -69,7 +69,7 @@ servers:
 
         - operation-name: /v1/update-apt-client
           uuid: aptp-1-1-0-op-s-is-999
-        
+
   http-server:
     own-application-name: AccessPlanningToolProxy
     own-release-number: 1.1.0
@@ -282,7 +282,7 @@ clients:
         individual:
           - operation-name: /v1/provide-list-of-connected-devices
             uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-010
-          
+
           - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}
             uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-000
 

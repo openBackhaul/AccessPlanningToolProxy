@@ -512,7 +512,7 @@ paths:
         '460':
           $ref: '#/components/responses/460'
         '500':
-          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'    
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
       callbacks:
@@ -643,8 +643,8 @@ paths:
             description: >
               'UuidUnderTest and LocalIdUnderTest to be determined by
               repeating until the substring constituted by the 9 first characters of {$RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceLabel.response.body#external-label} == {$request.body#link-id}.
-              If the UuidUnderTest and LocalIdUnderTest cannot be determined because the LinkId provided in the requestBody does not match the externalLabel of any LogicalTerminationPoint in the ControlConstruct, the process shall be terminated. 
-              RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData shall be then directly executed and the failure information, by means of code '470' and message "The requested ressource does not exist within the referenced device", 
+              If the UuidUnderTest and LocalIdUnderTest cannot be determined because the LinkId provided in the requestBody does not match the externalLabel of any LogicalTerminationPoint in the ControlConstruct, the process shall be terminated.
+              RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData shall be then directly executed and the failure information, by means of code '470' and message "The requested ressource does not exist within the referenced device",
               transmitted in its request payload.'
             get:
               parameters:
@@ -3180,7 +3180,7 @@ paths:
             post:
               requestBody:
                 content:
-                 application/json:
+                  application/json:
                     schema:
                       oneOf:
                         - description: 'Successfully executed'
@@ -3756,7 +3756,7 @@ paths:
                             message:
                               type: string
                               enum:
-                                - 'Bad Gateway. The upstream server (MicrowveDeviceInventory) is unavailable'                         
+                                - 'Bad Gateway. The upstream server (MicrowveDeviceInventory) is unavailable'
               responses:
                 '200':
                   description: 'Acceptance data of link endpoint received'
@@ -4816,7 +4816,7 @@ paths:
             post:
               requestBody:
                 content:
-                 application/json:
+                  application/json:
                     schema:
                       oneOf:
                         - description: 'Successfully executed'
@@ -5560,7 +5560,7 @@ paths:
                             message:
                               type: string
                               enum:
-                                - 'Bad Gateway. The upstream server (MicrowveDeviceInventory) is unavailable'                         
+                                - 'Bad Gateway. The upstream server (MicrowveDeviceInventory) is unavailable'
               responses:
                 '200':
                   description: 'Acceptance data of link endpoint received'
@@ -5584,7 +5584,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/check-registered-availability-of-device:
-    description: 'The number of requests to be executed in parallel shall be limited to the value stated in [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-integer-p-002/integer-profile-1-0:integer-profile-pac/integer-profile-configuration/integer-value]'    
+    description: 'The number of requests to be executed in parallel shall be limited to the value stated in [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-integer-p-002/integer-profile-1-0:integer-profile-pac/integer-profile-configuration/integer-value]'
     post:
       operationId: checkRegisteredAvailabilityOfDevice
       summary: 'Checks wheter a mountName is registered in the APTP-internal list of Connected devices and returns a boolean'
@@ -5796,7 +5796,7 @@ paths:
                     type: boolean
                     description: >
                       'This configuration value is true, if cross polarization interference cancellation (XPIC) is configured to be activated
-                      from {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/xpic-is-on}'               
+                      from {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/xpic-is-on}'
                 example:
                   air-interface-endpoint-name: '513550010B'
                   configured-tx-power: 10
@@ -5819,7 +5819,7 @@ paths:
                     name-at-lct: 2048QAM
                   configured-channel-bandwidth-min: 112
                   configured-channel-bandwidth-max: 112
-                  configured-xpic-is-on: false          
+                  configured-xpic-is-on: false
           headers:
             life-cycle-state:
               schema:
@@ -5846,9 +5846,9 @@ paths:
         '460':
           $ref: '#/components/responses/460'
         '470':
-          $ref: '#/components/responses/470'        
+          $ref: '#/components/responses/470'
         '500':
-          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'    
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
         '502':
           $ref: '#/components/responses/502'
         default:
@@ -5981,8 +5981,8 @@ paths:
             description: >
               'UuidUnderTest and LocalIdUnderTest to be determined by
               repeating until the substring constituted by the 9 first characters of {$RequestForProvidingConfigurationForLivenetviewCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceLabel.response.body#external-label} == {$request.body#link-id}.
-              If the UuidUnderTest and LocalIdUnderTest cannot be determined because the LinkId provided in the requestBody does not match the externalLabel of any LogicalTerminationPoint in the ControlConstruct, the process shall be interrupted. 
-              RequestForProvidingConfigurationForLivenetviewCausesDeliveringRequestedAcceptanceData shall be then directly executed and the failure information, by means of code '470' and message "The requested ressource does not exist within the referenced device", 
+              If the UuidUnderTest and LocalIdUnderTest cannot be determined because the LinkId provided in the requestBody does not match the externalLabel of any LogicalTerminationPoint in the ControlConstruct, the process shall be interrupted.
+              RequestForProvidingConfigurationForLivenetviewCausesDeliveringRequestedAcceptanceData shall be then directly executed and the failure information, by means of code '470' and message "The requested ressource does not exist within the referenced device",
               transmitted in its request payload.'
             get:
               parameters:
@@ -6390,9 +6390,6 @@ paths:
                       from {$RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromLive.AlarmsFromLive.response.body#alarms-1-0:current-alarms/number-of-current-alarms'
                 example:
                   number-of-current-alarms: 9
-
-
-
 
 
 ########################################################################################################################
