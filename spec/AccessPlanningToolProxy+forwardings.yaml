@@ -51,7 +51,7 @@ forwardings:
         uuid: aptp-1-1-0-op-s-bm-001
     consequent-requests:
       - client-name: OldRelease://v1/bequeath-your-data-and-die
-        uuid: aptp-1-1-0-op-c-bm-or-1-0-0-000
+        uuid: aptp-1-1-0-op-c-bm-or-1-0-2-000
 
   - forwarding-name: PromptForEmbeddingCausesCyclicLoadingOfDevicesFromMwdi
     uuid: aptp-1-1-0-op-fc-im-001

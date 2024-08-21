@@ -643,7 +643,7 @@
                 "operation-name": "/v1/inquire-oam-request-approvals"
               },
               "operation-server-interface-configuration": {
-                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_DEPRECATED",
                 "operation-key": "Operation key not yet provided."
               }
             }
@@ -761,6 +761,102 @@
             "operation-server-interface-1-0:operation-server-interface-pac": {
               "operation-server-interface-capability": {
                 "operation-name": "/v1/update-operation-client"
+              },
+              "operation-server-interface-configuration": {
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "operation-key": "Operation key not yet provided."
+              }
+            }
+          }
+        ]
+      },
+      {
+        "uuid": "aptp-1-1-0-op-s-bm-012",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
+        "client-ltp": [
+        ],
+        "server-ltp": [
+          "aptp-1-1-0-http-s-000"
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+            "operation-server-interface-1-0:operation-server-interface-pac": {
+              "operation-server-interface-capability": {
+                "operation-name": "/v1/inquire-basic-auth-approvals"
+              },
+              "operation-server-interface-configuration": {
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "operation-key": "Operation key not yet provided."
+              }
+            }
+          }
+        ]
+      },
+      {
+        "uuid": "aptp-1-1-0-op-s-bm-013",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
+        "client-ltp": [
+        ],
+        "server-ltp": [
+          "aptp-1-1-0-http-s-000"
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+            "operation-server-interface-1-0:operation-server-interface-pac": {
+              "operation-server-interface-capability": {
+                "operation-name": "/v1/dispose-remainders-of-deregistered-application"
+              },
+              "operation-server-interface-configuration": {
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "operation-key": "Operation key not yet provided."
+              }
+            }
+          }
+        ]
+      },
+      {
+        "uuid": "aptp-1-1-0-op-s-bm-014",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
+        "client-ltp": [
+        ],
+        "server-ltp": [
+          "aptp-1-1-0-http-s-000"
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+            "operation-server-interface-1-0:operation-server-interface-pac": {
+              "operation-server-interface-capability": {
+                "operation-name": "/v1/inform-about-preceding-release"
+              },
+              "operation-server-interface-configuration": {
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "operation-key": "n.a."
+              }
+            }
+          }
+        ]
+      },
+      {
+        "uuid": "aptp-1-1-0-op-s-bm-015",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
+        "client-ltp": [
+        ],
+        "server-ltp": [
+          "aptp-1-1-0-http-s-000"
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+            "operation-server-interface-1-0:operation-server-interface-pac": {
+              "operation-server-interface-capability": {
+                "operation-name": "/v1/update-client-of-subsequent-release"
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
@@ -977,6 +1073,10 @@
           "aptp-1-1-0-op-s-bm-009",
           "aptp-1-1-0-op-s-bm-010",
           "aptp-1-1-0-op-s-bm-011",
+          "aptp-1-1-0-op-s-bm-012",
+          "aptp-1-1-0-op-s-bm-013",
+          "aptp-1-1-0-op-s-bm-014",
+          "aptp-1-1-0-op-s-bm-015",
           "aptp-1-1-0-op-s-im-000",
           "aptp-1-1-0-op-s-bs-000",
           "aptp-1-1-0-op-s-bs-001",
@@ -987,8 +1087,7 @@
           "aptp-1-1-0-op-s-is-000"
         ],
         "server-ltp": [
-          "aptp-1-1-0-tcp-s-000",
-          "aptp-1-1-0-tcp-s-001"
+          "aptp-1-1-0-tcp-s-000"
         ],
         "layer-protocol": [
           {
@@ -996,8 +1095,8 @@
             "layer-protocol-name": "http-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER",
             "http-server-interface-1-0:http-server-interface-pac": {
               "http-server-interface-capability": {
-                "application-name": "AutomatedLinkAcceptanceProxy",
-                "release-number": "1.0.1",
+                "application-name": "AccessPlanningToolProxy",
+                "release-number": "1.1.0",
                 "application-purpose": "Retrieves acceptance data of link endpoint and provides it to LinkVis for later validation",
                 "data-update-period": "http-server-interface-1-0:DATA_UPDATE_PERIOD_TYPE_MANUAL",
                 "owner-name": "Ana Cabello Barrera",
@@ -1008,6 +1107,12 @@
                     "release-number": "1.0.2",
                     "release-date": "07.12.2023",
                     "changes": "Initial version"
+                  },
+                  {
+                    "local-id": "1",
+                    "release-number": "1.1.0",
+                    "release-date": "23.08.2024",
+                    "changes": "Performance Data, Asynchron services, LiveNetView, ConnectionStatus, AptClientUpDate"
                   }
                 ]
               }
@@ -1032,47 +1137,21 @@
                 "description": "Without TLS layer",
                 "local-protocol": "tcp-server-interface-1-0:PROTOCOL_TYPE_HTTP",
                 "local-address": {
-                  "ipv-4-address": "1.1.4.9"
+                  "ipv-4-address": "127.0.0.1"
                 },
-                "local-port": 4009
+                "local-port": 4020
               }
             }
           }
         ]
       },
       {
-        "uuid": "aptp-1-1-0-tcp-s-001",
-        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
-        "client-ltp": [
-          "aptp-1-1-0-http-s-000"
-        ],
-        "server-ltp": [
-        ],
-        "layer-protocol": [
-          {
-            "local-id": "0",
-            "layer-protocol-name": "tcp-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER",
-            "tcp-server-interface-1-0:tcp-server-interface-pac": {
-              "tcp-server-interface-configuration": {
-                "description": "With TLS layer",
-                "local-protocol": "tcp-server-interface-1-0:PROTOCOL_TYPE_HTTPS",
-                "local-address": {
-                  "ipv-4-address": "1.2.4.9"
-                },
-                "local-port": 4209
-              }
-            }
-          }
-        ]
-      },
-      {
-        "uuid": "aptp-1-1-0-op-c-bm-or-1-0-0-000",
+        "uuid": "aptp-1-1-0-op-c-bm-or-1-0-2-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "aptp-1-1-0-http-c-or-1-0-0-000"
-        ],
+          "aptp-1-1-0-http-c-or-1-0-2-000"        ],
         "layer-protocol": [
           {
             "local-id": "0",
@@ -1091,13 +1170,13 @@
         ]
       },
       {
-        "uuid": "aptp-1-1-0-http-c-or-1-0-0-000",
+        "uuid": "aptp-1-1-0-http-c-or-1-0-2-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "aptp-1-1-0-op-c-bm-or-1-0-0-000"
+          "aptp-1-1-0-op-c-bm-or-1-0-2-000"
         ],
         "server-ltp": [
-          "aptp-1-1-0-tcp-c-or-1-0-0-000"
+          "aptp-1-1-0-tcp-c-or-1-0-2-000"
         ],
         "layer-protocol": [
           {
@@ -1106,17 +1185,17 @@
             "http-client-interface-1-0:http-client-interface-pac": {
               "http-client-interface-configuration": {
                 "application-name": "OldRelease",
-                "release-number": "1.0.1"
+                "release-number": "1.0.2"
               }
             }
           }
         ]
       },
       {
-        "uuid": "aptp-1-1-0-tcp-c-or-1-0-0-000",
+        "uuid": "aptp-1-1-0-tcp-c-or-1-0-2-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "aptp-1-1-0-http-c-or-1-0-0-000"
+          "aptp-1-1-0-http-c-or-1-0-2-000"
         ],
         "server-ltp": [
         ],
@@ -1129,7 +1208,7 @@
                 "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
                 "remote-address": {
                   "ip-address": {
-                    "ipv-4-address": "1.1.4.9"
+                    "ipv-4-address": "127.0.0.1"
                   }
                 },
                 "remote-port": 4009
@@ -1153,7 +1232,7 @@
             "http-client-interface-1-0:http-client-interface-pac": {
               "http-client-interface-configuration": {
                 "application-name": "NewRelease",
-                "release-number": "1.0.1"
+                "release-number": "1.1.0"
               }
             }
           }
@@ -1176,22 +1255,22 @@
                 "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
                 "remote-address": {
                   "ip-address": {
-                    "ipv-4-address": "1.1.4.9"
+                    "ipv-4-address": "127.0.0.1"
                   }
                 },
-                "remote-port": 4009
+                "remote-port": 4020
               }
             }
           }
         ]
       },
       {
-        "uuid": "aptp-1-1-0-op-c-bm-ro-2-0-1-000",
+        "uuid": "aptp-1-1-0-op-c-bm-ro-2-1-2-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "aptp-1-1-0-http-c-ro-2-0-1-000"
+          "aptp-1-1-0-http-c-ro-2-1-2-000"
         ],
         "layer-protocol": [
           {
@@ -1199,7 +1278,7 @@
             "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
             "operation-client-interface-1-0:operation-client-interface-pac": {
               "operation-client-interface-configuration": {
-                "operation-name": "/v1/register-application",
+                "operation-name": "/v2/register-application",
                 "operation-key": "n.a."
               },
               "operation-client-interface-status": {
@@ -1211,12 +1290,12 @@
         ]
       },
       {
-        "uuid": "aptp-1-1-0-op-c-bm-ro-2-0-1-001",
+        "uuid": "aptp-1-1-0-op-c-bm-ro-2-1-2-001",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "aptp-1-1-0-http-c-ro-2-0-1-000"
+          "aptp-1-1-0-http-c-ro-2-1-2-000"
         ],
         "layer-protocol": [
           {
@@ -1236,12 +1315,12 @@
         ]
       },
       {
-        "uuid": "aptp-1-1-0-op-c-bm-ro-2-0-1-002",
+        "uuid": "aptp-1-1-0-op-c-bm-ro-2-1-2-002",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "aptp-1-1-0-http-c-ro-2-0-1-000"
+          "aptp-1-1-0-http-c-ro-2-1-2-000"
         ],
         "layer-protocol": [
           {
@@ -1261,12 +1340,12 @@
         ]
       },
       {
-        "uuid": "aptp-1-1-0-op-c-bm-ro-2-0-1-003",
+        "uuid": "aptp-1-1-0-op-c-bm-ro-2-1-2-003",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "aptp-1-1-0-http-c-ro-2-0-1-000"
+          "aptp-1-1-0-http-c-ro-2-1-2-000"
         ],
         "layer-protocol": [
           {
@@ -1286,16 +1365,16 @@
         ]
       },
       {
-        "uuid": "aptp-1-1-0-http-c-ro-2-0-1-000",
+        "uuid": "aptp-1-1-0-http-c-ro-2-1-2-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "aptp-1-1-0-op-c-bm-ro-2-0-1-000",
-          "aptp-1-1-0-op-c-bm-ro-2-0-1-001",
-          "aptp-1-1-0-op-c-bm-ro-2-0-1-002",
-          "aptp-1-1-0-op-c-bm-ro-2-0-1-003"
+          "aptp-1-1-0-op-c-bm-ro-2-1-2-000",
+          "aptp-1-1-0-op-c-bm-ro-2-1-2-001",
+          "aptp-1-1-0-op-c-bm-ro-2-1-2-002",
+          "aptp-1-1-0-op-c-bm-ro-2-1-2-003"
         ],
         "server-ltp": [
-          "aptp-1-1-0-tcp-c-ro-2-0-1-000"
+          "aptp-1-1-0-tcp-c-ro-2-1-2-000"
         ],
         "layer-protocol": [
           {
@@ -1304,17 +1383,17 @@
             "http-client-interface-1-0:http-client-interface-pac": {
               "http-client-interface-configuration": {
                 "application-name": "RegistryOffice",
-                "release-number": "2.0.1"
+                "release-number": "2.1.2"
               }
             }
           }
         ]
       },
       {
-        "uuid": "aptp-1-1-0-tcp-c-ro-2-0-1-000",
+        "uuid": "aptp-1-1-0-tcp-c-ro-2-1-2-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "aptp-1-1-0-http-c-ro-2-0-1-000"
+          "aptp-1-1-0-http-c-ro-2-1-2-000"
         ],
         "server-ltp": [
         ],
@@ -1327,7 +1406,7 @@
                 "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
                 "remote-address": {
                   "ip-address": {
-                    "ipv-4-address": "1.1.3.8"
+                    "ipv-4-address": "127.0.0.1"
                   }
                 },
                 "remote-port": 3008
@@ -1337,12 +1416,12 @@
         ]
       },
       {
-        "uuid": "aptp-1-1-0-http-c-tar-2-0-1-000",
+        "uuid": "aptp-1-1-0-http-c-tar-2-1-2-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "aptp-1-1-0-tcp-c-tar-2-0-1-000"
+          "aptp-1-1-0-tcp-c-tar-2-1-2-000"
         ],
         "layer-protocol": [
           {
@@ -1351,17 +1430,17 @@
             "http-client-interface-1-0:http-client-interface-pac": {
               "http-client-interface-configuration": {
                 "application-name": "TypeApprovalRegister",
-                "release-number": "2.0.1"
+                "release-number": "2.1.2"
               }
             }
           }
         ]
       },
       {
-        "uuid": "aptp-1-1-0-tcp-c-tar-2-0-1-000",
+        "uuid": "aptp-1-1-0-tcp-c-tar-2-1-2-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "aptp-1-1-0-http-c-tar-2-0-1-000"
+          "aptp-1-1-0-http-c-tar-2-1-2-000"
         ],
         "server-ltp": [
         ],
@@ -1374,22 +1453,22 @@
                 "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
                 "remote-address": {
                   "ip-address": {
-                    "ipv-4-address": "1.1.3.9"
+                    "ipv-4-address": "127.0.0.1"
                   }
                 },
-                "remote-port": 3009
+                "remote-port": 3025
               }
             }
           }
         ]
       },
       {
-        "uuid": "aptp-1-1-0-op-c-bs-eatl-2-0-1-000",
+        "uuid": "aptp-1-1-0-op-c-bs-eatl-2-1-2-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "aptp-1-1-0-http-c-eatl-2-0-1-000"
+          "aptp-1-1-0-http-c-eatl-2-1-2-000"
         ],
         "layer-protocol": [
           {
@@ -1410,13 +1489,13 @@
         ]
       },
       {
-        "uuid": "aptp-1-1-0-http-c-eatl-2-0-1-000",
+        "uuid": "aptp-1-1-0-http-c-eatl-2-1-2-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "aptp-1-1-0-op-c-bs-eatl-2-0-1-000"
+          "aptp-1-1-0-op-c-bs-eatl-2-1-2-000"
         ],
         "server-ltp": [
-          "aptp-1-1-0-tcp-c-eatl-2-0-1-000"
+          "aptp-1-1-0-tcp-c-eatl-2-1-2-000"
         ],
         "layer-protocol": [
           {
@@ -1425,17 +1504,17 @@
             "http-client-interface-1-0:http-client-interface-pac": {
               "http-client-interface-configuration": {
                 "application-name": "ExecutionAndTraceLog",
-                "release-number": "2.0.1"
+                "release-number": "2.1.2"
               }
             }
           }
         ]
       },
       {
-        "uuid": "aptp-1-1-0-tcp-c-eatl-2-0-1-000",
+        "uuid": "aptp-1-1-0-tcp-c-eatl-2-1-2-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "aptp-1-1-0-http-c-eatl-2-0-1-000"
+          "aptp-1-1-0-http-c-eatl-2-1-2-000"
         ],
         "server-ltp": [
         ],
@@ -1448,22 +1527,22 @@
                 "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
                 "remote-address": {
                   "ip-address": {
-                    "ipv-4-address": "1.1.3.10"
+                    "ipv-4-address": "127.0.0.1"
                   }
                 },
-                "remote-port": 3010
+                "remote-port": 3026
               }
             }
           }
         ]
       },
       {
-        "uuid": "aptp-1-1-0-op-c-bs-ol-2-0-1-000",
+        "uuid": "aptp-1-1-0-op-c-bs-ol-2-1-2-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "aptp-1-1-0-http-c-ol-2-0-1-000"
+          "aptp-1-1-0-http-c-ol-2-1-2-000"
         ],
         "layer-protocol": [
           {
@@ -1483,13 +1562,13 @@
         ]
       },
       {
-        "uuid": "aptp-1-1-0-http-c-ol-2-0-1-000",
+        "uuid": "aptp-1-1-0-http-c-ol-2-1-2-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "aptp-1-1-0-op-c-bs-ol-2-0-1-000"
+          "aptp-1-1-0-op-c-bs-ol-2-1-2-000"
         ],
         "server-ltp": [
-          "aptp-1-1-0-tcp-c-ol-2-0-1-000"
+          "aptp-1-1-0-tcp-c-ol-2-1-2-000"
         ],
         "layer-protocol": [
           {
@@ -1498,17 +1577,17 @@
             "http-client-interface-1-0:http-client-interface-pac": {
               "http-client-interface-configuration": {
                 "application-name": "OamLog",
-                "release-number": "2.0.1"
+                "release-number": "2.1.2"
               }
             }
           }
         ]
       },
       {
-        "uuid": "aptp-1-1-0-tcp-c-ol-2-0-1-000",
+        "uuid": "aptp-1-1-0-tcp-c-ol-2-1-2-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "aptp-1-1-0-http-c-ol-2-0-1-000"
+          "aptp-1-1-0-http-c-ol-2-1-2-000"
         ],
         "server-ltp": [
         ],
@@ -1521,22 +1600,22 @@
                 "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
                 "remote-address": {
                   "ip-address": {
-                    "ipv-4-address": "1.1.3.11"
+                    "ipv-4-address": "127.0.0.1"
                   }
                 },
-                "remote-port": 3011
+                "remote-port": 3027
               }
             }
           }
         ]
       },
       {
-        "uuid": "aptp-1-1-0-op-c-bs-aa-2-0-1-000",
+        "uuid": "aptp-1-1-0-op-c-bs-aa-2-1-2-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "aptp-1-1-0-http-c-aa-2-0-1-000"
+          "aptp-1-1-0-http-c-aa-2-1-2-000"
         ],
         "layer-protocol": [
           {
@@ -1556,13 +1635,13 @@
         ]
       },
       {
-        "uuid": "aptp-1-1-0-http-c-aa-2-0-1-000",
+        "uuid": "aptp-1-1-0-http-c-aa-2-1-2-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "aptp-1-1-0-op-c-bs-aa-2-0-1-000"
+          "aptp-1-1-0-op-c-bs-aa-2-1-2-000"
         ],
         "server-ltp": [
-          "aptp-1-1-0-tcp-c-aa-2-0-1-000"
+          "aptp-1-1-0-tcp-c-aa-2-1-2-000"
         ],
         "layer-protocol": [
           {
@@ -1570,18 +1649,18 @@
             "layer-protocol-name": "http-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER",
             "http-client-interface-1-0:http-client-interface-pac": {
               "http-client-interface-configuration": {
-                "application-name": "AdministratorAdministration",
-                "release-number": "2.0.1"
+                "application-name": "AccessAdministration",
+                "release-number": "2.1.2"
               }
             }
           }
         ]
       },
       {
-        "uuid": "aptp-1-1-0-tcp-c-aa-2-0-1-000",
+        "uuid": "aptp-1-1-0-tcp-c-aa-2-1-2-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "aptp-1-1-0-http-c-aa-2-0-1-000"
+          "aptp-1-1-0-http-c-aa-2-1-2-000"
         ],
         "server-ltp": [
         ],
@@ -1594,22 +1673,22 @@
                 "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
                 "remote-address": {
                   "ip-address": {
-                    "ipv-4-address": "1.1.3.12"
+                    "ipv-4-address": "127.0.0.1"
                   }
                 },
-                "remote-port": 3012
+                "remote-port": 3028
               }
             }
           }
         ]
       },
       {
-        "uuid": "aptp-1-1-0-op-c-bm-alt-2-0-1-000",
+        "uuid": "aptp-1-1-0-op-c-bm-alt-2-1-2-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "aptp-1-1-0-http-c-alt-2-0-1-000"
+          "aptp-1-1-0-http-c-alt-2-1-2-000"
         ],
         "layer-protocol": [
           {
@@ -1629,12 +1708,12 @@
         ]
       },
       {
-        "uuid": "aptp-1-1-0-op-c-bm-alt-2-0-1-001",
+        "uuid": "aptp-1-1-0-op-c-bm-alt-2-1-2-001",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "aptp-1-1-0-http-c-alt-2-0-1-000"
+          "aptp-1-1-0-http-c-alt-2-1-2-000"
         ],
         "layer-protocol": [
           {
@@ -1654,12 +1733,12 @@
         ]
       },
       {
-        "uuid": "aptp-1-1-0-op-c-bm-alt-2-0-1-002",
+        "uuid": "aptp-1-1-0-op-c-bm-alt-2-1-2-002",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "aptp-1-1-0-http-c-alt-2-0-1-000"
+          "aptp-1-1-0-http-c-alt-2-1-2-000"
         ],
         "layer-protocol": [
           {
@@ -1679,12 +1758,12 @@
         ]
       },
       {
-        "uuid": "aptp-1-1-0-op-c-bm-alt-2-0-1-003",
+        "uuid": "aptp-1-1-0-op-c-bm-alt-2-1-2-003",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "aptp-1-1-0-http-c-alt-2-0-1-000"
+          "aptp-1-1-0-http-c-alt-2-1-2-000"
         ],
         "layer-protocol": [
           {
@@ -1704,12 +1783,12 @@
         ]
       },
       {
-        "uuid": "aptp-1-1-0-op-c-bm-alt-2-0-1-004",
+        "uuid": "aptp-1-1-0-op-c-bm-alt-2-1-2-004",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "aptp-1-1-0-http-c-alt-2-0-1-000"
+          "aptp-1-1-0-http-c-alt-2-1-2-000"
         ],
         "layer-protocol": [
           {
@@ -1729,12 +1808,12 @@
         ]
       },
       {
-        "uuid": "aptp-1-1-0-op-c-bm-alt-2-0-1-005",
+        "uuid": "aptp-1-1-0-op-c-bm-alt-2-1-2-005",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "aptp-1-1-0-http-c-alt-2-0-1-000"
+          "aptp-1-1-0-http-c-alt-2-1-2-000"
         ],
         "layer-protocol": [
           {
@@ -1754,18 +1833,18 @@
         ]
       },
       {
-        "uuid": "aptp-1-1-0-http-c-alt-2-0-1-000",
+        "uuid": "aptp-1-1-0-http-c-alt-2-1-2-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "aptp-1-1-0-op-c-bm-alt-2-0-1-000",
-          "aptp-1-1-0-op-c-bm-alt-2-0-1-001",
-          "aptp-1-1-0-op-c-bm-alt-2-0-1-002",
-          "aptp-1-1-0-op-c-bm-alt-2-0-1-003",
-          "aptp-1-1-0-op-c-bm-alt-2-0-1-004",
-          "aptp-1-1-0-op-c-bm-alt-2-0-1-005"
+          "aptp-1-1-0-op-c-bm-alt-2-1-2-000",
+          "aptp-1-1-0-op-c-bm-alt-2-1-2-001",
+          "aptp-1-1-0-op-c-bm-alt-2-1-2-002",
+          "aptp-1-1-0-op-c-bm-alt-2-1-2-003",
+          "aptp-1-1-0-op-c-bm-alt-2-1-2-004",
+          "aptp-1-1-0-op-c-bm-alt-2-1-2-005"
         ],
         "server-ltp": [
-          "aptp-1-1-0-tcp-c-alt-2-0-1-000"
+          "aptp-1-1-0-tcp-c-alt-2-1-2-000"
         ],
         "layer-protocol": [
           {
@@ -1774,17 +1853,17 @@
             "http-client-interface-1-0:http-client-interface-pac": {
               "http-client-interface-configuration": {
                 "application-name": "ApplicationLayerTopology",
-                "release-number": "2.0.1"
+                "release-number": "2.1.2"
               }
             }
           }
         ]
       },
       {
-        "uuid": "aptp-1-1-0-tcp-c-alt-2-0-1-000",
+        "uuid": "aptp-1-1-0-tcp-c-alt-2-1-2-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "aptp-1-1-0-http-c-alt-2-0-1-000"
+          "aptp-1-1-0-http-c-alt-2-1-2-000"
         ],
         "server-ltp": [
         ],
@@ -1797,22 +1876,22 @@
                 "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
                 "remote-address": {
                   "ip-address": {
-                    "ipv-4-address": "1.1.3.13"
+                    "ipv-4-address": "127.0.0.1"
                   }
                 },
-                "remote-port": 3013
+                "remote-port": 3029
               }
             }
           }
         ]
       },
       {
-        "uuid": "aptp-1-1-0-http-c-okm-2-0-1-000",
+        "uuid": "aptp-1-1-0-http-c-okm-2-1-2-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "aptp-1-1-0-tcp-c-okm-2-0-1-000"
+          "aptp-1-1-0-tcp-c-okm-2-1-2-000"
         ],
         "layer-protocol": [
           {
@@ -1821,17 +1900,17 @@
             "http-client-interface-1-0:http-client-interface-pac": {
               "http-client-interface-configuration": {
                 "application-name": "OperationKeyManagement",
-                "release-number": "2.0.1"
+                "release-number": "2.1.2"
               }
             }
           }
         ]
       },
       {
-        "uuid": "aptp-1-1-0-tcp-c-okm-2-0-1-000",
+        "uuid": "aptp-1-1-0-tcp-c-okm-2-1-2-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "aptp-1-1-0-http-c-okm-2-0-1-000"
+          "aptp-1-1-0-http-c-okm-2-1-2-000"
         ],
         "server-ltp": [
         ],
@@ -1844,10 +1923,10 @@
                 "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
                 "remote-address": {
                   "ip-address": {
-                    "ipv-4-address": "1.1.3.14"
+                    "ipv-4-address": "127.0.0.1"
                   }
                 },
-                "remote-port": 3014
+                "remote-port": 3030
               }
             }
           }
@@ -2278,7 +2357,7 @@
               },
               {
                 "value-name": "ForwardingName",
-                "value": "PromptForRegisteringCausesRegistrationRequest"
+                "value": "PromptForRegisteringCausesRegistrationRequest2"
               }
             ],
             "fc-port": [
@@ -2295,7 +2374,7 @@
               {
                 "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "aptp-1-1-0-op-c-bm-ro-2-0-1-000"
+                "logical-termination-point": "aptp-1-1-0-op-c-bm-ro-2-1-2-000"
               }
             ]
           },
@@ -2373,62 +2452,82 @@
                 "logical-termination-point": "aptp-1-1-0-op-s-bm-005"
               },
               {
-                "local-id": "106",
+                "local-id": "107",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
                 "logical-termination-point": "aptp-1-1-0-op-s-bm-007"
               },
               {
-                "local-id": "107",
+                "local-id": "108",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
                 "logical-termination-point": "aptp-1-1-0-op-s-bm-008"
               },
               {
-                "local-id": "108",
+                "local-id": "109",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
                 "logical-termination-point": "aptp-1-1-0-op-s-bm-009"
               },
               {
-                "local-id": "109",
+                "local-id": "110",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
                 "logical-termination-point": "aptp-1-1-0-op-s-bm-010"
               },
               {
-                "local-id": "110",
+                "local-id": "111",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
                 "logical-termination-point": "aptp-1-1-0-op-s-bm-011"
               },
               {
-                "local-id": "111",
-                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                "logical-termination-point": "aptp-1-1-0-op-s-im-000"
-              },
-              {
                 "local-id": "112",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                "logical-termination-point": "aptp-1-1-0-op-s-bs-000"
+                "logical-termination-point": "aptp-1-1-0-op-s-bm-012"
               },
               {
                 "local-id": "113",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                "logical-termination-point": "aptp-1-1-0-op-s-bs-001"
+                "logical-termination-point": "aptp-1-1-0-op-s-bm-013"
               },
               {
                 "local-id": "114",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                "logical-termination-point": "aptp-1-1-0-op-s-bs-002"
+                "logical-termination-point": "aptp-1-1-0-op-s-bm-014"
               },
               {
                 "local-id": "115",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aptp-1-1-0-op-s-bm-015"
+              },
+              {
+                "local-id": "130",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aptp-1-1-0-op-s-im-000"
+              },
+              {
+                "local-id": "150",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aptp-1-1-0-op-s-bs-000"
+              },
+              {
+                "local-id": "151",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aptp-1-1-0-op-s-bs-001"
+              },
+              {
+                "local-id": "152",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aptp-1-1-0-op-s-bs-002"
+              },
+              {
+                "local-id": "153",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
                 "logical-termination-point": "aptp-1-1-0-op-s-bs-003"
               },
               {
-                "local-id": "116",
+                "local-id": "154",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
                 "logical-termination-point": "aptp-1-1-0-op-s-bs-004"
               },
               {
-                "local-id": "117",
+                "local-id": "155",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
                 "logical-termination-point": "aptp-1-1-0-op-s-bs-005"
               },
@@ -2440,7 +2539,7 @@
               {
                 "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "aptp-1-1-0-op-c-bs-eatl-2-0-1-000"
+                "logical-termination-point": "aptp-1-1-0-op-c-bs-eatl-2-1-2-000"
               }
             ]
           },
@@ -2465,12 +2564,12 @@
               {
                 "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "aptp-1-1-0-op-c-bs-ol-2-0-1-000"
+                "logical-termination-point": "aptp-1-1-0-op-c-bs-ol-2-1-2-000"
               }
             ]
           },
           {
-            "uuid": "aptp-1-1-0-op-fc-bm-004",
+            "uuid": "aptp-1-1-0-op-fc-bm-005",
             "name": [
               {
                 "value-name": "ForwardingKind",
@@ -2478,19 +2577,24 @@
               },
               {
                 "value-name": "ForwardingName",
-                "value": "OamRequestCausesInquiryForAuthentication"
+                "value": "BasicAuthRequestCausesInquiryForAuthentication"
               }
             ],
             "fc-port": [
               {
                 "local-id": "000",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
+                "logical-termination-point": "aptp-1-1-0-op-s-bm-012"
+              },
+              {
+                "local-id": "001",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
                 "logical-termination-point": "aptp-1-1-0-op-s-bm-005"
               },
               {
                 "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "aptp-1-1-0-op-c-bs-aa-2-0-1-000"
+                "logical-termination-point": "aptp-1-1-0-op-c-bs-aa-2-1-2-000"
               }
             ]
           },
@@ -2520,7 +2624,7 @@
               {
                 "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "aptp-1-1-0-op-c-bm-ro-2-0-1-001"
+                "logical-termination-point": "aptp-1-1-0-op-c-bm-ro-2-1-2-001"
               }
             ]
           },
@@ -2550,7 +2654,7 @@
               {
                 "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "aptp-1-1-0-op-c-bm-ro-2-0-1-002"
+                "logical-termination-point": "aptp-1-1-0-op-c-bm-ro-2-1-2-002"
               }
             ]
           },
@@ -2580,7 +2684,7 @@
               {
                 "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "aptp-1-1-0-op-c-bm-ro-2-0-1-003"
+                "logical-termination-point": "aptp-1-1-0-op-c-bm-ro-2-1-2-003"
               }
             ]
           },
@@ -2623,34 +2727,44 @@
                 "logical-termination-point": "aptp-1-1-0-op-s-bm-003"
               },
               {
-                "local-id": "104",
+                "local-id": "105",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
                 "logical-termination-point": "aptp-1-1-0-op-s-bm-005"
               },
               {
-                "local-id": "105",
+                "local-id": "107",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
                 "logical-termination-point": "aptp-1-1-0-op-s-bm-007"
               },
               {
-                "local-id": "106",
+                "local-id": "109",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
                 "logical-termination-point": "aptp-1-1-0-op-s-bm-009"
               },
               {
-                "local-id": "108",
+                "local-id": "111",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
                 "logical-termination-point": "aptp-1-1-0-op-s-bm-011"
               },
               {
-                "local-id": "109",
+                "local-id": "112",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aptp-1-1-0-op-s-bm-012"
+              },
+              {
+                "local-id": "115",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aptp-1-1-0-op-s-bm-015"
+              },
+              {
+                "local-id": "130",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
                 "logical-termination-point": "aptp-1-1-0-op-s-im-000"
               },
               {
                 "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "aptp-1-1-0-op-c-bm-alt-2-0-1-001"
+                "logical-termination-point": "aptp-1-1-0-op-c-bm-alt-2-1-2-001"
               }
             ]
           },
@@ -2673,9 +2787,14 @@
                 "logical-termination-point": "aptp-1-1-0-op-s-bm-009"
               },
               {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aptp-1-1-0-op-s-bm-013"
+              },
+              {
                 "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "aptp-1-1-0-op-c-bm-alt-2-0-1-002"
+                "logical-termination-point": "aptp-1-1-0-op-c-bm-alt-2-1-2-002"
               }
             ]
           },
@@ -2700,7 +2819,7 @@
               {
                 "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "aptp-1-1-0-op-c-bm-alt-2-0-1-003"
+                "logical-termination-point": "aptp-1-1-0-op-c-bm-alt-2-1-2-003"
               }
             ]
           },
@@ -2725,7 +2844,7 @@
               {
                 "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "aptp-1-1-0-op-c-bm-alt-2-0-1-004"
+                "logical-termination-point": "aptp-1-1-0-op-c-bm-alt-2-1-2-004"
               }
             ]
           },
@@ -2755,7 +2874,7 @@
               {
                 "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "aptp-1-1-0-op-c-bm-alt-2-0-1-005"
+                "logical-termination-point": "aptp-1-1-0-op-c-bm-alt-2-1-2-005"
               }
             ]
           },
@@ -2780,7 +2899,7 @@
               {
                 "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "aptp-1-1-0-op-c-bm-alt-2-0-1-001"
+                "logical-termination-point": "aptp-1-1-0-op-c-bm-alt-2-1-2-001"
               }
             ]
           },
@@ -2805,7 +2924,7 @@
               {
                 "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "aptp-1-1-0-op-c-bm-alt-2-0-1-002"
+                "logical-termination-point": "aptp-1-1-0-op-c-bm-alt-2-1-2-002"
               }
             ]
           },
@@ -2830,7 +2949,7 @@
               {
                 "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "aptp-1-1-0-op-c-bm-alt-2-0-1-003"
+                "logical-termination-point": "aptp-1-1-0-op-c-bm-alt-2-1-2-003"
               }
             ]
           },
@@ -2855,7 +2974,7 @@
               {
                 "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "aptp-1-1-0-op-c-bm-alt-2-0-1-004"
+                "logical-termination-point": "aptp-1-1-0-op-c-bm-alt-2-1-2-004"
               }
             ]
           },
@@ -2880,7 +2999,7 @@
               {
                 "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "aptp-1-1-0-op-c-bm-alt-2-0-1-005"
+                "logical-termination-point": "aptp-1-1-0-op-c-bm-alt-2-1-2-005"
               }
             ]
           },

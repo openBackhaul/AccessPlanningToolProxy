@@ -81,22 +81,23 @@ servers:
       own-tcp-port: 4020
       uuid: aptp-1-1-0-tcp-s-000
 
+
 clients:
 
   - http-client:
       application-name: OldRelease
       release-number:
-      uuid: aptp-1-1-0-http-c-or-1-0-0-000
+      uuid: aptp-1-1-0-http-c-or-1-0-2-000
     tcp-client:
       remote-protocol: http
       ip-address: 127.0.0.1
-      tcp-port:
-      uuid: aptp-1-1-0-tcp-c-or-1-0-0-000
+      tcp-port: 4009
+      uuid: aptp-1-1-0-tcp-c-or-1-0-2-000
     operation-clients:
       own-oam:
         basic:
           - operation-name: /v1/bequeath-your-data-and-die
-            uuid: aptp-1-1-0-op-c-bm-or-1-0-0-000
+            uuid: aptp-1-1-0-op-c-bm-or-1-0-2-000
         individual:
       service:
         basic:
@@ -109,7 +110,7 @@ clients:
     tcp-client:
       remote-protocol: http
       ip-address: 127.0.0.1
-      tcp-port:
+      tcp-port: 4020
       uuid: aptp-1-1-0-tcp-c-nr-1-0-0-000
     operation-clients:
       own-oam:
@@ -344,4 +345,3 @@ clients:
             uuid: aptp-1-1-0-op-c-is-apt-24-5-0-000
           - operation-name: /v1/receive-historical-pm-data-of-device
             uuid: aptp-1-1-0-op-c-is-apt-24-5-0-001
-
