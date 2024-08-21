@@ -1,0 +1,23 @@
+@startuml 407_ReadingDedicatedStatusValuesFromLive
+skinparam responseMessageBelowArrow true
+
+title
+RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive
+end title
+
+participant "LinkVis" as LinkVis
+participant "APTP://v1/provide-status-for-livenetview" as APTP_Status
+participant "<i>RequestForProvidingStatusForLiveNetViewCausesDeterminingAirInterfaceUuidUnderTest</i>" as UnderTest
+participant "MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}\n/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/\nair-interface-status?fields=tx-level-cur;rx-level-cur;transmission-mode-cur;rx-frequency-cur;tx-frequency-cur" as MwdiStatus
+
+LinkVis -> APTP_Status: {MountName, LinkId} (apiKeyAuth)
+activate APTP_Status
+
+UnderTest --> APTP_Status: {UuidUnderTest, LocalIdUnderTest}
+
+APTP_Status -> MwdiStatus: {uuid = UuidUnderTest , local-id = LocalIdUnderTest FROM RequestForProvidingStatusForLivenetviewCausesDeterminingAirInterfaceUuidUnderTest} (apiKeyAuth)
+MwdiStatus --> APTP_Status: {tx-level-cur;rx-level-cur;transmission-mode-cur;rx-frequency-cur;tx-frequency-cur}
+
+deactivate APTP_Status
+
+@enduml

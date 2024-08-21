@@ -1,0 +1,20 @@
+@startuml 170_DeliveringRequestedAcceptanceData
+skinparam responseMessageBelowArrow true
+
+title
+RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData
+end title
+
+participant "LinkVis" as LinkVis
+participant "LinkVis://v1/receive-acceptance-data-of-link-endpoint" as LinkVisReceiveAcc
+participant "APTP://v1/provide-acceptance-data-of-link-endpoint" as APTP
+
+
+LinkVis -> APTP: {MountName, LinkId} (apiKeyAuth)
+activate APTP
+
+APTP -> LinkVisReceiveAcc: {requestId, structured acceptance data}
+
+deactivate APTP
+
+@enduml

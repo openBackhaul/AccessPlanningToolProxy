@@ -1,0 +1,38 @@
+@startuml ProvideHistoricalPmDataOfDevice
+skinparam responseMessageBelowArrow true
+
+title
+ProvideHistoricalPmDataOfDevice
+end title
+
+participant "LinkVis" as LinkVis
+participant "APTP://v1/provide-historical-pm-data-of-device" as APTP_Pm
+participant "<i>RequestForProviding\n<i>HistoricalPmDataCauses</i>\n<i>ReadingNameOfAirAndEthernetInterfaces</i>" as Names
+participant "<i>RequestForProviding\n<i>HistoricalPmDataCauses</i>\n<i>IdentifyingPhysicalLinkAggregations</i>" as PhysicalAggregations
+participant "<i>RequestForProviding\n<i>HistoricalPmDataCauses</i>\n<i>ReadingAirInterfaceConfigurationFromCache</i>" as AirInterfaceConfig
+participant "<i>RequestForProviding\n<i>HistoricalPmDataCauses</i>\n<i>ReadingAirInterfaceCapabilitiesFromCache</i>" as AirInterfaceCapa
+participant "<i>RequestForProviding\n<i>HistoricalPmDataCauses</i>\n<i>ReadingHistoricalAirInterfacePerformanceFromCache</i>" as AirInterfacePm
+participant "<i>RequestForProviding\n<i>HistoricalPmDataCauses</i>\n<i>ReadingHistoricalEthernetContainerPerformanceFromCache</i>" as EthernetPm
+participant "<i>RequestForProviding\n<i>HistoricalPmDataCauses\n<i>DeliveringRequestedPmData</i>" as DeliveryPm
+
+LinkVis -> APTP_Pm: [{MountName, timeStamp}<sub>i</sub>] (apiKeyAuth)
+activate APTP_Pm
+
+note over APTP_Pm
+Number of requests to be executed in parallel shall not exceed the value stated in
+<b>profile=APTP-1-0-1-integer-p-001</b>
+<b>IntegerProfilePac::IntegerProfileConfiguration:integerValue</b>
+end note
+
+loop for each i-th pair {MountName, timeStamp}
+    Names --> APTP_Pm: [{externalLabel/originalLtpName}]
+    PhysicalAggregations--> APTP_Pm: [{externalLabel/originalLtpName}]
+    AirInterfaceConfig --> APTP_Pm: [{atpc-is-on, transmission-mode-min, transmission-mode-max}]
+    AirInterfaceCapa --> APTP_Pm: [{entire AirInterfaceCapabilities from cache}]
+    AirInterfacePm --> APTP_Pm: [{entire AirInterfaceHistoricalPerformance from cache}]
+    EthernetPm --> APTP_Pm: [{entire EthernetContainerPerformances from cache}]
+end
+DeliveryPm -> LinkVis: {requestId, list of [ {Link-id, AirInterfaceConfigs,\n AirInterfaceCapabilities,\nAirInterfaceHistoricalPerformance, \nEthernetInterfaceName,\n EthernetHistoricalPerformance}] \nof Ltps in given mounts}
+deactivate APTP_Pm
+
+@enduml
