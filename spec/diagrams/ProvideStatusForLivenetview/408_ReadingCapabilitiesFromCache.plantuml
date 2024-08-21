@@ -1,0 +1,25 @@
+@startuml 408_ReadingCapabilitiesFromCache
+skinparam responseMessageBelowArrow true
+
+title
+RequestForProvidingStatusForLiveNetViewCausesReadingCapabilitiesFromCache
+end title
+
+participant "LinkVis" as LinkVis
+participant "APTP://v1/provide-status-for-livenetview" as APTP_Status
+participant "<i>RequestForProvidingStatusForLiveNetViewCausesDeterminingAirInterfaceUuidUnderTest</i>" as UnderTest
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability" as MwdiCapa
+
+
+LinkVis -> APTP_Status: {MountName, LinkId} (apiKeyAuth)
+
+activate APTP_Status
+
+UnderTest --> APTP_Status: {Uuid, LocalId}
+APTP_Status -> MwdiCapa: {with uuid and local-id from RequestForProvidingStatusForLiveNetViewCausesDeterminingAirInterfaceUuidUnderTest} (apiKeyAuth)
+MwdiCapa --> APTP_Status: {entire AirInterfaceCapabilities from cache}
+
+deactivate APTP_Status
+
+@enduml
+
