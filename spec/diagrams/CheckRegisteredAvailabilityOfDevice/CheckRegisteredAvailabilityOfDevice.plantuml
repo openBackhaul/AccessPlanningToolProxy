@@ -1,0 +1,33 @@
+@startuml CheckRegisteredAvailabilityOfDevice
+skinparam responseMessageBelowArrow true
+
+title
+CheckRegisteredAvailabilityOfDevice
+end title
+
+participant "LinkVis" as LinkVis
+participant "APTP://v1/check-registered-availability-of-device" as DeviceAvailableCheck
+
+
+
+LinkVis -> DeviceAvailableCheck: {MountName} (apiKeyAuth)
+
+note over DeviceAvailableCheck
+Number of requests to be executed in parallel shall not exceed the value stated in
+<b>profile=APTP-1-0-1-integer-p-002</b>
+<b>IntegerProfilePac::IntegerProfileConfiguration:integerValue</b>
+end note
+
+activate DeviceAvailableCheck
+
+note over DeviceAvailableCheck
+If MountName is found in the internal list of connected devices, return TRUE
+Else, return FALSE
+end note
+
+
+DeviceAvailableCheck --> LinkVis: {boolean TRUE/FALSE}
+
+deactivate DeviceAvailableCheck
+
+@enduml

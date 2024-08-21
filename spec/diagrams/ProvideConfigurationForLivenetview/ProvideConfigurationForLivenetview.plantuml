@@ -1,0 +1,24 @@
+@startuml ProvideConfigForLivenetview
+skinparam responseMessageBelowArrow true
+
+title
+ProvideConfigurationForLivenetview
+end title
+
+participant "LinkVis" as LinkVis
+participant "APTP://v1/provide-configuration-for-livenetview" as APTP_Config
+participant "<i>RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache</i>" as ReadingConfigCache
+
+
+LinkVis -> APTP_Config: {MountName, LinkId} (apiKeyAuth)
+
+activate APTP_Config
+
+
+ReadingConfigCache --> APTP_Config: {entire AirInterfaceConfiguration from cache}
+
+APTP_Config --> LinkVis: {selected AirInterfaceConfiguration attributes from cache}
+
+deactivate APTP_Config
+
+@enduml

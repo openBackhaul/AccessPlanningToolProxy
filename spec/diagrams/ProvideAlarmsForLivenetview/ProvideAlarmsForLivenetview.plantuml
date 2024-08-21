@@ -1,0 +1,23 @@
+@startuml ProvideAlarmsForLivenetview
+skinparam responseMessageBelowArrow true
+
+title
+ProvideAlarmsForLivenetview
+end title
+
+participant "LinkVis" as LinkVis
+participant "APTP://v1/provide-alarms-for-livenetview" as Livenetview_Alarms
+participant "<i>RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromLive</i>" as ReadingAlarmsLive
+
+
+LinkVis -> Livenetview_Alarms: {MountName, LinkId} (apiKeyAuth)
+
+activate Livenetview_Alarms
+
+
+ReadingAlarmsLive --> Livenetview_Alarms: {entire list of active alarms from live}
+Livenetview_Alarms --> LinkVis: {entire list of active alarms \nfrom live}
+
+deactivate Livenetview_Alarms
+
+@enduml

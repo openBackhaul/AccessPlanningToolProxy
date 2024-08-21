@@ -1,0 +1,24 @@
+@startuml ProvideEquipmentInfoForLivenetview
+skinparam responseMessageBelowArrow true
+
+title
+ProvideEquipmentInfoForLivenetview
+end title
+
+participant "LinkVis" as LinkVis
+participant "APTP://v1/provide-equipment-info-for-livenetview" as APTP_Equipment
+participant "<i>RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache</i>" as ReadingEquipmentInfo
+
+
+LinkVis -> APTP_Equipment: {MountName, LinkId} (apiKeyAuth)
+
+activate APTP_Equipment
+
+
+ReadingEquipmentInfo --> APTP_Equipment: : list of-{EquipmentCategory, type-name, serial-number, part-type-identifier}
+
+APTP_Equipment --> LinkVis: list of-{EquipmentCategory, type-name, serial-number, part-type-identifier}
+
+deactivate APTP_Equipment
+
+@enduml

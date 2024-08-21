@@ -1,0 +1,17 @@
+@startuml 200_ReadingLtpStructure
+skinparam responseMessageBelowArrow true
+
+title
+RequestForProvidingHistoricalPmDataCausesReadingLtpStructure
+end title
+
+participant "LinkVis" as LinkVis
+participant "APTP://v1/provide-historical-pm-data-of-device" as APTP_Pm
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountMame}?fields=logical-termination-point(uuid;server-ltp;client-ltp;layer-protocol(local-id;layer-protocol-name))" as ReadingLtpStructure
+
+LinkVis -> APTP_Pm: {MountName,timeStamp}<sub>i</sub> (apiKeyAuth)
+activate APTP_Pm
+APTP_Pm -> ReadingLtpStructure: {MountName}(apiKeyAuth)
+ReadingLtpStructure --> APTP_Pm: [{Uuid, LocalId, ServerLtp, ClientLtp, LayerProtocolName}]
+
+@enduml
