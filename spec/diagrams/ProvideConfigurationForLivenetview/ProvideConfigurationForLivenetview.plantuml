@@ -7,6 +7,7 @@ end title
 
 participant "LinkVis" as LinkVis
 participant "APTP://v1/provide-configuration-for-livenetview" as APTP_Config
+participant "<i>RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache</i>" as ReadingCapa
 participant "<i>RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache</i>" as ReadingConfigCache
 
 
@@ -16,9 +17,31 @@ activate APTP_Config
 
 
 ReadingConfigCache --> APTP_Config: {entire AirInterfaceConfiguration from cache}
+ReadingCapa --> APTP_Config: {entire AirInterfaceCapability from cache}
 
-APTP_Config --> LinkVis: {selected AirInterfaceConfiguration attributes from cache}
+note over APTP_Config
+
+Select the two TransmissionModi from TransmissionModeList (from <i>ReadingCapabilitiesFromCache</i>) for which
+    transmissionModeName == transmissionModeMin (from <i>ReadingConfigurationFromCache</i>)
+    transmissionModeName == transmissionModeMax (from <i>ReadingConfigurationFromCache</i>)
+
+For these two configured modulations (from <i>ReadingConfigurationFromCache</i>):
+
+    ConfiguredModulationMin.numberOfStates = TransmissionMode.ModulationScheme
+    ConfiguredModulationMin.nameAtLct = TransmissionMode.modulationSchemeNameAtLct
+
+    ConfiguredModulationMax.numberOfStates = TransmissionMode.ModulationScheme
+    ConfiguredModulationMax.nameAtLct = TransmissionMode.modulationSchemeNameAtLct
+
+end note
+
+APTP_Config --> LinkVis: {selected AirInterfaceConfiguration attributes from cache, , info of max and min configured transmissionModi}
 
 deactivate APTP_Config
 
 @enduml
+
+
+
+
+
