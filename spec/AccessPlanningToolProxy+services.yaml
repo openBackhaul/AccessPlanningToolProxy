@@ -326,7 +326,7 @@ clients:
             uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-272
 
   - http-client:
-      application-name: APT
+      application-name: AccessPlanningTool
       release-number: 24.5.0
       uuid: aptp-1-1-0-http-c-apt-24-05-0-000
     tcp-client:
