@@ -1055,7 +1055,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                    example: 'tx-level-cur;rx-level-cur;transmission-mode-cur;xpd-cur;snir-cur'
+                    example: 'tx-level-cur;rx-level-cur;transmission-mode-cur;rx-frequency-cur;tx-frequency-cur;xpd-cur;snir-cur'
                   description: >
                     'If different from empty string, a fields filter with the following value to be added to the request
                     from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-string-p-004/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
@@ -1081,6 +1081,10 @@ paths:
                                 type: integer
                               xpd-cur:
                                 type: integer
+                              tx-frequency-cur:
+                                type: integer
+                              rx-frequency-cur:
+                                type: integer
                         example:
                           air-interface-2-0:air-interface-status:
                             transmission-mode-cur: '56002'
@@ -1088,6 +1092,8 @@ paths:
                             tx-level-cur: 23
                             snir-cur: 32
                             xpd-cur: 53
+                            tx-frequency-cur: 45678
+                            rx-frequency-cur: 12345
                   headers:
                     x-correlator:
                       schema:
@@ -3214,16 +3220,6 @@ paths:
                                   description: >
                                     'Currently measured receive level in dBm
                                     from {$RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/rx-level-cur}'
-                                configured-tx-frequency:
-                                  type: integer
-                                  description: >
-                                    'Configured transmit frequency in kHz
-                                    from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/tx-frequency}'
-                                configured-rx-frequency:
-                                  type: integer
-                                  description: >
-                                    'Configured receive frequency in kHz
-                                    from {$RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/rx-frequency}'
                                 configured-transmitted-radio-signal-id:
                                   type: object
                                   description: 'Radio signal ID that is configured to be transmitted'
@@ -3357,6 +3353,16 @@ paths:
                                   description: >
                                     'Currently measured signal to noise + interference ratio (SNIR)
                                     from {$RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/snir-cur}'
+                                current-tx-freqency:
+                                  type: integer
+                                  description: >
+                                    'Current transmit frequency in kHz
+                                    from {$RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/tx-frequency-cur}'
+                                current-rx-frequency:
+                                  type: integer
+                                  description: >
+                                    'Current receive frequency in kHz
+                                    from {$RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/rx-frequency-cur}'
                             vlan-interface:
                               type: object
                               properties:
@@ -5583,6 +5589,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+
   /v1/check-registered-availability-of-device:
     description: 'The number of requests to be executed in parallel shall be limited to the value stated in [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-integer-p-002/integer-profile-1-0:integer-profile-pac/integer-profile-configuration/integer-value]'
     post:
@@ -5653,7 +5660,7 @@ paths:
   /v1/provide-configuration-for-livenetview:
     post:
       operationId: provideConfigurationForLiveNetView
-      summary: 'Provides the configurations at linkendpoint for display at the section "LiveView aktuell" in LinkVis'
+      summary: 'Provides the configurations at link endpoint for display at the section "LiveView aktuell" in LinkVis'
       tags:
         - IndividualServices
       security:
@@ -5843,8 +5850,6 @@ paths:
           $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
-        '460':
-          $ref: '#/components/responses/460'
         '470':
           $ref: '#/components/responses/470'
         '500':
@@ -5880,7 +5885,7 @@ paths:
                     example: 'logical-termination-point(uuid;server-ltp;client-ltp;layer-protocol(local-id;layer-protocol-name))'
                   description: >
                     'If different from empty string, a fields filter with the following value to be added to the request
-                    from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-string-p-000/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+                    from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-string-p-060/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
               responses:
                 '200':
                   description: 'ControlConstruct provided from cache'
@@ -5981,9 +5986,7 @@ paths:
             description: >
               'UuidUnderTest and LocalIdUnderTest to be determined by
               repeating until the substring constituted by the 9 first characters of {$RequestForProvidingConfigurationForLivenetviewCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceLabel.response.body#external-label} == {$request.body#link-id}.
-              If the UuidUnderTest and LocalIdUnderTest cannot be determined because the LinkId provided in the requestBody does not match the externalLabel of any LogicalTerminationPoint in the ControlConstruct, the process shall be interrupted.
-              RequestForProvidingConfigurationForLivenetviewCausesDeliveringRequestedAcceptanceData shall be then directly executed and the failure information, by means of code '470' and message "The requested ressource does not exist within the referenced device",
-              transmitted in its request payload.'
+              If the UuidUnderTest and LocalIdUnderTest cannot be determined because the LinkId provided in the requestBody does not match the externalLabel of any LogicalTerminationPoint in the ControlConstruct, the process shall be terminated with errored response with status 470.'
             get:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -6018,7 +6021,7 @@ paths:
                     example: 'external-label'
                   description: >
                     'If different from empty string, a fields filter with the following value to be added to the request
-                    from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-string-p-001/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+                    from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-string-p-061/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
               responses:
                 '200':
                   description: 'LtpAugment provided from cache'
@@ -6071,7 +6074,6 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -6119,7 +6121,7 @@ paths:
                     example: ''
                   description: >
                     'If different from empty string, a fields filter with the following value to be added to the request
-                    from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-string-p-002/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+                    from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-string-p-062/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
               responses:
                 '200':
                   description: 'AirInterfaceCapability provided from cache'
@@ -6241,7 +6243,7 @@ paths:
                     example: ''
                   description: >
                     'If different from empty string, a fields filter with the following value to be added to the request
-                    from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-string-p-003/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+                    from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-string-p-063/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
               responses:
                 '200':
                   description: 'AirInterfaceConfiguration provided from cache'
@@ -6352,7 +6354,1109 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+  /v1/provide-equipment-info-for-livenetview:
+    post:
+      operationId: provideEquipmentInfoForLiveNetView
+      summary: 'Provides information about the radio component identifiers at the link endpoint for display at the section "LiveView aktuell" in LinkVis'
+      tags:
+        - IndividualServices
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mount-name
+                - link-id
+              properties:
+                mount-name:
+                  type: string
+                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$
+                  description: 'Identifier of the device at the Controller'
+                link-id:
+                  type: string
+                  pattern: ^\d{3}55\d{4}$
+                  description: 'Identifier of the microwave link in the Telefonica planning tools'
+              example:
+                mount-name: '513250010'
+                link-id: '513550010'
+      responses:
+        '200':
+          description: 'Request for providing equipment information for livenetview sucessful'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  radio:
+                    type: object
+                    properties:
+                      equipment-name:
+                        type: string
+                        description: >
+                          'Name of the radio type
+                          if {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT
+                          from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache..EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/type-name}'
+                      serial-number:
+                        type: string
+                        description: >
+                          'Serial number of the radio
+                          if {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT
+                          from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-instance/serial-number}'
+                      part-number:
+                        type: string
+                        description: >
+                          'Part number of the radio
+                          if {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT
+                          from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/part-type-identifier}'
+                  modem:
+                    type: object
+                    properties:
+                      equipment-name:
+                        type: string
+                        description: >
+                          'Name of the modem type
+                          if {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM
+                          from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/type-name}'
+                      serial-number:
+                        type: string
+                        description: >
+                          'Serial number of the modem
+                          if {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM
+                          from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-instance/serial-number}'
+                      part-number:
+                        type: string
+                        description: >
+                          'Part number of the modem
+                          if {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM
+                          from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/part-type-identifier}'
+                  device:
+                    type: object
+                    properties:
+                      equipment-name:
+                        type: string
+                        description: >
+                          'Name of the device type
+                          if {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_FULL_OUTDOOR_UNIT
+                          from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/type-name}'
+                      serial-number:
+                        type: string
+                        description: >
+                          'Serial number of the device
+                          if {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_FULL_OUTDOOR_UNIT
+                          from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-instance/serial-number}'
+                      part-number:
+                        type: string
+                        description: >
+                          'Part number of the device
+                          if {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_FULL_OUTDOOR_UNIT
+                          from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/part-type-identifier}'
+                example:
+                  radio:
+                    equipment-name: 'RAU2 X 23/79'
+                    serial-number: 'A231067NG8'
+                    part-number: 'UKL40163/79'
+                  modem:
+                    equipment-name: 'MMU3 A'
+                    serial-number: 'A2310FXGLF'
+                    part-number: 'ROJ 208 1311/1'
+                  device:
+                    equipment-name: 'ASNK-18G'
+                    serial-number: '101821827000420'
+                    part-number: 'GE8704-52'  
+          headers:
+            life-cycle-state:
+              schema:
+                type: string
+                enum:
+                  - 'EXPERIMENTAL'
+                  - 'OPERATIONAL'
+                  - 'DEPRECATED'
+                  - 'OBSOLETE'
+                  - 'UNKNOWN'
+                  - 'NOT_YET_DEFINED'
+                example: 'EXPERIMENTAL'
+              description: >
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-is-007/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '400':
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
+        '470':
+          $ref: '#/components/responses/470'
+        '500':
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
+          headers:
+            life-cycle-state:
+              schema:
+                type: string
+                enum:
+                  - 'EXPERIMENTAL'
+                  - 'OPERATIONAL'
+                  - 'DEPRECATED'
+                  - 'OBSOLETE'
+                  - 'UNKNOWN'
+                  - 'NOT_YET_DEFINED'
+                example: 'EXPERIMENTAL'
+              description: >
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-is-007/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '502':
+          $ref: '#/components/responses/502'
+        default:
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
+      callbacks:
+        RequestForProvidingEquipmentInfoForLivenetviewCausesReadingLtpStructure:
+          LtpStructure: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-mwdi-1-1-2-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mount-name of the device that is addressed by this callback
+                    from {$request.body#mount-name}'
+                - name: fields
+                  in: query
+                  required: true
+                  schema:
+                    type: string
+                    example: 'logical-termination-point(uuid;server-ltp;client-ltp;layer-protocol(local-id;layer-protocol-name))'
+                  description: >
+                    'If different from empty string, a fields filter with the following value to be added to the request
+                    from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-string-p-060/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+              responses:
+                '200':
+                  description: 'ControlConstruct provided from cache'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        properties:
+                          core-model-1-4:control-construct:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                logical-termination-point:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      uuid:
+                                        type: string
+                                      layer-protocol:
+                                        type: array
+                                        items:
+                                          type: object
+                                          properties:
+                                            local-id:
+                                              type: string
+                                            layer-protocol-name:
+                                              type: string
+                        example:
+                          core-model-1-4:control-construct:
+                            - logical-termination-point:
+                                - uuid: '513250010-PureEthStruc-45743677'
+                                  layer-protocol:
+                                    - local-id: '45743677'
+                                      layer-protocol-name: 'LAYER_PROTOCOL_NAME_TYPE_PURE_ETHERNET_STRUCTURE_LAYER'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+        RequestForProvidingEquipmentInfoForLivenetviewCausesDeterminingAirInterfaceUnderTest:
+          AirInterfaceLabel: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-mwdi-1-1-2-201/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            description: >
+              'UuidUnderTest and LocalIdUnderTest to be determined by
+              repeating until the substring constituted by the 9 first characters of {$RequestForProvidingEquipmentInfoForLivenetviewCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceLabel.response.body#external-label} == {$request.body#link-id}.
+              If the UuidUnderTest and LocalIdUnderTest cannot be determined because the LinkId provided in the requestBody does not match the externalLabel of any LogicalTerminationPoint in the ControlConstruct, the process shall be terminated with errored response with status 470.'
+            get:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mount-name of the device that is addressed by this callback
+                    from {$request.body#mount-name}'
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-MWPS-TTP-1-1'
+                  description: >
+                    'The UUID of the LogicalTerminationPoint that is addressed by the request
+                    from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/uuid}
+                    where {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/layer-protocol/layer-protocol-name} == air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+                - name: fields
+                  in: query
+                  required: true
+                  schema:
+                    type: string
+                    example: 'external-label'
+                  description: >
+                    'If different from empty string, a fields filter with the following value to be added to the request
+                    from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-string-p-061/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+              responses:
+                '200':
+                  description: 'LtpAugment provided from cache'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        properties:
+                          ltp-augment-1-0:ltp-augment-pac:
+                            type: object
+                            properties:
+                              external-label:
+                                type: string
+                        example:
+                          ltp-augment-1-0:ltp-augment-pac:
+                            external-label: '513550010B'
+                  headers:
+                    x-correlator:
+                      schema:
+                        type: string
+                        example: '550e8400-e29b-11d4-a716-446655440000'
+                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+                    exec-time:
+                      schema:
+                        type: integer
+                        example: 1100
+                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+                    backend-time:
+                      schema:
+                        type: integer
+                        example: 850
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                    life-cycle-state:
+                      schema:
+                        type: string
+                        enum:
+                          - 'EXPERIMENTAL'
+                          - 'OPERATIONAL'
+                          - 'DEPRECATED'
+                          - 'OBSOLETE'
+                          - 'UNKNOWN'
+                          - 'NOT_YET_DEFINED'
+                        example: 'EXPERIMENTAL'
+                      description: 'Life cycle state of the consumed service'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+        RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache:
+          EquipmentUuid: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-mwdi-1-1-2-201/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mount-name of the device that is addressed by this callback
+                    from {$request.body#mount-name}'
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-2134638978'
+                  description: >
+                    'The UUID of the LogicalTerminationPoint that is addressed by the request
+                    from UuidUnderTest determined in RequestForProvidingEquipmentInfoForLivenetviewCausesDeterminingAirInterfaceUnderTest'
+                - name: fields
+                  in: query
+                  required: true
+                  schema:
+                    type: string
+                    example: 'equipment'
+                  description: >
+                    'If different from empty string, a fields filter with the following value to be added to the request
+                    from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-string-p-066/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+              responses:
+                '200':
+                  description: 'LtpAugment provided from cache'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        properties:
+                          ltp-augment-1-0:ltp-augment-pac:
+                            type: object
+                            properties:
+                              equipment:
+                                type: array
+                                items:
+                                  type: string
+                        example:
+                          ltp-augment-1-0:ltp-augment-pac:
+                            equipment:
+                              - '1921277951'
+                              - '1921274367'
+                  headers:
+                    x-correlator:
+                      schema:
+                        type: string
+                        example: '550e8400-e29b-11d4-a716-446655440000'
+                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+                    exec-time:
+                      schema:
+                        type: integer
+                        example: 1100
+                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+                    backend-time:
+                      schema:
+                        type: integer
+                        example: 850
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                    life-cycle-state:
+                      schema:
+                        type: string
+                        enum:
+                          - 'EXPERIMENTAL'
+                          - 'OPERATIONAL'
+                          - 'DEPRECATED'
+                          - 'OBSOLETE'
+                          - 'UNKNOWN'
+                          - 'NOT_YET_DEFINED'
+                        example: 'EXPERIMENTAL'
+                      description: 'Life cycle state of the consumed service'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+          EquipmentInfo: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-mwdi-1-1-2-114/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mount-name of the device that is addressed by this callback
+                    from {$request.body#mount-name}'
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '1921277951'
+                  description: >
+                    'The UUID of the Equipment that is addressed by this request
+                    from {RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentUuid.response.body#ltp-augment-1-0:ltp-augment-pac/equipment}'
+                - name: fields
+                  in: query
+                  required: true
+                  schema:
+                    type: string
+                    example: 'structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier);equipment-instance(serial-number))'
+                  description: >
+                    'If different from empty string, a fields filter with the following value to be added to the request
+                    from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-string-p-067/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+              responses:
+                '200':
+                  description: 'ActualEquipment provided from cache'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        properties:
+                          core-model-1-4:actual-equipment:
+                            type: object
+                            properties:
+                              structure:
+                                type: object
+                                properties:
+                                  category:
+                                    type: string
+                              manufactured-thing:
+                                type: object
+                                properties:
+                                  equipment-type:
+                                    type: object
+                                    properties:
+                                      part-type-identifier:
+                                        type: string
+                                      type-name:
+                                        type: string
+                                  equipment-instance:
+                                    type: object
+                                    properties:
+                                      serial-number:
+                                        type: string
+                        example:
+                          core-model-1-4:actual-equipment:
+                            structure:
+                              category: 'equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT'
+                            manufactured-thing:
+                              equipment-type:
+                                part-type-identifier: 'UKL40163/79'
+                                type-name: 'RAU2 X 23/79'
+                              equipment-instance:
+                                serial-number: 'A231067NG8'
+                  headers:
+                    x-correlator:
+                      schema:
+                        type: string
+                        example: '550e8400-e29b-11d4-a716-446655440000'
+                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+                    exec-time:
+                      schema:
+                        type: integer
+                        example: 1100
+                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+                    backend-time:
+                      schema:
+                        type: integer
+                        example: 850
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                    life-cycle-state:
+                      schema:
+                        type: string
+                        enum:
+                          - 'EXPERIMENTAL'
+                          - 'OPERATIONAL'
+                          - 'DEPRECATED'
+                          - 'OBSOLETE'
+                          - 'UNKNOWN'
+                          - 'NOT_YET_DEFINED'
+                        example: 'EXPERIMENTAL'
+                      description: 'Life cycle state of the consumed service'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+  /v1/provide-status-for-livenetview:
+    description: 'The number of requests to be executed in parallel shall be limited to the value stated in [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-integer-p-006/integer-profile-1-0:integer-profile-pac/integer-profile-configuration/integer-value]'
+    post:
+      operationId: provideStatusForLiveNetView
+      summary: 'Provides information about the radio component identifiers at the link endpoint for display at the section "LiveView aktuell" in LinkVis'
+      tags:
+        - IndividualServices
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mount-name
+                - link-id
+              properties:
+                mount-name:
+                  type: string
+                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$
+                  description: 'Identifier of the device at the Controller'
+                link-id:
+                  type: string
+                  pattern: ^\d{3}55\d{4}$
+                  description: 'Identifier of the microwave link in the Telefonica planning tools'
+              example:
+                mount-name: '513250010'
+                link-id: '513550010'
+      responses:
+        '200':
+          description: 'Request for providing configuration data of link endpoint sucessful'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  current-tx-power:
+                    type: integer
+                    description: >
+                      'Currently measured transmit power in dBm
+                      from {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/tx-level-cur}'
+                  current-rx-level:
+                    type: integer
+                    description: >
+                      'Currently measured receive level in dBm
+                      from {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/rx-level-cur}'
+                  current-modulation:
+                    type: object
+                    description: 'Currently operated modulation scheme'
+                    properties:
+                      number-of-states:
+                        type: integer
+                        description: >
+                          'Number of states in the phase diagram (e.g. BPSK->2 or 256QAM->256)
+                          transmissionModeCur = {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/transmission-mode-cur}
+                          from {$RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/modulation-scheme}
+                          where {$RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeCur'
+                      name-at-lct:
+                        type: string
+                        description: >
+                          'Name identifying this transmission mode on the graphical user interface of the local craft terminal
+                          transmissionModeCur = {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/transmission-mode-cur}
+                          from {$RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/modulation-scheme-name-at-lct}
+                          where {$RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeCur'
+                  current-tx-freqency:
+                    type: integer
+                    description: >
+                      'Current transmit frequency in kHz
+                      from {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/tx-frequency-cur}'
+                  current-rx-frequency:
+                    type: integer
+                    description: >
+                      'Current receive frequency in kHz
+                      from {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/rx-frequency-cur}'
+                example:
+                  current-tx-power: 5
+                  current-rx-level: -45
+                  current-modulation:
+                    number-of-states: 2048
+                    name-at-lct: 2048QAM
+                  current-tx-freqency: 38822000
+                  current-rx-freqency: 34522000
+          headers:
+            life-cycle-state:
+              schema:
+                type: string
+                enum:
+                  - 'EXPERIMENTAL'
+                  - 'OPERATIONAL'
+                  - 'DEPRECATED'
+                  - 'OBSOLETE'
+                  - 'UNKNOWN'
+                  - 'NOT_YET_DEFINED'
+                example: 'EXPERIMENTAL'
+              description: >
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-is-007/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '400':
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
+        '470':
+          $ref: '#/components/responses/470'
+        '500':
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        default:
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
+      callbacks:
+        RequestForProvidingStatusForLivenetviewCausesReadingLtpStructure:
+          LtpStructure: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-mwdi-1-1-2-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mount-name of the device that is addressed by this callback
+                    from {$request.body#mount-name}'
+                - name: fields
+                  in: query
+                  required: true
+                  schema:
+                    type: string
+                    example: 'logical-termination-point(uuid;layer-protocol(local-id;layer-protocol-name))'
+                  description: >
+                    'If different from empty string, a fields filter with the following value to be added to the request
+                    from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-string-p-069/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+              responses:
+                '200':
+                  description: 'ControlConstruct provided from cache'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        properties:
+                          core-model-1-4:control-construct:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                logical-termination-point:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      uuid:
+                                        type: string
+                                      layer-protocol:
+                                        type: array
+                                        items:
+                                          type: object
+                                          properties:
+                                            local-id:
+                                              type: string
+                                            layer-protocol-name:
+                                              type: string
+                        example:
+                          core-model-1-4:control-construct:
+                            - logical-termination-point:
+                                - uuid: '513250010-PureEthStruc-45743677'
+                                  layer-protocol:
+                                    - local-id: '45743677'
+                                      layer-protocol-name: 'LAYER_PROTOCOL_NAME_TYPE_PURE_ETHERNET_STRUCTURE_LAYER'
+                                - uuid: '513250010-AirInterface-34534563'
+                                  layer-protocol:
+                                    - local-id: '34534563'
+                                      layer-protocol-name: 'air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+                  headers:
+                    x-correlator:
+                      schema:
+                        type: string
+                        example: '550e8400-e29b-11d4-a716-446655440000'
+                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+                    exec-time:
+                      schema:
+                        type: integer
+                        example: 1100
+                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+                    backend-time:
+                      schema:
+                        type: integer
+                        example: 850
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                    life-cycle-state:
+                      schema:
+                        type: string
+                        enum:
+                          - 'EXPERIMENTAL'
+                          - 'OPERATIONAL'
+                          - 'DEPRECATED'
+                          - 'OBSOLETE'
+                          - 'UNKNOWN'
+                          - 'NOT_YET_DEFINED'
+                        example: 'EXPERIMENTAL'
+                      description: 'Life cycle state of the consumed service'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+        RequestForProvidingStatusForLivenetviewCausesDeterminingAirInterfaceUuidUnderTest:
+          AirInterfaceLabel: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-mwdi-1-1-2-201/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            description: >
+              'UuidUnderTest and LocalIdUnderTest to be determined by
+              repeating until the substring constituted by the 9 first characters of {$RequestForProvidingStatusForLivenetviewCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceLabel.response.body#external-label} == {$request.body#link-id}.
+              If the UuidUnderTest and LocalIdUnderTest cannot be determined because the LinkId provided in the requestBody does not match the externalLabel of any LogicalTerminationPoint in the ControlConstruct, the process shall be terminated with errored response with status 470.'
+            get:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mount-name of the device that is addressed by this callback
+                    from {$request.body#mount-name}'
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-MWPS-TTP-1-1'
+                  description: >
+                    'The UUID of the LogicalTerminationPoint that is addressed by the request
+                    from {$RequestForProvidingConfigurationForLivenetviewCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/uuid}
+                    where {$RequestForProvidingConfigurationForLivenetviewCausesReadingLtpStructure.LtpStructure.response.body#core-model-1-4:control-construct/logical-termination-point/layer-protocol/layer-protocol-name} == air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+                - name: fields
+                  in: query
+                  required: true
+                  schema:
+                    type: string
+                    example: 'external-label'
+                  description: >
+                    'If different from empty string, a fields filter with the following value to be added to the request
+                    from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-string-p-070/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+              responses:
+                '200':
+                  description: 'LtpAugment provided from cache'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        properties:
+                          ltp-augment-1-0:ltp-augment-pac:
+                            type: object
+                            properties:
+                              external-label:
+                                type: string
+                        example:
+                          ltp-augment-1-0:ltp-augment-pac:
+                            external-label: '513550010B'
+                  headers:
+                    x-correlator:
+                      schema:
+                        type: string
+                        example: '550e8400-e29b-11d4-a716-446655440000'
+                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+                    exec-time:
+                      schema:
+                        type: integer
+                        example: 1100
+                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+                    backend-time:
+                      schema:
+                        type: integer
+                        example: 850
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                    life-cycle-state:
+                      schema:
+                        type: string
+                        enum:
+                          - 'EXPERIMENTAL'
+                          - 'OPERATIONAL'
+                          - 'DEPRECATED'
+                          - 'OBSOLETE'
+                          - 'UNKNOWN'
+                          - 'NOT_YET_DEFINED'
+                        example: 'EXPERIMENTAL'
+                      description: 'Life cycle state of the consumed service'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+        RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache:
+          CapabilitiesFromCache: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-mwdi-1-1-2-210/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mount-name of the device that is addressed by this callback
+                    from {$request.body#mount-name}'
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-MWPS-TTP-1-1'
+                  description: >
+                    'The UUID of the LogicalTerminationPoint that is addressed by the request
+                    from UuidUnderTest determined in RequestForProvidingConfigurationForLivenetviewCausesDeterminingAirInterfaceUuidUnderTest'
+                - name: local-id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LP-MWPS-TTP-1-1'
+                  description: >
+                    'The Local-ID of the LayerProtocol that is addressed by the request
+                    from LocalIdUnderTest determined in RequestForProvidingConfigurationForLivenetviewCausesDeterminingAirInterfaceUuidUnderTest'
+                - name: fields
+                  in: query
+                  schema:
+                    type: string
+                    example: ''
+                  description: >
+                    'If different from empty string, a fields filter with the following value to be added to the request
+                    from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-string-p-072/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+              responses:
+                '200':
+                  description: 'AirInterfaceCapability provided from cache'
+                  content:
+                    application/json:
+                      schema:
+                        description: 'Only relevant attributes listed'
+                        type: object
+                        properties:
+                          air-interface-2-0:air-interface-capability:
+                            type: object
+                            properties:
+                              transmission-mode-list:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    transmission-mode-name:
+                                      type: string
+                                      description: 'Key attribute, name of the transmission mode'
+                                    channel-bandwidth:
+                                      type: integer
+                                      description: 'Bandwidth of the transmit channel in kHz'
+                                    modulation-scheme:
+                                      type: integer
+                                      description: 'Number of states in the phase diagram, e.g. BPSK->2 or 256QAM->256'
+                                    modulation-scheme-name-at-lct:
+                                      type: string
+                                      description: 'Name identifying this transmission mode on the graphical user interface of the local craft terminal'
+                        example:
+                          air-interface-2-0:air-interface-capability:
+                            transmission-mode-list:
+                              - transmission-mode-name: '0028-4QAM-188/204-1'
+                                channel-bandwidth: 28000
+                                modulation-scheme: 4
+                                modulation-scheme-name-at-lct: '4 QAM'
+                              - transmission-mode-name: '0028-4096QAM-175232/206076-1'
+                                channel-bandwidth: 28000
+                                modulation-scheme: 4096
+                                modulation-scheme-name-at-lct: '4096 QAM'
+                  headers:
+                    x-correlator:
+                      schema:
+                        type: string
+                        example: '550e8400-e29b-11d4-a716-446655440000'
+                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+                    exec-time:
+                      schema:
+                        type: integer
+                        example: 1100
+                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+                    backend-time:
+                      schema:
+                        type: integer
+                        example: 850
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                    life-cycle-state:
+                      schema:
+                        type: string
+                        enum:
+                          - 'EXPERIMENTAL'
+                          - 'OPERATIONAL'
+                          - 'DEPRECATED'
+                          - 'OBSOLETE'
+                          - 'UNKNOWN'
+                          - 'NOT_YET_DEFINED'
+                        example: 'EXPERIMENTAL'
+                      description: 'Life cycle state of the consumed service'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+        RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusFromCache:
+          ConfigurationFromCache: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-mwdi-1-1-2-512/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mount-name of the device that is addressed by this callback
+                    from {$request.body#mount-name}'
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-MWPS-TTP-1-1'
+                  description: >
+                    'The UUID of a LogicalTerminationPoint with LayerProtocolName == 'air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER' '
+                - name: local-id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LP-MWPS-TTP-1-1'
+                  description: >
+                    'The Local-ID of the LayerProtocol with LayerProtocolName == 'air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER' '
+                - name: fields
+                  in: query
+                  schema:
+                    type: string
+                    example: ''
+                  description: >
+                    'If different from empty string, a fields filter with the following value to be added to the request
+                    from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-string-p-071/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+              responses:
+                '200':
+                  description: 'AirInterfaceStatus provided from cache'
+                  content:
+                    application/json:
+                      schema:
+                        description: 'Only relevant attributes listed'
+                        type: object
+                        properties:
+                          air-interface-2-0:air-interface-status:
+                            type: object
+                            properties:
+                              transmission-mode-cur:
+                                type: string
+                              rx-level-cur:
+                                type: integer
+                              tx-level-cur:
+                                type: integer
+                              tx-frequency-cur:
+                                type: integer
+                              rx-frequency-cur:
+                                type: integer
+                        example:
+                          air-interface-2-0:air-interface-status:
+                            transmission-mode-cur: '56002'
+                            rx-level-cur: -60
+                            tx-level-cur: 23
+                            tx-frequency-cur: 9986
+                            rx-frequency-cur: 5344
+                  headers:
+                    x-correlator:
+                      schema:
+                        type: string
+                        example: '550e8400-e29b-11d4-a716-446655440000'
+                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+                    exec-time:
+                      schema:
+                        type: integer
+                        example: 1100
+                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+                    backend-time:
+                      schema:
+                        type: integer
+                        example: 850
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                    life-cycle-state:
+                      schema:
+                        type: string
+                        enum:
+                          - 'EXPERIMENTAL'
+                          - 'OPERATIONAL'
+                          - 'DEPRECATED'
+                          - 'OBSOLETE'
+                          - 'UNKNOWN'
+                          - 'NOT_YET_DEFINED'
+                        example: 'EXPERIMENTAL'
+                      description: 'Life cycle state of the consumed service'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/provide-alarms-for-livenetview:
+    description: 'The number of requests to be executed in parallel shall be limited to the value stated in [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-integer-p-005/integer-profile-1-0:integer-profile-pac/integer-profile-configuration/integer-value]'
     post:
       operationId: provideAlarmsForLiveNetView
       summary: 'Provides the current alarms in a device for display at the section "LiveView aktuell" in LinkVis'
@@ -6377,21 +7481,278 @@ paths:
                 mount-name: '513250010'
       responses:
         '200':
-          description: 'Request for providing configuration data of link endpoint sucessful'
+          description: 'Request for providing current alarms of link endpoint sucessful'
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  number-of-current-alarms:
-                    type: integer
-                    description: >
-                      'Number of currently raised alarms on the device
-                      from {$RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromLive.AlarmsFromLive.response.body#alarms-1-0:current-alarms/number-of-current-alarms'
+                  current-alarms:
+                    type: object
+                    properties:
+                      number-of-current-alarms:
+                        type: integer
+                        description: >
+                          'Number of currently raised alarms on the device
+                          from {$RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive.AlarmsFromLive.response.body#alarms-1-0:current-alarms/number-of-current-alarms'
+                      current-alarm-list:
+                        type: array
+                        description: 'List of alarms that are currently raised on the device'
+                        items:
+                          type: object
+                          properties:
+                            alarm-type-id:
+                              type: string
+                              description: >
+                                'This attribute and the alarm-type-qualifier attribute together provides a unique identification of the alarm type
+                                from {$RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive.AlarmsFromLive.response.body#alarms-1-0:current-alarms/current-alarm-list/alarm-type-id'
+                            alarm-type-qualifier:
+                              type: string
+                              description: >
+                                'This attribute is used whenever the alarm-type-id attribute cannot uniquely identify the type of alarm
+                                from {$RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive.AlarmsFromLive.response.body#alarms-1-0:current-alarms/current-alarm-list/alarm-type-qualifier'
+                            alarm-severity:
+                              type: string
+                              enum:
+                                - 'alarms-1-0:SEVERITY_TYPE_INDETERMINATE'
+                                - 'alarms-1-0:SEVERITY_TYPE_WARNING'
+                                - 'alarms-1-0:SEVERITY_TYPE_MINOR'
+                                - 'alarms-1-0:SEVERITY_TYPE_MAJOR'
+                                - 'alarms-1-0:SEVERITY_TYPE_CRITICAL'
+                                - 'alarms-1-0:SEVERITY_TYPE_CLEARED'
+                                - 'alarms-1-0:SEVERITY_TYPE_NOT_YET_DEFINED'
+                              description: >
+                                'Severity of the alarm as it is configured on the device
+                                from {$RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive.AlarmsFromLive.response.body#alarms-1-0:current-alarms/current-alarm-list/alarm-severity'
                 example:
-                  number-of-current-alarms: 9
+                  current-alarms:
+                    number-of-current-alarms: 2
+                    current-alarm-list:
+                      - alarm-type-id: 'alarms-ext-ericsson-mltn:ALARM_TYPE_ID_LOF'
+                        alarm-type-qualifier: ''
+                        alarm-severity: 'alarms-1-0:SEVERITY_TYPE_CRITICAL'
+                      - alarm-type-id: 'alarms-ext-ericsson-mltn:ALARM_TYPE_ID_ETHERNET_DOWN'
+                        alarm-type-qualifier: ''
+                        alarm-severity: 'alarms-1-0:SEVERITY_TYPE_CRITICAL'
+        '400':
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+      callbacks:
+        RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromLive:
+          AlarmsFromLive: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-mwdi-1-1-2-407/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mount-name of the device that is addressed by this callback
+                    from {$request.body#mount-name}'
+                - name: fields
+                  in: query
+                  schema:
+                    type: string
+                    example: ''
+                  description: >
+                    'If different from empty string, a fields filter with the following value to be added to the request
+                    from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-string-p-068/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+              responses:
+                '200':
+                  description: 'CurrentAlarms provided from live network'
+                  content:
+                    application/json:
+                      schema:
+                        description: 'Only relevant attributes listed'
+                        type: object
+                        properties:
+                          alarms-1-0:current-alarms:
+                            type: object
+                            properties:
+                              number-of-current-alarms:
+                                type: integer
+                              current-alarm-list:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    alarm-type-id:
+                                      type: string
+                                    alarm-type-qualifier:
+                                      type: string
+                                    alarm-severity:
+                                      type: string
+                        example:
+                          alarms-1-0:current-alarms:
+                            number-of-current-alarms: 9
+                            current-alarm-list:
+                              - alarm-type-id: 'alarms-ext-ericsson-mltn:ALARM_TYPE_ID_LOF'
+                                alarm-type-qualifier: ''
+                                alarm-severity: 'alarms-1-0:SEVERITY_TYPE_CRITICAL'
+                              - alarm-type-id: 'alarms-ext-ericsson-mltn:ALARM_TYPE_ID_ETHERNET_DOWN'
+                                alarm-type-qualifier: ''
+                                alarm-severity: 'alarms-1-0:SEVERITY_TYPE_CRITICAL'
+                  headers:
+                    x-correlator:
+                      schema:
+                        type: string
+                        example: '550e8400-e29b-11d4-a716-446655440000'
+                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+                    exec-time:
+                      schema:
+                        type: integer
+                        example: 1100
+                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+                    backend-time:
+                      schema:
+                        type: integer
+                        example: 850
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                    life-cycle-state:
+                      schema:
+                        type: string
+                        enum:
+                          - 'EXPERIMENTAL'
+                          - 'OPERATIONAL'
+                          - 'DEPRECATED'
+                          - 'OBSOLETE'
+                          - 'UNKNOWN'
+                          - 'NOT_YET_DEFINED'
+                        example: 'EXPERIMENTAL'
+                      description: 'Life cycle state of the consumed service'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
 
-
+  /v1/update-apt-client:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: updateAptClient
+      summary: 'Allows updating connection data of the AccessPlanningTool'
+      description: >
+        'Enables updating the TCP/IP addresses of existing APT-Interfaces.
+        After successful execution of this service, a minimum time stated in [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-integer-p-001/integer-profile-1-0:integer-profile-pac/integer-profile-configuration/integer-value] must elapse before a processing of this service is permitted again'
+      tags:
+        - IndividualServices
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - future-apt-protocol
+                - future-apt-address
+                - future-apt-tcp-port
+                - apt-receive-operation
+              properties:
+                future-apt-protocol:
+                  type: string
+                  enum:
+                    - 'HTTP'
+                    - 'HTTPS'
+                  description: >
+                    'Protocol to be used in future for addressing the AccessPlanningTool
+                    update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
+                future-apt-address:
+                  type: object
+                  minProperties: 1
+                  maxProperties: 1
+                  additionalProperties: false
+                  properties:
+                    ip-address:
+                      type: object
+                      minProperties: 1
+                      additionalProperties: false
+                      properties:
+                        ipv-4-address:
+                          type: string
+                          pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
+                          description: >
+                            'Future IPv4 address of the AccessPlanningTool
+                            update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-05-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
+                future-apt-port:
+                  type: integer
+                  minimum: 0
+                  maximum: 65535
+                  description: >
+                    'Future port of the AccessPlanningTool
+                    update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-05-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
+                apt-receive-operation:
+                  type: string
+                  description: 'Operation at the requestor for receiving the response'
+              example:
+                future-release-number: '43.5.6'
+                future-apt-protocol: 'HTTP'
+                future-apt-address:
+                  ip-address:
+                    ipv-4-address: '1.1.3.1'
+                future-apt-tcp-port: 3001
+                apt-receive-operation: '/v1/provide-acceptance-data-of-link-endpoint'
+      responses:
+        '204':
+          description: 'Will update connection information'
+          headers:
+            life-cycle-state:
+              schema:
+                type: string
+                enum:
+                  - 'EXPERIMENTAL'
+                  - 'OPERATIONAL'
+                  - 'DEPRECATED'
+                  - 'OBSOLETE'
+                  - 'UNKNOWN'
+                  - 'NOT_YET_DEFINED'
+                example: 'EXPERIMENTAL'
+              description: >
+                'Life cycle state of the consumed service
+                from [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-bm-007/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
 ########################################################################################################################
 #   Service Layer - Basic Part
 ########################################################################################################################
