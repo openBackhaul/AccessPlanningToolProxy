@@ -794,6 +794,15 @@ paths:
                           air-interface-2-0:air-interface-capability:
                             type: object
                             properties:
+                              supported-radio-signal-id-datatype:
+                                type: string
+                                enum:
+                                  - air-interface-2-0:RADIO_SIGNAL_ID_DATATYPE_TYPE_INTEGER
+                                  - air-interface-2-0:RADIO_SIGNAL_ID_DATATYPE_TYPE_STRING
+                                description: "Datatype which is supported as a Radio Signal ID by the device"
+                              supported-radio-signal-id-length:
+                                type: integer
+                                description: 'If (supportedRadioSignalIdDatatype==INTEGER): Maximum value of the Radio Signal ID supported by the device; If (supportedRadioSignalIdDatatype==STRING): Maximum number of letters supported by the device.'
                               transmission-mode-list:
                                 type: array
                                 items:
@@ -813,6 +822,8 @@ paths:
                                       description: 'Name identifying this transmission mode on the graphical user interface of the local craft terminal'
                         example:
                           air-interface-2-0:air-interface-capability:
+                            supported-radio-signal-id-datatype: 'air-interface-2-0:RADIO_SIGNAL_ID_DATATYPE_TYPE_STRING'
+                            supported-radio-signal-id-length: 31
                             transmission-mode-list:
                               - transmission-mode-name: '0028-4QAM-188/204-1'
                                 channel-bandwidth: 28000
@@ -2046,7 +2057,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-          EquipmentCategory: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-mwdi-1-1-2-114/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          EquipmentInfo: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-mwdi-1-1-2-114/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -2097,10 +2108,31 @@ paths:
                                 properties:
                                   category:
                                     type: string
+                              manufactured-thing:
+                                type: object
+                                properties:
+                                  equipment-type:
+                                    type: object
+                                    properties:
+                                      part-type-identifier:
+                                        type: string
+                                      type-name:
+                                        type: string
+                                  equipment-instance:
+                                    type: object
+                                    properties:
+                                      serial-number:
+                                        type: string
                         example:
                           core-model-1-4:actual-equipment:
                             structure:
                               category: 'core-model-1-4:EQUIPMENT_CATEGORY_SMALL_FORMFACTOR_PLUGGABLE'
+                            manufactured-thing:
+                              equipment-type:
+                                part-type-identifier: 'AXGD-1354-9933'
+                                type-name: 'SFP module'
+                              equipment-instance:
+                                serial-number: 'AX19240080624'
                   headers:
                     x-correlator:
                       schema:
@@ -3220,6 +3252,20 @@ paths:
                                   description: >
                                     'Currently measured receive level in dBm
                                     from {$RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/rx-level-cur}'
+                                supported-radio-signal-id-datatype:
+                                  type: string
+                                  enum:
+                                    - 'air-interface-2-0:RADIO_SIGNAL_ID_DATATYPE_TYPE_INTEGER'
+                                    - 'air-interface-2-0:RADIO_SIGNAL_ID_DATATYPE_TYPE_STRING'
+                                  description: >
+                                   'Datatype which is supported as a Radio Signal ID by the device
+                                   From {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/supported-radio-signal-id-datatype}'
+                                supported-radio-signal-id-length:
+                                  type: integer
+                                  description: >
+                                    'If (supportedRadioSignalIdDatatype==INTEGER): Maximum value of the Radio Signal ID supported by the device; 
+                                    If (supportedRadioSignalIdDatatype==STRING): Maximum number of letters supported by the device.
+                                    From {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/supported-radio-signal-id-length}'
                                 configured-transmitted-radio-signal-id:
                                   type: object
                                   description: 'Radio signal ID that is configured to be transmitted'
@@ -3557,7 +3603,7 @@ paths:
                                   description: >
                                     'First the list of LTPs from RequestForProvidingAcceptanceDataCausesReadingLtpStructure has to be filtered for LayerProtocolName == WireLayer
                                     for each of the WireInterfaceLtps the underlaying equipment has to be identified by RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentUuid.response.body#ltp-augment-1-0:ltp-augment-pac/equipment
-                                    now the list of WireInterfaceLtps has to be filtered for SFPs by {$RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentCategory.response.body#core-model-1-4:actual-equipment/structure/category} == core-model-1-4:EQUIPMENT_CATEGORY_SMALL_FORMFACTOR_PLUGGABLE
+                                    now the list of WireInterfaceLtps has to be filtered for SFPs by {$RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == core-model-1-4:EQUIPMENT_CATEGORY_SMALL_FORMFACTOR_PLUGGABLE
                                     for the resulting list of WireInterfaceUuids the following information shall be listed'
                                   type: array
                                   items:
@@ -3580,6 +3626,17 @@ paths:
                                         description: >
                                           'Name of the physical medium dependent (PMD) according to IEEE 802.3 that is currently operated on the link end point
                                           from {$RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.OperatedPmd.response.body#wire-interface-2-0:wire-interface-status/pmd-kind-cur}'
+                                      sfp-transceiver-part-number:
+                                        type: string
+                                        description: >
+                                          'Identifier of the equipment part type
+                                          from {$RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/part-type-identifier}'
+                                      sfp-transceiver-serial-number:
+                                        type: string
+                                        description: >
+                                          'Serial number of this equipment instance
+                                          from {$RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-instance/serial-number}'
+
                                 position-of-modem-board:
                                   type: string
                                   description: >
@@ -3647,6 +3704,8 @@ paths:
                               current-rx-level: -45
                               configured-tx-frequency: 38822000
                               configured-rx-frequency: 37562000
+                              supported-radio-signal-id-datatype: 'air-interface-2-0:RADIO_SIGNAL_ID_DATATYPE_TYPE_STRING'
+                              supported-radio-signal-id-length: 31
                               configured-transmitted-radio-signal-id:
                                 alphanumeric-radio-signal-id: '513250010-v-down'
                                 numeric-radio-signal-id: -1
@@ -3717,10 +3776,14 @@ paths:
                                     - '1000BASE-LX-10-SM'
                                     - 'NOT_YET_DEFINED'
                                   currently-operated-pmd: '1000BASE-LX-10-SM'
+                                  sfp-transceiver-part-number: 'AXGD-1354-9933'
+                                  sfp-transceiver-serial-number: 'AX19240080624'
                                 - interface-name:
                                   supported-pmd-list:
                                     - 'NOT_YET_DEFINED'
                                   currently-operated-pmd: 'NOT_YET_DEFINED'
+                                  sfp-transceiver-part-number: 'Unverified'
+                                  sfp-transceiver-serial-number: '1000023941422'
                               position-of-modem-board: 'Slot 1/5.1'
                               connector-plugging-the-outdoor-unit: 1
                             alarms:
@@ -5704,6 +5767,20 @@ paths:
                     description: >
                       'Configured transmit power that will be operated in maximum in dBm
                       from {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/tx-power}'
+                  supported-radio-signal-id-datatype:
+                    type: string
+                    enum:
+                      - 'air-interface-2-0:RADIO_SIGNAL_ID_DATATYPE_TYPE_INTEGER'
+                      - 'air-interface-2-0:RADIO_SIGNAL_ID_DATATYPE_TYPE_STRING'
+                    description: >
+                      'Datatype which is supported as a Radio Signal ID by the device
+                      from {$RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/supported-radio-signal-id-datatype'
+                  supported-radio-signal-id-length:
+                    type: integer
+                    description: >
+                      'If (supportedRadioSignalIdDatatype==INTEGER): Maximum value of the Radio Signal ID supported by the device; 
+                      If (supportedRadioSignalIdDatatype==STRING): Maximum number of letters supported by the device.
+                      From {$RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/supported-radio-signal-id-length'
                   configured-transmitted-radio-signal-id:
                     type: object
                     description: 'Radio signal ID that is configured to be transmitted'
@@ -5807,6 +5884,8 @@ paths:
                 example:
                   air-interface-endpoint-name: '513550010B'
                   configured-tx-power: 10
+                  supported-radio-signal-id-datatype: 'air-interface-2-0:RADIO_SIGNAL_ID_DATATYPE_TYPE_INTEGER'
+                  supported-radio-signal-id-length: 255
                   configured-transmitted-radio-signal-id:
                     alphanumeric-radio-signal-id: '513250010-v-down'
                     numeric-radio-signal-id: -1
@@ -6134,6 +6213,15 @@ paths:
                           air-interface-2-0:air-interface-capability:
                             type: object
                             properties:
+                              supported-radio-signal-id-datatype:
+                                type: string
+                                enum:
+                                  - air-interface-2-0:RADIO_SIGNAL_ID_DATATYPE_TYPE_INTEGER
+                                  - air-interface-2-0:RADIO_SIGNAL_ID_DATATYPE_TYPE_STRING
+                                description: "Datatype which is supported as a Radio Signal ID by the device"
+                              supported-radio-signal-id-length:
+                                type: integer
+                                description: 'If (supportedRadioSignalIdDatatype==INTEGER): Maximum value of the Radio Signal ID supported by the device; If (supportedRadioSignalIdDatatype==STRING): Maximum number of letters supported by the device'
                               transmission-mode-list:
                                 type: array
                                 items:
@@ -6153,6 +6241,8 @@ paths:
                                       description: 'Name identifying this transmission mode on the graphical user interface of the local craft terminal'
                         example:
                           air-interface-2-0:air-interface-capability:
+                            supported-radio-signal-id-datatype: 'air-interface-2-0:RADIO_SIGNAL_ID_DATATYPE_TYPE_INTEGER'
+                            supported-radio-signal-id-length: 255                          
                             transmission-mode-list:
                               - transmission-mode-name: '0028-4QAM-188/204-1'
                                 channel-bandwidth: 28000
