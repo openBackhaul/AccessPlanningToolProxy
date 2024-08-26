@@ -5704,7 +5704,7 @@ paths:
                 example: 'EXPERIMENTAL'
               description: >
                   'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-is-001/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                  find in [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-is-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -6571,7 +6571,7 @@ paths:
                 example: 'EXPERIMENTAL'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-is-007/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-is-008/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
         '401':
@@ -7086,7 +7086,7 @@ paths:
                 example: 'EXPERIMENTAL'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-is-007/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-is-010/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
         '401':
@@ -7624,6 +7624,22 @@ paths:
                       - alarm-type-id: 'alarms-ext-ericsson-mltn:ALARM_TYPE_ID_ETHERNET_DOWN'
                         alarm-type-qualifier: ''
                         alarm-severity: 'alarms-1-0:SEVERITY_TYPE_CRITICAL'
+          headers:
+            life-cycle-state:
+              schema:
+                type: string
+                enum:
+                  - 'EXPERIMENTAL'
+                  - 'OPERATIONAL'
+                  - 'DEPRECATED'
+                  - 'OBSOLETE'
+                  - 'UNKNOWN'
+                  - 'NOT_YET_DEFINED'
+                example: 'EXPERIMENTAL'
+              description: >
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-is-009/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+
         '400':
           $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
         '401':
@@ -7833,7 +7849,7 @@ paths:
                 example: 'EXPERIMENTAL'
               description: >
                 'Life cycle state of the consumed service
-                from [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-bm-007/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                from [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-is-999/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
