@@ -122,24 +122,24 @@ clients:
 
   - http-client:
       application-name: RegistryOffice
-      release-number: 2.1.0
-      uuid: aptp-1-1-0-http-c-ro-2-1-0-000
+      release-number: 2.1.2
+      uuid: aptp-1-1-0-http-c-ro-2-1-2-000
     tcp-client:
       remote-protocol: http
       ip-address: 127.0.0.1
-      tcp-port: 3024
-      uuid: aptp-1-1-0-tcp-c-ro-2-1-0-000
+      tcp-port: 3031
+      uuid: aptp-1-1-0-tcp-c-ro-2-1-2-000
     operation-clients:
       own-oam:
         basic:
           - operation-name: /v2/register-application
-            uuid: aptp-1-1-0-op-c-bm-ro-2-1-0-000
+            uuid: aptp-1-1-0-op-c-bm-ro-2-1-2-000
           - operation-name: /v1/relay-server-replacement
-            uuid: aptp-1-1-0-op-c-bm-ro-2-1-0-001
+            uuid: aptp-1-1-0-op-c-bm-ro-2-1-2-001
           - operation-name: /v1/deregister-application
-            uuid: aptp-1-1-0-op-c-bm-ro-2-1-0-002
+            uuid: aptp-1-1-0-op-c-bm-ro-2-1-2-002
           - operation-name: /v1/relay-operation-update
-            uuid: aptp-1-1-0-op-c-bm-ro-2-1-0-003
+            uuid: aptp-1-1-0-op-c-bm-ro-2-1-2-003
         individual:
       service:
         basic:
@@ -147,13 +147,13 @@ clients:
 
   - http-client:
       application-name: TypeApprovalRegister
-      release-number: 2.1.0
-      uuid: aptp-1-1-0-http-c-tar-2-1-0-000
+      release-number: 2.1.2
+      uuid: aptp-1-1-0-http-c-tar-2-1-2-000
     tcp-client:
       remote-protocol: http
       ip-address: 127.0.0.1
-      tcp-port: 3025
-      uuid: aptp-1-1-0-tcp-c-tar-2-1-0-000
+      tcp-port: 3032
+      uuid: aptp-1-1-0-tcp-c-tar-2-1-2-000
     operation-clients:
       own-oam:
         basic:
@@ -164,13 +164,13 @@ clients:
 
   - http-client:
       application-name: ExecutionAndTraceLog
-      release-number: 2.1.0
-      uuid: aptp-1-1-0-http-c-eatl-2-1-0-000
+      release-number: 2.1.2
+      uuid: aptp-1-1-0-http-c-eatl-2-1-2-000
     tcp-client:
       remote-protocol: http
       ip-address: 127.0.0.1
-      tcp-port: 3026
-      uuid: aptp-1-1-0-tcp-c-eatl-2-1-0-000
+      tcp-port: 3033
+      uuid: aptp-1-1-0-tcp-c-eatl-2-1-2-000
     operation-clients:
       own-oam:
         basic:
@@ -178,18 +178,18 @@ clients:
       service:
         basic:
           - operation-name: /v1/record-service-request
-            uuid: aptp-1-1-0-op-c-bs-eatl-2-1-0-000
+            uuid: aptp-1-1-0-op-c-bs-eatl-2-1-2-000
         individual:
 
   - http-client:
       application-name: OamLog
-      release-number: 2.1.0
-      uuid: aptp-1-1-0-http-c-ol-2-1-0-000
+      release-number: 2.1.2
+      uuid: aptp-1-1-0-http-c-ol-2-1-2-000
     tcp-client:
       remote-protocol: http
       ip-address: 127.0.0.1
-      tcp-port: 3027
-      uuid: aptp-1-1-0-tcp-c-ol-2-1-0-000
+      tcp-port: 3034
+      uuid: aptp-1-1-0-tcp-c-ol-2-1-2-000
     operation-clients:
       own-oam:
         basic:
@@ -197,18 +197,18 @@ clients:
       service:
         basic:
           - operation-name: /v1/record-oam-request
-            uuid: aptp-1-1-0-op-c-bs-ol-2-1-0-000
+            uuid: aptp-1-1-0-op-c-bs-ol-2-1-2-000
         individual:
 
   - http-client:
       application-name: AccessAdministration
-      release-number: 2.1.0
-      uuid: aptp-1-1-0-http-c-aa-2-1-0-000
+      release-number: 2.1.2
+      uuid: aptp-1-1-0-http-c-aa-2-1-2-000
     tcp-client:
       remote-protocol: http
       ip-address: 127.0.0.1
-      tcp-port: 3028
-      uuid: aptp-1-1-0-tcp-c-aa-2-1-0-000
+      tcp-port: 3035
+      uuid: aptp-1-1-0-tcp-c-aa-2-1-2-000
     operation-clients:
       own-oam:
         basic:
@@ -216,33 +216,33 @@ clients:
       service:
         basic:
           - operation-name: /v1/approve-basic-auth-request
-            uuid: aptp-1-1-0-op-c-bs-aa-2-1-0-000
+            uuid: aptp-1-1-0-op-c-bs-aa-2-1-2-000
         individual:
 
   - http-client:
       application-name: ApplicationLayerTopology
-      release-number: 2.1.0
-      uuid: aptp-1-1-0-http-c-alt-2-1-0-000
+      release-number: 2.1.2
+      uuid: aptp-1-1-0-http-c-alt-2-1-2-000
     tcp-client:
       remote-protocol: http
       ip-address: 127.0.0.1
-      tcp-port: 3029
-      uuid: aptp-1-1-0-tcp-c-alt-2-1-0-000
+      tcp-port: 3036
+      uuid: aptp-1-1-0-tcp-c-alt-2-1-2-000
     operation-clients:
       own-oam:
         basic:
           - operation-name: /v1/update-all-ltps-and-fcs
-            uuid: aptp-1-1-0-op-c-bm-alt-2-1-0-000
+            uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-000
           - operation-name: /v1/update-ltp
-            uuid: aptp-1-1-0-op-c-bm-alt-2-1-0-001
+            uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-001
           - operation-name: /v1/delete-ltp-and-dependents
-            uuid: aptp-1-1-0-op-c-bm-alt-2-1-0-002
+            uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-002
           - operation-name: /v1/update-fc
-            uuid: aptp-1-1-0-op-c-bm-alt-2-1-0-003
+            uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-003
           - operation-name: /v1/update-fc-port
-            uuid: aptp-1-1-0-op-c-bm-alt-2-1-0-004
+            uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-004
           - operation-name: /v1/delete-fc-port
-            uuid: aptp-1-1-0-op-c-bm-alt-2-1-0-005
+            uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-005
         individual:
       service:
         basic:
@@ -250,13 +250,13 @@ clients:
 
   - http-client:
       application-name: OperationKeyManagement
-      release-number: 2.1.0
-      uuid: aptp-1-1-0-http-c-okm-2-1-0-000
+      release-number: 2.1.2
+      uuid: aptp-1-1-0-http-c-okm-2-1-2-000
     tcp-client:
       remote-protocol: http
       ip-address: 127.0.0.1
-      tcp-port: 3030
-      uuid: aptp-1-1-0-tcp-c-okm-2-1-0-000
+      tcp-port: 3037
+      uuid: aptp-1-1-0-tcp-c-okm-2-1-2-000
     operation-clients:
       own-oam:
         basic:
