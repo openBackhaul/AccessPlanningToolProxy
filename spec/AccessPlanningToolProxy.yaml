@@ -3778,7 +3778,7 @@ paths:
                                   currently-operated-pmd: '1000BASE-LX-10-SM'
                                   sfp-transceiver-part-number: 'AXGD-1354-9933'
                                   sfp-transceiver-serial-number: 'AX19240080624'
-                                - interface-name:
+                                - interface-name: 'LAN 1/2/3'
                                   supported-pmd-list:
                                     - 'NOT_YET_DEFINED'
                                   currently-operated-pmd: 'NOT_YET_DEFINED'
