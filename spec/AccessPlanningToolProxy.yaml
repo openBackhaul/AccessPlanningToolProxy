@@ -3263,7 +3263,7 @@ paths:
                                 supported-radio-signal-id-length:
                                   type: integer
                                   description: >
-                                    'If (supportedRadioSignalIdDatatype==INTEGER): Maximum value of the Radio Signal ID supported by the device; 
+                                    'If (supportedRadioSignalIdDatatype==INTEGER): Maximum value of the Radio Signal ID supported by the device;
                                     If (supportedRadioSignalIdDatatype==STRING): Maximum number of letters supported by the device.
                                     From {$RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/supported-radio-signal-id-length}'
                                 configured-transmitted-radio-signal-id:
@@ -5778,7 +5778,7 @@ paths:
                   supported-radio-signal-id-length:
                     type: integer
                     description: >
-                      'If (supportedRadioSignalIdDatatype==INTEGER): Maximum value of the Radio Signal ID supported by the device; 
+                      'If (supportedRadioSignalIdDatatype==INTEGER): Maximum value of the Radio Signal ID supported by the device;
                       If (supportedRadioSignalIdDatatype==STRING): Maximum number of letters supported by the device.
                       From {$RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/supported-radio-signal-id-length'
                   configured-transmitted-radio-signal-id:
@@ -6242,7 +6242,7 @@ paths:
                         example:
                           air-interface-2-0:air-interface-capability:
                             supported-radio-signal-id-datatype: 'air-interface-2-0:RADIO_SIGNAL_ID_DATATYPE_TYPE_INTEGER'
-                            supported-radio-signal-id-length: 255                          
+                            supported-radio-signal-id-length: 255
                             transmission-mode-list:
                               - transmission-mode-name: '0028-4QAM-188/204-1'
                                 channel-bandwidth: 28000
@@ -6556,7 +6556,7 @@ paths:
                   device:
                     equipment-name: 'ASNK-18G'
                     serial-number: '101821827000420'
-                    part-number: 'GE8704-52'  
+                    part-number: 'GE8704-52'
           headers:
             life-cycle-state:
               schema:
