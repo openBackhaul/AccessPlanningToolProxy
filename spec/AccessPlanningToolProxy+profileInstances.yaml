@@ -212,7 +212,7 @@ profile-instances:
     capability:
       string-name: 'RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentInfo'
     configuration:
-      string-value: 'structure%28category%29'
+      string-value: 'structure%28category%29%3Bmanufactured-thing%28equipment-type%28type-name%3Bpart-type-identifier%29%3Bequipment-instance%28serial-number%29%29'
 
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-015'
