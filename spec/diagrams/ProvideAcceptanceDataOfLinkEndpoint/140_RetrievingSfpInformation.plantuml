@@ -9,7 +9,7 @@ participant "LinkVis" as LinkVis
 participant "APTP://v1/provide-acceptance-data-of-link-endpoint" as APTP
 participant "<i>RequestForProvidingAcceptanceDataCauses\nReadingLtpStructure</i>" as LTPs
 participant "MWDI://core-model-1-4:network-control-domain=cache\n/control-construct={mount-name}/logical-termination-point={uuid}\n/ltp-augment-1-0:ltp-augment-pac\n?fields=equipment" as EquipmentUuid
-participant "MWDI://core-model-1-4:network-control-domain=cache\n/control-construct={mount-name}/equipment={uuid}/actual-equipment\n?fields=structure(category)" as EquipmentCategory
+participant "MWDI://core-model-1-4:network-control-domain=cache\n/control-construct={mount-name}/equipment={uuid}/actual-equipment\n?fields=structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier)\n;equipment-instance(serial-number))" as EquipmentCategory
 participant "MWDI://core-model-1-4:network-control-domain=cache\n/control-construct={mount-name}\n/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac\n?fields=original-ltp-name" as WireInterfaceName
 participant "MWDI://core-model-1-4:network-control-domain=cache\n/control-construct={mount-name}\n/logical-termination-point={uuid}/layer-protocol={local-id}\n/wire-interface-2-0:wire-interface-pac/wire-interface-capability\n?fields=supported-pmd-kind-list(pmd-name)" as SupportedPmds
 participant "MWDI://core-model-1-4:network-control-domain=cache\n/control-construct={mount-name}\n/logical-termination-point={uuid}/layer-protocol={local-id}\n/wire-interface-2-0:wire-interface-pac/wire-interface-status\n?fields=pmd-kind-cur" as OperatedPmd
@@ -26,6 +26,12 @@ end note
 
 APTP -> EquipmentUuid: {uuid = WireInterfaceUuid} (apiKeyAuth)
 EquipmentUuid --> APTP: {EquipmentUuid}
+
+note over APTP
+In the following request, keep the response information of those equipment objects where
+EquipmentCategory == core-model-1-4:EQUIPMENT_CATEGORY_SMALL_FORMFACTOR_PLUGGABLE :
+Discard the rest.
+end note
 
 APTP -> EquipmentCategory: {uuid = EquipmentUuid} (apiKeyAuth)
 EquipmentCategory --> APTP: {EquipmentCategory}

@@ -17,7 +17,7 @@ forwardings:
         uuid: aptp-1-1-0-op-s-bm-000
     consequent-requests:
       - client-name: RegistryOffice://v2/register-application
-        uuid: aptp-1-1-0-op-c-bm-ro-2-1-0-000
+        uuid: aptp-1-1-0-op-c-bm-ro-2-1-2-000
 
   - forwarding-name: PromptForRegisteringCausesRegistrationRequest2
     uuid: aptp-1-1-0-op-fc-bm-000
@@ -36,7 +36,7 @@ forwardings:
         uuid: aptp-1-1-0-op-s-bm-000
     consequent-requests:
       - client-name: RegistryOffice://v2/register-application
-        uuid: aptp-1-1-0-op-c-bm-ro-2-1-0-000
+        uuid: aptp-1-1-0-op-c-bm-ro-2-1-2-000
 
   - forwarding-name: PromptForEmbeddingCausesRequestForBequeathingData
     uuid: aptp-1-1-0-op-fc-bm-001
@@ -51,7 +51,7 @@ forwardings:
         uuid: aptp-1-1-0-op-s-bm-001
     consequent-requests:
       - client-name: OldRelease://v1/bequeath-your-data-and-die
-        uuid: aptp-1-1-0-op-c-bm-or-1-0-0-000
+        uuid: aptp-1-1-0-op-c-bm-or-1-0-2-000
 
   - forwarding-name: PromptForEmbeddingCausesCyclicLoadingOfDevicesFromMwdi
     uuid: aptp-1-1-0-op-fc-im-001
@@ -129,15 +129,21 @@ forwardings:
         uuid: aptp-1-1-0-op-s-is-000
       - server-name: /v1/provide-historical-pm-data-of-device
         uuid: aptp-1-1-0-op-s-is-001
+      - server-name: /v1/check-registered-availability-of-device
+        uuid: aptp-1-1-0-op-s-is-002
       - server-name: /v1/provide-configuration-for-livenetview
         uuid: aptp-1-1-0-op-s-is-007
       - server-name: /v1/provide-equipment-info-for-livenetview
         uuid: aptp-1-1-0-op-s-is-008
-
-      ## TODO: All service requests to be complemented
+      - server-name: /v1/provide-alarms-for-livenetview
+        uuid: aptp-1-1-0-op-s-is-009
+      - server-name: /v1/provide-status-for-livenetview
+        uuid: aptp-1-1-0-op-s-is-010
+      - server-name: /v1/update-apt-client
+        uuid: aptp-1-1-0-op-s-is-999
     consequent-requests:
       - client-name: ExecutionAndTraceLog://v1/record-service-request
-        uuid: aptp-1-1-0-op-c-bs-eatl-2-1-0-000
+        uuid: aptp-1-1-0-op-c-bs-eatl-2-1-2-000
 
   - forwarding-name: OamRequestCausesLoggingRequest
     uuid: aptp-1-1-0-op-fc-bm-003
@@ -155,7 +161,7 @@ forwardings:
       # [all oam requests]
     consequent-requests:
       - client-name: OamLog://v1/record-oam-request
-        uuid: aptp-1-1-0-op-c-bs-ol-2-1-0-000
+        uuid: aptp-1-1-0-op-c-bs-ol-2-1-2-000
 
   - forwarding-name: BasicAuthRequestCausesInquiryForAuthentication
     uuid: aptp-1-1-0-op-fc-bm-005
@@ -177,15 +183,7 @@ forwardings:
       # [all oam requests]
     consequent-requests:
       - client-name: AccessAdministration://v1/approve-basic-auth-request
-        uuid: aptp-1-1-0-op-c-bs-aa-2-1-0-000
-
-## TODO: Potentially add Forwardings for configuring INDIVIDUAL subscriptions on NewRelease
-
-## TODO: Add Forwardings for transferring data to NewRelease
-
-## TODO: Potentially add Forwardings for creating INDIVIDUAL subscriptions to NewRelease
-
-## TODO: Potentially add Forwardings for ending INDIVIDUAL subscriptions to OldRelease
+        uuid: aptp-1-1-0-op-c-bs-aa-2-1-2-000
 
   - forwarding-name: PromptForBequeathingDataCausesRequestForBroadcastingInfoAboutServerReplacement
     uuid: aptp-1-1-0-op-fc-bm-105
@@ -204,7 +202,7 @@ forwardings:
         uuid: aptp-1-1-0-op-s-im-000
     consequent-requests:
       - client-name: RegistryOffice://v1/relay-server-replacement
-        uuid: aptp-1-1-0-op-c-bm-ro-2-1-0-001
+        uuid: aptp-1-1-0-op-c-bm-ro-2-1-2-001
 
   - forwarding-name: PromptForBequeathingDataCausesRequestForDeregisteringOfOldRelease
     uuid: aptp-1-1-0-op-fc-bm-106
@@ -223,7 +221,7 @@ forwardings:
         uuid: aptp-1-1-0-op-s-im-000
     consequent-requests:
       - client-name: RegistryOffice://v1/deregister-application
-        uuid: aptp-1-1-0-op-c-bm-ro-2-1-0-002
+        uuid: aptp-1-1-0-op-c-bm-ro-2-1-2-002
 
   - forwarding-name: PromptingNewReleaseForUpdatingServerCausesRequestForBroadcastingInfoAboutBackwardCompatibleUpdateOfOperation
     uuid: aptp-1-1-0-op-fc-bm-107
@@ -242,7 +240,7 @@ forwardings:
         uuid: aptp-1-1-0-op-s-bm-007
     consequent-requests:
       - client-name: RegistryOffice://v1/relay-operation-update
-        uuid: aptp-1-1-0-op-c-bm-ro-2-1-0-003
+        uuid: aptp-1-1-0-op-c-bm-ro-2-1-2-003
 
   - forwarding-name: ServiceRequestCausesLtpUpdateRequest
     uuid: aptp-1-1-0-op-fc-bm-006
@@ -279,10 +277,10 @@ forwardings:
         uuid: aptp-1-1-0-op-s-bm-015
       - server-name: /v1/bequeath-your-data-and-die
         uuid: aptp-1-1-0-op-s-im-000
-      ## TODO: All INDIVIDUAL service requests, which are updating an LTP, to be complemented
+
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-ltp
-        uuid: aptp-1-1-0-op-c-bm-alt-2-1-0-001
+        uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-001
 
   - forwarding-name: ServiceRequestCausesLtpDeletionRequest
     uuid: aptp-1-1-0-op-fc-bm-007
@@ -299,10 +297,10 @@ forwardings:
     initiating-requests:
       - server-name: /v1/dispose-remainders-of-deregistered-application
         uuid: aptp-1-1-0-op-s-bm-013
-      ## TODO: All INDIVIDUAL service requests, which are deleting an LTP, to be complemented
+
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/delete-ltp-and-dependents
-        uuid: aptp-1-1-0-op-c-bm-alt-2-1-0-002
+        uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-002
 
   - forwarding-name: ServiceRequestCausesFcUpdateRequest
     uuid: aptp-1-1-0-op-fc-bm-008
@@ -317,10 +315,10 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      ## TODO: All INDIVIDUAL service requests, which are updating an FC, to be complemented
+
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-fc
-        uuid: aptp-1-1-0-op-c-bm-alt-2-1-0-003
+        uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-003
 
   - forwarding-name: ServiceRequestCausesFcPortUpdateRequest
     uuid: aptp-1-1-0-op-fc-bm-009
@@ -335,10 +333,10 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      ## TODO: All INDIVIDUAL service requests, which are updating an FC-Port, to be complemented
+
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-fc-port
-        uuid: aptp-1-1-0-op-c-bm-alt-2-1-0-004
+        uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-004
 
   - forwarding-name: ServiceRequestCausesFcPortDeletionRequest
     uuid: aptp-1-1-0-op-fc-bm-010
@@ -355,10 +353,10 @@ forwardings:
     initiating-requests:
       - server-name: /v1/end-subscription
         uuid: aptp-1-1-0-op-s-bm-004
-      ## TODO: All INDIVIDUAL service requests, which are deleting an FC-Port, to be complemented
+
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/delete-fc-port
-        uuid: aptp-1-1-0-op-c-bm-alt-2-1-0-005
+        uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-005
 
   - forwarding-name: OamRequestCausesLtpUpdateRequest
     uuid: aptp-1-1-0-op-fc-bm-011
@@ -375,7 +373,7 @@ forwardings:
     initiating-requests:
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-ltp
-        uuid: aptp-1-1-0-op-c-bm-alt-2-1-0-001
+        uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-001
 
   - forwarding-name: OamRequestCausesLtpDeletionRequest
     uuid: aptp-1-1-0-op-fc-bm-012
@@ -392,7 +390,7 @@ forwardings:
     initiating-requests:
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/delete-ltp-and-dependents
-        uuid: aptp-1-1-0-op-c-bm-alt-2-1-0-002
+        uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-002
 
   - forwarding-name: OamRequestCausesFcUpdateRequest
     uuid: aptp-1-1-0-op-fc-bm-013
@@ -409,7 +407,7 @@ forwardings:
     initiating-requests:
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-fc
-        uuid: aptp-1-1-0-op-c-bm-alt-2-1-0-003
+        uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-003
 
   - forwarding-name: OamRequestCausesFcPortUpdateRequest
     uuid: aptp-1-1-0-op-fc-bm-014
@@ -426,7 +424,7 @@ forwardings:
     initiating-requests:
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-fc-port
-        uuid: aptp-1-1-0-op-c-bm-alt-2-1-0-004
+        uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-004
 
   - forwarding-name: OamRequestCausesFcPortDeletionRequest
     uuid: aptp-1-1-0-op-fc-bm-015
@@ -443,9 +441,7 @@ forwardings:
     initiating-requests:
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/delete-fc-port
-        uuid: aptp-1-1-0-op-c-bm-alt-2-1-0-005
-
-  ## TODO: Potential INDIVIDUAL Forwardings to be added
+        uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-005
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesReadingLtpStructure
     uuid: aptp-1-1-0-op-fc-is-100
@@ -657,7 +653,7 @@ forwardings:
       - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-201
 
-  - forwarding-name: RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentCategory
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentInfo
     uuid: aptp-1-1-0-op-fc-is-141
     forwarding-type: InvariantProcessSnippet
     management-requests:
@@ -669,7 +665,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment?fields=structure(category)
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment?fields=structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier);equipment-instance(serial-number))
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-114
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.WireInterfaceName
@@ -881,7 +877,7 @@ forwardings:
         uuid: aptp-1-1-0-op-s-is-001
     consequent-requests:
       - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=(original-ltp-name;external-label)
-        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-2
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-201
 
   - forwarding-name: RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache
     uuid: aptp-1-1-0-op-fc-is-230
@@ -1002,6 +998,21 @@ forwardings:
     consequent-requests:
       - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-211
+
+  - forwarding-name: RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache
+    uuid: aptp-1-1-0-op-fc-is-303
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-configuration-for-livenetview
+        uuid: aptp-1-1-0-op-s-is-007
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-210
 
 
   - forwarding-name: RequestForProvidingEquipmentInfoForLivenetviewCausesReadingLtpStructure

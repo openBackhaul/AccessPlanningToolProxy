@@ -114,7 +114,7 @@ profile-instances:
     capability:
       string-name: 'RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure'
     configuration:
-      string-value: 'logical-termination-point(uuid;server-ltp;client-ltp;layer-protocol(local-id;layer-protocol-name))'
+      string-value: 'logical-termination-point%28uuid%3Bserver-ltp%3Bclient-ltp%3Blayer-protocol%28local-id%3Blayer-protocol-name%29%29'
 
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-001'
@@ -142,14 +142,14 @@ profile-instances:
     capability:
       string-name: 'RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive.StatusFromLive'
     configuration:
-      string-value: 'tx-level-cur;rx-level-cur;transmission-mode-cur;rx-frequency-cur;tx-frequency-cur;xpd-cur;snir-cur'
+      string-value: 'tx-level-cur%3Brx-level-cur%3Btransmission-mode-cur%3Brx-frequency-cur%3Btx-frequency-cur%3Bxpd-cur%3Bsnir-cur'
 
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-005'
     capability:
       string-name: 'RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation.LtpDesignation'
     configuration:
-      string-value: 'original-ltp-name;external-label'
+      string-value: 'original-ltp-name%3Bexternal-label'
 
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-006'
@@ -210,9 +210,9 @@ profile-instances:
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-014'
     capability:
-      string-name: 'RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentCategory'
+      string-name: 'RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentInfo'
     configuration:
-      string-value: 'structure(category)'
+      string-value: 'structure%28category%29%3Bmanufactured-thing%28equipment-type%28type-name%3Bpart-type-identifier%29%3Bequipment-instance%28serial-number%29%29'
 
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-015'
@@ -226,7 +226,7 @@ profile-instances:
     capability:
       string-name: 'RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.SupportedPmds'
     configuration:
-      string-value: 'supported-pmd-kind-list(pmd-name)'
+      string-value: 'supported-pmd-kind-list%28pmd-name%29'
 
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-017'
@@ -247,35 +247,35 @@ profile-instances:
     capability:
       string-name: 'RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory'
     configuration:
-      string-value: 'structure(category)'
+      string-value: 'structure%28category%29'
 
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-022'
     capability:
       string-name: 'RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.HolderLabel'
     configuration:
-      string-value: 'equipment(contained-holder(occupying-fru;equipment-augment-1-0:holder-pac(vendor-label)))'
+      string-value: 'uuid%3Bequipment%28contained-holder%28occupying-fru%3Bequipment-augment-1-0%3Aholder-pac%28vendor-label%29%29%29'
 
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-023'
     capability:
       string-name: 'RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorId'
     configuration:
-      string-value: 'equipment;connector'
+      string-value: 'equipment%3Bconnector'
 
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-024'
     capability:
       string-name: 'RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorNumber'
     configuration:
-      string-value: 'equipment-augment-1-0:connector-pac(sequence-id)'
+      string-value: 'equipment-augment-1-0%3Aconnector-pac%28sequence-id%29'
 
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-025'
     capability:
       string-name: 'RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.EquipmentInfo'
     configuration:
-      string-value: 'structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier);equipment-instance(serial-number))'
+      string-value: 'structure%28category%29%3Bmanufactured-thing%28equipment-type%28type-name%3Bpart-type-identifier%29%3Bequipment-instance%28serial-number%29%29'
 
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-026'
@@ -289,21 +289,21 @@ profile-instances:
     capability:
       string-name: 'RequestForProvidingHistoricalPmDataCausesReadingLtpStructure.LtpStructure'
     configuration:
-      string-value: 'logical-termination-point(uuid;server-ltp;client-ltp;layer-protocol(local-id;layer-protocol-name))'
+      string-value: 'logical-termination-point%28uuid%3Bserver-ltp%3Bclient-ltp%3Blayer-protocol%28local-id%3Blayer-protocol-name%29%29'
 
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-041'
     capability:
       string-name: 'RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInterfaces.LtpDesignation'
     configuration:
-      string-value: 'original-ltp-name;external-label'
+      string-value: 'original-ltp-name%3Bexternal-label'
 
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-042'
     capability:
       string-name: 'RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregations.LtpDesignation'
     configuration:
-      string-value: 'original-ltp-name;external-label'
+      string-value: 'original-ltp-name%3Bexternal-label'
 
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-043'
@@ -338,7 +338,7 @@ profile-instances:
     capability:
       string-name: 'RequestForProvidingConfigurationForLivenetviewCausesReadingLtpStructure.LtpStructure'
     configuration:
-      string-value: 'logical-termination-point(uuid;layer-protocol(local-id;layer-protocol-name))'
+      string-value: 'logical-termination-point%28uuid%3Blayer-protocol%28local-id%3Blayer-protocol-name%29%29'
 
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-061'
@@ -350,68 +350,75 @@ profile-instances:
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-062'
     capability:
-      string-name: 'RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.AirInterfaceConfigurationFromCache'
+      string-name: 'RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache'
     configuration:
       string-value: ''
 
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-063'
     capability:
-      string-name: 'RequestForProvidingEquipmentInfoForLivenetviewCausesReadingLtpStructure.LtpStructure'
+      string-name: 'RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.AirInterfaceConfigurationFromCache'
     configuration:
-      string-value: 'logical-termination-point(uuid;layer-protocol(local-id;layer-protocol-name))'
+      string-value: ''
 
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-064'
+    capability:
+      string-name: 'RequestForProvidingEquipmentInfoForLivenetviewCausesReadingLtpStructure.LtpStructure'
+    configuration:
+      string-value: 'logical-termination-point%28uuid%3Blayer-protocol%28local-id%3Blayer-protocol-name%29%29'
+
+  - profile-name: 'StringProfile'
+    uuid: 'aptp-1-1-0-string-p-065'
     capability:
       string-name: 'RequestForProvidingEquipmentInfoForLivenetviewCausesDeterminingAirInterfaceUnderTest.AirInterfaceLabel'
     configuration:
       string-value: 'external-label'
 
   - profile-name: 'StringProfile'
-    uuid: 'aptp-1-1-0-string-p-065'
+    uuid: 'aptp-1-1-0-string-p-066'
     capability:
       string-name: 'RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentUuid'
     configuration:
       string-value: 'equipment'
 
   - profile-name: 'StringProfile'
-    uuid: 'aptp-1-1-0-string-p-066'
+    uuid: 'aptp-1-1-0-string-p-067'
     capability:
       string-name: 'RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo'
     configuration:
-      string-value: 'structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier);equipment-instance(serial-number))'
+      string-value: 'structure%28category%29%3Bmanufactured-thing%28equipment-type%28type-name%3Bpart-type-identifier%29%3Bequipment-instance%28serial-number%29%29'
 
   - profile-name: 'StringProfile'
-    uuid: 'aptp-1-1-0-string-p-067'
+    uuid: 'aptp-1-1-0-string-p-068'
     capability:
       string-name: 'RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromLive.AlarmsFromLive'
     configuration:
       string-value: ''
 
   - profile-name: 'StringProfile'
-    uuid: 'aptp-1-1-0-string-p-068'
+    uuid: 'aptp-1-1-0-string-p-069'
     capability:
       string-name: 'RequestForProvidingStatusForLivenetviewCausesReadingLtpStructure.LtpStructure'
     configuration:
-      string-value: 'logical-termination-point(uuid;layer-protocol(local-id;layer-protocol-name))'
-
-  - profile-name: 'StringProfile'
-    uuid: 'aptp-1-1-0-string-p-069'
-    capability:
-      string-name: 'RequestForProvidingStatusForLivenetviewCausesDeterminingAirInterfaceUnderTest..AirInterfaceLabel'
-    configuration:
-      string-value: 'external-label'
+      string-value: 'logical-termination-point%28uuid%3Blayer-protocol%28local-id%3Blayer-protocol-name%29%29'
 
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-070'
     capability:
-      string-name: 'RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive.DedicatedStatusValuesFromLive'
+      string-name: 'RequestForProvidingStatusForLivenetviewCausesDeterminingAirInterfaceUnderTest.AirInterfaceLabel'
     configuration:
-      string-value: 'tx-level-cur;rx-level-cur;transmission-mode-cur;rx-frequency-cur;tx-frequency-cur'
+      string-value: 'external-label'
 
   - profile-name: 'StringProfile'
-    uuid: 'aptp-1-1-0-string-p-1'
+    uuid: 'aptp-1-1-0-string-p-071'
+    capability:
+      string-name: 'RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive.DedicatedStatusValuesFromLive'
+    configuration:
+      string-value: 'tx-level-cur%3Brx-level-cur%3Btransmission-mode-cur%3Brx-frequency-cur%3Btx-frequency-cur'
+
+  - profile-name: 'StringProfile'
+    uuid: 'aptp-1-1-0-string-p-072'
     capability:
       string-name: 'RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache'
     configuration:
