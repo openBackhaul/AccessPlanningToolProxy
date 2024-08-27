@@ -185,8 +185,6 @@ forwardings:
       - client-name: AccessAdministration://v1/approve-basic-auth-request
         uuid: aptp-1-1-0-op-c-bs-aa-2-1-2-000
 
-
-
   - forwarding-name: PromptForBequeathingDataCausesRequestForBroadcastingInfoAboutServerReplacement
     uuid: aptp-1-1-0-op-fc-bm-105
     forwarding-type: InvariantProcessSnippet
@@ -335,7 +333,7 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-   
+
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-fc-port
         uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-004
@@ -355,7 +353,7 @@ forwardings:
     initiating-requests:
       - server-name: /v1/end-subscription
         uuid: aptp-1-1-0-op-s-bm-004
-  
+
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/delete-fc-port
         uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-005
@@ -444,8 +442,6 @@ forwardings:
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/delete-fc-port
         uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-005
-
-
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesReadingLtpStructure
     uuid: aptp-1-1-0-op-fc-is-100
