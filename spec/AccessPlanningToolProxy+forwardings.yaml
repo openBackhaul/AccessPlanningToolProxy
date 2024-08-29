@@ -277,7 +277,6 @@ forwardings:
         uuid: aptp-1-1-0-op-s-bm-015
       - server-name: /v1/bequeath-your-data-and-die
         uuid: aptp-1-1-0-op-s-im-000
-
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-ltp
         uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-001
@@ -297,7 +296,6 @@ forwardings:
     initiating-requests:
       - server-name: /v1/dispose-remainders-of-deregistered-application
         uuid: aptp-1-1-0-op-s-bm-013
-
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/delete-ltp-and-dependents
         uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-002
@@ -315,7 +313,6 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-fc
         uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-003
@@ -333,7 +330,6 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-fc-port
         uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-004

@@ -1673,7 +1673,8 @@
         "client-ltp": [
         ],
         "server-ltp": [
-          "aptp-1-1-0-http-c-or-1-0-2-000"        ],
+          "aptp-1-1-0-http-c-or-1-0-2-000"
+        ],
         "layer-protocol": [
           {
             "local-id": "0",
@@ -1740,12 +1741,12 @@
         ]
       },
       {
-        "uuid": "aptp-1-1-0-http-c-nr-1-0-0-000",
+        "uuid": "aptp-1-1-0-http-c-nr-1-1-0-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "aptp-1-1-0-tcp-c-nr-1-0-0-000"
+          "aptp-1-1-0-tcp-c-nr-1-1-0-000"
         ],
         "layer-protocol": [
           {
@@ -1761,10 +1762,10 @@
         ]
       },
       {
-        "uuid": "aptp-1-1-0-tcp-c-nr-1-0-0-000",
+        "uuid": "aptp-1-1-0-tcp-c-nr-1-1-0-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "aptp-1-1-0-http-c-nr-1-0-0-000"
+          "aptp-1-1-0-http-c-nr-1-1-0-000"
         ],
         "server-ltp": [
         ],
@@ -2145,7 +2146,7 @@
             "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
             "operation-client-interface-1-0:operation-client-interface-pac": {
               "operation-client-interface-configuration": {
-                "operation-name": "/v1/approve-oam-request",
+                "operation-name": "/v1/approve-basic-auth-request",
                 "operation-key": "Operation key not yet provided."
               },
               "operation-client-interface-status": {
@@ -2942,10 +2943,108 @@
               }
             }
           ]
+        },
+        {
+          "uuid": "aptp-1-1-0-op-c-is-apt-24-5-0-000",
+          "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+          "client-ltp": [
+          ],
+          "server-ltp": [
+            "aptp-1-1-0-http-c-apt-24-5-0-000"
+          ],
+          "layer-protocol": [
+            {
+              "local-id": "0",
+              "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+              "operation-client-interface-1-0:operation-client-interface-pac": {
+                "operation-client-interface-configuration": {
+                  "operation-name": "/v1/receive-acceptance-data-of-link-endpoint",
+                  "operation-key": "Operation key not yet provided."
+                },
+                "operation-client-interface-status": {
+                  "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                  "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "uuid": "aptp-1-1-0-op-c-is-apt-24-5-0-001",
+          "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+          "client-ltp": [
+          ],
+          "server-ltp": [
+            "aptp-1-1-0-http-c-apt-24-5-0-000"
+          ],
+          "layer-protocol": [
+            {
+              "local-id": "0",
+              "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+              "operation-client-interface-1-0:operation-client-interface-pac": {
+                "operation-client-interface-configuration": {
+                  "operation-name": "/v1/receive-historical-pm-data-of-device",
+                  "operation-key": "Operation key not yet provided."
+                },
+                "operation-client-interface-status": {
+                  "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                  "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "uuid": "aptp-1-1-0-http-c-apt-24-5-0-000",
+          "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+          "client-ltp": [
+            "aptp-1-1-0-op-c-is-apt-24-5-0-000",
+            "aptp-1-1-0-op-c-is-apt-24-5-0-001"
+          ],
+          "server-ltp": [
+              "aptp-1-1-0-tcp-c-apt-24-5-0-000"
+          ],
+          "layer-protocol": [
+            {
+              "local-id": "0",
+              "layer-protocol-name": "http-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER",
+              "http-client-interface-1-0:http-client-interface-pac": {
+                "http-client-interface-configuration": {
+                  "application-name": "AccessPlanningTool",
+                  "release-number": "24.5.0"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "uuid": "aptp-1-1-0-tcp-c-apt-24-5-0-000",
+          "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+          "client-ltp": [
+              "aptp-1-1-0-http-c-apt-24-5-0-000"
+          ],
+          "server-ltp": [
+          ],
+          "layer-protocol": [
+            {
+              "local-id": "0",
+              "layer-protocol-name": "tcp-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER",
+              "tcp-client-interface-1-0:tcp-client-interface-pac": {
+                "tcp-client-interface-configuration": {
+                  "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
+                  "remote-address": {
+                    "ip-address": {
+                      "ipv-4-address": "127.0.0.1"
+                    }
+                  },
+                  "remote-port": 5001
+                }
+              }
+            }
+          ]
         }
     ],
     "forwarding-domain": [
-
       {
         "uuid": "aptp-1-1-0-op-fd-000",
         "forwarding-construct": [
@@ -3030,7 +3129,7 @@
               {
                 "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "aptp-1-1-0-op-c-bm-or-1-0-0-000"
+                "logical-termination-point": "aptp-1-1-0-op-c-bm-or-1-0-2-000"
               }
             ]
           },
@@ -3055,7 +3154,7 @@
               {
                 "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "aptp-1-1-0-op-c-bm-or-1-0-0-000"
+                "logical-termination-point": "aptp-1-1-0-op-c-bm-or-1-0-2-000"
               }
             ]
           },

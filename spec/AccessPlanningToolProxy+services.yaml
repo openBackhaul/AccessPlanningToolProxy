@@ -85,7 +85,7 @@ servers:
 clients:
 
   - http-client:
-      application-name: OldRelease
+      application-name: AutomatedLinkAcceptanceProxy
       release-number:
       uuid: aptp-1-1-0-http-c-or-1-0-2-000
     tcp-client:
@@ -105,13 +105,13 @@ clients:
 
   - http-client:
       application-name: NewRelease
-      release-number:
-      uuid: aptp-1-1-0-http-c-nr-1-0-0-000
+      release-number: 1.1.0
+      uuid: aptp-1-1-0-http-c-nr-1-1-0-000
     tcp-client:
       remote-protocol: http
       ip-address: 127.0.0.1
       tcp-port: 4020
-      uuid: aptp-1-1-0-tcp-c-nr-1-0-0-000
+      uuid: aptp-1-1-0-tcp-c-nr-1-1-0-000
     operation-clients:
       own-oam:
         basic:
@@ -328,12 +328,12 @@ clients:
   - http-client:
       application-name: AccessPlanningTool
       release-number: 24.5.0
-      uuid: aptp-1-1-0-http-c-apt-24-05-0-000
+      uuid: aptp-1-1-0-http-c-apt-24-5-0-000
     tcp-client:
       remote-protocol: http
       ip-address: 127.0.0.1
       tcp-port: 5001
-      uuid: aptp-1-1-0-tcp-c-apt-24-05-0-000
+      uuid: aptp-1-1-0-tcp-c-apt-24-5-0-000
     operation-clients:
       own-oam:
         basic:

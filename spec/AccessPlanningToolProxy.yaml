@@ -65,13 +65,13 @@ paths:
                   type: string
                   description: >
                     'Name of application that shall be target of the handover process
-                    update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-http-c-nr-1-0-0-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
+                    update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-http-c-nr-1-1-0-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
                 new-application-release:
                   type: string
                   pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
                   description: >
                     'Release of application that shall be target of the handover process
-                    update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-http-c-nr-1-0-0-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
+                    update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-http-c-nr-1-1-0-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
                 new-application-protocol:
                   type: string
                   enum:
@@ -79,7 +79,7 @@ paths:
                     - 'HTTPS'
                   description: >
                     'Protocol to be used for addressing the application that shall be target of the handover process
-                    update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
+                    update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-nr-1-1-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
                 new-application-address:
                   type: object
                   minProperties: 1
@@ -96,20 +96,20 @@ paths:
                           pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
                           description: >
                             'IPv4 address of application that shall be target of the handover process
-                            update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
+                            update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-nr-1-1-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
                     domain-name:
                       type: string
                       pattern: '^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$'
                       description: >
                         'Domain name of application that shall be target of the handover process
-                        update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
+                        update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-nr-1-1-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
                 new-application-port:
                   type: integer
                   minimum: 0
                   maximum: 65535
                   description: >
                     'Port of application that shall be target of the handover process
-                    update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
+                    update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-nr-1-1-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
               example:
                 new-application-name: 'NewApplicationName'
                 new-application-release: '32.6.3'
@@ -202,17 +202,17 @@ paths:
                           type: string
                           description: >
                             'Future name of the application that has updated connection data
-                            from [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-http-c-nr-1-0-0-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
+                            from [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-http-c-nr-1-1-0-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
                         future-release-number:
                           type: string
                           description: >
                             'Future release number of the application that has updated connection data
-                            from [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-http-c-nr-1-0-0-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
+                            from [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-http-c-nr-1-1-0-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
                         future-protocol:
                           type: string
                           description: >
                             'Protocol to be used in future for addressing the application that has updated connection data
-                            from [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
+                            from [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-nr-1-1-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
                         future-address:
                           type: object
                           properties:
@@ -223,17 +223,17 @@ paths:
                                   type: string
                                   description: >
                                     'Future IPv4 address of the application that has updated connection data
-                                    from [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
+                                    from [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-nr-1-1-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
                             domain-name:
                               type: string
                               description: >
                                 'Future domain name of the application that has updated connection data
-                                from [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
+                                from [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-nr-1-1-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
                         future-port:
                           type: integer
                           description: >
                             'Future port of the application that has updated connection data
-                            from [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
+                            from [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-nr-1-1-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
               responses:
                 '204':
                   description: 'Will broadcast server replacement'
@@ -483,7 +483,7 @@ paths:
                     type: string
                     description: 'Identifier of the request for providing acceptance data of link endpoint'
                 example:
-                  request-id: '305251234-101120-1400'
+                  request-id: '513250010-513550010-240829-1050'
           headers:
             life-cycle-state:
               schema:
@@ -3214,7 +3214,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
         RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData:
-          Response: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-05-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-05-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-05-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-05-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-apt-24-5-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          Response: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-apt-24-5-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
               requestBody:
                 content:
@@ -3826,8 +3826,23 @@ paths:
                               type: string
                               enum:
                                 - 'Bad Gateway. The upstream server (MicrowveDeviceInventory) is unavailable'
+                        - description: 'Data invalid. Response data not available, incomplete or corrupted'
+                          type: object
+                          required:
+                            - code
+                            - message
+                          properties:
+                            code:
+                              type: integer
+                              minimum: 530
+                              maximum: 530
+                              format: int32
+                            message:
+                              type: string
+                              enum:
+                                - 'Data invalid. Response data not available, incomplete or corrupted'
               responses:
-                '200':
+                '204':
                   description: 'Acceptance data of link endpoint received'
                   headers:
                     life-cycle-state:
@@ -3878,7 +3893,7 @@ paths:
                   format: date-time
                   description: 'Time when the counter values were recorded and the counter reset. Corresponds to the most recent performance measurement of the device, which has been logged outside the MW SDN Domain'
               example:
-                mount-name: '513250010'
+                mount-name: '305251111'
                 time-stamp: '2024-02-12T00:45:00+01:00'
       responses:
         '202':
@@ -3892,7 +3907,7 @@ paths:
                     type: string
                     description: 'Identifier of the request for providing historical performance data of device'
                 example:
-                  request-id: '305251234-101120-1490'
+                  request-id: '305251111-240212-1055'
           headers:
             life-cycle-state:
               schema:
@@ -4881,7 +4896,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
         RequestForProvidingHistoricalPmDataCausesDeliveringRequestedHistoricalPmData:
-          Response: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-05-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-05-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-05-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-05-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-apt-24-5-0-001/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          Response: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-apt-24-5-0-001/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
               requestBody:
                 content:
@@ -5630,8 +5645,23 @@ paths:
                               type: string
                               enum:
                                 - 'Bad Gateway. The upstream server (MicrowveDeviceInventory) is unavailable'
+                        - description: 'Data invalid. Response data not available, incomplete or corrupted'
+                          type: object
+                          required:
+                            - code
+                            - message
+                          properties:
+                            code:
+                              type: integer
+                              minimum: 530
+                              maximum: 530
+                              format: int32
+                            message:
+                              type: string
+                              enum:
+                                - 'Data invalid. Response data not available, incomplete or corrupted'
               responses:
-                '200':
+                '204':
                   description: 'Acceptance data of link endpoint received'
                   headers:
                     life-cycle-state:
@@ -5719,6 +5749,10 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+        default:
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
 
   /v1/provide-configuration-for-livenetview:
     post:
@@ -5935,6 +5969,8 @@ paths:
           $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
         default:
           $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
       callbacks:
@@ -6601,6 +6637,8 @@ paths:
                 find in [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-is-007/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '502':
           $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
         default:
           $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
       callbacks:
@@ -7103,6 +7141,8 @@ paths:
           $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
         default:
           $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
       callbacks:
@@ -7639,7 +7679,6 @@ paths:
               description: >
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-is-009/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-
         '400':
           $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
         '401':
@@ -7654,6 +7693,8 @@ paths:
           $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
       callbacks:
         RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromLive:
           AlarmsFromLive: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-mwdi-1-1-2-407/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
@@ -7788,7 +7829,7 @@ paths:
                     - 'HTTPS'
                   description: >
                     'Protocol to be used in future for addressing the AccessPlanningTool
-                    update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-05-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
+                    update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
                 future-apt-address:
                   type: object
                   minProperties: 1
@@ -7805,14 +7846,14 @@ paths:
                           pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
                           description: >
                             'Future IPv4 address of the AccessPlanningTool
-                            update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-05-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
+                            update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
                 future-apt-port:
                   type: integer
                   minimum: 0
                   maximum: 65535
                   description: >
                     'Future port of the AccessPlanningTool
-                    update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-05-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
+                    update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
                 future-acceptance-data-receive-operation:
                   type: string
                   description: >
@@ -7862,6 +7903,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
+
 ########################################################################################################################
 #   Service Layer - Basic Part
 ########################################################################################################################
@@ -8545,7 +8587,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         PromptForEmbeddingCausesRequestForBequeathingData:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-or-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-or-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-or-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-bm-or-1-0-2-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-or-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-or-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-or-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-or-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-bm-or-1-0-2-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -8874,6 +8916,7 @@ paths:
                         - release-number
                         - operation-name
                         - response-code
+                        - timestamp
                       properties:
                         x-correlator:
                           type: string
@@ -10837,7 +10880,7 @@ paths:
               properties:
                 operation-uuid:
                   type: string
-                  pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-op-([sc])-([bi][ms])((-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})){0,1})-([0-9]{3})$'
+                  pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-op-([sc])(-(get|put|post|del|pat))?-([bi][ms])((-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})){0,1})-([0-9]{3})$'
                   description: >
                     'UUID of LTP that is target of the updating of the operation key
                     find [/core-model-1-4:control-construct/logical-termination-point=uuid]'
@@ -11420,13 +11463,13 @@ paths:
                   type: string
                   description: >
                     'Name of the application that is target of the bequeath-your-data-and-die process
-                    update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-http-c-nr-1-0-0-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
+                    update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-http-c-nr-1-1-0-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
                 release-number:
                   type: string
                   pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
                   description: >
                     'Release of the application that is target of the bequeath-your-data-and-die process
-                    update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-http-c-nr-1-0-0-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
+                    update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-http-c-nr-1-1-0-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
                 protocol:
                   type: string
                   enum:
@@ -11434,7 +11477,7 @@ paths:
                     - 'HTTPS'
                   description: >
                     'Protocol to be used during the bequeath-your-data-and-die process
-                    update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
+                    update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-nr-1-1-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
                 address:
                   type: object
                   minProperties: 1
@@ -11451,20 +11494,20 @@ paths:
                           pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
                           description: >
                             'IPv4 address to be used during the bequeath-your-data-and-die process
-                            update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
+                            update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-nr-1-1-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
                     domain-name:
                       type: string
                       pattern: '^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$'
                       description: >
                         'Domain name to be used during the bequeath-your-data-and-die process
-                        update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
+                        update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-nr-1-1-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
                 port:
                   type: integer
                   minimum: 0
                   maximum: 65535
                   description: >
                     'Port to be used during the bequeath-your-data-and-die process
-                    update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
+                    update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-nr-1-1-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
               example:
                 application-name: 'ApplicationNameOfNewRelease'
                 release-number: '17.1.2'
@@ -13901,250 +13944,6 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredOamRequests'
 
-  /core-model-1-4:control-construct/profile-collection/profile={uuid}/file-profile-1-0:file-profile-pac/file-profile-capability/file-identifier:
-    parameters:
-      - in: path
-        name: uuid
-        required: true
-        schema:
-          type: string
-          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-file-p-([0-9]{3})$'
-          example: 'xy-15-3-2-file-p-000'
-    get:
-      operationId: getFileProfileFileIdentifier
-      summary: 'Returns the identifier of the file'
-      tags:
-        - FileProfile
-      security:
-        - basicAuth: []
-      responses:
-        '200':
-          description: 'File identifier provided'
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - file-profile-1-0:file-identifier
-                properties:
-                  file-profile-1-0:file-identifier:
-                    type: string
-                    example: 'applicationData'
-        '400':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredOamRequests'
-  /core-model-1-4:control-construct/profile-collection/profile={uuid}/file-profile-1-0:file-profile-pac/file-profile-capability/file-description:
-    parameters:
-      - in: path
-        name: uuid
-        required: true
-        schema:
-          type: string
-          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-file-p-([0-9]{3})$'
-          example: 'xy-15-3-2-file-p-000'
-    get:
-      operationId: getFileProfileFileDescription
-      summary: 'Returns the description of the file'
-      tags:
-        - FileProfile
-      security:
-        - basicAuth: []
-      responses:
-        '200':
-          description: 'File description provided'
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - file-profile-1-0:file-description
-                properties:
-                  file-profile-1-0:file-description:
-                    type: string
-                    example: 'Holds administrator-names, user-names, authorization codes and allowed-methods.'
-        '400':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredOamRequests'
-  /core-model-1-4:control-construct/profile-collection/profile={uuid}/file-profile-1-0:file-profile-pac/file-profile-configuration/file-name:
-    parameters:
-      - in: path
-        name: uuid
-        required: true
-        schema:
-          type: string
-          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-file-p-([0-9]{3})$'
-          example: 'xy-15-3-2-file-p-000'
-    get:
-      operationId: getFileProfileFileName
-      summary: 'Returns the name of the file'
-      tags:
-        - FileProfile
-      security:
-        - basicAuth: []
-      responses:
-        '200':
-          description: 'File name provided'
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - file-profile-1-0:file-name
-                properties:
-                  file-profile-1-0:file-name:
-                    type: string
-                    example: 'application-data.json'
-        '400':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredOamRequests'
-    put:
-      operationId: putFileProfileFileName
-      summary: 'Configures name of the file'
-      tags:
-        - FileProfile
-      security:
-        - basicAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - file-profile-1-0:file-name
-              properties:
-                file-profile-1-0:file-name:
-                  type: string
-                  pattern: '^([A-Za-z0-9-_,\s]{3,})\.([A-Za-z]{3,})$'
-                  example: 'application-data.json'
-      responses:
-        '204':
-          description: 'File name configured'
-        '400':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredOamRequests'
-  /core-model-1-4:control-construct/profile-collection/profile={uuid}/file-profile-1-0:file-profile-pac/file-profile-configuration/operation:
-    parameters:
-      - in: path
-        name: uuid
-        required: true
-        schema:
-          type: string
-          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-file-p-([0-9]{3})$'
-          example: 'xy-15-3-2-file-p-000'
-    get:
-      operationId: getFileProfileOperation
-      summary: 'Returns the allowed operation on the file'
-      tags:
-        - FileProfile
-      security:
-        - basicAuth: []
-      responses:
-        '200':
-          description: 'Operation provided'
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - file-profile-1-0:operation
-                properties:
-                  file-profile-1-0:operation:
-                    type: string
-                    enum:
-                      - 'file-profile-1-0:OPERATION_TYPE_READ_ONLY'
-                      - 'file-profile-1-0:OPERATION_TYPE_READ_WRITE'
-                      - 'file-profile-1-0:OPERATION_TYPE_OFF'
-                      - 'file-profile-1-0:OPERATION_TYPE_NOT_YET_DEFINED'
-                    example: 'file-profile-1-0:OPERATION_TYPE_READ_ONLY'
-        '400':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredOamRequests'
-    put:
-      operationId: putFileProfileOperation
-      summary: 'Configures the allowed operation on the file'
-      tags:
-        - FileProfile
-      security:
-        - basicAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - file-profile-1-0:operation
-              properties:
-                file-profile-1-0:operation:
-                  type: string
-                  enum:
-                    - 'file-profile-1-0:OPERATION_TYPE_READ_ONLY'
-                    - 'file-profile-1-0:OPERATION_TYPE_READ_WRITE'
-                    - 'file-profile-1-0:OPERATION_TYPE_OFF'
-                    - 'file-profile-1-0:OPERATION_TYPE_NOT_YET_DEFINED'
-                  example: 'file-profile-1-0:OPERATION_TYPE_READ_WRITE'
-      responses:
-        '204':
-          description: 'Operation configured'
-        '400':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredOamRequests'
-
   /core-model-1-4:control-construct/profile-collection/profile={uuid}/integer-profile-1-0:integer-profile-pac/integer-profile-capability/integer-name:
     parameters:
       - in: path
@@ -15502,7 +15301,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-op-c-([bi][ms])-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{3})$'
-          example: 'xy-15-3-2-op-c-bm-or-1-0-2-000'
+          example: 'xy-15-3-2-op-c-bm-or-1-0-0-000'
     get:
       operationId: getOperationClientOperationName
       summary: 'Returns operation name'
@@ -15578,7 +15377,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-op-c-([bi][ms])-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{3})$'
-          example: 'xy-15-3-2-op-c-bm-or-1-0-2-000'
+          example: 'xy-15-3-2-op-c-bm-or-1-0-0-000'
     get:
       operationId: getOperationClientOperationKey
       summary: 'Returns key used for connecting to server.'
@@ -15654,7 +15453,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-op-c-([bi][ms])-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{3})$'
-          example: 'xy-15-3-2-op-c-bm-or-1-0-2-000'
+          example: 'xy-15-3-2-op-c-bm-or-1-0-0-000'
     get:
       operationId: getOperationClientOperationalState
       summary: 'Returns operational state of the operation'
@@ -15699,7 +15498,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-op-c-([bi][ms])-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{3})$'
-          example: 'xy-15-3-2-op-c-bm-or-1-0-2-000'
+          example: 'xy-15-3-2-op-c-bm-or-1-0-0-000'
     get:
       operationId: getOperationClientLifeCycleState
       summary: 'Returns life cycle state of the operation'
@@ -15815,934 +15614,6 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredOamRequests'
 
-  /core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/elasticsearch-client-interface-1-0:elasticsearch-client-interface-pac/elasticsearch-client-interface-configuration/auth/api-key:
-    parameters:
-      - in: path
-        name: uuid
-        required: true
-        schema:
-          type: string
-          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-es-c-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{3})$'
-          example: 'yz-34-3-3-es-c-es-1-0-0-000'
-    get:
-      operationId: getElasticsearchClientApiKey
-      summary: 'Returns API key'
-      tags:
-        - ElasticsearchClient
-      security:
-        - basicAuth: []
-      responses:
-        '200':
-          description: 'API key provided'
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - elasticsearch-client-interface-1-0:api-key
-                properties:
-                  elasticsearch-client-interface-1-0:api-key:
-                    type: string
-                    example: 'YWRtaW46MTIzNDU2'
-        '400':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredOamRequests'
-    put:
-      operationId: putElasticsearchClientApiKey
-      summary: 'Configures API key'
-      tags:
-        - ElasticsearchClient
-      security:
-        - basicAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - elasticsearch-client-interface-1-0:api-key
-              properties:
-                elasticsearch-client-interface-1-0:api-key:
-                  type: string
-      responses:
-        '204':
-          description: 'API key configured'
-        '400':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredOamRequests'
-  /core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/elasticsearch-client-interface-1-0:elasticsearch-client-interface-pac/elasticsearch-client-interface-configuration/index-alias:
-    parameters:
-      - in: path
-        name: uuid
-        required: true
-        schema:
-          type: string
-          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-es-c-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{3})$'
-          example: 'yz-34-3-3-es-c-es-1-0-0-000'
-    get:
-      operationId: getElasticsearchClientIndexAlias
-      summary: 'Returns index alias'
-      tags:
-        - ElasticsearchClient
-      security:
-        - basicAuth: []
-      responses:
-        '200':
-          description: 'Index alias provided'
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - elasticsearch-client-interface-1-0:index-alias
-                properties:
-                  elasticsearch-client-interface-1-0:index-alias:
-                    type: string
-                    example: 'eatl_service_records'
-        '400':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredOamRequests'
-    put:
-      operationId: putElasticsearchClientIndexAlias
-      summary: 'Configures index alias'
-      tags:
-        - ElasticsearchClient
-      security:
-        - basicAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - elasticsearch-client-interface-1-0:index-alias
-              properties:
-                elasticsearch-client-interface-1-0:index-alias:
-                  type: string
-      responses:
-        '204':
-          description: 'Index alias configured'
-        '400':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredOamRequests'
-  /core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/elasticsearch-client-interface-1-0:elasticsearch-client-interface-pac/elasticsearch-client-interface-configuration/service-records-policy:
-    parameters:
-      - in: path
-        name: uuid
-        required: true
-        schema:
-          type: string
-          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-es-c-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{3})$'
-          example: 'yz-34-3-3-es-c-es-1-0-0-000'
-    get:
-      operationId: getElasticsearchClientServiceRecordsPolicy
-      summary: 'Returns service records policy'
-      tags:
-        - ElasticsearchClient
-      security:
-        - basicAuth: []
-      responses:
-        '200':
-          description: 'Service records policy provided'
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - elasticsearch-client-interface-1-0:service-records-policy
-                properties:
-                  elasticsearch-client-interface-1-0:service-records-policy:
-                    type: object
-                    required:
-                      - service-records-policy-name
-                      - phases
-                    properties:
-                      service-records-policy-name:
-                        type: string
-                      description:
-                        type: string
-                      project:
-                        type: object
-                        properties:
-                          name:
-                            type: string
-                          department:
-                            type: string
-                      phases:
-                        type: object
-                        properties:
-                          hot:
-                            type: object
-                            properties:
-                              min-age:
-                                type: string
-                              actions:
-                                type: object
-                                properties:
-                                  forcemerge:
-                                    type: object
-                                    required:
-                                      - max-num-segments
-                                    properties:
-                                      max-num-segments:
-                                        type: integer
-                                      index-codec:
-                                        type: string
-                                  readonly:
-                                    type: object
-                                  rollover:
-                                    type: object
-                                    minProperties: 1
-                                    additionalProperties: false
-                                    properties:
-                                      max-age:
-                                        type: string
-                                      max-docs:
-                                        type: integer
-                                      max-size:
-                                        type: string
-                                      max-primary-shard-size:
-                                        type: string
-                                      max-primary-shard-docs:
-                                        type: integer
-                                      min-age:
-                                        type: string
-                                      min-docs:
-                                        type: integer
-                                      min-size:
-                                        type: string
-                                      min-primary-shard-size:
-                                        type: string
-                                      min-primary-shard-docs:
-                                        type: integer
-                                  searchable-snapshot:
-                                    type: object
-                                    required:
-                                      - snapshot-repository
-                                    properties:
-                                      snapshot-repository:
-                                        type: string
-                                      force-merge-index:
-                                        type: boolean
-                                  set-priority:
-                                    type: object
-                                    required:
-                                      - priority
-                                    properties:
-                                      priority:
-                                        type: integer
-                                  shrink:
-                                    type: object
-                                    properties:
-                                      number-of-shards:
-                                        type: integer
-                                      max-primary-shard-size:
-                                        type: string
-                                  unfollow:
-                                    type: object
-                          warm:
-                            type: object
-                            properties:
-                              min-age:
-                                type: string
-                              actions:
-                                type: object
-                                properties:
-                                  allocate:
-                                    type: object
-                                    minProperties: 1
-                                    additionalProperties: false
-                                    properties:
-                                      number-of-replicas:
-                                        type: integer
-                                      total-shards-per-node:
-                                        type: integer
-                                      include:
-                                        type: object
-                                        properties:
-                                          box-type:
-                                            type: string
-                                            enum:
-                                              - 'hot'
-                                              - 'warm'
-                                              - 'cold'
-                                              - 'frozen'
-                                              - 'delete'
-                                      exclude:
-                                        type: object
-                                        properties:
-                                          box-type:
-                                            type: string
-                                            enum:
-                                              - 'hot'
-                                              - 'warm'
-                                              - 'cold'
-                                              - 'frozen'
-                                              - 'delete'
-                                      require:
-                                        type: object
-                                        properties:
-                                          box-type:
-                                            type: string
-                                            enum:
-                                              - 'hot'
-                                              - 'warm'
-                                              - 'cold'
-                                              - 'frozen'
-                                              - 'delete'
-                                          storage:
-                                            type: string
-                                            enum:
-                                              - 'high'
-                                  forcemerge:
-                                    type: object
-                                    required:
-                                      - max-num-segments
-                                    properties:
-                                      max-num-segments:
-                                        type: integer
-                                      index-codec:
-                                        type: string
-                                  migrate:
-                                    type: object
-                                    properties:
-                                      enabled:
-                                        type: boolean
-                                  readonly:
-                                    type: object
-                                  set-priority:
-                                    type: object
-                                    required:
-                                      - priority
-                                    properties:
-                                      priority:
-                                        type: integer
-                                  shrink:
-                                    type: object
-                                    properties:
-                                      number-of-shards:
-                                        type: integer
-                                      max-primary-shard-size:
-                                        type: string
-                                  unfollow:
-                                    type: object
-                          cold:
-                            type: object
-                            properties:
-                              min-age:
-                                type: string
-                              actions:
-                                type: object
-                                properties:
-                                  allocate:
-                                    type: object
-                                    minProperties: 1
-                                    additionalProperties: false
-                                    properties:
-                                      number-of-replicas:
-                                        type: integer
-                                      total-shards-per-node:
-                                        type: integer
-                                      include:
-                                        type: object
-                                        properties:
-                                          box-type:
-                                            type: string
-                                            enum:
-                                              - 'hot'
-                                              - 'warm'
-                                              - 'cold'
-                                              - 'frozen'
-                                              - 'delete'
-                                      exclude:
-                                        type: object
-                                        properties:
-                                          box-type:
-                                            type: string
-                                            enum:
-                                              - 'hot'
-                                              - 'warm'
-                                              - 'cold'
-                                              - 'frozen'
-                                              - 'delete'
-                                      require:
-                                        type: object
-                                        properties:
-                                          box-type:
-                                            type: string
-                                            enum:
-                                              - 'hot'
-                                              - 'warm'
-                                              - 'cold'
-                                              - 'frozen'
-                                              - 'delete'
-                                          storage:
-                                            type: string
-                                            enum:
-                                              - 'high'
-                                  migrate:
-                                    type: object
-                                    properties:
-                                      enabled:
-                                        type: boolean
-                                  readonly:
-                                    type: object
-                                  searchable-snapshot:
-                                    type: object
-                                    required:
-                                      - snapshot-repository
-                                    properties:
-                                      snapshot-repository:
-                                        type: string
-                                      force-merge-index:
-                                        type: boolean
-                                  set-priority:
-                                    type: object
-                                    required:
-                                      - priority
-                                    properties:
-                                      priority:
-                                        type: integer
-                                  unfollow:
-                                    type: object
-                          frozen:
-                            type: object
-                            properties:
-                              min-age:
-                                type: string
-                              actions:
-                                type: object
-                                properties:
-                                  searchable-snapshot:
-                                    type: object
-                                    required:
-                                      - snapshot-repository
-                                    properties:
-                                      snapshot-repository:
-                                        type: string
-                                      force-merge-index:
-                                        type: boolean
-                                  unfollow:
-                                    type: object
-                          delete:
-                            type: object
-                            properties:
-                              min-age:
-                                type: string
-                              actions:
-                                type: object
-                                required:
-                                  - delete
-                                properties:
-                                  delete:
-                                    type: object
-                                    properties:
-                                      delete-searchable-snapshot:
-                                        type: boolean
-                                  wait-for-snapshot:
-                                    type: object
-                                    required:
-                                      - policy
-                                    properties:
-                                      policy:
-                                        type: string
-                example:
-                  elasticsearch-client-interface-1-0:service-records-policy:
-                    service-records-policy-name: 'eatl_service_records_policy'
-                    phases:
-                      hot:
-                        min-age: '30s'
-                        actions:
-                          rollover:
-                            max-age: '5d'
-                      delete:
-                        min-age: '5d'
-                        actions:
-                          delete:
-        '400':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredOamRequests'
-    put:
-      operationId: putElasticsearchClientServiceRecordsPolicy
-      summary: 'Configures service records policy'
-      tags:
-        - ElasticsearchClient
-      security:
-        - basicAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - elasticsearch-client-interface-1-0:service-records-policy
-              properties:
-                elasticsearch-client-interface-1-0:service-records-policy:
-                  type: object
-                  required:
-                    - service-records-policy-name
-                    - phases
-                  properties:
-                    service-records-policy-name:
-                      type: string
-                    description:
-                      type: string
-                    project:
-                      type: object
-                      properties:
-                        name:
-                          type: string
-                        department:
-                          type: string
-                    phases:
-                      type: object
-                      properties:
-                        hot:
-                          type: object
-                          properties:
-                            min-age:
-                              type: string
-                            actions:
-                              type: object
-                              properties:
-                                forcemerge:
-                                  type: object
-                                  required:
-                                    - max-num-segments
-                                  properties:
-                                    max-num-segments:
-                                      type: integer
-                                    index-codec:
-                                      type: string
-                                readonly:
-                                  type: object
-                                rollover:
-                                  type: object
-                                  minProperties: 1
-                                  additionalProperties: false
-                                  properties:
-                                    max-age:
-                                      type: string
-                                    max-docs:
-                                      type: integer
-                                    max-size:
-                                      type: string
-                                    max-primary-shard-size:
-                                      type: string
-                                    max-primary-shard-docs:
-                                      type: integer
-                                    min-age:
-                                      type: string
-                                    min-docs:
-                                      type: integer
-                                    min-size:
-                                      type: string
-                                    min-primary-shard-size:
-                                      type: string
-                                    min-primary-shard-docs:
-                                      type: integer
-                                searchable-snapshot:
-                                  type: object
-                                  required:
-                                    - snapshot-repository
-                                  properties:
-                                    snapshot-repository:
-                                      type: string
-                                    force-merge-index:
-                                      type: boolean
-                                set-priority:
-                                  type: object
-                                  required:
-                                    - priority
-                                  properties:
-                                    priority:
-                                      type: integer
-                                shrink:
-                                  type: object
-                                  properties:
-                                    number-of-shards:
-                                      type: integer
-                                    max-primary-shard-size:
-                                      type: string
-                                unfollow:
-                                  type: object
-                        warm:
-                          type: object
-                          properties:
-                            min-age:
-                              type: string
-                            actions:
-                              type: object
-                              properties:
-                                allocate:
-                                  type: object
-                                  minProperties: 1
-                                  additionalProperties: false
-                                  properties:
-                                    number-of-replicas:
-                                      type: integer
-                                    total-shards-per-node:
-                                      type: integer
-                                    include:
-                                      type: object
-                                      properties:
-                                        box-type:
-                                          type: string
-                                          enum:
-                                            - 'hot'
-                                            - 'warm'
-                                            - 'cold'
-                                            - 'frozen'
-                                            - 'delete'
-                                    exclude:
-                                      type: object
-                                      properties:
-                                        box-type:
-                                          type: string
-                                          enum:
-                                            - 'hot'
-                                            - 'warm'
-                                            - 'cold'
-                                            - 'frozen'
-                                            - 'delete'
-                                    require:
-                                      type: object
-                                      properties:
-                                        box-type:
-                                          type: string
-                                          enum:
-                                            - 'hot'
-                                            - 'warm'
-                                            - 'cold'
-                                            - 'frozen'
-                                            - 'delete'
-                                        storage:
-                                          type: string
-                                          enum:
-                                            - 'high'
-                                forcemerge:
-                                  type: object
-                                  required:
-                                    - max-num-segments
-                                  properties:
-                                    max-num-segments:
-                                      type: integer
-                                    index-codec:
-                                      type: string
-                                migrate:
-                                  type: object
-                                  properties:
-                                    enabled:
-                                      type: boolean
-                                readonly:
-                                  type: object
-                                set-priority:
-                                  type: object
-                                  required:
-                                    - priority
-                                  properties:
-                                    priority:
-                                      type: integer
-                                shrink:
-                                  type: object
-                                  properties:
-                                    number-of-shards:
-                                      type: integer
-                                    max-primary-shard-size:
-                                      type: string
-                                unfollow:
-                                  type: object
-                        cold:
-                          type: object
-                          properties:
-                            min-age:
-                              type: string
-                            actions:
-                              type: object
-                              properties:
-                                allocate:
-                                  type: object
-                                  minProperties: 1
-                                  additionalProperties: false
-                                  properties:
-                                    number-of-replicas:
-                                      type: integer
-                                    total-shards-per-node:
-                                      type: integer
-                                    include:
-                                      type: object
-                                      properties:
-                                        box-type:
-                                          type: string
-                                          enum:
-                                            - 'hot'
-                                            - 'warm'
-                                            - 'cold'
-                                            - 'frozen'
-                                            - 'delete'
-                                    exclude:
-                                      type: object
-                                      properties:
-                                        box-type:
-                                          type: string
-                                          enum:
-                                            - 'hot'
-                                            - 'warm'
-                                            - 'cold'
-                                            - 'frozen'
-                                            - 'delete'
-                                    require:
-                                      type: object
-                                      properties:
-                                        box-type:
-                                          type: string
-                                          enum:
-                                            - 'hot'
-                                            - 'warm'
-                                            - 'cold'
-                                            - 'frozen'
-                                            - 'delete'
-                                        storage:
-                                          type: string
-                                          enum:
-                                            - 'high'
-                                migrate:
-                                  type: object
-                                  properties:
-                                    enabled:
-                                      type: boolean
-                                readonly:
-                                  type: object
-                                searchable-snapshot:
-                                  type: object
-                                  required:
-                                    - snapshot-repository
-                                  properties:
-                                    snapshot-repository:
-                                      type: string
-                                    force-merge-index:
-                                      type: boolean
-                                set-priority:
-                                  type: object
-                                  required:
-                                    - priority
-                                  properties:
-                                    priority:
-                                      type: integer
-                                unfollow:
-                                  type: object
-                        frozen:
-                          type: object
-                          properties:
-                            min-age:
-                              type: string
-                            actions:
-                              type: object
-                              properties:
-                                searchable-snapshot:
-                                  type: object
-                                  required:
-                                    - snapshot-repository
-                                  properties:
-                                    snapshot-repository:
-                                      type: string
-                                    force-merge-index:
-                                      type: boolean
-                                unfollow:
-                                  type: object
-                        delete:
-                          type: object
-                          properties:
-                            min-age:
-                              type: string
-                            actions:
-                              type: object
-                              required:
-                                - delete
-                              properties:
-                                delete:
-                                  type: object
-                                  properties:
-                                    delete-searchable-snapshot:
-                                      type: boolean
-                                wait-for-snapshot:
-                                  type: object
-                                  required:
-                                    - policy
-                                  properties:
-                                    policy:
-                                      type: string
-              example:
-                elasticsearch-client-interface-1-0:service-records-policy:
-                  service-records-policy-name: 'eatl_service_records_policy'
-                  phases:
-                    hot:
-                      min-age: '30s'
-                      actions:
-                        rollover:
-                          max-age: '5d'
-                    delete:
-                      min-age: '5d'
-                      actions:
-                        delete:
-                          delete-searchable-snapshot: true
-      responses:
-        '204':
-          description: 'Service records policy configured'
-        '400':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredOamRequests'
-  /core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/elasticsearch-client-interface-1-0:elasticsearch-client-interface-pac/elasticsearch-client-interface-status/operational-state:
-    parameters:
-      - in: path
-        name: uuid
-        required: true
-        schema:
-          type: string
-          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-es-c-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{3})$'
-          example: 'yz-34-3-3-es-c-es-1-0-0-000'
-    get:
-      operationId: getElasticsearchClientOperationalState
-      summary: 'Returns operational state of the connection towards Elasticsearch'
-      tags:
-        - ElasticsearchClient
-      security:
-        - basicAuth: []
-      responses:
-        '200':
-          description: 'Operational state provided'
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - elasticsearch-client-interface-1-0:operational-state
-                properties:
-                  elasticsearch-client-interface-1-0:operational-state:
-                    type: string
-                    enum:
-                      - 'elasticsearch-client-interface-1-0:OPERATIONAL_STATE_TYPE_AVAILABLE'
-                      - 'elasticsearch-client-interface-1-0:OPERATIONAL_STATE_TYPE_UNAVAILABLE'
-                      - 'elasticsearch-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED'
-                    example: 'elasticsearch-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED'
-        '400':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredOamRequests'
-  /core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/elasticsearch-client-interface-1-0:elasticsearch-client-interface-pac/elasticsearch-client-interface-status/life-cycle-state:
-    parameters:
-      - in: path
-        name: uuid
-        required: true
-        schema:
-          type: string
-          pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-es-c-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{3})$'
-          example: 'yz-34-3-3-es-c-es-1-0-0-000'
-    get:
-      operationId: getElasticsearchClientLifeCycleState
-      summary: 'Returns life cycle state of the connection towards Elasticsearch'
-      tags:
-        - ElasticsearchClient
-      security:
-        - basicAuth: []
-      responses:
-        '200':
-          description: 'Life cycle state provided'
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - elasticsearch-client-interface-1-0:life-cycle-state
-                properties:
-                  elasticsearch-client-interface-1-0:life-cycle-state:
-                    type: string
-                    enum:
-                      - 'elasticsearch-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL'
-                      - 'elasticsearch-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL'
-                      - 'elasticsearch-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_DEPRECATED'
-                      - 'elasticsearch-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_OBSOLETE'
-                      - 'elasticsearch-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_UNKNOWN'
-                      - 'elasticsearch-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED'
-                    example: 'elasticsearch-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED'
-        '400':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredOamRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredOamRequests'
-
   /core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name:
     parameters:
       - in: path
@@ -16751,7 +15622,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-http-c-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-000$'
-          example: 'xy-15-3-2-http-c-or-1-0-2-000'
+          example: 'xy-15-3-2-http-c-or-1-0-0-000'
     get:
       operationId: getHttpClientApplicationName
       summary: 'Returns name of application to be addressed'
@@ -16827,7 +15698,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-http-c-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-000$'
-          example: 'xy-15-3-2-http-c-or-1-0-2-000'
+          example: 'xy-15-3-2-http-c-or-1-0-0-000'
     get:
       operationId: getHttpClientReleaseNumber
       summary: 'Returns release number of application to be addressed'
@@ -16904,7 +15775,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-tcp-c-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-000$'
-          example: 'xy-15-3-2-tcp-c-or-1-0-2-000'
+          example: 'xy-15-3-2-tcp-c-or-1-0-0-000'
     get:
       operationId: getTcpClientRemoteProtocol
       summary: 'Returns protocol for addressing remote side'
@@ -16985,7 +15856,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-tcp-c-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-000$'
-          example: 'xy-15-3-2-tcp-c-or-1-0-2-000'
+          example: 'xy-15-3-2-tcp-c-or-1-0-0-000'
     get:
       operationId: getTcpClientRemoteAddress
       summary: 'Returns remote address'
@@ -17089,7 +15960,7 @@ paths:
         schema:
           type: string
           pattern: '^([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-tcp-c-([a-z]{2,6})-([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,2})-000$'
-          example: 'xy-15-3-2-tcp-c-or-1-0-2-000'
+          example: 'xy-15-3-2-tcp-c-or-1-0-0-000'
     get:
       operationId: getTcpClientRemotePort
       summary: 'Returns target TCP port at server'
@@ -17241,7 +16112,7 @@ components:
           schema:
             $ref: '#/components/schemas/errorDescription'
     '429':
-      description: 'Response in case of errored service requests due to too many parallel requests or too many requests per minute'
+      description: 'Response in case too many requests need to be executed in parallel or too many requests have been received within a time period. The maximum number of parallel requests is defined in an IntegerProfile with the service name as a prefix and MaxNumberOfParallelRequests as a suffix. Some time period to elapse for throttling incomming requests is defined in an IntegerProfile with the service name as a prefix and ThrottlingPeriod as a suffix'
       content:
         application/json:
           schema:
@@ -17258,9 +16129,9 @@ components:
               message:
                 type: string
                 enum:
-                  - 'Too many requests. The maximum amount of requests that can be executed in parallel or per minute has been reached'
+                  - 'Too many requests'
     '460':
-      description: 'Response in case the mountName provided in the request is not found in the (internally) stored list of connected devices'
+      description: 'Response in case the mountName provided in the request is not found in the list of connected devices'
       content:
         application/json:
           schema:
@@ -17277,9 +16148,9 @@ components:
               message:
                 type: string
                 enum:
-                  - 'Requested device not found in the list of devices connected to the controller'
+                  - 'Not connected. Requested device is currently not in connected state at the controller'
     '470':
-      description: 'Process disrupted because the requested ressource does not exist within the referenced device'
+      description: 'Response in case the resource specified in the request does not exist within the connected device'
       content:
         application/json:
           schema:
@@ -17290,15 +16161,15 @@ components:
             properties:
               code:
                 type: integer
-                minimum: 460
-                maximum: 460
+                minimum: 470
+                maximum: 470
                 format: int32
               message:
                 type: string
                 enum:
-                  - 'Requested ressource does not exist within the referenced device'
+                  - 'Resource not existing. Device informs about addressed resource unknown'
     '502':
-      description: 'A requested upstream server (e.g. MicrowaveDeviceInventory) is unavailable'
+      description: 'Response in case the application that is expected to provide a consumed service is not responding'
       content:
         application/json:
           schema:
@@ -17309,13 +16180,32 @@ components:
             properties:
               code:
                 type: integer
-                minimum: 460
-                maximum: 460
+                minimum: 502
+                maximum: 502
                 format: int32
               message:
                 type: string
                 enum:
-                  - 'Requested upstream server unavailable'
+                  - 'Bad Gateway'
+    '530':
+      description: 'Response in case the referenced resource exists (e.g. device connected and resource exists in internal datatree), but response data is either not available, lost during transmission, invalid, incomplete or corrupted'
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                type: integer
+                minimum: 530
+                maximum: 530
+                format: int32
+              message:
+                type: string
+                enum:
+                  - 'Data invalid. Response data not available, incomplete or corrupted'
   schemas:
     errorDescription:
       type: object
