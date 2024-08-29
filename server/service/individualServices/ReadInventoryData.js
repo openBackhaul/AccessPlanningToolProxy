@@ -97,7 +97,8 @@ const CONTAINED_HOLDER = {
     MODULE: "equipment-augment-1-0:",
     VENDORL_LABEL: "vendor-label",
     HOLDER_PAC: "holder-pac"
-  }
+  },
+  OCCUPYING_FRU: "occupying-fru"
 }
 
 /**
@@ -174,15 +175,17 @@ exports.readInventoryData = function (mountName, ltpStructure, uuidUnderTest, re
 
         if (equipmentUuidList && equipmentUuidList.length !== 0) {
           let equipmentCategoryResponse = await RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositionEquipmentCategory(mountName, equipmentUuidList, requestHeaders, traceIndicatorIncrementer);
-          let equipmentUuidOfModemCategory = equipmentCategoryResponse.equipmentUuidOfModemCategory;
-          traceIndicatorIncrementer = equipmentCategoryResponse.traceIndicatorIncrementer;
-          if (Object.keys(equipmentCategoryResponse).length !== 0 &&
-            equipmentUuidOfModemCategory && equipmentUuidOfModemCategory != "") {
-            let positionOfModemBoardResponse = await RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositionHolderLabel(mountName, equipmentCategoryResponse, requestHeaders);
-            if (Object.keys(positionOfModemBoardResponse).length !== 0) {
-              traceIndicatorIncrementer = positionOfModemBoardResponse.traceIndicatorIncrementer;
-              if (positionOfModemBoardResponse.positionOfModemBoard !== "") {
-                inventoryData.positionOfModemBoard = positionOfModemBoardResponse.positionOfModemBoard;
+          if (equipmentCategoryResponse) {
+            let equipmentUuidOfModemCategory = equipmentCategoryResponse.equipmentUuidOfModemCategory;
+            let equipmentUuidOfRadioCategory = equipmentCategoryResponse.equipmentUuidOfRadioCategory;
+            traceIndicatorIncrementer = equipmentCategoryResponse.traceIndicatorIncrementer;
+            if (equipmentUuidOfModemCategory && equipmentUuidOfRadioCategory) {
+              let positionOfModemBoardResponse = await RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositionHolderLabel(mountName, equipmentCategoryResponse, requestHeaders);
+              if (Object.keys(positionOfModemBoardResponse).length !== 0) {
+                traceIndicatorIncrementer = positionOfModemBoardResponse.traceIndicatorIncrementer;
+                if (positionOfModemBoardResponse.positionOfModemBoard !== "") {
+                  inventoryData.positionOfModemBoard = positionOfModemBoardResponse.positionOfModemBoard;
+                }
               }
             }
           }
@@ -261,18 +264,32 @@ async function RequestForProvidingAcceptanceDataCausesReadingFirmwareList(mountN
      *****************************************************************************************************/
     let response = await IndividualServiceUtility.forwardRequest(clientAndFieldParamsForFirmwareList, pathParamList, requestHeaders, traceIndicatorIncrementer++);
     if (Object.keys(response).length > 0) {
-      let firmwareComponentList = response[FIRMWARE.MODULE + FIRMWARE.COLLECTION][FIRMWARE.COMPONENT_LIST];
+      let firmwareCollection = response[FIRMWARE.MODULE + FIRMWARE.COLLECTION];
+      let firmwareComponentList = [];
+      if (firmwareCollection && firmwareCollection.hasOwnProperty(FIRMWARE.COMPONENT_LIST)) {
+        firmwareComponentList = response[FIRMWARE.MODULE + FIRMWARE.COLLECTION][FIRMWARE.COMPONENT_LIST];
+      }
       for (let i = 0; i < firmwareComponentList.length; i++) {
         let installedFirmware = {};
-        let firmwareComponentPac = firmwareComponentList[i][FIRMWARE.PAC];
-        let firmwareComponentCapability = firmwareComponentPac[FIRMWARE.CAPABILITY];
-        let firmwareComponentClass = firmwareComponentCapability[FIRMWARE.CLASS];
-        let expectedFirmwareComponentClass = FIRMWARE.MODULE + FIRMWARE.CLASS_TYPE;
-        if (firmwareComponentClass == expectedFirmwareComponentClass) {
-          installedFirmware.firmwareComponentName = firmwareComponentCapability[FIRMWARE.NAME];
-          installedFirmware.firmwareComponentVersion = firmwareComponentCapability[FIRMWARE.VERSION];
-          installedFirmware.firmwareComponentStatus = firmwareComponentPac[FIRMWARE.STATUS][FIRMWARE.STATUS];
-          installedFirmwareList.push(installedFirmware);
+        let firmwareComponent = firmwareComponentList[i];
+        if (firmwareComponent && firmwareComponent.hasOwnProperty(FIRMWARE.PAC)) {
+          let firmwareComponentPac = firmwareComponentList[i][FIRMWARE.PAC];
+          if (firmwareComponentPac.hasOwnProperty(FIRMWARE.CAPABILITY)) {
+            let firmwareComponentCapability = firmwareComponentPac[FIRMWARE.CAPABILITY];
+            if (firmwareComponentCapability.hasOwnProperty(FIRMWARE.CLASS)) {
+              let firmwareComponentClass = firmwareComponentCapability[FIRMWARE.CLASS];
+              let expectedFirmwareComponentClass = FIRMWARE.MODULE + FIRMWARE.CLASS_TYPE;
+              if (firmwareComponentClass == expectedFirmwareComponentClass) {
+                if (firmwareComponentCapability.hasOwnProperty(FIRMWARE.NAME)) installedFirmware.firmwareComponentName = firmwareComponentCapability[FIRMWARE.NAME];
+                if (firmwareComponentCapability.hasOwnProperty(FIRMWARE.VERSION)) installedFirmware.firmwareComponentVersion = firmwareComponentCapability[FIRMWARE.VERSION];
+                if (firmwareComponentPac.hasOwnProperty(FIRMWARE.STATUS)) {
+                  let firmwareStatus = firmwareComponentPac[FIRMWARE.STATUS];
+                  if (firmwareStatus.hasOwnProperty([FIRMWARE.STATUS])) { installedFirmware.firmwareComponentStatus = firmwareStatus[FIRMWARE.STATUS]; }
+                }
+                installedFirmwareList.push(installedFirmware);
+              }
+            }
+          }
         }
       }
     }
@@ -317,7 +334,10 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositio
     if (Object.keys(ltpAugmentResponse).length === 0) {
       console.log(`${forwardingName} is not success`);
     } else {
-      equipmentUuidList = ltpAugmentResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.EQUIPMENT];
+      let ltpAugmentPac = ltpAugmentResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC];
+      if (ltpAugmentPac && ltpAugmentPac.hasOwnProperty(LTP_AUGMENT.EQUIPMENT)) {
+        equipmentUuidList = ltpAugmentPac[LTP_AUGMENT.EQUIPMENT];
+      }
     }
   } catch (error) {
     console.log(`${forwardingName} is not success with ${error}`);
@@ -340,6 +360,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositio
   const forwardingName = "RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory";
   const stringName = "RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory";
   let equipmentUuidOfModemCategory = "";
+  let equipmentUuidOfRadioCategory = "";
   let equipmentCategoryResponse = {};
   try {
 
@@ -362,15 +383,19 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositio
         if ((await isEquipmentCategoryModem(equipmentCategoryResponse))) {
           equipmentUuidOfModemCategory = equipmentUuid;
         }
-        break;
+        if (await isEquipmentCategoryRadio(equipmentCategoryResponse)) {
+          equipmentUuidOfRadioCategory = equipmentUuid;
+        }
       }
+    }
+    if (equipmentUuidOfModemCategory && equipmentUuidOfRadioCategory) {
+      equipmentCategoryResponse.equipmentUuidOfModemCategory = equipmentUuidOfModemCategory;
+      equipmentCategoryResponse.equipmentUuidOfRadioCategory = equipmentUuidOfRadioCategory;
     }
   } catch (error) {
     console.log(`${forwardingName} is not success with ${error}`);
   }
-
   equipmentCategoryResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
-  equipmentCategoryResponse.equipmentUuidOfModemCategory = equipmentUuidOfModemCategory;
   return equipmentCategoryResponse;
 }
 
@@ -391,6 +416,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositio
   try {
 
     let equipmentUuidOfModemCategory = equipmentCategoryResponse.equipmentUuidOfModemCategory;
+    let equipmentUuidOfRadioCategory = equipmentCategoryResponse.equipmentUuidOfRadioCategory;
 
     /****************************************************************************************************
      * RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.HolderLabel
@@ -411,7 +437,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositio
       /************************************************************************************************************
        * Formulate position-of-modem-board from eqipmentHolderLabelResponse and equipmentUuidListOfModemCategory
        ************************************************************************************************************/
-      positionOfModemBoard = await formulatePositionofModemBoard(equipmentHolderLabelResponse, equipmentUuidOfModemCategory);
+      positionOfModemBoard = await formulatePositionofModemBoard(equipmentHolderLabelResponse, equipmentUuidOfModemCategory, equipmentUuidOfRadioCategory);
     }
   } catch (error) {
     console.log(`${forwardingName} is not success with ${error}`);
@@ -432,7 +458,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositio
  */
 async function RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers(mountName, equipmentUuidResponse, requestHeaders) {
   const forwardingName = "RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers";
-  const stringName = "RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers";
+  const stringName = "RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.EquipmentInfo";
   let equipmentInfoResponse = {};
   let equipmentInfoList = [];
   let traceIndicatorIncrementer = equipmentUuidResponse.traceIndicatorIncrementer;
@@ -514,9 +540,9 @@ async function FetchConfiguredGroupOfAirInterfaces(mountName, ltpStructure, uuid
               if (Object.keys(ltpDesignationResponse).length != 0) {
                 let ltpDesignation = ltpDesignationResponse.ltpDesignation;
                 if (ltpDesignation != undefined) {
-                  if(layerProtocolName == airInterfaceLayerProtocolName) {
+                  if (layerProtocolName == airInterfaceLayerProtocolName) {
                     configuredResource.linkId = ltpDesignation[LTP_AUGMENT.EXTERNAL_LABEL];
-                  } else if(layerProtocolName == wireInterfaceLayerProtocolName) {
+                  } else if (layerProtocolName == wireInterfaceLayerProtocolName) {
                     configuredResource.interfaceName = ltpDesignation[LTP_AUGMENT.ORIGINAL_LTP_NAME];
                   }
                 }
@@ -665,7 +691,6 @@ async function FetchPluggedSfpPmdList(mountName, ltpStructure, requestHeaders, t
       }
       traceIndicatorIncrementer = operatedPmdResponse.traceIndicatorIncrementer;
       pluggedSfpPmdList.push(supportedSfpPmd);
-
     }
   } catch (error) {
     console.log(error);
@@ -707,7 +732,11 @@ async function getListOfPluggableSfpLtp(mountName, ltpStructure, requestHeaders,
       if (Object.keys(equipmentUuidResponse).length == 0) {
         console.log(`${equipmentUuidCallback} is not success`);
       } else {
-        let equipmentUuidList = equipmentUuidResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.EQUIPMENT];
+        let ltpAugmentPac = equipmentUuidResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC];
+        let equipmentUuidList = [];
+        if (ltpAugmentPac.hasOwnProperty(LTP_AUGMENT.EQUIPMENT)) {
+          equipmentUuidList = ltpAugmentPac[LTP_AUGMENT.EQUIPMENT];
+        }
         if (equipmentUuidList != undefined) {
           if (equipmentUuidList.length > 0) {
             let pluggableSfp = false;
@@ -723,11 +752,14 @@ async function getListOfPluggableSfpLtp(mountName, ltpStructure, requestHeaders,
               if (Object.keys(equipmentCategoryResponse).length == 0) {
                 console.log(`${equipmentCategoryCallback} is not success`);
               } else {
-                let equipmentCategory = equipmentCategoryResponse[CORE.MODULE + EQUIPMENT.EQUIPMENT.ACTUAL_EQUIPMENT][EQUIPMENT.ACTUAL_EQUIPMENT.STRUCTURE][EQUIPMENT.ACTUAL_EQUIPMENT.CATEGORY];
-                let expectedEquipmentCategory = CORE.MODULE + EQUIPMENT.EQUIPMENT_CATEGORY.SFP;
-                if (equipmentCategory == expectedEquipmentCategory) {
-                  pluggableSfp = true;
-                  break;
+                let actualEquipmentStructure = equipmentCategoryResponse[CORE.MODULE + EQUIPMENT.EQUIPMENT.ACTUAL_EQUIPMENT][EQUIPMENT.ACTUAL_EQUIPMENT.STRUCTURE];
+                if (actualEquipmentStructure && actualEquipmentStructure.hasOwnProperty(EQUIPMENT.ACTUAL_EQUIPMENT.CATEGORY)) {
+                  let equipmentCategory = actualEquipmentStructure[EQUIPMENT.ACTUAL_EQUIPMENT.CATEGORY];
+                  let expectedEquipmentCategory = CORE.MODULE + EQUIPMENT.EQUIPMENT_CATEGORY.SFP;
+                  if (equipmentCategory == expectedEquipmentCategory) {
+                    pluggableSfp = true;
+                    break;
+                  }
                 }
               }
             }
@@ -770,7 +802,10 @@ async function getWireInterfaceNameForRetrievingSfpInformation(mountName, wireIn
     if (Object.keys(response).length == 0) {
       console.log(`${wireInterfaceNameCallback} is not success`);
     } else {
-      wireInterfaceNameResponse.wireInterfaceName = response[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.ORIGINAL_LTP_NAME];
+      let ltpAugmentPac = response[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC];
+      if (ltpAugmentPac && ltpAugmentPac.hasOwnProperty(LTP_AUGMENT.ORIGINAL_LTP_NAME)) {
+        wireInterfaceNameResponse.wireInterfaceName = ltpAugmentPac[LTP_AUGMENT.ORIGINAL_LTP_NAME];
+      }
     }
   } catch (error) {
     console.log(error);
@@ -807,8 +842,11 @@ async function getSupportedPmdListForRetrievingSfpInformation(mountName, wireInt
     } else {
       let supportedPmdKindList = response[WIRE_INTERFACE.MODULE + WIRE_INTERFACE.CAPABILITY][WIRE_INTERFACE.SUPPORTED_PMD_LIST];
       let supportedPmdList = [];
-      for (let i = 0; i < supportedPmdKindList.length; i++) {
-        supportedPmdList.push(supportedPmdKindList[i][WIRE_INTERFACE.PMD_NAME]);
+      if (supportedPmdKindList) {
+        for (let i = 0; i < supportedPmdKindList.length; i++) {
+          let supportedPmdKind = supportedPmdKindList[i];
+          if (supportedPmdKind.hasOwnProperty(WIRE_INTERFACE.PMD_NAME)) supportedPmdList.push(supportedPmdKind[WIRE_INTERFACE.PMD_NAME]);
+        }
       }
       supportedPmdListResponse.supportedPmdList = supportedPmdList;
     }
@@ -896,10 +934,13 @@ async function FetchConnectorPluggingTheOutdoorUnit(mountName, uuidUnderTest, re
            *****************************************************************************************************/
           let connectorNumberResponse = await IndividualServiceUtility.forwardRequest(clientAndFieldParamsForConnectorNumber, pathParamList, requestHeaders, traceIndicatorIncrementer++);
           if (Object.keys(connectorNumberResponse).length != 0) {
-            let sequenceId = connectorNumberResponse[CORE.MODULE + EQUIPMENT.EQUIPMENT.CONNECTOR][0][EQUIPMENT.MODULE + EQUIPMENT.CONNECTOR.CONNECTOR_PAC][EQUIPMENT.CONNECTOR.SEQUENCE_ID];
-            if (sequenceId != undefined) {
-              connectorPluggingTheOutdoorUnitResponse.connectorPluggingTheOutdoorUnit = sequenceId;
-              break;
+            let connector = connectorNumberResponse[CORE.MODULE + EQUIPMENT.EQUIPMENT.CONNECTOR];
+            if (connector) {
+              let connectorPac = connector[0][EQUIPMENT.MODULE + EQUIPMENT.CONNECTOR.CONNECTOR_PAC];
+              if (connectorPac && connectorPac.hasOwnProperty(EQUIPMENT.CONNECTOR.SEQUENCE_ID)) {
+                connectorPluggingTheOutdoorUnitResponse.connectorPluggingTheOutdoorUnit = connectorPac[EQUIPMENT.CONNECTOR.SEQUENCE_ID];
+                break;
+              }
             }
           }
         }
@@ -925,10 +966,12 @@ async function formulateEquipmentInfo(equipmentInfoList) {
     if (actualEquipment && Object.keys(actualEquipment).length !== 0) {
       let manufacturedThing = actualEquipment[EQUIPMENT.ACTUAL_EQUIPMENT.MANUFACTURED_THING];
       let category = actualEquipment[EQUIPMENT.ACTUAL_EQUIPMENT.STRUCTURE][EQUIPMENT.ACTUAL_EQUIPMENT.CATEGORY];
-      if (manufacturedThing && Object.keys(manufacturedThing).length !== 0) {
-        equipment[EQUIPMENT.ACTUAL_EQUIPMENT.EQUIPMENT_NAME] = manufacturedThing[EQUIPMENT.ACTUAL_EQUIPMENT.EQUIPMENT_TYPE][EQUIPMENT.ACTUAL_EQUIPMENT.TYPE_NAME];
-        equipment[EQUIPMENT.ACTUAL_EQUIPMENT.SERIAL_NUMBER] = manufacturedThing[EQUIPMENT.ACTUAL_EQUIPMENT.EQUIPMENT_INSTANCE][EQUIPMENT.ACTUAL_EQUIPMENT.SERIAL_NUMBER];
-        equipment[EQUIPMENT.ACTUAL_EQUIPMENT.PART_NUMBER] = manufacturedThing[EQUIPMENT.ACTUAL_EQUIPMENT.EQUIPMENT_TYPE][EQUIPMENT.ACTUAL_EQUIPMENT.PART_TYPE_IDENTIFIER];
+      if (manufacturedThing) {
+        let equipmentType = manufacturedThing[EQUIPMENT.ACTUAL_EQUIPMENT.EQUIPMENT_TYPE];
+        let equipmentInstance = manufacturedThing[EQUIPMENT.ACTUAL_EQUIPMENT.EQUIPMENT_INSTANCE];
+        if (equipmentType && equipmentType.hasOwnProperty(EQUIPMENT.ACTUAL_EQUIPMENT.TYPE_NAME)) equipment[EQUIPMENT.ACTUAL_EQUIPMENT.EQUIPMENT_NAME] = equipmentType[EQUIPMENT.ACTUAL_EQUIPMENT.TYPE_NAME];
+        if (equipmentInstance && equipmentInstance.hasOwnProperty(EQUIPMENT.ACTUAL_EQUIPMENT.SERIAL_NUMBER)) equipment[EQUIPMENT.ACTUAL_EQUIPMENT.SERIAL_NUMBER] = equipmentInstance[EQUIPMENT.ACTUAL_EQUIPMENT.SERIAL_NUMBER];
+        if (equipmentType && equipmentType.hasOwnProperty(EQUIPMENT.ACTUAL_EQUIPMENT.PART_TYPE_IDENTIFIER)) equipment[EQUIPMENT.ACTUAL_EQUIPMENT.PART_NUMBER] = equipmentType[EQUIPMENT.ACTUAL_EQUIPMENT.PART_TYPE_IDENTIFIER];
       }
       if (category && Object.keys(category).length !== 0) {
         if (category === EQUIPMENT.MODULE + EQUIPMENT.EQUIPMENT_CATEGORY.MODEM) {
@@ -951,12 +994,31 @@ async function formulateEquipmentInfo(equipmentInfoList) {
  */
 async function isEquipmentCategoryModem(equipmentCategoryResponse) {
   let isEquipmentCategoryModem = false;
-
-  let category = equipmentCategoryResponse[CORE.MODULE + EQUIPMENT.EQUIPMENT.ACTUAL_EQUIPMENT][EQUIPMENT.ACTUAL_EQUIPMENT.STRUCTURE][EQUIPMENT.ACTUAL_EQUIPMENT.CATEGORY];
-  if (category === EQUIPMENT.MODULE + EQUIPMENT.EQUIPMENT_CATEGORY.MODEM) {
-    isEquipmentCategoryModem = true;
+  let equipmentStructure = equipmentCategoryResponse[CORE.MODULE + EQUIPMENT.EQUIPMENT.ACTUAL_EQUIPMENT][EQUIPMENT.ACTUAL_EQUIPMENT.STRUCTURE];
+  if (equipmentStructure && equipmentStructure.hasOwnProperty(EQUIPMENT.ACTUAL_EQUIPMENT.CATEGORY)) {
+    let category = equipmentStructure[EQUIPMENT.ACTUAL_EQUIPMENT.CATEGORY];
+    if (category === EQUIPMENT.MODULE + EQUIPMENT.EQUIPMENT_CATEGORY.MODEM) {
+      isEquipmentCategoryModem = true;
+    }
   }
   return isEquipmentCategoryModem;
+}
+
+/**
+ * Check if equipment category is radio(OUTDOOR_UNIT) or not
+ * @param {Object} equipmentCategoryResponse Equipment category
+ * @returns {Boolean} return true if equipment category is modem else false
+ */
+async function isEquipmentCategoryRadio(equipmentCategoryResponse) {
+  let isEquipmentCategoryRadio = false;
+  let equipmentStructure = equipmentCategoryResponse[CORE.MODULE + EQUIPMENT.EQUIPMENT.ACTUAL_EQUIPMENT][EQUIPMENT.ACTUAL_EQUIPMENT.STRUCTURE];
+  if (equipmentStructure && equipmentStructure.hasOwnProperty(EQUIPMENT.ACTUAL_EQUIPMENT.CATEGORY)) {
+    let category = equipmentStructure[EQUIPMENT.ACTUAL_EQUIPMENT.CATEGORY];
+    if (category === EQUIPMENT.MODULE + EQUIPMENT.EQUIPMENT_CATEGORY.OUTDOOR_UNIT) {
+      isEquipmentCategoryRadio = true;
+    }
+  }
+  return isEquipmentCategoryRadio;
 }
 
 /**
@@ -965,20 +1027,27 @@ async function isEquipmentCategoryModem(equipmentCategoryResponse) {
  * @param {list} equipmentUuidListOfModemCategory List of equipment uuid of category modem.
  * @returns {String} returns vendor label.
  */
-async function formulatePositionofModemBoard(equipmentHolderLabelResponse, equipmentUuidOfModemCategory) {
+async function formulatePositionofModemBoard(equipmentHolderLabelResponse, equipmentUuidOfModemCategory, equipmentUuidOfRadioCategory) {
   let equipmentList = equipmentHolderLabelResponse[CORE.MODULE + CORE.CONTROL_CONSTRUCT][0][CORE.EQUIPMENT];
-  let vendorLabelList = [];
+  let vendorLabel = "";
   for (let i = 0; i < equipmentList.length; i++) {
     let equipment = equipmentList[i];
     let uuid = equipment[onfAttributes.GLOBAL_CLASS.UUID];
     if (uuid === equipmentUuidOfModemCategory) {
-      let containedHolder = equipment[EQUIPMENT.EQUIPMENT.CONTAINED_HOLDER]
-      for (let j = 0; j < containedHolder.length; j++) {
-        vendorLabelList.push(containedHolder[j][CONTAINED_HOLDER.EQUIPMENT_AUGMENT.MODULE + CONTAINED_HOLDER.EQUIPMENT_AUGMENT.HOLDER_PAC]
-        [CONTAINED_HOLDER.EQUIPMENT_AUGMENT.VENDORL_LABEL]);
+      let containedHolder = equipment[EQUIPMENT.EQUIPMENT.CONTAINED_HOLDER];
+      if (containedHolder) {
+        for (let j = 0; j < containedHolder.length; j++) {
+          let occupyingFru = containedHolder[j][CONTAINED_HOLDER.OCCUPYING_FRU];
+          if (occupyingFru && occupyingFru == equipmentUuidOfRadioCategory) {
+            let containedHolderPac = containedHolder[j][CONTAINED_HOLDER.EQUIPMENT_AUGMENT.MODULE + CONTAINED_HOLDER.EQUIPMENT_AUGMENT.HOLDER_PAC];
+            if (containedHolderPac) {
+              vendorLabel = containedHolderPac[CONTAINED_HOLDER.EQUIPMENT_AUGMENT.VENDORL_LABEL];
+              break;
+            }
+          }
+        }
       }
-      break;
     }
   }
-  return vendorLabelList.toString();
+  return vendorLabel;
 }

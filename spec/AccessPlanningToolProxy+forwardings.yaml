@@ -1,0 +1,1145 @@
+forwardings:
+
+  - forwarding-name: PromptForRegisteringCausesRegistrationRequest
+    uuid: aptp-1-1-0-op-fc-bm-999
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/register-yourself
+          uuid: aptp-1-1-0-op-s-bm-000
+      fc-port-update:
+        - server-name: /v1/register-yourself
+          uuid: aptp-1-1-0-op-s-bm-000
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/register-yourself
+        uuid: aptp-1-1-0-op-s-bm-000
+    consequent-requests:
+      - client-name: RegistryOffice://v2/register-application
+        uuid: aptp-1-1-0-op-c-bm-ro-2-1-2-000
+
+  - forwarding-name: PromptForRegisteringCausesRegistrationRequest2
+    uuid: aptp-1-1-0-op-fc-bm-000
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/register-yourself
+          uuid: aptp-1-1-0-op-s-bm-000
+      fc-port-update:
+        - server-name: /v1/register-yourself
+          uuid: aptp-1-1-0-op-s-bm-000
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/register-yourself
+        uuid: aptp-1-1-0-op-s-bm-000
+    consequent-requests:
+      - client-name: RegistryOffice://v2/register-application
+        uuid: aptp-1-1-0-op-c-bm-ro-2-1-2-000
+
+  - forwarding-name: PromptForEmbeddingCausesRequestForBequeathingData
+    uuid: aptp-1-1-0-op-fc-bm-001
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/embed-yourself
+        uuid: aptp-1-1-0-op-s-bm-001
+    consequent-requests:
+      - client-name: OldRelease://v1/bequeath-your-data-and-die
+        uuid: aptp-1-1-0-op-c-bm-or-1-0-2-000
+
+  - forwarding-name: PromptForEmbeddingCausesCyclicLoadingOfDevicesFromMwdi
+    uuid: aptp-1-1-0-op-fc-im-001
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/embed-yourself
+        uuid: aptp-1-1-0-op-s-bm-001
+    consequent-requests:
+      - client-name: MicrowaveDeviceInventory://v1/provide-list-of-connected-devices
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-010
+
+  - forwarding-name: ServiceRequestCausesLoggingRequest
+    uuid: aptp-1-1-0-op-fc-bm-002
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-service-request-information
+          uuid: aptp-1-1-0-op-s-bm-002
+      fc-port-update:
+        - server-name: /v1/redirect-service-request-information
+          uuid: aptp-1-1-0-op-s-bm-002
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/register-yourself
+        uuid: aptp-1-1-0-op-s-bm-000
+      - server-name: /v1/embed-yourself
+        uuid: aptp-1-1-0-op-s-bm-001
+      - server-name: /v1/redirect-service-request-information
+        uuid: aptp-1-1-0-op-s-bm-002
+      - server-name: /v1/redirect-oam-request-information
+        uuid: aptp-1-1-0-op-s-bm-003
+      - server-name: /v1/end-subscription
+        uuid: aptp-1-1-0-op-s-bm-004
+      - server-name: /v1/inquire-oam-request-approvals
+        uuid: aptp-1-1-0-op-s-bm-005
+      - server-name: /v1/update-client
+        uuid: aptp-1-1-0-op-s-bm-007
+      - server-name: /v1/list-ltps-and-fcs
+        uuid: aptp-1-1-0-op-s-bm-008
+      - server-name: /v1/redirect-topology-change-information
+        uuid: aptp-1-1-0-op-s-bm-009
+      - server-name: /v1/update-operation-key
+        uuid: aptp-1-1-0-op-s-bm-010
+      - server-name: /v1/update-operation-client
+        uuid: aptp-1-1-0-op-s-bm-011
+      - server-name: /v1/inquire-basic-auth-approvals
+        uuid: aptp-1-1-0-op-s-bm-012
+      - server-name: /v1/dispose-remainders-of-deregistered-application
+        uuid: aptp-1-1-0-op-s-bm-013
+      - server-name: /v1/inform-about-preceding-release
+        uuid: aptp-1-1-0-op-s-bm-014
+      - server-name: /v1/update-client-of-subsequent-release
+        uuid: aptp-1-1-0-op-s-bm-015
+      - server-name: /v1/bequeath-your-data-and-die
+        uuid: aptp-1-1-0-op-s-im-000
+      - server-name: /v1/start-application-in-generic-representation
+        uuid: aptp-1-1-0-op-s-bs-000
+      - server-name: /v1/inform-about-application
+        uuid: aptp-1-1-0-op-s-bs-001
+      - server-name: /v1/inform-about-application-in-generic-representation
+        uuid: aptp-1-1-0-op-s-bs-002
+      - server-name: /v1/inform-about-release-history
+        uuid: aptp-1-1-0-op-s-bs-003
+      - server-name: /v1/inform-about-release-history-in-generic-representation
+        uuid: aptp-1-1-0-op-s-bs-004
+      - server-name: /docs
+        uuid: aptp-1-1-0-op-s-bs-005
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: aptp-1-1-0-op-s-is-000
+      - server-name: /v1/provide-historical-pm-data-of-device
+        uuid: aptp-1-1-0-op-s-is-001
+      - server-name: /v1/check-registered-availability-of-device
+        uuid: aptp-1-1-0-op-s-is-002
+      - server-name: /v1/provide-configuration-for-livenetview
+        uuid: aptp-1-1-0-op-s-is-007
+      - server-name: /v1/provide-equipment-info-for-livenetview
+        uuid: aptp-1-1-0-op-s-is-008
+      - server-name: /v1/provide-alarms-for-livenetview
+        uuid: aptp-1-1-0-op-s-is-009
+      - server-name: /v1/provide-status-for-livenetview
+        uuid: aptp-1-1-0-op-s-is-010
+      - server-name: /v1/update-apt-client
+        uuid: aptp-1-1-0-op-s-is-999
+    consequent-requests:
+      - client-name: ExecutionAndTraceLog://v1/record-service-request
+        uuid: aptp-1-1-0-op-c-bs-eatl-2-1-2-000
+
+  - forwarding-name: OamRequestCausesLoggingRequest
+    uuid: aptp-1-1-0-op-fc-bm-003
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-oam-request-information
+          uuid: aptp-1-1-0-op-s-bm-003
+      fc-port-update:
+        - server-name: /v1/redirect-oam-request-information
+          uuid: aptp-1-1-0-op-s-bm-003
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      # [all oam requests]
+    consequent-requests:
+      - client-name: OamLog://v1/record-oam-request
+        uuid: aptp-1-1-0-op-c-bs-ol-2-1-2-000
+
+  - forwarding-name: BasicAuthRequestCausesInquiryForAuthentication
+    uuid: aptp-1-1-0-op-fc-bm-005
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/inquire-basic-auth-approvals
+          uuid: aptp-1-1-0-op-s-bm-012
+        - server-name: /v1/inquire-oam-request-approvals
+          uuid: aptp-1-1-0-op-s-bm-005
+      fc-port-update:
+        - server-name: /v1/inquire-basic-auth-approvals
+          uuid: aptp-1-1-0-op-s-bm-012
+        - server-name: /v1/inquire-oam-request-approvals
+          uuid: aptp-1-1-0-op-s-bm-005
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      # [all oam requests]
+    consequent-requests:
+      - client-name: AccessAdministration://v1/approve-basic-auth-request
+        uuid: aptp-1-1-0-op-c-bs-aa-2-1-2-000
+
+  - forwarding-name: PromptForBequeathingDataCausesRequestForBroadcastingInfoAboutServerReplacement
+    uuid: aptp-1-1-0-op-fc-bm-105
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/embed-yourself
+          uuid: aptp-1-1-0-op-s-bm-001
+      fc-port-update:
+        - server-name: /v1/embed-yourself
+          uuid: aptp-1-1-0-op-s-bm-001
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/bequeath-your-data-and-die
+        uuid: aptp-1-1-0-op-s-im-000
+    consequent-requests:
+      - client-name: RegistryOffice://v1/relay-server-replacement
+        uuid: aptp-1-1-0-op-c-bm-ro-2-1-2-001
+
+  - forwarding-name: PromptForBequeathingDataCausesRequestForDeregisteringOfOldRelease
+    uuid: aptp-1-1-0-op-fc-bm-106
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/embed-yourself
+          uuid: aptp-1-1-0-op-s-bm-001
+      fc-port-update:
+        - server-name: /v1/embed-yourself
+          uuid: aptp-1-1-0-op-s-bm-001
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/bequeath-your-data-and-die
+        uuid: aptp-1-1-0-op-s-im-000
+    consequent-requests:
+      - client-name: RegistryOffice://v1/deregister-application
+        uuid: aptp-1-1-0-op-c-bm-ro-2-1-2-002
+
+  - forwarding-name: PromptingNewReleaseForUpdatingServerCausesRequestForBroadcastingInfoAboutBackwardCompatibleUpdateOfOperation
+    uuid: aptp-1-1-0-op-fc-bm-107
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/embed-yourself
+          uuid: aptp-1-1-0-op-s-bm-001
+      fc-port-update:
+        - server-name: /v1/embed-yourself
+          uuid: aptp-1-1-0-op-s-bm-001
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/update-client
+        uuid: aptp-1-1-0-op-s-bm-007
+    consequent-requests:
+      - client-name: RegistryOffice://v1/relay-operation-update
+        uuid: aptp-1-1-0-op-c-bm-ro-2-1-2-003
+
+  - forwarding-name: ServiceRequestCausesLtpUpdateRequest
+    uuid: aptp-1-1-0-op-fc-bm-006
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: aptp-1-1-0-op-s-bm-009
+      fc-port-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: aptp-1-1-0-op-s-bm-009
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/register-yourself
+        uuid: aptp-1-1-0-op-s-bm-000
+      - server-name: /v1/embed-yourself
+        uuid: aptp-1-1-0-op-s-bm-001
+      - server-name: /v1/redirect-service-request-information
+        uuid: aptp-1-1-0-op-s-bm-002
+      - server-name: /v1/redirect-oam-request-information
+        uuid: aptp-1-1-0-op-s-bm-003
+      - server-name: /v1/inquire-oam-request-approvals
+        uuid: aptp-1-1-0-op-s-bm-005
+      - server-name: /v1/update-client
+        uuid: aptp-1-1-0-op-s-bm-007
+      - server-name: /v1/redirect-topology-change-information
+        uuid: aptp-1-1-0-op-s-bm-009
+      - server-name: /v1/update-operation-client
+        uuid: aptp-1-1-0-op-s-bm-011
+      - server-name: /v1/inquire-basic-auth-approvals
+        uuid: aptp-1-1-0-op-s-bm-012
+      - server-name: /v1/update-client-of-subsequent-release
+        uuid: aptp-1-1-0-op-s-bm-015
+      - server-name: /v1/bequeath-your-data-and-die
+        uuid: aptp-1-1-0-op-s-im-000
+    consequent-requests:
+      - client-name: ApplicationLayerTopology://v1/update-ltp
+        uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-001
+
+  - forwarding-name: ServiceRequestCausesLtpDeletionRequest
+    uuid: aptp-1-1-0-op-fc-bm-007
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: aptp-1-1-0-op-s-bm-009
+      fc-port-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: aptp-1-1-0-op-s-bm-009
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/dispose-remainders-of-deregistered-application
+        uuid: aptp-1-1-0-op-s-bm-013
+    consequent-requests:
+      - client-name: ApplicationLayerTopology://v1/delete-ltp-and-dependents
+        uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-002
+
+  - forwarding-name: ServiceRequestCausesFcUpdateRequest
+    uuid: aptp-1-1-0-op-fc-bm-008
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: aptp-1-1-0-op-s-bm-009
+      fc-port-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: aptp-1-1-0-op-s-bm-009
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+    consequent-requests:
+      - client-name: ApplicationLayerTopology://v1/update-fc
+        uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-003
+
+  - forwarding-name: ServiceRequestCausesFcPortUpdateRequest
+    uuid: aptp-1-1-0-op-fc-bm-009
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: aptp-1-1-0-op-s-bm-009
+      fc-port-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: aptp-1-1-0-op-s-bm-009
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+    consequent-requests:
+      - client-name: ApplicationLayerTopology://v1/update-fc-port
+        uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-004
+
+  - forwarding-name: ServiceRequestCausesFcPortDeletionRequest
+    uuid: aptp-1-1-0-op-fc-bm-010
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: aptp-1-1-0-op-s-bm-009
+      fc-port-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: aptp-1-1-0-op-s-bm-009
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/end-subscription
+        uuid: aptp-1-1-0-op-s-bm-004
+
+    consequent-requests:
+      - client-name: ApplicationLayerTopology://v1/delete-fc-port
+        uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-005
+
+  - forwarding-name: OamRequestCausesLtpUpdateRequest
+    uuid: aptp-1-1-0-op-fc-bm-011
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: aptp-1-1-0-op-s-bm-009
+      fc-port-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: aptp-1-1-0-op-s-bm-009
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+    consequent-requests:
+      - client-name: ApplicationLayerTopology://v1/update-ltp
+        uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-001
+
+  - forwarding-name: OamRequestCausesLtpDeletionRequest
+    uuid: aptp-1-1-0-op-fc-bm-012
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: aptp-1-1-0-op-s-bm-009
+      fc-port-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: aptp-1-1-0-op-s-bm-009
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+    consequent-requests:
+      - client-name: ApplicationLayerTopology://v1/delete-ltp-and-dependents
+        uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-002
+
+  - forwarding-name: OamRequestCausesFcUpdateRequest
+    uuid: aptp-1-1-0-op-fc-bm-013
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: aptp-1-1-0-op-s-bm-009
+      fc-port-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: aptp-1-1-0-op-s-bm-009
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+    consequent-requests:
+      - client-name: ApplicationLayerTopology://v1/update-fc
+        uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-003
+
+  - forwarding-name: OamRequestCausesFcPortUpdateRequest
+    uuid: aptp-1-1-0-op-fc-bm-014
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: aptp-1-1-0-op-s-bm-009
+      fc-port-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: aptp-1-1-0-op-s-bm-009
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+    consequent-requests:
+      - client-name: ApplicationLayerTopology://v1/update-fc-port
+        uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-004
+
+  - forwarding-name: OamRequestCausesFcPortDeletionRequest
+    uuid: aptp-1-1-0-op-fc-bm-015
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: aptp-1-1-0-op-s-bm-009
+      fc-port-update:
+        - server-name: /v1/redirect-topology-change-information
+          uuid: aptp-1-1-0-op-s-bm-009
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+    consequent-requests:
+      - client-name: ApplicationLayerTopology://v1/delete-fc-port
+        uuid: aptp-1-1-0-op-c-bm-alt-2-1-2-005
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesReadingLtpStructure
+    uuid: aptp-1-1-0-op-fc-is-100
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: aptp-1-1-0-op-s-is-000
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}?fields=logical-termination-point(uuid;server-ltp;client-ltp;layer-protocol(local-id;layer-protocol-name))
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-000
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest
+    uuid: aptp-1-1-0-op-fc-is-101
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: aptp-1-1-0-op-s-is-000
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=external-label
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-201
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache
+    uuid: aptp-1-1-0-op-fc-is-102
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: aptp-1-1-0-op-s-is-000
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-210
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache
+    uuid: aptp-1-1-0-op-fc-is-103
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: aptp-1-1-0-op-s-is-000
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-211
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive
+    uuid: aptp-1-1-0-op-fc-is-104
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: aptp-1-1-0-op-s-is-000
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status?fields=tx-level-cur;rx-level-cur;transmission-mode-cur;rx-frequency-cur;tx-frequency-cur;xpd-cur;snir-cur
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-512
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation
+    uuid: aptp-1-1-0-op-fc-is-115
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: aptp-1-1-0-op-s-is-000
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name;external-label
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-201
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive
+    uuid: aptp-1-1-0-op-fc-is-120
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: aptp-1-1-0-op-s-is-000
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=live/control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-407
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.OriginalLtpName
+    uuid: aptp-1-1-0-op-fc-is-130
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: aptp-1-1-0-op-s-is-000
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-201
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.VlanInterfaceKind
+    uuid: aptp-1-1-0-op-fc-is-131
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: aptp-1-1-0-op-s-is-000
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration?fields=interface-kind
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-261
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.EthernetContainerStatus
+    uuid: aptp-1-1-0-op-fc-is-132
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: aptp-1-1-0-op-s-is-000
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status?fields=interface-status
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-222
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.OriginalLtpName
+    uuid: aptp-1-1-0-op-fc-is-135
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: aptp-1-1-0-op-s-is-000
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-201
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.VlanInterfaceKind
+    uuid: aptp-1-1-0-op-fc-is-136
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: aptp-1-1-0-op-s-is-000
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration?fields=interface-kind
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-261
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.EthernetContainerStatus
+    uuid: aptp-1-1-0-op-fc-is-137
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: aptp-1-1-0-op-s-is-000
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status?fields=interface-status
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-222
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentUuid
+    uuid: aptp-1-1-0-op-fc-is-140
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: aptp-1-1-0-op-s-is-000
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-201
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentInfo
+    uuid: aptp-1-1-0-op-fc-is-141
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: aptp-1-1-0-op-s-is-000
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment?fields=structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier);equipment-instance(serial-number))
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-114
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.WireInterfaceName
+    uuid: aptp-1-1-0-op-fc-is-142
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: aptp-1-1-0-op-s-is-000
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-201
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.SupportedPmds
+    uuid: aptp-1-1-0-op-fc-is-143
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: aptp-1-1-0-op-s-is-000
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-capability?fields=supported-pmd-kind-list(pmd-name)
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-270
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.OperatedPmd
+    uuid: aptp-1-1-0-op-fc-is-144
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: aptp-1-1-0-op-s-is-000
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status?fields=pmd-kind-cur
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-272
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentUuid
+    uuid: aptp-1-1-0-op-fc-is-150
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: aptp-1-1-0-op-s-is-000
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-201
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory
+    uuid: aptp-1-1-0-op-fc-is-151
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: aptp-1-1-0-op-s-is-000
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment?fields=structure(category)
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-114
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.HolderLabel
+    uuid: aptp-1-1-0-op-fc-is-152
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: aptp-1-1-0-op-s-is-000
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}?fields=equipment(contained-holder(occupying-fru;equipment-augment-1-0:holder-pac(vendor-label)))
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-000
+
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorId
+    uuid: aptp-1-1-0-op-fc-is-155
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: aptp-1-1-0-op-s-is-000
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment;connector
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-201
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorNumber
+    uuid: aptp-1-1-0-op-fc-is-156
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: aptp-1-1-0-op-s-is-000
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/connector={local-id}?fields=equipment-augment-1-0:connector-pac(sequence-id)
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-111
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers
+    uuid: aptp-1-1-0-op-fc-is-160
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: aptp-1-1-0-op-s-is-000
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment?fields=structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier);equipment-instance(serial-number))
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-114
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesReadingFirmwareList
+    uuid: aptp-1-1-0-op-fc-is-161
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: aptp-1-1-0-op-s-is-000
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/firmware-1-0:firmware-collection
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-120
+
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData
+    uuid: aptp-1-1-0-op-fc-is-170
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: aptp-1-1-0-op-s-is-000
+    consequent-requests:
+      - client-name: AccessPlanningTool://v1/receive-acceptance-data-of-link-endpoint
+        uuid: aptp-1-1-0-op-c-is-apt-24-5-0-000
+
+  - forwarding-name: RequestForProvidingHistoricalPmDataCausesReadingLtpStructure
+    uuid: aptp-1-1-0-op-fc-is-200
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-historical-pm-data-of-device
+        uuid: aptp-1-1-0-op-s-is-001
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountMame}?fields=logical-termination-point(uuid;server-ltp;client-ltp;layer-protocol(local-id;layer-protocol-name))
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-000
+
+  - forwarding-name: RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInterfaces
+    uuid: aptp-1-1-0-op-fc-is-210
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-historical-pm-data-of-device
+        uuid: aptp-1-1-0-op-s-is-001
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=(original-ltp-name;external-label)
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-201
+
+  - forwarding-name: RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregations
+    uuid: aptp-1-1-0-op-fc-is-220
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-historical-pm-data-of-device
+        uuid: aptp-1-1-0-op-s-is-001
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=(original-ltp-name;external-label)
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-201
+
+  - forwarding-name: RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache
+    uuid: aptp-1-1-0-op-fc-is-230
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-historical-pm-data-of-device
+        uuid: aptp-1-1-0-op-s-is-001
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-211
+
+  - forwarding-name: RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceCapabilitiesFromCache
+    uuid: aptp-1-1-0-op-fc-is-240
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-historical-pm-data-of-device
+        uuid: aptp-1-1-0-op-s-is-001
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-capability
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-210
+
+  - forwarding-name: RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePerformanceFromCache
+    uuid: aptp-1-1-0-op-fc-is-250
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-historical-pm-data-of-device
+        uuid: aptp-1-1-0-op-s-is-001
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-historical-performances
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-214
+
+  - forwarding-name: RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache
+    uuid: aptp-1-1-0-op-fc-is-260
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-historical-pm-data-of-device
+        uuid: aptp-1-1-0-op-s-is-001
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-224
+
+  - forwarding-name: RequestForProvidingHistoricalPmDataCausesDeliveringRequestedHistoricalPmData
+    uuid: aptp-1-1-0-op-fc-is-270
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-historical-pm-data-of-device
+        uuid: aptp-1-1-0-op-s-is-001
+    consequent-requests:
+      - client-name: AccessPlanningTool://v1/receive-historical-pm-data-of-device
+        uuid: aptp-1-1-0-op-c-is-apt-24-5-0-001
+
+  - forwarding-name: RequestForProvidingConfigurationForLivenetviewCausesReadingLtpStructure
+    uuid: aptp-1-1-0-op-fc-is-300
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-configuration-for-livenetview
+        uuid: aptp-1-1-0-op-s-is-007
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}?fields=logical-termination-point(uuid;layer-protocol(local-id;layer-protocol-name))
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-000
+
+  - forwarding-name: RequestForProvidingConfigurationForLivenetviewCausesDeterminingAirInterfaceUnderTest
+    uuid: aptp-1-1-0-op-fc-is-301
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-configuration-for-livenetview
+        uuid: aptp-1-1-0-op-s-is-007
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=external-label
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-201
+
+  - forwarding-name: RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache
+    uuid: aptp-1-1-0-op-fc-is-302
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-configuration-for-livenetview
+        uuid: aptp-1-1-0-op-s-is-007
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-211
+
+  - forwarding-name: RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache
+    uuid: aptp-1-1-0-op-fc-is-303
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-configuration-for-livenetview
+        uuid: aptp-1-1-0-op-s-is-007
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-210
+
+
+  - forwarding-name: RequestForProvidingEquipmentInfoForLivenetviewCausesReadingLtpStructure
+    uuid: aptp-1-1-0-op-fc-is-305
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-equipment-info-for-livenetview
+        uuid: aptp-1-1-0-op-s-is-008
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}?fields=logical-termination-point(uuid;layer-protocol(local-id;layer-protocol-name))
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-000
+
+  - forwarding-name: RequestForProvidingEquipmentInfoForLivenetviewCausesDeterminingAirInterfaceUnderTest
+    uuid: aptp-1-1-0-op-fc-is-306
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-equipment-info-for-livenetview
+        uuid: aptp-1-1-0-op-s-is-008
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=external-label
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-201
+
+  - forwarding-name: RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentUuid
+    uuid: aptp-1-1-0-op-fc-is-307
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-equipment-info-for-livenetview
+        uuid: aptp-1-1-0-op-s-is-008
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}\n/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-201
+
+  - forwarding-name: RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo
+    uuid: aptp-1-1-0-op-fc-is-308
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-equipment-info-for-livenetview
+        uuid: aptp-1-1-0-op-s-is-008
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment?fields=structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier);equipment-instance(serial-number))
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-114
+
+  - forwarding-name: RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromLive
+    uuid: aptp-1-1-0-op-fc-is-400
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-alarms-for-livenetview
+        uuid: aptp-1-1-0-op-s-is-009
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=live/control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-407
+
+  - forwarding-name: RequestForProvidingStatusForLivenetviewCausesReadingLtpStructure
+    uuid: aptp-1-1-0-op-fc-is-405
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-status-for-livenetview
+        uuid: aptp-1-1-0-op-s-is-010
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}?fields=logical-termination-point(uuid;layer-protocol(local-id;layer-protocol-name))
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-000
+
+  - forwarding-name: RequestForProvidingStatusForLivenetviewCausesDeterminingAirInterfaceUnderTest
+    uuid: aptp-1-1-0-op-fc-is-406
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-status-for-livenetview
+        uuid: aptp-1-1-0-op-s-is-010
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=external-label
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-201
+
+  - forwarding-name: RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive
+    uuid: aptp-1-1-0-op-fc-is-407
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-status-for-livenetview
+        uuid: aptp-1-1-0-op-s-is-010
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status?fields=tx-level-cur;rx-level-cur;transmission-mode-cur;rx-frequency-cur;tx-frequency-cur
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-512
+
+  - forwarding-name: RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache
+    uuid: aptp-1-1-0-op-fc-is-408
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-status-for-livenetview
+        uuid: aptp-1-1-0-op-s-is-010
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-210
