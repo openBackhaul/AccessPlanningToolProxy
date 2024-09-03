@@ -1,0 +1,110 @@
+@startuml APTP_1.0.0+diagram.completeness
+skinparam responseMessageBelowArrow true
+
+title
+APTP_1.0.0+testcase.completeness
+end title
+
+participant "Postman" as Postman
+participant "Data" as Data
+participant "Collection" as Collection
+
+participant "/v1/check-registered-availability-of-device" as Connected
+
+participant "/v1/provide-acceptance-data-of-link-endpoint" as Acceptance
+participant "/v1/provide-historical-pm-data-of-device" as Performance
+
+participant "/v1/provide-configuration-for-livenetview" as Configuration
+participant "/v1/provide-equipment-info-for-livenetview" as Equipment
+participant "/v1/provide-status-for-livenetview" as Status
+participant "/v1/provide-alarms-for-livenetview" as Alarm
+
+participant "/v1/update-apt-client" as Update
+
+group Preparation
+  Data --\\o Postman : {mountName,\n   linkId}
+  activate Postman
+  Postman --\\o Collection : {mountName,\n   linkId}
+end
+
+group /v1/check-registered-availability-of-device
+  Collection --\\o Postman : {mountName}
+  Postman -> Connected : {mountName}
+  Postman <-- Connected : {deviceIsAvailable}
+  note right Postman
+    schema validation
+  end note
+  Postman --\\o Collection : {deviceIsAvailable}
+end
+
+group /v1/provide-acceptance-data-of-link-endpoint
+  Collection --\\o Postman : {mountName,\n   linkId,\n   deviceIsAvailable}
+  Postman -> Acceptance : {mountName, linkId}
+  Postman <-- Acceptance : {(all_acceptance_data)}
+  note right Postman
+    schema validation
+  end note
+end
+
+group /v1/provide-historical-pm-data-of-device
+  Collection --\\o Postman : {mountName,\n   deviceIsAvailable}
+  Postman -> Performance : {mountName, timestamp=1999}
+  Postman <-- Performance : {(performance_data)}
+  note right Postman
+    schema validation
+  end note
+end
+
+group /v1/provide-configuration-for-livenetview
+  Collection --\\o Postman : {mountName,\n   linkId,\n   deviceIsAvailable}
+  Postman -> Configuration : {mountName, linkId}
+  Postman <-- Configuration : {(configuration_data)}
+  note right Postman
+    schema validation
+  end note
+end
+
+group /v1/provide-equipment-info-for-livenetview
+  Collection --\\o Postman : {mountName,\n   linkId,\n   deviceIsAvailable}
+  Postman -> Equipment : {mountName, linkId}
+  Postman <-- Equipment : {(equipment_data)}
+  note right Postman
+    schema validation
+  end note
+end
+
+group /v1/provide-status-for-livenetview
+  Collection --\\o Postman : {mountName,\n   linkId,\n   deviceIsAvailable}
+  Postman -> Status : {mountName, linkId}
+  Postman <-- Status : {(status_data)}
+  note right Postman
+    schema validation
+  end note
+end
+
+group /v1/provide-alarms-for-livenetview
+  Collection --\\o Postman : {mountName,\n   deviceIsAvailable}
+  Postman -> Alarm : {mountName}
+  Postman <-- Alarm : {(alarm_data)}
+  note right Postman
+    schema validation
+  end note
+end
+
+group /v1/update-apt-client
+  note right Postman
+    Invent (random_address)
+  end note
+  Postman -> Update : {(random_address)}
+  Postman <-- Update : 204
+  note right Postman
+    Check for 204
+  end note
+  note right Postman #LightGray
+    Should OAS paths be GETted for validation?
+  end note
+end
+
+deactivate Postman
+
+@enduml
