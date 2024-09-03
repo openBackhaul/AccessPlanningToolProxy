@@ -1,0 +1,3371 @@
+﻿openapi: 3.0.0
+info:
+  title: AccessPlanningToolProxy_1.0.0+simulator.1
+  version: 1.0.0
+
+paths:
+########################################################################################################################
+#   Specific Simulator - exclusively Ana's 2xx examples
+########################################################################################################################
+  /v1/provide-acceptance-data-of-link-endpoint:
+    post:
+      operationId: provideAcceptanceDataOfLinkEndpoint
+      summary: 'Provides the data required for the acceptance of a device'
+      tags:
+        - IndividualServices
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mount-name
+                - link-id
+              properties:
+                mount-name:
+                  type: string
+                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$
+                  description: 'Identifier of the device at the Controller'
+                link-id:
+                  type: string
+                  pattern: ^\d{3}55\d{4}$
+                  description: 'Identifier of the microwave link in the Telefonica planning tools'
+      responses:
+        '202':
+          description: 'Request for providing acceptance data of link endpoint received and accepted'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - request-id
+                properties:
+                  request-id:
+                    type: string
+                    description: 'Identifier of the request for providing acceptance data of link endpoint'
+                example:
+                  request-id: '513250010-513550010-240829-1050'
+          headers:
+            life-cycle-state:
+              schema:
+                type: string
+                enum:
+                  - 'EXPERIMENTAL'
+                  - 'OPERATIONAL'
+                  - 'DEPRECATED'
+                  - 'OBSOLETE'
+                  - 'UNKNOWN'
+                  - 'NOT_YET_DEFINED'
+                example: 'EXPERIMENTAL'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-is-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+
+  /v1/provide-historical-pm-data-of-device:
+    post:
+      operationId: provideHistoricalPmDataOfDevice
+      summary: 'Provides the historical performance data, together with some relevant configurations and capabilities, of air-interfaces and ethernet-containers found in the device'
+      tags:
+        - IndividualServices
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mount-name
+                - time-stamp
+              properties:
+                mount-name:
+                  type: string
+                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$
+                  description: 'Identifier of the device at the Controller'
+                time-stamp:
+                  type: string
+                  format: date-time
+                  description: 'Time when the counter values were recorded and the counter reset. Corresponds to the most recent performance measurement of the device, which has been logged outside the MW SDN Domain'
+      responses:
+        '202':
+          description: 'Request for providing historical performance data of device received and accepted'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  request-id:
+                    type: string
+                    description: 'Identifier of the request for providing historical performance data of device'
+                example:
+                  request-id: '305251111-240212-1055'
+          headers:
+            life-cycle-state:
+              schema:
+                type: string
+                enum:
+                  - 'EXPERIMENTAL'
+                  - 'OPERATIONAL'
+                  - 'DEPRECATED'
+                  - 'OBSOLETE'
+                  - 'UNKNOWN'
+                  - 'NOT_YET_DEFINED'
+                example: 'EXPERIMENTAL'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-is-001/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+
+  /v1/check-registered-availability-of-device:
+    post:
+      operationId: checkRegisteredAvailabilityOfDevice
+      summary: 'Checks wheter a mountName is registered in the APTP-internal list of Connected devices and returns a boolean'
+      tags:
+        - IndividualServices
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mount-name
+              properties:
+                mount-name:
+                  type: string
+                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$
+                  description: 'Identifier of the device at the Controller'
+      responses:
+        '200':
+          description: 'Request for checking the registered availability of device successful'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  device-is-available:
+                    type: boolean
+                    description: 'Indicates whether a device appears as connected to the controller'
+                example:
+                  device-is-available: true
+          headers:
+            life-cycle-state:
+              schema:
+                type: string
+                enum:
+                  - 'EXPERIMENTAL'
+                  - 'OPERATIONAL'
+                  - 'DEPRECATED'
+                  - 'OBSOLETE'
+                  - 'UNKNOWN'
+                  - 'NOT_YET_DEFINED'
+                example: 'EXPERIMENTAL'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-is-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+
+  /v1/provide-configuration-for-livenetview:
+    post:
+      operationId: provideConfigurationForLiveNetView
+      summary: 'Provides the configurations at link endpoint for display at the section "LiveView aktuell" in LinkVis'
+      tags:
+        - IndividualServices
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mount-name
+                - link-id
+              properties:
+                mount-name:
+                  type: string
+                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$
+                  description: 'Identifier of the device at the Controller'
+                link-id:
+                  type: string
+                  pattern: ^\d{3}55\d{4}$
+                  description: 'Identifier of the microwave link in the Telefonica planning tools'
+      responses:
+        '200':
+          description: 'Request for providing configuration data of link endpoint sucessful'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  air-interface-endpoint-name:
+                    type: string
+                    description: >
+                      'Identifier of the microwave link endpoint as used in the Telefonica planing tools
+                        from {$RequestForProvidingConfigurationForLivenetviewCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceLabel.response.body#external-label}'
+                  configured-tx-power:
+                    type: integer
+                    description: >
+                      'Configured transmit power that will be operated in maximum in dBm
+                      from {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/tx-power}'
+                  supported-radio-signal-id-datatype:
+                    type: string
+                    enum:
+                      - 'air-interface-2-0:RADIO_SIGNAL_ID_DATATYPE_TYPE_INTEGER'
+                      - 'air-interface-2-0:RADIO_SIGNAL_ID_DATATYPE_TYPE_STRING'
+                    description: >
+                      'Datatype which is supported as a Radio Signal ID by the device
+                      from {$RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/supported-radio-signal-id-datatype'
+                  supported-radio-signal-id-length:
+                    type: integer
+                    description: >
+                      'If (supportedRadioSignalIdDatatype==INTEGER): Maximum value of the Radio Signal ID supported by the device;
+                      If (supportedRadioSignalIdDatatype==STRING): Maximum number of letters supported by the device.
+                      From {$RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/supported-radio-signal-id-length'
+                  configured-transmitted-radio-signal-id:
+                    type: object
+                    description: 'Radio signal ID that is configured to be transmitted'
+                    properties:
+                      alphanumeric-radio-signal-id:
+                        type: string
+                        description: 'from {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmitted-radio-signal-id/alphanumeric-radio-signal-id}'
+                      numeric-radio-signal-id:
+                        type: integer
+                        description: 'from {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmitted-radio-signal-id/numeric-radio-signal-id}'
+                  configured-expected-radio-signal-id:
+                    type: object
+                    description: 'Radio signal ID configured to be expected on the signal to synchronize the receiver to'
+                    properties:
+                      alphanumeric-radio-signal-id:
+                        type: string
+                        description: 'from {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/expected-radio-signal-id/alphanumeric-radio-signal-id}'
+                      numeric-radio-signal-id:
+                        type: integer
+                        description: 'from {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/expected-radio-signal-id/numeric-radio-signal-id}'
+                  configured-atpc-is-on:
+                    type: boolean
+                    description: >
+                      'This configuration value is true, if automatic transmit power control (ATPC) is configured to be switched on
+                      from {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/atpc-is-on}'
+                  configured-atpc-threshold-upper:
+                    type: integer
+                    description: >
+                      'Configured upper automatic transmit power control (ATPC) threshold in dBm
+                      from {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/atpc-thresh-upper}'
+                  configured-atpc-threshold-lower:
+                    type: integer
+                    description: >
+                      'Configured lower automatic transmit power control (ATPC) threshold in dBm
+                      from {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/atpc-thresh-lower}'
+                  configured-atpc-tx-power-min:
+                    type: integer
+                    description: >
+                      'Configured TX power value (in dBm) that must not be undercut by automatic transmit power control (ATPC)
+                      from {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/atpc-tx-power-min}'
+                  configured-adaptive-modulation-is-on:
+                    type: boolean
+                    description: >
+                      'This configuration value is true, if adpative modulation is configured to be switched on
+                      from {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/adaptive-modulation-is-on}'
+                  configured-modulation-minimum:
+                    type: object
+                    description: 'Configured minimum modulation scheme'
+                    properties:
+                      number-of-states:
+                        type: integer
+                        description: >
+                          'Number of states in the phase diagram (e.g. BPSK->2 or 256QAM->256)
+                          transmissionModeMin = {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmission-mode-min}
+                          from {$RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/modulation-scheme}
+                          where {$RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeMin'
+                      name-at-lct:
+                        type: string
+                        description: >
+                          'Name identifying this transmission mode on the graphical user interface of the local craft terminal
+                          transmissionModeMin = {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmission-mode-min}
+                          from {$RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/modulation-scheme-name-at-lct}
+                          where {$RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeMin'
+                  configured-modulation-maximum:
+                    type: object
+                    description: 'Configured maximum modulation scheme'
+                    properties:
+                      number-of-states:
+                        type: integer
+                        description: >
+                          'Number of states in the phase diagram (e.g. BPSK->2 or 256QAM->256)
+                          transmissionModeMax = {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmission-mode-max}
+                          from {$RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/modulation-scheme}
+                          where {$RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeMax'
+                      name-at-lct:
+                        type: string
+                        description: >
+                          'Name identifying this transmission mode on the graphical user interface of the local craft terminal
+                          transmissionModeMax = {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmission-mode-max}
+                          from {$RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/modulation-scheme-name-at-lct}
+                          where {$RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeMax'
+                  configured-channel-bandwidth-min:
+                    type: integer
+                    description: >
+                      'Configured bandwidth in the lowest transmission mode of the radio channel in kHz
+                      transmissionModeMin = {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmission-mode-min}
+                      from {$RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/channel-bandwidth}
+                      where {$RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interfacer-2-0:ai-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeMin'
+                  configured-channel-bandwidth-max:
+                    type: integer
+                    description: >
+                      'Configured bandwidth in the highest transmission mode of the radio channel in kHz
+                      transmissionModeMax = {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmission-mode-max}
+                      from {$RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/channel-bandwidth}
+                      where {$RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeMax'
+                  configured-xpic-is-on:
+                    type: boolean
+                    description: >
+                      'This configuration value is true, if cross polarization interference cancellation (XPIC) is configured to be activated
+                      from {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/xpic-is-on}'
+                example:
+                  air-interface-endpoint-name: '513550010B'
+                  configured-tx-power: 10
+                  supported-radio-signal-id-datatype: 'air-interface-2-0:RADIO_SIGNAL_ID_DATATYPE_TYPE_INTEGER'
+                  supported-radio-signal-id-length: 255
+                  configured-transmitted-radio-signal-id:
+                    alphanumeric-radio-signal-id: '513250010-v-down'
+                    numeric-radio-signal-id: -1
+                  configured-expected-radio-signal-id:
+                    alphanumeric-radio-signal-id: '513250010-v-up'
+                    numeric-radio-signal-id: -1
+                  configured-atpc-is-on: true
+                  configured-atpc-threshold-upper: -40
+                  configured-atpc-threshold-lower: -45
+                  configured-atpc-tx-power-min: -10
+                  configured-adaptive-modulation-is-on: true
+                  configured-modulation-minimum:
+                    number-of-states: 4
+                    name-at-lct: 4QAM-Strong
+                  configured-modulation-maximum:
+                    number-of-states: 2048
+                    name-at-lct: 2048QAM
+                  configured-channel-bandwidth-min: 112
+                  configured-channel-bandwidth-max: 112
+                  configured-xpic-is-on: false
+          headers:
+            life-cycle-state:
+              schema:
+                type: string
+                enum:
+                  - 'EXPERIMENTAL'
+                  - 'OPERATIONAL'
+                  - 'DEPRECATED'
+                  - 'OBSOLETE'
+                  - 'UNKNOWN'
+                  - 'NOT_YET_DEFINED'
+                example: 'EXPERIMENTAL'
+              description: >
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-is-007/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+  /v1/provide-equipment-info-for-livenetview:
+    post:
+      operationId: provideEquipmentInfoForLiveNetView
+      summary: 'Provides information about the radio component identifiers at the link endpoint for display at the section "LiveView aktuell" in LinkVis'
+      tags:
+        - IndividualServices
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mount-name
+                - link-id
+              properties:
+                mount-name:
+                  type: string
+                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$
+                  description: 'Identifier of the device at the Controller'
+                link-id:
+                  type: string
+                  pattern: ^\d{3}55\d{4}$
+                  description: 'Identifier of the microwave link in the Telefonica planning tools'
+      responses:
+        '200':
+          description: 'Request for providing equipment information for livenetview sucessful'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  radio:
+                    type: object
+                    properties:
+                      equipment-name:
+                        type: string
+                        description: >
+                          'Name of the radio type
+                          if {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT
+                          from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache..EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/type-name}'
+                      serial-number:
+                        type: string
+                        description: >
+                          'Serial number of the radio
+                          if {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT
+                          from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-instance/serial-number}'
+                      part-number:
+                        type: string
+                        description: >
+                          'Part number of the radio
+                          if {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT
+                          from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/part-type-identifier}'
+                  modem:
+                    type: object
+                    properties:
+                      equipment-name:
+                        type: string
+                        description: >
+                          'Name of the modem type
+                          if {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM
+                          from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/type-name}'
+                      serial-number:
+                        type: string
+                        description: >
+                          'Serial number of the modem
+                          if {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM
+                          from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-instance/serial-number}'
+                      part-number:
+                        type: string
+                        description: >
+                          'Part number of the modem
+                          if {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM
+                          from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/part-type-identifier}'
+                  device:
+                    type: object
+                    properties:
+                      equipment-name:
+                        type: string
+                        description: >
+                          'Name of the device type
+                          if {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_FULL_OUTDOOR_UNIT
+                          from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/type-name}'
+                      serial-number:
+                        type: string
+                        description: >
+                          'Serial number of the device
+                          if {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_FULL_OUTDOOR_UNIT
+                          from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-instance/serial-number}'
+                      part-number:
+                        type: string
+                        description: >
+                          'Part number of the device
+                          if {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_FULL_OUTDOOR_UNIT
+                          from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/part-type-identifier}'
+                example:
+                  radio:
+                    equipment-name: 'RAU2 X 23/79'
+                    serial-number: 'A231067NG8'
+                    part-number: 'UKL40163/79'
+                  modem:
+                    equipment-name: 'MMU3 A'
+                    serial-number: 'A2310FXGLF'
+                    part-number: 'ROJ 208 1311/1'
+                  device:
+                    equipment-name: 'ASNK-18G'
+                    serial-number: '101821827000420'
+                    part-number: 'GE8704-52'
+          headers:
+            life-cycle-state:
+              schema:
+                type: string
+                enum:
+                  - 'EXPERIMENTAL'
+                  - 'OPERATIONAL'
+                  - 'DEPRECATED'
+                  - 'OBSOLETE'
+                  - 'UNKNOWN'
+                  - 'NOT_YET_DEFINED'
+                example: 'EXPERIMENTAL'
+              description: >
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-is-008/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+  /v1/provide-status-for-livenetview:
+    post:
+      operationId: provideStatusForLiveNetView
+      summary: 'Provides information about the radio component identifiers at the link endpoint for display at the section "LiveView aktuell" in LinkVis'
+      tags:
+        - IndividualServices
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mount-name
+                - link-id
+              properties:
+                mount-name:
+                  type: string
+                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$
+                  description: 'Identifier of the device at the Controller'
+                link-id:
+                  type: string
+                  pattern: ^\d{3}55\d{4}$
+                  description: 'Identifier of the microwave link in the Telefonica planning tools'
+      responses:
+        '200':
+          description: 'Request for providing configuration data of link endpoint sucessful'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  current-tx-power:
+                    type: integer
+                    description: >
+                      'Currently measured transmit power in dBm
+                      from {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/tx-level-cur}'
+                  current-rx-level:
+                    type: integer
+                    description: >
+                      'Currently measured receive level in dBm
+                      from {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/rx-level-cur}'
+                  current-modulation:
+                    type: object
+                    description: 'Currently operated modulation scheme'
+                    properties:
+                      number-of-states:
+                        type: integer
+                        description: >
+                          'Number of states in the phase diagram (e.g. BPSK->2 or 256QAM->256)
+                          transmissionModeCur = {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/transmission-mode-cur}
+                          from {$RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/modulation-scheme}
+                          where {$RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeCur'
+                      name-at-lct:
+                        type: string
+                        description: >
+                          'Name identifying this transmission mode on the graphical user interface of the local craft terminal
+                          transmissionModeCur = {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/transmission-mode-cur}
+                          from {$RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/modulation-scheme-name-at-lct}
+                          where {$RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeCur'
+                  current-tx-frequency:
+                    type: integer
+                    description: >
+                      'Current transmit frequency in kHz
+                      from {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/tx-frequency-cur}'
+                  current-rx-frequency:
+                    type: integer
+                    description: >
+                      'Current receive frequency in kHz
+                      from {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/rx-frequency-cur}'
+                example:
+                  current-tx-power: 5
+                  current-rx-level: -45
+                  current-modulation:
+                    number-of-states: 2048
+                    name-at-lct: 2048QAM
+                  current-tx-frequency: 38822000
+                  current-rx-frequency: 34522000
+          headers:
+            life-cycle-state:
+              schema:
+                type: string
+                enum:
+                  - 'EXPERIMENTAL'
+                  - 'OPERATIONAL'
+                  - 'DEPRECATED'
+                  - 'OBSOLETE'
+                  - 'UNKNOWN'
+                  - 'NOT_YET_DEFINED'
+                example: 'EXPERIMENTAL'
+              description: >
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-is-010/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+  /v1/provide-alarms-for-livenetview:
+    post:
+      operationId: provideAlarmsForLiveNetView
+      summary: 'Provides the current alarms in a device for display at the section "LiveView aktuell" in LinkVis'
+      tags:
+        - IndividualServices
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mount-name
+              properties:
+                mount-name:
+                  type: string
+                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$
+                  description: 'Identifier of the device at the Controller'
+      responses:
+        '200':
+          description: 'Request for providing current alarms of link endpoint sucessful'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  current-alarms:
+                    type: object
+                    properties:
+                      number-of-current-alarms:
+                        type: integer
+                        description: >
+                          'Number of currently raised alarms on the device
+                          from {$RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive.AlarmsFromLive.response.body#alarms-1-0:current-alarms/number-of-current-alarms'
+                      current-alarm-list:
+                        type: array
+                        description: 'List of alarms that are currently raised on the device'
+                        items:
+                          type: object
+                          properties:
+                            alarm-type-id:
+                              type: string
+                              description: >
+                                'This attribute and the alarm-type-qualifier attribute together provides a unique identification of the alarm type
+                                from {$RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive.AlarmsFromLive.response.body#alarms-1-0:current-alarms/current-alarm-list/alarm-type-id'
+                            alarm-type-qualifier:
+                              type: string
+                              description: >
+                                'This attribute is used whenever the alarm-type-id attribute cannot uniquely identify the type of alarm
+                                from {$RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive.AlarmsFromLive.response.body#alarms-1-0:current-alarms/current-alarm-list/alarm-type-qualifier'
+                            alarm-severity:
+                              type: string
+                              enum:
+                                - 'alarms-1-0:SEVERITY_TYPE_INDETERMINATE'
+                                - 'alarms-1-0:SEVERITY_TYPE_WARNING'
+                                - 'alarms-1-0:SEVERITY_TYPE_MINOR'
+                                - 'alarms-1-0:SEVERITY_TYPE_MAJOR'
+                                - 'alarms-1-0:SEVERITY_TYPE_CRITICAL'
+                                - 'alarms-1-0:SEVERITY_TYPE_CLEARED'
+                                - 'alarms-1-0:SEVERITY_TYPE_NOT_YET_DEFINED'
+                              description: >
+                                'Severity of the alarm as it is configured on the device
+                                from {$RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive.AlarmsFromLive.response.body#alarms-1-0:current-alarms/current-alarm-list/alarm-severity'
+                example:
+                  current-alarms:
+                    number-of-current-alarms: 2
+                    current-alarm-list:
+                      - alarm-type-id: 'alarms-ext-ericsson-mltn:ALARM_TYPE_ID_LOF'
+                        alarm-type-qualifier: ''
+                        alarm-severity: 'alarms-1-0:SEVERITY_TYPE_CRITICAL'
+                      - alarm-type-id: 'alarms-ext-ericsson-mltn:ALARM_TYPE_ID_ETHERNET_DOWN'
+                        alarm-type-qualifier: ''
+                        alarm-severity: 'alarms-1-0:SEVERITY_TYPE_CRITICAL'
+          headers:
+            life-cycle-state:
+              schema:
+                type: string
+                enum:
+                  - 'EXPERIMENTAL'
+                  - 'OPERATIONAL'
+                  - 'DEPRECATED'
+                  - 'OBSOLETE'
+                  - 'UNKNOWN'
+                  - 'NOT_YET_DEFINED'
+                example: 'EXPERIMENTAL'
+              description: >
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-is-009/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+
+  /v1/update-apt-client:
+    post:
+      operationId: updateAptClient
+      summary: 'Allows updating connection data of the AccessPlanningTool'
+      description: >
+        'Enables updating the TCP/IP addresses of existing APT-Interfaces.
+        After successful execution of this service, a minimum time stated in [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-integer-p-001/integer-profile-1-0:integer-profile-pac/integer-profile-configuration/integer-value] must elapse before a processing of this service is permitted again'
+      tags:
+        - IndividualServices
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                future-apt-protocol:
+                  type: string
+                  enum:
+                    - 'HTTP'
+                    - 'HTTPS'
+                  description: >
+                    'Protocol to be used in future for addressing the AccessPlanningTool
+                    update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
+                future-apt-address:
+                  type: object
+                  minProperties: 1
+                  maxProperties: 1
+                  additionalProperties: false
+                  properties:
+                    ip-address:
+                      type: object
+                      minProperties: 1
+                      additionalProperties: false
+                      properties:
+                        ipv-4-address:
+                          type: string
+                          pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
+                          description: >
+                            'Future IPv4 address of the AccessPlanningTool
+                            update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
+                future-apt-port:
+                  type: integer
+                  minimum: 0
+                  maximum: 65535
+                  description: >
+                    'Future port of the AccessPlanningTool
+                    update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
+                future-acceptance-data-receive-operation:
+                  type: string
+                  description: >
+                    'Future operation at the requestor for receiving the acceptance data
+                    update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-apt-24-5-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+                future-performance-data-receive-operation:
+                  type: string
+                  description: >
+                    'Future operation at the requestor for receiving the performance data
+                    update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-apt-24-5-0-001/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+      responses:
+        '204':
+          description: 'Will update connection information'
+          headers:
+            life-cycle-state:
+              schema:
+                type: string
+                enum:
+                  - 'EXPERIMENTAL'
+                  - 'OPERATIONAL'
+                  - 'DEPRECATED'
+                  - 'OBSOLETE'
+                  - 'UNKNOWN'
+                  - 'NOT_YET_DEFINED'
+                example: 'EXPERIMENTAL'
+              description: >
+                'Life cycle state of the consumed service
+                from [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-is-999/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+
+########################################################################################################################
+#   Generic Simulator (generic examples, but all response codes)
+########################################################################################################################
+  /generic/v1/provide-acceptance-data-of-link-endpoint:
+    post:
+      operationId: provideAcceptanceDataOfLinkEndpoint
+      summary: 'Provides the data required for the acceptance of a device'
+      tags:
+        - IndividualServices
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mount-name
+                - link-id
+              properties:
+                mount-name:
+                  type: string
+                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$
+                  description: 'Identifier of the device at the Controller'
+                link-id:
+                  type: string
+                  pattern: ^\d{3}55\d{4}$
+                  description: 'Identifier of the microwave link in the Telefonica planning tools'
+      responses:
+        '202':
+          description: 'Request for providing acceptance data of link endpoint received and accepted'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - request-id
+                properties:
+                  request-id:
+                    type: string
+                    description: 'Identifier of the request for providing acceptance data of link endpoint'
+                example:
+                  request-id: 'string'
+          headers:
+            life-cycle-state:
+              schema:
+                type: string
+                enum:
+                  - 'EXPERIMENTAL'
+                  - 'OPERATIONAL'
+                  - 'DEPRECATED'
+                  - 'OBSOLETE'
+                  - 'UNKNOWN'
+                  - 'NOT_YET_DEFINED'
+                example: 'EXPERIMENTAL'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-is-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '400':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 400
+                  message: 'Bad Request'
+        '401':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 401
+                  message: 'Unauthorized'
+        '403':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 403
+                  message: 'Forbidden'
+        '404':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 404
+                  message: 'Not Found'
+        '429':
+          description: 'Response in case too many requests need to be executed in parallel or too many requests have been received within a time period. The maximum number of parallel requests is defined in an IntegerProfile with the service name as a prefix and MaxNumberOfParallelRequests as a suffix. Some time period to elapse for throttling incomming requests is defined in an IntegerProfile with the service name as a prefix and ThrottlingPeriod as a suffix'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    minimum: 429
+                    maximum: 429
+                    format: int32
+                  message:
+                    type: string
+                    enum:
+                      - 'Too many requests'
+                example:
+                  code: 429
+                  message: 'Too many requests'
+        '460':
+          description: 'Response in case the mountName provided in the request is not found in the list of connected devices'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    minimum: 460
+                    maximum: 460
+                    format: int32
+                  message:
+                    type: string
+                    enum:
+                      - 'Not connected. Requested device is currently not in connected state at the controller'
+                example:
+                  code: 460
+                  message: 'Not connected. Requested device is currently not in connected state at the controller'
+        '500':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 500
+                  message: 'Internal Server Error'
+        default:
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 500
+                  message: 'Internal Server Error'
+
+  /generic/v1/provide-historical-pm-data-of-device:
+    post:
+      operationId: provideHistoricalPmDataOfDevice
+      summary: 'Provides the historical performance data, together with some relevant configurations and capabilities, of air-interfaces and ethernet-containers found in the device'
+      tags:
+        - IndividualServices
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mount-name
+                - time-stamp
+              properties:
+                mount-name:
+                  type: string
+                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$
+                  description: 'Identifier of the device at the Controller'
+                time-stamp:
+                  type: string
+                  format: date-time
+                  description: 'Time when the counter values were recorded and the counter reset. Corresponds to the most recent performance measurement of the device, which has been logged outside the MW SDN Domain'
+      responses:
+        '202':
+          description: 'Request for providing historical performance data of device received and accepted'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  request-id:
+                    type: string
+                    description: 'Identifier of the request for providing historical performance data of device'
+                example:
+                  request-id: 'string'
+          headers:
+            life-cycle-state:
+              schema:
+                type: string
+                enum:
+                  - 'EXPERIMENTAL'
+                  - 'OPERATIONAL'
+                  - 'DEPRECATED'
+                  - 'OBSOLETE'
+                  - 'UNKNOWN'
+                  - 'NOT_YET_DEFINED'
+                example: 'EXPERIMENTAL'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-is-001/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '400':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 400
+                  message: 'Bad Request'
+        '401':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 401
+                  message: 'Unauthorized'
+        '403':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 403
+                  message: 'Forbidden'
+        '404':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 404
+                  message: 'Not Found'
+        '429':
+          description: 'Response in case too many requests need to be executed in parallel or too many requests have been received within a time period. The maximum number of parallel requests is defined in an IntegerProfile with the service name as a prefix and MaxNumberOfParallelRequests as a suffix. Some time period to elapse for throttling incomming requests is defined in an IntegerProfile with the service name as a prefix and ThrottlingPeriod as a suffix'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    minimum: 429
+                    maximum: 429
+                    format: int32
+                  message:
+                    type: string
+                    enum:
+                      - 'Too many requests'
+                example:
+                  code: 429
+                  message: 'Too many requests'
+        '460':
+          description: 'Response in case the mountName provided in the request is not found in the list of connected devices'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    minimum: 460
+                    maximum: 460
+                    format: int32
+                  message:
+                    type: string
+                    enum:
+                      - 'Not connected. Requested device is currently not in connected state at the controller'
+                example:
+                  code: 460
+                  message: 'Not connected. Requested device is currently not in connected state at the controller'
+        '500':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 500
+                  message: 'Internal Server Error'
+        default:
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 500
+                  message: 'Internal Server Error'
+
+  /generic/v1/check-registered-availability-of-device:
+    post:
+      operationId: checkRegisteredAvailabilityOfDevice
+      summary: 'Checks wheter a mountName is registered in the APTP-internal list of Connected devices and returns a boolean'
+      tags:
+        - IndividualServices
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mount-name
+              properties:
+                mount-name:
+                  type: string
+                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$
+                  description: 'Identifier of the device at the Controller'
+      responses:
+        '200':
+          description: 'Request for checking the registered availability of device successful'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  device-is-available:
+                    type: boolean
+                    description: 'Indicates whether a device appears as connected to the controller'
+                example:
+                  device-is-available: true
+          headers:
+            life-cycle-state:
+              schema:
+                type: string
+                enum:
+                  - 'EXPERIMENTAL'
+                  - 'OPERATIONAL'
+                  - 'DEPRECATED'
+                  - 'OBSOLETE'
+                  - 'UNKNOWN'
+                  - 'NOT_YET_DEFINED'
+                example: 'EXPERIMENTAL'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-is-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '400':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 400
+                  message: 'Bad Request'
+        '401':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 401
+                  message: 'Unauthorized'
+        '403':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 403
+                  message: 'Forbidden'
+        '404':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 404
+                  message: 'Not Found'
+        '429':
+          description: 'Response in case too many requests need to be executed in parallel or too many requests have been received within a time period. The maximum number of parallel requests is defined in an IntegerProfile with the service name as a prefix and MaxNumberOfParallelRequests as a suffix. Some time period to elapse for throttling incomming requests is defined in an IntegerProfile with the service name as a prefix and ThrottlingPeriod as a suffix'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    minimum: 429
+                    maximum: 429
+                    format: int32
+                  message:
+                    type: string
+                    enum:
+                      - 'Too many requests'
+                example:
+                  code: 429
+                  message: 'Too many requests'
+        '500':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 500
+                  message: 'Internal Server Error'
+        '502':
+          description: 'Response in case the application that is expected to provide a consumed service is not responding'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    minimum: 502
+                    maximum: 502
+                    format: int32
+                  message:
+                    type: string
+                    enum:
+                      - 'Bad Gateway'
+                example:
+                  code: 502
+                  message: 'Bad Gateway'
+        '530':
+          description: 'Response in case the referenced resource exists (e.g. device connected and resource exists in internal datatree), but response data is either not available, lost during transmission, invalid, incomplete or corrupted'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    minimum: 530
+                    maximum: 530
+                    format: int32
+                  message:
+                    type: string
+                    enum:
+                      - 'Data invalid. Response data not available, incomplete or corrupted'
+                example:
+                  code: 530
+                  message: 'Data invalid. Response data not available, incomplete or corrupted'
+        default:
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 500
+                  message: 'Internal Server Error'
+
+  /generic/v1/provide-configuration-for-livenetview:
+    post:
+      operationId: provideConfigurationForLiveNetView
+      summary: 'Provides the configurations at link endpoint for display at the section "LiveView aktuell" in LinkVis'
+      tags:
+        - IndividualServices
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mount-name
+                - link-id
+              properties:
+                mount-name:
+                  type: string
+                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$
+                  description: 'Identifier of the device at the Controller'
+                link-id:
+                  type: string
+                  pattern: ^\d{3}55\d{4}$
+                  description: 'Identifier of the microwave link in the Telefonica planning tools'
+      responses:
+        '200':
+          description: 'Request for providing configuration data of link endpoint sucessful'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  air-interface-endpoint-name:
+                    type: string
+                    description: >
+                      'Identifier of the microwave link endpoint as used in the Telefonica planing tools
+                        from {$RequestForProvidingConfigurationForLivenetviewCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceLabel.response.body#external-label}'
+                  configured-tx-power:
+                    type: integer
+                    description: >
+                      'Configured transmit power that will be operated in maximum in dBm
+                      from {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/tx-power}'
+                  supported-radio-signal-id-datatype:
+                    type: string
+                    enum:
+                      - 'air-interface-2-0:RADIO_SIGNAL_ID_DATATYPE_TYPE_INTEGER'
+                      - 'air-interface-2-0:RADIO_SIGNAL_ID_DATATYPE_TYPE_STRING'
+                    description: >
+                      'Datatype which is supported as a Radio Signal ID by the device
+                      from {$RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/supported-radio-signal-id-datatype'
+                  supported-radio-signal-id-length:
+                    type: integer
+                    description: >
+                      'If (supportedRadioSignalIdDatatype==INTEGER): Maximum value of the Radio Signal ID supported by the device;
+                      If (supportedRadioSignalIdDatatype==STRING): Maximum number of letters supported by the device.
+                      From {$RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/supported-radio-signal-id-length'
+                  configured-transmitted-radio-signal-id:
+                    type: object
+                    description: 'Radio signal ID that is configured to be transmitted'
+                    properties:
+                      alphanumeric-radio-signal-id:
+                        type: string
+                        description: 'from {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmitted-radio-signal-id/alphanumeric-radio-signal-id}'
+                      numeric-radio-signal-id:
+                        type: integer
+                        description: 'from {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmitted-radio-signal-id/numeric-radio-signal-id}'
+                  configured-expected-radio-signal-id:
+                    type: object
+                    description: 'Radio signal ID configured to be expected on the signal to synchronize the receiver to'
+                    properties:
+                      alphanumeric-radio-signal-id:
+                        type: string
+                        description: 'from {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/expected-radio-signal-id/alphanumeric-radio-signal-id}'
+                      numeric-radio-signal-id:
+                        type: integer
+                        description: 'from {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/expected-radio-signal-id/numeric-radio-signal-id}'
+                  configured-atpc-is-on:
+                    type: boolean
+                    description: >
+                      'This configuration value is true, if automatic transmit power control (ATPC) is configured to be switched on
+                      from {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/atpc-is-on}'
+                  configured-atpc-threshold-upper:
+                    type: integer
+                    description: >
+                      'Configured upper automatic transmit power control (ATPC) threshold in dBm
+                      from {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/atpc-thresh-upper}'
+                  configured-atpc-threshold-lower:
+                    type: integer
+                    description: >
+                      'Configured lower automatic transmit power control (ATPC) threshold in dBm
+                      from {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/atpc-thresh-lower}'
+                  configured-atpc-tx-power-min:
+                    type: integer
+                    description: >
+                      'Configured TX power value (in dBm) that must not be undercut by automatic transmit power control (ATPC)
+                      from {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/atpc-tx-power-min}'
+                  configured-adaptive-modulation-is-on:
+                    type: boolean
+                    description: >
+                      'This configuration value is true, if adpative modulation is configured to be switched on
+                      from {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/adaptive-modulation-is-on}'
+                  configured-modulation-minimum:
+                    type: object
+                    description: 'Configured minimum modulation scheme'
+                    properties:
+                      number-of-states:
+                        type: integer
+                        description: >
+                          'Number of states in the phase diagram (e.g. BPSK->2 or 256QAM->256)
+                          transmissionModeMin = {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmission-mode-min}
+                          from {$RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/modulation-scheme}
+                          where {$RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeMin'
+                      name-at-lct:
+                        type: string
+                        description: >
+                          'Name identifying this transmission mode on the graphical user interface of the local craft terminal
+                          transmissionModeMin = {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmission-mode-min}
+                          from {$RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/modulation-scheme-name-at-lct}
+                          where {$RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeMin'
+                  configured-modulation-maximum:
+                    type: object
+                    description: 'Configured maximum modulation scheme'
+                    properties:
+                      number-of-states:
+                        type: integer
+                        description: >
+                          'Number of states in the phase diagram (e.g. BPSK->2 or 256QAM->256)
+                          transmissionModeMax = {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmission-mode-max}
+                          from {$RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/modulation-scheme}
+                          where {$RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeMax'
+                      name-at-lct:
+                        type: string
+                        description: >
+                          'Name identifying this transmission mode on the graphical user interface of the local craft terminal
+                          transmissionModeMax = {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmission-mode-max}
+                          from {$RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/modulation-scheme-name-at-lct}
+                          where {$RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeMax'
+                  configured-channel-bandwidth-min:
+                    type: integer
+                    description: >
+                      'Configured bandwidth in the lowest transmission mode of the radio channel in kHz
+                      transmissionModeMin = {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmission-mode-min}
+                      from {$RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/channel-bandwidth}
+                      where {$RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interfacer-2-0:ai-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeMin'
+                  configured-channel-bandwidth-max:
+                    type: integer
+                    description: >
+                      'Configured bandwidth in the highest transmission mode of the radio channel in kHz
+                      transmissionModeMax = {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/transmission-mode-max}
+                      from {$RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/channel-bandwidth}
+                      where {$RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeMax'
+                  configured-xpic-is-on:
+                    type: boolean
+                    description: >
+                      'This configuration value is true, if cross polarization interference cancellation (XPIC) is configured to be activated
+                      from {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/xpic-is-on}'
+                example:
+                  air-interface-endpoint-name: 'string'
+                  configured-tx-power: 0
+                  supported-radio-signal-id-datatype: 'air-interface-2-0:RADIO_SIGNAL_ID_DATATYPE_TYPE_INTEGER'
+                  supported-radio-signal-id-length: 0
+                  configured-transmitted-radio-signal-id:
+                    alphanumeric-radio-signal-id: 'string'
+                    numeric-radio-signal-id: 0
+                  configured-expected-radio-signal-id:
+                    alphanumeric-radio-signal-id: 'string'
+                    numeric-radio-signal-id: 0
+                  configured-atpc-is-on: true
+                  configured-atpc-threshold-upper: 0
+                  configured-atpc-threshold-lower: 0
+                  configured-atpc-tx-power-min: 0
+                  configured-adaptive-modulation-is-on: true
+                  configured-modulation-minimum:
+                    number-of-states: 0
+                    name-at-lct: 'string'
+                  configured-modulation-maximum:
+                    number-of-states: 0
+                    name-at-lct: 'string'
+                  configured-channel-bandwidth-min: 0
+                  configured-channel-bandwidth-max: 0
+                  configured-xpic-is-on: true
+          headers:
+            life-cycle-state:
+              schema:
+                type: string
+                enum:
+                  - 'EXPERIMENTAL'
+                  - 'OPERATIONAL'
+                  - 'DEPRECATED'
+                  - 'OBSOLETE'
+                  - 'UNKNOWN'
+                  - 'NOT_YET_DEFINED'
+                example: 'EXPERIMENTAL'
+              description: >
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-is-007/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '400':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 400
+                  message: 'Bad Request'
+        '401':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 401
+                  message: 'Unauthorized'
+        '403':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 403
+                  message: 'Forbidden'
+        '404':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 404
+                  message: 'Not Found'
+        '470':
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    minimum: 470
+                    maximum: 470
+                    format: int32
+                  message:
+                    type: string
+                    enum:
+                      - 'Resource not existing. Device informs about addressed resource unknown'
+                example:
+                  code: 470
+                  message: 'Resource not existing. Device informs about addressed resource unknown'
+        '500':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 500
+                  message: 'Internal Server Error'
+        '502':
+          description: 'Response in case the application that is expected to provide a consumed service is not responding'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    minimum: 502
+                    maximum: 502
+                    format: int32
+                  message:
+                    type: string
+                    enum:
+                      - 'Bad Gateway'
+                example:
+                  code: 502
+                  message: 'Bad Gateway'
+        '530':
+          description: 'Response in case the referenced resource exists (e.g. device connected and resource exists in internal datatree), but response data is either not available, lost during transmission, invalid, incomplete or corrupted'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    minimum: 530
+                    maximum: 530
+                    format: int32
+                  message:
+                    type: string
+                    enum:
+                      - 'Data invalid. Response data not available, incomplete or corrupted'
+                example:
+                  code: 530
+                  message: 'Data invalid. Response data not available, incomplete or corrupted'
+        default:
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 500
+                  message: 'Internal Server Error'
+  /generic/v1/provide-equipment-info-for-livenetview:
+    post:
+      operationId: provideEquipmentInfoForLiveNetView
+      summary: 'Provides information about the radio component identifiers at the link endpoint for display at the section "LiveView aktuell" in LinkVis'
+      tags:
+        - IndividualServices
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mount-name
+                - link-id
+              properties:
+                mount-name:
+                  type: string
+                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$
+                  description: 'Identifier of the device at the Controller'
+                link-id:
+                  type: string
+                  pattern: ^\d{3}55\d{4}$
+                  description: 'Identifier of the microwave link in the Telefonica planning tools'
+      responses:
+        '200':
+          description: 'Request for providing equipment information for livenetview sucessful'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  radio:
+                    type: object
+                    properties:
+                      equipment-name:
+                        type: string
+                        description: >
+                          'Name of the radio type
+                          if {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT
+                          from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache..EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/type-name}'
+                      serial-number:
+                        type: string
+                        description: >
+                          'Serial number of the radio
+                          if {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT
+                          from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-instance/serial-number}'
+                      part-number:
+                        type: string
+                        description: >
+                          'Part number of the radio
+                          if {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT
+                          from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/part-type-identifier}'
+                  modem:
+                    type: object
+                    properties:
+                      equipment-name:
+                        type: string
+                        description: >
+                          'Name of the modem type
+                          if {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM
+                          from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/type-name}'
+                      serial-number:
+                        type: string
+                        description: >
+                          'Serial number of the modem
+                          if {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM
+                          from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-instance/serial-number}'
+                      part-number:
+                        type: string
+                        description: >
+                          'Part number of the modem
+                          if {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM
+                          from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/part-type-identifier}'
+                  device:
+                    type: object
+                    properties:
+                      equipment-name:
+                        type: string
+                        description: >
+                          'Name of the device type
+                          if {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_FULL_OUTDOOR_UNIT
+                          from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/type-name}'
+                      serial-number:
+                        type: string
+                        description: >
+                          'Serial number of the device
+                          if {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_FULL_OUTDOOR_UNIT
+                          from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-instance/serial-number}'
+                      part-number:
+                        type: string
+                        description: >
+                          'Part number of the device
+                          if {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_FULL_OUTDOOR_UNIT
+                          from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/part-type-identifier}'
+                example:
+                  radio:
+                    equipment-name: 'string'
+                    serial-number: 'string'
+                    part-number: 'string'
+                  modem:
+                    equipment-name: 'string'
+                    serial-number: 'string'
+                    part-number: 'string'
+                  device:
+                    equipment-name: 'string'
+                    serial-number: 'string'
+                    part-number: 'string'
+          headers:
+            life-cycle-state:
+              schema:
+                type: string
+                enum:
+                  - 'EXPERIMENTAL'
+                  - 'OPERATIONAL'
+                  - 'DEPRECATED'
+                  - 'OBSOLETE'
+                  - 'UNKNOWN'
+                  - 'NOT_YET_DEFINED'
+                example: 'EXPERIMENTAL'
+              description: >
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-is-008/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '400':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 400
+                  message: 'Bad Request'
+        '401':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 401
+                  message: 'Unauthorized'
+        '403':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 403
+                  message: 'Forbidden'
+        '404':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 404
+                  message: 'Not Found'
+        '470':
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    minimum: 470
+                    maximum: 470
+                    format: int32
+                  message:
+                    type: string
+                    enum:
+                      - 'Resource not existing. Device informs about addressed resource unknown'
+                example:
+                  code: 470
+                  message: 'Resource not existing. Device informs about addressed resource unknown'
+        '500':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 500
+                  message: 'Internal Server Error'
+        '502':
+          description: 'Response in case the application that is expected to provide a consumed service is not responding'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    minimum: 502
+                    maximum: 502
+                    format: int32
+                  message:
+                    type: string
+                    enum:
+                      - 'Bad Gateway'
+                example:
+                  code: 502
+                  message: 'Bad Gateway'
+        '530':
+          description: 'Response in case the referenced resource exists (e.g. device connected and resource exists in internal datatree), but response data is either not available, lost during transmission, invalid, incomplete or corrupted'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    minimum: 530
+                    maximum: 530
+                    format: int32
+                  message:
+                    type: string
+                    enum:
+                      - 'Data invalid. Response data not available, incomplete or corrupted'
+                example:
+                  code: 530
+                  message: 'Data invalid. Response data not available, incomplete or corrupted'
+        default:
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 500
+                  message: 'Internal Server Error'
+  /generic/v1/provide-status-for-livenetview:
+    post:
+      operationId: provideStatusForLiveNetView
+      summary: 'Provides information about the radio component identifiers at the link endpoint for display at the section "LiveView aktuell" in LinkVis'
+      tags:
+        - IndividualServices
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mount-name
+                - link-id
+              properties:
+                mount-name:
+                  type: string
+                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$
+                  description: 'Identifier of the device at the Controller'
+                link-id:
+                  type: string
+                  pattern: ^\d{3}55\d{4}$
+                  description: 'Identifier of the microwave link in the Telefonica planning tools'
+      responses:
+        '200':
+          description: 'Request for providing configuration data of link endpoint sucessful'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  current-tx-power:
+                    type: integer
+                    description: >
+                      'Currently measured transmit power in dBm
+                      from {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/tx-level-cur}'
+                  current-rx-level:
+                    type: integer
+                    description: >
+                      'Currently measured receive level in dBm
+                      from {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/rx-level-cur}'
+                  current-modulation:
+                    type: object
+                    description: 'Currently operated modulation scheme'
+                    properties:
+                      number-of-states:
+                        type: integer
+                        description: >
+                          'Number of states in the phase diagram (e.g. BPSK->2 or 256QAM->256)
+                          transmissionModeCur = {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/transmission-mode-cur}
+                          from {$RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/modulation-scheme}
+                          where {$RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeCur'
+                      name-at-lct:
+                        type: string
+                        description: >
+                          'Name identifying this transmission mode on the graphical user interface of the local craft terminal
+                          transmissionModeCur = {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/transmission-mode-cur}
+                          from {$RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/modulation-scheme-name-at-lct}
+                          where {$RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeCur'
+                  current-tx-frequency:
+                    type: integer
+                    description: >
+                      'Current transmit frequency in kHz
+                      from {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/tx-frequency-cur}'
+                  current-rx-frequency:
+                    type: integer
+                    description: >
+                      'Current receive frequency in kHz
+                      from {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/rx-frequency-cur}'
+                example:
+                  current-tx-power: 0
+                  current-rx-level: 0
+                  current-modulation:
+                    number-of-states: 0
+                    name-at-lct: 'string'
+                  current-tx-frequency: 0
+                  current-rx-frequency: 0
+          headers:
+            life-cycle-state:
+              schema:
+                type: string
+                enum:
+                  - 'EXPERIMENTAL'
+                  - 'OPERATIONAL'
+                  - 'DEPRECATED'
+                  - 'OBSOLETE'
+                  - 'UNKNOWN'
+                  - 'NOT_YET_DEFINED'
+                example: 'EXPERIMENTAL'
+              description: >
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-is-010/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '400':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 400
+                  message: 'Bad Request'
+        '401':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 401
+                  message: 'Unauthorized'
+        '403':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 403
+                  message: 'Forbidden'
+        '404':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 404
+                  message: 'Not Found'
+        '470':
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    minimum: 470
+                    maximum: 470
+                    format: int32
+                  message:
+                    type: string
+                    enum:
+                      - 'Resource not existing. Device informs about addressed resource unknown'
+                example:
+                  code: 470
+                  message: 'Resource not existing. Device informs about addressed resource unknown'
+        '500':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 500
+                  message: 'Internal Server Error'
+        '502':
+          description: 'Response in case the application that is expected to provide a consumed service is not responding'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    minimum: 502
+                    maximum: 502
+                    format: int32
+                  message:
+                    type: string
+                    enum:
+                      - 'Bad Gateway'
+                example:
+                  code: 502
+                  message: 'Bad Gateway'
+        '530':
+          description: 'Response in case the referenced resource exists (e.g. device connected and resource exists in internal datatree), but response data is either not available, lost during transmission, invalid, incomplete or corrupted'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    minimum: 530
+                    maximum: 530
+                    format: int32
+                  message:
+                    type: string
+                    enum:
+                      - 'Data invalid. Response data not available, incomplete or corrupted'
+                example:
+                  code: 530
+                  message: 'Data invalid. Response data not available, incomplete or corrupted'
+        default:
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 500
+                  message: 'Internal Server Error'
+  /generic/v1/provide-alarms-for-livenetview:
+    post:
+      operationId: provideAlarmsForLiveNetView
+      summary: 'Provides the current alarms in a device for display at the section "LiveView aktuell" in LinkVis'
+      tags:
+        - IndividualServices
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mount-name
+              properties:
+                mount-name:
+                  type: string
+                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$
+                  description: 'Identifier of the device at the Controller'
+      responses:
+        '200':
+          description: 'Request for providing current alarms of link endpoint sucessful'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  current-alarms:
+                    type: object
+                    properties:
+                      number-of-current-alarms:
+                        type: integer
+                        description: >
+                          'Number of currently raised alarms on the device
+                          from {$RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive.AlarmsFromLive.response.body#alarms-1-0:current-alarms/number-of-current-alarms'
+                      current-alarm-list:
+                        type: array
+                        description: 'List of alarms that are currently raised on the device'
+                        items:
+                          type: object
+                          properties:
+                            alarm-type-id:
+                              type: string
+                              description: >
+                                'This attribute and the alarm-type-qualifier attribute together provides a unique identification of the alarm type
+                                from {$RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive.AlarmsFromLive.response.body#alarms-1-0:current-alarms/current-alarm-list/alarm-type-id'
+                            alarm-type-qualifier:
+                              type: string
+                              description: >
+                                'This attribute is used whenever the alarm-type-id attribute cannot uniquely identify the type of alarm
+                                from {$RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive.AlarmsFromLive.response.body#alarms-1-0:current-alarms/current-alarm-list/alarm-type-qualifier'
+                            alarm-severity:
+                              type: string
+                              enum:
+                                - 'alarms-1-0:SEVERITY_TYPE_INDETERMINATE'
+                                - 'alarms-1-0:SEVERITY_TYPE_WARNING'
+                                - 'alarms-1-0:SEVERITY_TYPE_MINOR'
+                                - 'alarms-1-0:SEVERITY_TYPE_MAJOR'
+                                - 'alarms-1-0:SEVERITY_TYPE_CRITICAL'
+                                - 'alarms-1-0:SEVERITY_TYPE_CLEARED'
+                                - 'alarms-1-0:SEVERITY_TYPE_NOT_YET_DEFINED'
+                              description: >
+                                'Severity of the alarm as it is configured on the device
+                                from {$RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive.AlarmsFromLive.response.body#alarms-1-0:current-alarms/current-alarm-list/alarm-severity'
+                example:
+                  current-alarms:
+                    number-of-current-alarms: 0
+                    current-alarm-list:
+                      - alarm-type-id: 'string'
+                        alarm-type-qualifier: 'string'
+                        alarm-severity: 'alarms-1-0:SEVERITY_TYPE_INDETERMINATE'
+          headers:
+            life-cycle-state:
+              schema:
+                type: string
+                enum:
+                  - 'EXPERIMENTAL'
+                  - 'OPERATIONAL'
+                  - 'DEPRECATED'
+                  - 'OBSOLETE'
+                  - 'UNKNOWN'
+                  - 'NOT_YET_DEFINED'
+                example: 'EXPERIMENTAL'
+              description: >
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-is-009/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '400':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 400
+                  message: 'Bad Request'
+        '401':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 401
+                  message: 'Unauthorized'
+        '403':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 403
+                  message: 'Forbidden'
+        '404':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 404
+                  message: 'Not Found'
+        '429':
+          description: 'Response in case too many requests need to be executed in parallel or too many requests have been received within a time period. The maximum number of parallel requests is defined in an IntegerProfile with the service name as a prefix and MaxNumberOfParallelRequests as a suffix. Some time period to elapse for throttling incomming requests is defined in an IntegerProfile with the service name as a prefix and ThrottlingPeriod as a suffix'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    minimum: 429
+                    maximum: 429
+                    format: int32
+                  message:
+                    type: string
+                    enum:
+                      - 'Too many requests'
+                example:
+                  code: 429
+                  message: 'Too many requests'
+        '500':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 500
+                  message: 'Internal Server Error'
+        '502':
+          description: 'Response in case the application that is expected to provide a consumed service is not responding'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    minimum: 502
+                    maximum: 502
+                    format: int32
+                  message:
+                    type: string
+                    enum:
+                      - 'Bad Gateway'
+                example:
+                  code: 502
+                  message: 'Bad Gateway'
+        '530':
+          description: 'Response in case the referenced resource exists (e.g. device connected and resource exists in internal datatree), but response data is either not available, lost during transmission, invalid, incomplete or corrupted'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    minimum: 530
+                    maximum: 530
+                    format: int32
+                  message:
+                    type: string
+                    enum:
+                      - 'Data invalid. Response data not available, incomplete or corrupted'
+                example:
+                  code: 530
+                  message: 'Data invalid. Response data not available, incomplete or corrupted'
+        default:
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 500
+                  message: 'Internal Server Error'
+
+  /generic/v1/update-apt-client:
+    post:
+      operationId: updateAptClient
+      summary: 'Allows updating connection data of the AccessPlanningTool'
+      description: >
+        'Enables updating the TCP/IP addresses of existing APT-Interfaces.
+        After successful execution of this service, a minimum time stated in [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-integer-p-001/integer-profile-1-0:integer-profile-pac/integer-profile-configuration/integer-value] must elapse before a processing of this service is permitted again'
+      tags:
+        - IndividualServices
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                future-apt-protocol:
+                  type: string
+                  enum:
+                    - 'HTTP'
+                    - 'HTTPS'
+                  description: >
+                    'Protocol to be used in future for addressing the AccessPlanningTool
+                    update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
+                future-apt-address:
+                  type: object
+                  minProperties: 1
+                  maxProperties: 1
+                  additionalProperties: false
+                  properties:
+                    ip-address:
+                      type: object
+                      minProperties: 1
+                      additionalProperties: false
+                      properties:
+                        ipv-4-address:
+                          type: string
+                          pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
+                          description: >
+                            'Future IPv4 address of the AccessPlanningTool
+                            update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
+                future-apt-port:
+                  type: integer
+                  minimum: 0
+                  maximum: 65535
+                  description: >
+                    'Future port of the AccessPlanningTool
+                    update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
+                future-acceptance-data-receive-operation:
+                  type: string
+                  description: >
+                    'Future operation at the requestor for receiving the acceptance data
+                    update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-apt-24-5-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+                future-performance-data-receive-operation:
+                  type: string
+                  description: >
+                    'Future operation at the requestor for receiving the performance data
+                    update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-apt-24-5-0-001/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+      responses:
+        '204':
+          description: 'Will update connection information'
+          headers:
+            life-cycle-state:
+              schema:
+                type: string
+                enum:
+                  - 'EXPERIMENTAL'
+                  - 'OPERATIONAL'
+                  - 'DEPRECATED'
+                  - 'OBSOLETE'
+                  - 'UNKNOWN'
+                  - 'NOT_YET_DEFINED'
+                example: 'EXPERIMENTAL'
+              description: >
+                'Life cycle state of the consumed service
+                from [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-is-999/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '400':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 400
+                  message: 'Bad Request'
+        '401':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 401
+                  message: 'Unauthorized'
+        '403':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 403
+                  message: 'Forbidden'
+        '404':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 404
+                  message: 'Not Found'
+        '500':
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 500
+                  message: 'Internal Server Error'
+        default:
+          description: 'Response in case of errored service requests from out of MW SDN domain'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+                example:
+                  code: 500
+                  message: 'Internal Server Error'
+
+########################################################################################################################
+#   Common Components
+########################################################################################################################
+components:
+  parameters:
+    user:
+      name: user
+      in: header
+      required: true
+      schema:
+        type: string
+        example: 'User Name'
+      description: 'User identifier from the system starting the service call'
+    originator:
+      name: originator
+      in: header
+      required: true
+      schema:
+        type: string
+        minLength: 3
+        example: 'Resolver'
+      description: >
+        'Identification for the system consuming the API, as defined in
+         [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
+    x-correlator:
+      name: x-correlator
+      in: header
+      required: true
+      schema:
+        type: string
+        pattern: '^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$'
+        example: '550e8400-e29b-11d4-a716-446655440000'
+      description: 'UUID for the service execution flow that allows to correlate requests and responses'
+    trace-indicator:
+      name: trace-indicator
+      in: header
+      required: true
+      schema:
+        type: string
+        pattern: '^([0-9]+)(\.([0-9]+))*$'
+        example: '1.3.1'
+      description: 'Sequence of request numbers along the flow'
+    customer-journey:
+      name: customer-journey
+      in: header
+      required: true
+      schema:
+        type: string
+        example: 'Unknown value'
+      description: 'Holds information supporting customer’s journey to which the execution applies'
+  responses:
+    responseForErroredServiceRequests:
+      description: 'Response in case of errored service requests'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/errorDescription'
+      headers:
+        x-correlator:
+          schema:
+            type: string
+            pattern: '^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$'
+            example: '550e8400-e29b-11d4-a716-446655440000'
+          description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+        exec-time:
+          schema:
+            type: integer
+            example: 1100
+          description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+    responseForErroredOutOfDomainServiceRequests:
+      description: 'Response in case of errored service requests from out of MW SDN domain'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/errorDescription'
+    responseForErroredOamRequests:
+      description: 'Response in case of errored OaM requests'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/errorDescription'
+    '429':
+      description: 'Response in case too many requests need to be executed in parallel or too many requests have been received within a time period. The maximum number of parallel requests is defined in an IntegerProfile with the service name as a prefix and MaxNumberOfParallelRequests as a suffix. Some time period to elapse for throttling incomming requests is defined in an IntegerProfile with the service name as a prefix and ThrottlingPeriod as a suffix'
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                type: integer
+                minimum: 429
+                maximum: 429
+                format: int32
+              message:
+                type: string
+                enum:
+                  - 'Too many requests'
+    '460':
+      description: 'Response in case the mountName provided in the request is not found in the list of connected devices'
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                type: integer
+                minimum: 460
+                maximum: 460
+                format: int32
+              message:
+                type: string
+                enum:
+                  - 'Not connected. Requested device is currently not in connected state at the controller'
+    '470':
+      description: 'Response in case the resource specified in the request does not exist within the connected device'
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                type: integer
+                minimum: 470
+                maximum: 470
+                format: int32
+              message:
+                type: string
+                enum:
+                  - 'Resource not existing. Device informs about addressed resource unknown'
+    '502':
+      description: 'Response in case the application that is expected to provide a consumed service is not responding'
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                type: integer
+                minimum: 502
+                maximum: 502
+                format: int32
+              message:
+                type: string
+                enum:
+                  - 'Bad Gateway'
+    '530':
+      description: 'Response in case the referenced resource exists (e.g. device connected and resource exists in internal datatree), but response data is either not available, lost during transmission, invalid, incomplete or corrupted'
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                type: integer
+                minimum: 530
+                maximum: 530
+                format: int32
+              message:
+                type: string
+                enum:
+                  - 'Data invalid. Response data not available, incomplete or corrupted'
+  schemas:
+    errorDescription:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    genericRepresentation:
+      type: object
+      required:
+        - response-value-list
+        - consequent-action-list
+      properties:
+        response-value-list:
+          type: array
+          items:
+            type: object
+            required:
+              - field-name
+              - value
+              - datatype
+            properties:
+              field-name:
+                type: string
+                description: >
+                  'Field name
+                  from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-response-p-*/response-profile-1-0:response-profile-pac/response-profile-capability/field-name]'
+              value:
+                type: string
+                description: >
+                  'Field value
+                  from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-response-p-*/response-profile-1-0:response-profile-pac/response-profile-configuration/value]'
+              datatype:
+                type: string
+                description: >
+                  'Field datatype
+                  from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-response-p-*/response-profile-1-0:response-profile-pac/response-profile-capability/datatype]'
+        consequent-action-list:
+          type: array
+          items:
+            type: object
+            required:
+              - label
+              - request
+              - display-in-new-browser-window
+            properties:
+              label:
+                type: string
+                description: >
+                  'Label that shall be presented on the button
+                  from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/label]'
+              request:
+                type: string
+                description: >
+                  'Request that shall be called, when button gets pressed
+                  from
+                  [{/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-protocol}]
+                  ://
+                  [{/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address}
+                  or
+                  {/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/domain-name}]
+                  :
+                  [{/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port}]
+                  [{/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-action-p-*/action-profile-1-0:action-profile-pac/action-profile-configuration/consequent-operation-reference}]'
+              input-value-list:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - field-name
+                  properties:
+                    field-name:
+                      type: string
+                      description: >
+                        'Name of an input value required for executing the Request
+                        from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/input-value-list=*/name]'
+                    unit:
+                      type: string
+                      description: >
+                        'Unit of an input value required for executing the Request
+                        from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/input-value-list=*/unit]'
+              display-in-new-browser-window:
+                type: boolean
+                description: >
+                  'True in case Request shall be represented in a new browser window
+                  from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/display-in-new-browser-window]'
+    logicalTerminationPoint:
+      type: object
+      required:
+        - uuid
+        - ltp-direction
+        - client-ltp
+        - server-ltp
+        - layer-protocol
+      properties:
+        uuid:
+          type: string
+        ltp-direction:
+          type: string
+        client-ltp:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+        server-ltp:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+        layer-protocol:
+          type: array
+          minItems: 1
+          maxItems: 1
+          items:
+            oneOf:
+              - description: 'operation server'
+                type: object
+                required:
+                  - local-id
+                  - layer-protocol-name
+                  - operation-server-interface-1-0:operation-server-interface-pac
+                properties:
+                  local-id:
+                    type: string
+                  layer-protocol-name:
+                    type: string
+                  operation-server-interface-1-0:operation-server-interface-pac:
+                    type: object
+                    required:
+                      - operation-server-interface-capability
+                      - operation-server-interface-configuration
+                    properties:
+                      operation-server-interface-capability:
+                        type: object
+                        required:
+                          - operation-name
+                        properties:
+                          operation-name:
+                            type: string
+                      operation-server-interface-configuration:
+                        type: object
+                        required:
+                          - life-cycle-state
+                        properties:
+                          life-cycle-state:
+                            type: string
+              - description: 'http server'
+                type: object
+                required:
+                  - local-id
+                  - layer-protocol-name
+                  - http-server-interface-1-0:http-server-interface-pac
+                properties:
+                  local-id:
+                    type: string
+                  layer-protocol-name:
+                    type: string
+                  http-server-interface-1-0:http-server-interface-pac:
+                    type: object
+                    required:
+                      - http-server-interface-capability
+                    properties:
+                      http-server-interface-capability:
+                        type: object
+                        required:
+                          - application-name
+                          - release-number
+                          - data-update-period
+                        properties:
+                          application-name:
+                            type: string
+                          release-number:
+                            type: string
+                          data-update-period:
+                            type: string
+              - description: 'tcp server'
+                type: object
+                required:
+                  - local-id
+                  - layer-protocol-name
+                  - tcp-server-interface-1-0:tcp-server-interface-pac
+                properties:
+                  local-id:
+                    type: string
+                  layer-protocol-name:
+                    type: string
+                  tcp-server-interface-1-0:tcp-server-interface-pac:
+                    type: object
+                    required:
+                      - tcp-server-interface-configuration
+                    properties:
+                      tcp-server-interface-configuration:
+                        type: object
+                        required:
+                          - description
+                          - local-protocol
+                          - local-address
+                          - local-port
+                        properties:
+                          description:
+                            type: string
+                          local-protocol:
+                            type: string
+                          local-address:
+                            type: object
+                            properties:
+                              ipv-4-address:
+                                type: string
+                              domain-name:
+                                type: string
+                          local-port:
+                            type: integer
+              - description: 'operation client'
+                type: object
+                required:
+                  - local-id
+                  - layer-protocol-name
+                  - operation-client-interface-1-0:operation-client-interface-pac
+                properties:
+                  local-id:
+                    type: string
+                  layer-protocol-name:
+                    type: string
+                  operation-client-interface-1-0:operation-client-interface-pac:
+                    type: object
+                    required:
+                      - operation-client-interface-configuration
+                      - operation-client-interface-status
+                    properties:
+                      operation-client-interface-configuration:
+                        type: object
+                        required:
+                          - operation-name
+                        properties:
+                          operation-name:
+                            type: string
+                      operation-client-interface-status:
+                        type: object
+                        required:
+                          - operational-state
+                          - life-cycle-state
+                        properties:
+                          operational-state:
+                            type: string
+                          life-cycle-state:
+                            type: string
+              - description: 'elasticsearch client'
+                type: object
+                required:
+                  - local-id
+                  - layer-protocol-name
+                  - elasticsearch-client-interface-1-0:elasticsearch-client-interface-pac
+                properties:
+                  local-id:
+                    type: string
+                  layer-protocol-name:
+                    type: string
+                  elasticsearch-client-interface-1-0:elasticsearch-client-interface-pac:
+                    type: object
+                    required:
+                      - elasticsearch-client-interface-configuration
+                      - elasticsearch-client-interface-status
+                    properties:
+                      elasticsearch-client-interface-configuration:
+                        type: object
+                        required:
+                          - index-alias
+                        properties:
+                          index-alias:
+                            type: string
+                      elasticsearch-client-interface-status:
+                        type: object
+                        required:
+                          - operational-state
+                          - life-cycle-state
+                        properties:
+                          operational-state:
+                            type: string
+                          life-cycle-state:
+                            type: string
+              - description: 'http client'
+                type: object
+                required:
+                  - local-id
+                  - layer-protocol-name
+                  - http-client-interface-1-0:http-client-interface-pac
+                properties:
+                  local-id:
+                    type: string
+                  layer-protocol-name:
+                    type: string
+                  http-client-interface-1-0:http-client-interface-pac:
+                    type: object
+                    required:
+                      - http-client-interface-configuration
+                    properties:
+                      http-client-interface-configuration:
+                        type: object
+                        required:
+                          - application-name
+                          - release-number
+                        properties:
+                          application-name:
+                            type: string
+                          release-number:
+                            type: string
+              - description: 'tcp client'
+                type: object
+                required:
+                  - local-id
+                  - layer-protocol-name
+                  - tcp-client-interface-1-0:tcp-client-interface-pac
+                properties:
+                  local-id:
+                    type: string
+                  layer-protocol-name:
+                    type: string
+                  tcp-client-interface-1-0:tcp-client-interface-pac:
+                    type: object
+                    required:
+                      - tcp-client-interface-configuration
+                    properties:
+                      tcp-client-interface-configuration:
+                        type: object
+                        required:
+                          - remote-protocol
+                          - remote-address
+                          - remote-port
+                        properties:
+                          remote-protocol:
+                            type: string
+                          remote-address:
+                            type: object
+                            properties:
+                              ip-address:
+                                type: object
+                                properties:
+                                  ipv-4-address:
+                                    type: string
+                              domain-name:
+                                type: string
+                          remote-port:
+                            type: integer
+    forwardingDomain:
+      type: object
+      required:
+        - uuid
+        - forwarding-construct
+      properties:
+        uuid:
+          type: string
+        forwarding-construct:
+          type: array
+          items:
+            type: object
+            required:
+              - uuid
+              - name
+              - fc-port
+            properties:
+              uuid:
+                type: string
+              name:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - value-name
+                    - value
+                  properties:
+                    value-name:
+                      type: string
+                    value:
+                      type: string
+              fc-port:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - local-id
+                    - port-direction
+                    - logical-termination-point
+                  properties:
+                    local-id:
+                      type: string
+                    port-direction:
+                      type: string
+                    logical-termination-point:
+                      type: string
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: operation-key
+    basicAuth:
+      type: http
+      scheme: basic

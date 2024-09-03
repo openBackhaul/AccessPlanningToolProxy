@@ -3893,8 +3893,8 @@ paths:
                   format: date-time
                   description: 'Time when the counter values were recorded and the counter reset. Corresponds to the most recent performance measurement of the device, which has been logged outside the MW SDN Domain'
               example:
-                mount-name: '305251111'
-                time-stamp: '2024-02-12T00:45:00+01:00'
+                mount-name: '513250010'
+                time-stamp: '2024-02-12T10:55:00+01:00'
       responses:
         '202':
           description: 'Request for providing historical performance data of device received and accepted'
@@ -3907,7 +3907,7 @@ paths:
                     type: string
                     description: 'Identifier of the request for providing historical performance data of device'
                 example:
-                  request-id: '305251111-240212-1055'
+                  request-id: '513250010-240212-1055'
           headers:
             life-cycle-state:
               schema:
