@@ -33,6 +33,9 @@ paths:
                   type: string
                   pattern: ^\d{3}55\d{4}$
                   description: 'Identifier of the microwave link in the Telefonica planning tools'
+              example:
+                mount-name: '513250010'
+                link-id: '513550010'
       responses:
         '202':
           description: 'Request for providing acceptance data of link endpoint received and accepted'
@@ -90,6 +93,9 @@ paths:
                   type: string
                   format: date-time
                   description: 'Time when the counter values were recorded and the counter reset. Corresponds to the most recent performance measurement of the device, which has been logged outside the MW SDN Domain'
+              example:
+                mount-name: '513250010'
+                time-stamp: '2024-02-12T10:55:00+01:00'
       responses:
         '202':
           description: 'Request for providing historical performance data of device received and accepted'
@@ -97,12 +103,14 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - request-id
                 properties:
                   request-id:
                     type: string
                     description: 'Identifier of the request for providing historical performance data of device'
                 example:
-                  request-id: '305251111-240212-1055'
+                  request-id: '513250010-240212-1055'
           headers:
             life-cycle-state:
               schema:
@@ -140,6 +148,8 @@ paths:
                   type: string
                   pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$
                   description: 'Identifier of the device at the Controller'
+              example:
+                mount-name: '513250010'
       responses:
         '200':
           description: 'Request for checking the registered availability of device successful'
@@ -147,6 +157,8 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - device-is-available
                 properties:
                   device-is-available:
                     type: boolean
@@ -195,6 +207,9 @@ paths:
                   type: string
                   pattern: ^\d{3}55\d{4}$
                   description: 'Identifier of the microwave link in the Telefonica planning tools'
+              example:
+                mount-name: '513250010'
+                link-id: '513550010'
       responses:
         '200':
           description: 'Request for providing configuration data of link endpoint sucessful'
@@ -202,6 +217,23 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - air-interface-endpoint-name
+                  - configured-tx-power
+                  - supported-radio-signal-id-datatype
+                  - supported-radio-signal-id-length
+                  - configured-transmitted-radio-signal-id
+                  - configured-expected-radio-signal-id
+                  - configured-atpc-is-on
+                  - configured-atpc-threshold-upper
+                  - configured-atpc-threshold-lower
+                  - configured-atpc-tx-power-min
+                  - configured-adaptive-modulation-is-on
+                  - configured-modulation-minimum
+                  - configured-modulation-maximum
+                  - configured-channel-bandwidth-min
+                  - configured-channel-bandwidth-max
+                  - configured-xpic-is-on
                 properties:
                   air-interface-endpoint-name:
                     type: string
@@ -230,6 +262,9 @@ paths:
                   configured-transmitted-radio-signal-id:
                     type: object
                     description: 'Radio signal ID that is configured to be transmitted'
+                    required:
+                      - alphanumeric-radio-signal-id
+                      - numeric-radio-signal-id
                     properties:
                       alphanumeric-radio-signal-id:
                         type: string
@@ -240,6 +275,9 @@ paths:
                   configured-expected-radio-signal-id:
                     type: object
                     description: 'Radio signal ID configured to be expected on the signal to synchronize the receiver to'
+                    required:
+                      - alphanumeric-radio-signal-id
+                      - numeric-radio-signal-id
                     properties:
                       alphanumeric-radio-signal-id:
                         type: string
@@ -275,6 +313,9 @@ paths:
                   configured-modulation-minimum:
                     type: object
                     description: 'Configured minimum modulation scheme'
+                    required:
+                      - number-of-states
+                      - name-at-lct
                     properties:
                       number-of-states:
                         type: integer
@@ -293,6 +334,9 @@ paths:
                   configured-modulation-maximum:
                     type: object
                     description: 'Configured maximum modulation scheme'
+                    required:
+                      - number-of-states
+                      - name-at-lct
                     properties:
                       number-of-states:
                         type: integer
@@ -393,6 +437,9 @@ paths:
                   type: string
                   pattern: ^\d{3}55\d{4}$
                   description: 'Identifier of the microwave link in the Telefonica planning tools'
+              example:
+                mount-name: '513250010'
+                link-id: '513550010'
       responses:
         '200':
           description: 'Request for providing equipment information for livenetview sucessful'
@@ -400,9 +447,17 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - radio
+                  - modem
+                  - device
                 properties:
                   radio:
                     type: object
+                    required:
+                      - equipment-name
+                      - serial-number
+                      - part-number
                     properties:
                       equipment-name:
                         type: string
@@ -424,6 +479,10 @@ paths:
                           from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/part-type-identifier}'
                   modem:
                     type: object
+                    required:
+                      - equipment-name
+                      - serial-number
+                      - part-number
                     properties:
                       equipment-name:
                         type: string
@@ -445,6 +504,10 @@ paths:
                           from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/part-type-identifier}'
                   device:
                     type: object
+                    required:
+                      - equipment-name
+                      - serial-number
+                      - part-number
                     properties:
                       equipment-name:
                         type: string
@@ -518,6 +581,9 @@ paths:
                   type: string
                   pattern: ^\d{3}55\d{4}$
                   description: 'Identifier of the microwave link in the Telefonica planning tools'
+              example:
+                mount-name: '513250010'
+                link-id: '513550010'
       responses:
         '200':
           description: 'Request for providing configuration data of link endpoint sucessful'
@@ -525,6 +591,12 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - current-tx-power
+                  - current-rx-level
+                  - current-modulation
+                  - current-tx-frequency
+                  - current-rx-frequency
                 properties:
                   current-tx-power:
                     type: integer
@@ -539,6 +611,9 @@ paths:
                   current-modulation:
                     type: object
                     description: 'Currently operated modulation scheme'
+                    required:
+                      - number-of-states
+                      - name-at-lct
                     properties:
                       number-of-states:
                         type: integer
@@ -608,6 +683,8 @@ paths:
                   type: string
                   pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$
                   description: 'Identifier of the device at the Controller'
+              example:
+                mount-name: '513250010'
       responses:
         '200':
           description: 'Request for providing current alarms of link endpoint sucessful'
@@ -615,9 +692,14 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - current-alarms
                 properties:
                   current-alarms:
                     type: object
+                    required:
+                      - number-of-current-alarms
+                      - current-alarm-list
                     properties:
                       number-of-current-alarms:
                         type: integer
@@ -629,6 +711,10 @@ paths:
                         description: 'List of alarms that are currently raised on the device'
                         items:
                           type: object
+                          required:
+                            - alarm-type-id
+                            - alarm-type-qualifier
+                            - alarm-severity
                           properties:
                             alarm-type-id:
                               type: string
@@ -739,6 +825,15 @@ paths:
                   description: >
                     'Future operation at the requestor for receiving the performance data
                     update [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-apt-24-5-0-001/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+              example:
+                future-release-number: '43.5.6'
+                future-apt-protocol: 'HTTP'
+                future-apt-address:
+                  ip-address:
+                    ipv-4-address: '1.1.3.1'
+                future-apt-tcp-port: 3001
+                future-acceptance-data-receive-operation: '/v1/receive-acceptance-data-of-link-endpoint'
+                future-performance-data-receive-operation: '/v1/receive-historical-pm-data-of-device'
       responses:
         '204':
           description: 'Will update connection information'
@@ -1003,6 +1098,8 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - request-id
                 properties:
                   request-id:
                     type: string
@@ -1205,6 +1302,8 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - device-is-available
                 properties:
                   device-is-available:
                     type: boolean
@@ -1434,6 +1533,23 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - air-interface-endpoint-name
+                  - configured-tx-power
+                  - supported-radio-signal-id-datatype
+                  - supported-radio-signal-id-length
+                  - configured-transmitted-radio-signal-id
+                  - configured-expected-radio-signal-id
+                  - configured-atpc-is-on
+                  - configured-atpc-threshold-upper
+                  - configured-atpc-threshold-lower
+                  - configured-atpc-tx-power-min
+                  - configured-adaptive-modulation-is-on
+                  - configured-modulation-minimum
+                  - configured-modulation-maximum
+                  - configured-channel-bandwidth-min
+                  - configured-channel-bandwidth-max
+                  - configured-xpic-is-on
                 properties:
                   air-interface-endpoint-name:
                     type: string
@@ -1462,6 +1578,9 @@ paths:
                   configured-transmitted-radio-signal-id:
                     type: object
                     description: 'Radio signal ID that is configured to be transmitted'
+                    required:
+                      - alphanumeric-radio-signal-id
+                      - numeric-radio-signal-id
                     properties:
                       alphanumeric-radio-signal-id:
                         type: string
@@ -1472,6 +1591,9 @@ paths:
                   configured-expected-radio-signal-id:
                     type: object
                     description: 'Radio signal ID configured to be expected on the signal to synchronize the receiver to'
+                    required:
+                      - alphanumeric-radio-signal-id
+                      - numeric-radio-signal-id
                     properties:
                       alphanumeric-radio-signal-id:
                         type: string
@@ -1507,6 +1629,9 @@ paths:
                   configured-modulation-minimum:
                     type: object
                     description: 'Configured minimum modulation scheme'
+                    required:
+                      - number-of-states
+                      - name-at-lct
                     properties:
                       number-of-states:
                         type: integer
@@ -1525,6 +1650,9 @@ paths:
                   configured-modulation-maximum:
                     type: object
                     description: 'Configured maximum modulation scheme'
+                    required:
+                      - number-of-states
+                      - name-at-lct
                     properties:
                       number-of-states:
                         type: integer
@@ -1806,9 +1934,17 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - radio
+                  - modem
+                  - device
                 properties:
                   radio:
                     type: object
+                    required:
+                      - equipment-name
+                      - serial-number
+                      - part-number
                     properties:
                       equipment-name:
                         type: string
@@ -1830,6 +1966,10 @@ paths:
                           from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/part-type-identifier}'
                   modem:
                     type: object
+                    required:
+                      - equipment-name
+                      - serial-number
+                      - part-number
                     properties:
                       equipment-name:
                         type: string
@@ -1851,6 +1991,10 @@ paths:
                           from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/part-type-identifier}'
                   device:
                     type: object
+                    required:
+                      - equipment-name
+                      - serial-number
+                      - part-number
                     properties:
                       equipment-name:
                         type: string
@@ -2105,6 +2249,12 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - current-tx-power
+                  - current-rx-level
+                  - current-modulation
+                  - current-tx-frequency
+                  - current-rx-frequency
                 properties:
                   current-tx-power:
                     type: integer
@@ -2119,6 +2269,9 @@ paths:
                   current-modulation:
                     type: object
                     description: 'Currently operated modulation scheme'
+                    required:
+                      - number-of-states
+                      - name-at-lct
                     properties:
                       number-of-states:
                         type: integer
@@ -2369,9 +2522,14 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - current-alarms
                 properties:
                   current-alarms:
                     type: object
+                    required:
+                      - number-of-current-alarms
+                      - current-alarm-list
                     properties:
                       number-of-current-alarms:
                         type: integer
@@ -2383,6 +2541,10 @@ paths:
                         description: 'List of alarms that are currently raised on the device'
                         items:
                           type: object
+                          required:
+                            - alarm-type-id
+                            - alarm-type-qualifier
+                            - alarm-severity
                           properties:
                             alarm-type-id:
                               type: string

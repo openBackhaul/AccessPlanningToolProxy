@@ -8,18 +8,39 @@
 
 /v1/provide-historical-pm-data-of-device:
   type: object
+  required:
+    - request-id
   properties:
     request-id:
       type: string
 
 /v1/check-registered-availability-of-device:
   type: object
+  required:
+    - device-is-available
   properties:
     device-is-available:
       type: boolean
 
 /v1/provide-configuration-for-livenetview:
   type: object
+  required:
+    - air-interface-endpoint-name
+    - configured-tx-power
+    - supported-radio-signal-id-datatype
+    - supported-radio-signal-id-length
+    - configured-transmitted-radio-signal-id
+    - configured-expected-radio-signal-id
+    - configured-atpc-is-on
+    - configured-atpc-threshold-upper
+    - configured-atpc-threshold-lower
+    - configured-atpc-tx-power-min
+    - configured-adaptive-modulation-is-on
+    - configured-modulation-minimum
+    - configured-modulation-maximum
+    - configured-channel-bandwidth-min
+    - configured-channel-bandwidth-max
+    - configured-xpic-is-on
   properties:
     air-interface-endpoint-name:
       type: string
@@ -34,6 +55,9 @@
       type: integer
     configured-transmitted-radio-signal-id:
       type: object
+      required:
+        - alphanumeric-radio-signal-id
+        - numeric-radio-signal-id
       properties:
         alphanumeric-radio-signal-id:
           type: string
@@ -41,6 +65,9 @@
           type: integer
     configured-expected-radio-signal-id:
       type: object
+      required:
+        - alphanumeric-radio-signal-id
+        - numeric-radio-signal-id
       properties:
         alphanumeric-radio-signal-id:
           type: string
@@ -58,6 +85,9 @@
       type: boolean
     configured-modulation-minimum:
       type: object
+      required:
+        - number-of-states
+        - name-at-lct
       properties:
         number-of-states:
           type: integer
@@ -65,6 +95,9 @@
           type: string
     configured-modulation-maximum:
       type: object
+      required:
+        - number-of-states
+        - name-at-lct
       properties:
         number-of-states:
           type: integer
@@ -79,9 +112,17 @@
 
 /v1/provide-equipment-info-for-livenetview:
   type: object
+  required:
+    - radio
+    - modem
+    - device
   properties:
     radio:
       type: object
+      required:
+        - equipment-name
+        - serial-number
+        - part-number
       properties:
         equipment-name:
           type: string
@@ -91,6 +132,10 @@
           type: string
     modem:
       type: object
+      required:
+        - equipment-name
+        - serial-number
+        - part-number
       properties:
         equipment-name:
           type: string
@@ -100,6 +145,10 @@
           type: string
     device:
       type: object
+      required:
+        - equipment-name
+        - serial-number
+        - part-number
       properties:
         equipment-name:
           type: string
@@ -110,6 +159,12 @@
 
 /v1/provide-status-for-livenetview:
   type: object
+  required:
+    - current-tx-power
+    - current-rx-level
+    - current-modulation
+    - current-tx-frequency
+    - current-rx-frequency
   properties:
     current-tx-power:
       type: integer
@@ -117,22 +172,29 @@
       type: integer
     current-modulation:
       type: object
-      description: 'Currently operated modulation scheme'
+      required:
+        - number-of-states
+        - name-at-lct
       properties:
         number-of-states:
           type: integer
         name-at-lct:
           type: string
-    current-tx-freqency:
+    current-tx-frequency:
       type: integer
     current-rx-frequency:
       type: integer
 
 /v1/provide-alarms-for-livenetview:
   type: object
+  required:
+    - current-alarms
   properties:
     current-alarms:
       type: object
+      required:
+        - number-of-current-alarms
+        - current-alarm-list
       properties:
         number-of-current-alarms:
           type: integer
@@ -140,6 +202,10 @@
           type: array
           items:
             type: object
+            required:
+            - alarm-type-id
+            - alarm-type-qualifier
+            - alarm-severity
             properties:
               alarm-type-id:
                 type: string

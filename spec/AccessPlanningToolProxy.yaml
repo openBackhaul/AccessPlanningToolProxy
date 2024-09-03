@@ -7866,12 +7866,6 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
   /v1/update-apt-client:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: updateAptClient
       summary: 'Allows updating connection data of the AccessPlanningTool'
