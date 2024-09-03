@@ -1,0 +1,233 @@
+{
+    "/v1/provide-acceptance-data-of-link-endpoint": {
+        "type": "object",
+        "required": [
+            "request-id"
+        ],
+        "properties": {
+            "request-id": {
+                "type": "string"
+            }
+        }
+    },
+    "/v1/provide-historical-pm-data-of-device": {
+        "type": "object",
+        "properties": {
+            "request-id": {
+                "type": "string"
+            }
+        }
+    },
+    "/v1/check-registered-availability-of-device": {
+        "type": "object",
+        "properties": {
+            "device-is-available": {
+                "type": "boolean"
+            }
+        }
+    },
+    "/v1/provide-configuration-for-livenetview": {
+        "type": "object",
+        "properties": {
+            "air-interface-endpoint-name": {
+                "type": "string"
+            },
+            "configured-tx-power": {
+                "type": "integer"
+            },
+            "supported-radio-signal-id-datatype": {
+                "type": "string",
+                "enum": [
+                    "air-interface-2-0:RADIO_SIGNAL_ID_DATATYPE_TYPE_INTEGER",
+                    "air-interface-2-0:RADIO_SIGNAL_ID_DATATYPE_TYPE_STRING"
+                ]
+            },
+            "supported-radio-signal-id-length": {
+                "type": "integer"
+            },
+            "configured-transmitted-radio-signal-id": {
+                "type": "object",
+                "properties": {
+                    "alphanumeric-radio-signal-id": {
+                        "type": "string"
+                    },
+                    "numeric-radio-signal-id": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "configured-expected-radio-signal-id": {
+                "type": "object",
+                "properties": {
+                    "alphanumeric-radio-signal-id": {
+                        "type": "string"
+                    },
+                    "numeric-radio-signal-id": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "configured-atpc-is-on": {
+                "type": "boolean"
+            },
+            "configured-atpc-threshold-upper": {
+                "type": "integer"
+            },
+            "configured-atpc-threshold-lower": {
+                "type": "integer"
+            },
+            "configured-atpc-tx-power-min": {
+                "type": "integer"
+            },
+            "configured-adaptive-modulation-is-on": {
+                "type": "boolean"
+            },
+            "configured-modulation-minimum": {
+                "type": "object",
+                "properties": {
+                    "number-of-states": {
+                        "type": "integer"
+                    },
+                    "name-at-lct": {
+                        "type": "string"
+                    }
+                }
+            },
+            "configured-modulation-maximum": {
+                "type": "object",
+                "properties": {
+                    "number-of-states": {
+                        "type": "integer"
+                    },
+                    "name-at-lct": {
+                        "type": "string"
+                    }
+                }
+            },
+            "configured-channel-bandwidth-min": {
+                "type": "integer"
+            },
+            "configured-channel-bandwidth-max": {
+                "type": "integer"
+            },
+            "configured-xpic-is-on": {
+                "type": "boolean"
+            }
+        }
+    },
+    "/v1/provide-equipment-info-for-livenetview": {
+        "type": "object",
+        "properties": {
+            "radio": {
+                "type": "object",
+                "properties": {
+                    "equipment-name": {
+                        "type": "string"
+                    },
+                    "serial-number": {
+                        "type": "string"
+                    },
+                    "part-number": {
+                        "type": "string"
+                    }
+                }
+            },
+            "modem": {
+                "type": "object",
+                "properties": {
+                    "equipment-name": {
+                        "type": "string"
+                    },
+                    "serial-number": {
+                        "type": "string"
+                    },
+                    "part-number": {
+                        "type": "string"
+                    }
+                }
+            },
+            "device": {
+                "type": "object",
+                "properties": {
+                    "equipment-name": {
+                        "type": "string"
+                    },
+                    "serial-number": {
+                        "type": "string"
+                    },
+                    "part-number": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    },
+    "/v1/provide-status-for-livenetview": {
+        "type": "object",
+        "properties": {
+            "current-tx-power": {
+                "type": "integer"
+            },
+            "current-rx-level": {
+                "type": "integer"
+            },
+            "current-modulation": {
+                "type": "object",
+                "properties": {
+                    "number-of-states": {
+                        "type": "integer"
+                    },
+                    "name-at-lct": {
+                        "type": "string"
+                    }
+                }
+            },
+            "current-tx-frequency": {
+                "type": "integer"
+            },
+            "current-rx-frequency": {
+                "type": "integer"
+            }
+        }
+    },
+    "/v1/provide-alarms-for-livenetview": {
+        "type": "object",
+        "properties": {
+            "current-alarms": {
+                "type": "object",
+                "properties": {
+                    "number-of-current-alarms": {
+                        "type": "integer"
+                    },
+                    "current-alarm-list": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "alarm-type-id": {
+                                    "type": "string"
+                                },
+                                "alarm-type-qualifier": {
+                                    "type": "string"
+                                },
+                                "alarm-severity": {
+                                    "type": "string",
+                                    "enum": [
+                                        "alarms-1-0:SEVERITY_TYPE_INDETERMINATE",
+                                        "alarms-1-0:SEVERITY_TYPE_WARNING",
+                                        "alarms-1-0:SEVERITY_TYPE_MINOR",
+                                        "alarms-1-0:SEVERITY_TYPE_MAJOR",
+                                        "alarms-1-0:SEVERITY_TYPE_CRITICAL",
+                                        "alarms-1-0:SEVERITY_TYPE_CLEARED",
+                                        "alarms-1-0:SEVERITY_TYPE_NOT_YET_DEFINED"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "/v1/update-apt-client": null
+}
