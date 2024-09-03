@@ -3399,7 +3399,7 @@ paths:
                                   description: >
                                     'Currently measured signal to noise + interference ratio (SNIR)
                                     from {$RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/snir-cur}'
-                                current-tx-freqency:
+                                current-tx-frequency:
                                   type: integer
                                   description: >
                                     'Current transmit frequency in kHz
@@ -7092,7 +7092,7 @@ paths:
                           transmissionModeCur = {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/transmission-mode-cur}
                           from {$RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/modulation-scheme-name-at-lct}
                           where {$RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeCur'
-                  current-tx-freqency:
+                  current-tx-frequency:
                     type: integer
                     description: >
                       'Current transmit frequency in kHz
@@ -7108,8 +7108,8 @@ paths:
                   current-modulation:
                     number-of-states: 2048
                     name-at-lct: 2048QAM
-                  current-tx-freqency: 38822000
-                  current-rx-freqency: 34522000
+                  current-tx-frequency: 38822000
+                  current-rx-frequency: 34522000
           headers:
             life-cycle-state:
               schema:
