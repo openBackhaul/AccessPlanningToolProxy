@@ -3890,7 +3890,7 @@ paths:
                   description: 'Identifier of the device at the Controller'
                 time-stamp:
                   type: string
-                  format: date-time
+                  pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[\+\-]\d{2}:\d{2})$'
                   description: 'Time when the counter values were recorded and the counter reset. Corresponds to the most recent performance measurement of the device, which has been logged outside the MW SDN Domain'
               example:
                 mount-name: '513250010'
@@ -4590,7 +4590,6 @@ paths:
                                         - 'air-interface-2-0:GRANULARITY_PERIOD_TYPE_PERIOD-NOT_YET_DEFINED'
                                     period-end-time:
                                       type: string
-                                      format: date-time
                                     tx-level-min:
                                       type: integer
                                     tx-level-max:
@@ -4773,7 +4772,6 @@ paths:
                                         - 'ethernet-container-2-0:GRANULARITY_PERIOD_TYPE_PERIOD-NOT_YET_DEFINED'
                                     period-end-time:
                                       type: string
-                                      format: date-time
                                     max-bytes-per-second-output:
                                       type: integer
                                     total-bytes-input:
@@ -5048,7 +5046,6 @@ paths:
                                             from {$RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePerformanceFromCache.AirInterfaceHistoricalPmFromCache.response.body#air-interface-2-0:air-interface-historical-performance/historical-performance-data-list/granularity-period}'
                                         period-end-time:
                                           type: string
-                                          format: date-time
                                           description: >
                                             'Time when the counter values have been recorded and the counter reset
                                             from {$RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePerformanceFromCache.AirInterfaceHistoricalPmFromCache.response.body#air-interface-2-0:air-interface-historical-performance/historical-performance-data-list/period-end-time}'
@@ -5236,7 +5233,6 @@ paths:
                                             from {$RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache.EthernetContainerHistoricalPmFromCache.response.body#ethernet-container-2-0:ethernet-container-historical-performance/historical-performance-data-list/granularity-period}'
                                         period-end-time:
                                           type: string
-                                          format: date-time
                                           description: >
                                             'Time when the counter values have been recorded and the counter reset
                                             from {$RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache.EthernetContainerHistoricalPmFromCache.response.body#ethernet-container-2-0:ethernet-container-historical-performance/historical-performance-data-list/period-end-time}'

@@ -91,7 +91,7 @@ paths:
                   description: 'Identifier of the device at the Controller'
                 time-stamp:
                   type: string
-                  format: date-time
+                  pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[\+\-]\d{2}:\d{2})$'
                   description: 'Time when the counter values were recorded and the counter reset. Corresponds to the most recent performance measurement of the device, which has been logged outside the MW SDN Domain'
               example:
                 mount-name: '513250010'
@@ -1089,7 +1089,7 @@ paths:
                   description: 'Identifier of the device at the Controller'
                 time-stamp:
                   type: string
-                  format: date-time
+                  pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[\+\-]\d{2}:\d{2})$'
                   description: 'Time when the counter values were recorded and the counter reset. Corresponds to the most recent performance measurement of the device, which has been logged outside the MW SDN Domain'
       responses:
         '202':
