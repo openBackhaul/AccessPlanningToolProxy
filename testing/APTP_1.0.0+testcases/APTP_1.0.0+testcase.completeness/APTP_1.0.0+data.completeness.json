@@ -1,0 +1,42 @@
+ [
+	{
+		"mode": "debug",
+		"serverList": [
+			{
+				"serverName": "dummy",
+				"dummyUri": "ping.openBackhaul.com"
+			},
+			{
+				"serverName": "aptp",
+				"server": "http://127.0.0.1:4020",
+				"authorizationCode": "Basic_Auth",
+				"operationKey": "Operation key not yet provided.",
+				"userName": "Thorsten Heinze",
+				"originator": "APTP_1.0.0+testcase.completeness",
+				"xCorrelator": "00000000-0000-0000-0000-000000000000",
+				"traceIndicator": "1",
+				"customerJourney": ""
+			},
+			{
+				"serverName": "aptpSimulator",
+				"server": "http://localhost:3002",
+				"authorizationCode": "Basic_Auth",
+				"operationKey": "Operation key not yet provided.",
+				"userName": "Thorsten Heinze",
+				"originator": "APTP_1.0.0+testcase.completeness",
+				"xCorrelator": "00000000-0000-0000-0000-000000000000",
+				"traceIndicator": "1",
+				"customerJourney": ""
+			}
+		],
+		"collectionInputList": [
+			{
+				"collectionName": "Completeness",
+				"serverToBeApplied": "aptpSimulator",
+				"mountName": "0001",
+				"kindOfReference": "static",
+				"suffixUrlEncodingIsRequired": false
+			}
+		]
+	}
+]

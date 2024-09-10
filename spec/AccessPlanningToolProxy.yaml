@@ -3399,7 +3399,7 @@ paths:
                                   description: >
                                     'Currently measured signal to noise + interference ratio (SNIR)
                                     from {$RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/snir-cur}'
-                                current-tx-freqency:
+                                current-tx-frequency:
                                   type: integer
                                   description: >
                                     'Current transmit frequency in kHz
@@ -3890,11 +3890,11 @@ paths:
                   description: 'Identifier of the device at the Controller'
                 time-stamp:
                   type: string
-                  format: date-time
+                  pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[\+\-]\d{2}:\d{2})$'
                   description: 'Time when the counter values were recorded and the counter reset. Corresponds to the most recent performance measurement of the device, which has been logged outside the MW SDN Domain'
               example:
-                mount-name: '305251111'
-                time-stamp: '2024-02-12T00:45:00+01:00'
+                mount-name: '513250010'
+                time-stamp: '2024-02-12T10:55:00+01:00'
       responses:
         '202':
           description: 'Request for providing historical performance data of device received and accepted'
@@ -3902,12 +3902,14 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - request-id
                 properties:
                   request-id:
                     type: string
                     description: 'Identifier of the request for providing historical performance data of device'
                 example:
-                  request-id: '305251111-240212-1055'
+                  request-id: '513250010-240212-1055'
           headers:
             life-cycle-state:
               schema:
@@ -4588,7 +4590,6 @@ paths:
                                         - 'air-interface-2-0:GRANULARITY_PERIOD_TYPE_PERIOD-NOT_YET_DEFINED'
                                     period-end-time:
                                       type: string
-                                      format: date-time
                                     tx-level-min:
                                       type: integer
                                     tx-level-max:
@@ -4771,7 +4772,6 @@ paths:
                                         - 'ethernet-container-2-0:GRANULARITY_PERIOD_TYPE_PERIOD-NOT_YET_DEFINED'
                                     period-end-time:
                                       type: string
-                                      format: date-time
                                     max-bytes-per-second-output:
                                       type: integer
                                     total-bytes-input:
@@ -5046,7 +5046,6 @@ paths:
                                             from {$RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePerformanceFromCache.AirInterfaceHistoricalPmFromCache.response.body#air-interface-2-0:air-interface-historical-performance/historical-performance-data-list/granularity-period}'
                                         period-end-time:
                                           type: string
-                                          format: date-time
                                           description: >
                                             'Time when the counter values have been recorded and the counter reset
                                             from {$RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePerformanceFromCache.AirInterfaceHistoricalPmFromCache.response.body#air-interface-2-0:air-interface-historical-performance/historical-performance-data-list/period-end-time}'
@@ -5234,7 +5233,6 @@ paths:
                                             from {$RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache.EthernetContainerHistoricalPmFromCache.response.body#ethernet-container-2-0:ethernet-container-historical-performance/historical-performance-data-list/granularity-period}'
                                         period-end-time:
                                           type: string
-                                          format: date-time
                                           description: >
                                             'Time when the counter values have been recorded and the counter reset
                                             from {$RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache.EthernetContainerHistoricalPmFromCache.response.body#ethernet-container-2-0:ethernet-container-historical-performance/historical-performance-data-list/period-end-time}'
@@ -5714,6 +5712,8 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - device-is-available
                 properties:
                   device-is-available:
                     type: boolean
@@ -5790,6 +5790,23 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - air-interface-endpoint-name
+                  - configured-tx-power
+                  - supported-radio-signal-id-datatype
+                  - supported-radio-signal-id-length
+                  - configured-transmitted-radio-signal-id
+                  - configured-expected-radio-signal-id
+                  - configured-atpc-is-on
+                  - configured-atpc-threshold-upper
+                  - configured-atpc-threshold-lower
+                  - configured-atpc-tx-power-min
+                  - configured-adaptive-modulation-is-on
+                  - configured-modulation-minimum
+                  - configured-modulation-maximum
+                  - configured-channel-bandwidth-min
+                  - configured-channel-bandwidth-max
+                  - configured-xpic-is-on
                 properties:
                   air-interface-endpoint-name:
                     type: string
@@ -5818,6 +5835,9 @@ paths:
                   configured-transmitted-radio-signal-id:
                     type: object
                     description: 'Radio signal ID that is configured to be transmitted'
+                    required:
+                      - alphanumeric-radio-signal-id
+                      - numeric-radio-signal-id
                     properties:
                       alphanumeric-radio-signal-id:
                         type: string
@@ -5828,6 +5848,9 @@ paths:
                   configured-expected-radio-signal-id:
                     type: object
                     description: 'Radio signal ID configured to be expected on the signal to synchronize the receiver to'
+                    required:
+                      - alphanumeric-radio-signal-id
+                      - numeric-radio-signal-id
                     properties:
                       alphanumeric-radio-signal-id:
                         type: string
@@ -5863,6 +5886,9 @@ paths:
                   configured-modulation-minimum:
                     type: object
                     description: 'Configured minimum modulation scheme'
+                    required:
+                      - number-of-states
+                      - name-at-lct
                     properties:
                       number-of-states:
                         type: integer
@@ -5881,6 +5907,9 @@ paths:
                   configured-modulation-maximum:
                     type: object
                     description: 'Configured maximum modulation scheme'
+                    required:
+                      - number-of-states
+                      - name-at-lct
                     properties:
                       number-of-states:
                         type: integer
@@ -6096,7 +6125,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-        RequestForProvidingConfigurationForLivenetviewCausesDeterminingAirInterfaceUuidUnderTest:
+        RequestForProvidingConfigurationForLivenetviewCausesDeterminingAirInterfaceUnderTest:
           AirInterfaceLabel: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-mwdi-1-1-2-201/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             description: >
               'UuidUnderTest and LocalIdUnderTest to be determined by
@@ -6516,9 +6545,17 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - radio
+                  - modem
+                  - device
                 properties:
                   radio:
                     type: object
+                    required:
+                      - equipment-name
+                      - serial-number
+                      - part-number
                     properties:
                       equipment-name:
                         type: string
@@ -6540,6 +6577,10 @@ paths:
                           from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/part-type-identifier}'
                   modem:
                     type: object
+                    required:
+                      - equipment-name
+                      - serial-number
+                      - part-number
                     properties:
                       equipment-name:
                         type: string
@@ -6561,6 +6602,10 @@ paths:
                           from {$RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/part-type-identifier}'
                   device:
                     type: object
+                    required:
+                      - equipment-name
+                      - serial-number
+                      - part-number
                     properties:
                       equipment-name:
                         type: string
@@ -7063,6 +7108,12 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - current-tx-power
+                  - current-rx-level
+                  - current-modulation
+                  - current-tx-frequency
+                  - current-rx-frequency
                 properties:
                   current-tx-power:
                     type: integer
@@ -7077,6 +7128,9 @@ paths:
                   current-modulation:
                     type: object
                     description: 'Currently operated modulation scheme'
+                    required:
+                      - number-of-states
+                      - name-at-lct
                     properties:
                       number-of-states:
                         type: integer
@@ -7092,7 +7146,7 @@ paths:
                           transmissionModeCur = {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/transmission-mode-cur}
                           from {$RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/modulation-scheme-name-at-lct}
                           where {$RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeCur'
-                  current-tx-freqency:
+                  current-tx-frequency:
                     type: integer
                     description: >
                       'Current transmit frequency in kHz
@@ -7108,8 +7162,8 @@ paths:
                   current-modulation:
                     number-of-states: 2048
                     name-at-lct: 2048QAM
-                  current-tx-freqency: 38822000
-                  current-rx-freqency: 34522000
+                  current-tx-frequency: 38822000
+                  current-rx-frequency: 34522000
           headers:
             life-cycle-state:
               schema:
@@ -7616,9 +7670,14 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - current-alarms
                 properties:
                   current-alarms:
                     type: object
+                    required:
+                      - number-of-current-alarms
+                      - current-alarm-list
                     properties:
                       number-of-current-alarms:
                         type: integer
@@ -7630,6 +7689,10 @@ paths:
                         description: 'List of alarms that are currently raised on the device'
                         items:
                           type: object
+                          required:
+                            - alarm-type-id
+                            - alarm-type-qualifier
+                            - alarm-severity
                           properties:
                             alarm-type-id:
                               type: string
@@ -7799,12 +7862,6 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
   /v1/update-apt-client:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: updateAptClient
       summary: 'Allows updating connection data of the AccessPlanningTool'
