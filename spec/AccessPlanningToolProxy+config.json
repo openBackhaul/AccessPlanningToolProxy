@@ -745,7 +745,7 @@
         },
         {
           "uuid": "aptp-1-1-0-integer-p-000",
-          "profile-name": "integer-profile-1-0:PROFILE_NAME_INTEGER_PROFILE",
+          "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
           "integer-profile-1-0:integer-profile-pac": {
             "integer-profile-capability": {
               "integer-name": "ProvideAcceptanceDataOfLinkEndPoint.MaxNumberOfParallelRequests",
@@ -760,7 +760,7 @@
         },
         {
           "uuid": "aptp-1-1-0-integer-p-001",
-          "profile-name": "integer-profile-1-0:PROFILE_NAME_INTEGER_PROFILE",
+          "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
           "integer-profile-1-0:integer-profile-pac": {
             "integer-profile-capability": {
               "integer-name": "ProvideHistoricalPmDataOfDevice.MaxNumberOfParallelRequests",
@@ -775,7 +775,7 @@
         },
         {
           "uuid": "aptp-1-1-0-integer-p-002",
-          "profile-name": "integer-profile-1-0:PROFILE_NAME_INTEGER_PROFILE",
+          "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
           "integer-profile-1-0:integer-profile-pac": {
             "integer-profile-capability": {
               "integer-name": "CheckRegisteredAvailabilityOfDevice.MaxNumberOfParallelRequests",
@@ -790,7 +790,7 @@
         },
         {
           "uuid": "aptp-1-1-0-integer-p-003",
-          "profile-name": "integer-profile-1-0:PROFILE_NAME_INTEGER_PROFILE",
+          "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
           "integer-profile-1-0:integer-profile-pac": {
             "integer-profile-capability": {
               "integer-name": "EmbedYourself.DeviceListRefreshPeriod",
@@ -806,7 +806,7 @@
         },
         {
           "uuid": "aptp-1-1-0-integer-p-004",
-          "profile-name": "integer-profile-1-0:PROFILE_NAME_INTEGER_PROFILE",
+          "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
           "integer-profile-1-0:integer-profile-pac": {
             "integer-profile-capability": {
               "integer-name": "UpdateAptClient.ThrottlingPeriod",
@@ -822,7 +822,7 @@
         },
         {
           "uuid": "aptp-1-1-0-integer-p-005",
-          "profile-name": "integer-profile-1-0:PROFILE_NAME_INTEGER_PROFILE",
+          "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
           "integer-profile-1-0:integer-profile-pac": {
             "integer-profile-capability": {
               "integer-name": "ProvideAlarmsForLivenetview.MaxNumberOfParallelRequests",
@@ -837,7 +837,7 @@
         },
         {
           "uuid": "aptp-1-1-0-integer-p-006",
-          "profile-name": "integer-profile-1-0:PROFILE_NAME_INTEGER_PROFILE",
+          "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
           "integer-profile-1-0:integer-profile-pac": {
             "integer-profile-capability": {
               "integer-name": "ProvideStatusForLivenetview.MaxNumberOfParallelRequests",
