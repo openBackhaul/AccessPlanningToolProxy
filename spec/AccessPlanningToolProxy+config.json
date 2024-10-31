@@ -204,6 +204,25 @@
           }
         },
         {
+          "uuid": "aptp-1-1-0-response-p-008",
+          "profile-name": "response-profile-1-0:PROFILE_NAME_TYPE_GENERIC_RESPONSE_PROFILE",
+          "response-profile-1-0:response-profile-pac": {
+            "response-profile-capability": {
+              "operation-name": "/v1/inform-about-release-history-in-generic-representation",
+              "field-name": {
+                "field-name-reference": "/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=1/release-number"
+              },
+              "description": "Represents the second entry in the list of releases",
+              "datatype": "string"
+            },
+            "response-profile-configuration": {
+              "value": {
+                "value-reference": "/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=1/changes"
+              }
+            }
+          }
+        },
+        {
           "uuid": "aptp-1-1-0-string-p-000",
           "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
@@ -1606,7 +1625,7 @@
           "aptp-1-1-0-op-s-is-008",
           "aptp-1-1-0-op-s-is-009",
           "aptp-1-1-0-op-s-is-010",
-          "aptp-1-1-0-op-s-is-999"                                        
+          "aptp-1-1-0-op-s-is-999"
         ],
         "server-ltp": [
           "aptp-1-1-0-tcp-s-000"
