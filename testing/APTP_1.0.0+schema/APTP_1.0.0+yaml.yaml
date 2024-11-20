@@ -203,9 +203,9 @@
           items:
             type: object
             required:
-            - alarm-type-id
-            - alarm-type-qualifier
-            - alarm-severity
+              - alarm-type-id
+              - alarm-type-qualifier
+              - alarm-severity
             properties:
               alarm-type-id:
                 type: string
