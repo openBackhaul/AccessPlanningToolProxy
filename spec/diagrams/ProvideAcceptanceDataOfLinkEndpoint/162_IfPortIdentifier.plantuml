@@ -24,7 +24,7 @@ EquipmentCategory --> APTP: {EquipmentCategory}
 
 end
 note over APTP
-If EquipmentCategory == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM :
+If EquipmentCategory == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT :
 end note
 
 APTP -> HolderLabel: (apiKeyAuth)

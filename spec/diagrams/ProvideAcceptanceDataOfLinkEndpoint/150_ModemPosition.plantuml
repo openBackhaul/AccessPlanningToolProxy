@@ -18,9 +18,11 @@ activate APTP
 APTP -> EquipmentUuid: {with uuid of AirInterfaceUnderTest} (apiKeyAuth)
 EquipmentUuid --> APTP: {EquipmentUuidList}
 
+loop for each EquipmentUuid in EquipmentUuidList
 APTP -> EquipmentCategory: {with uuid from EquipmentUuidList} (apiKeyAuth)
 EquipmentCategory --> APTP: {EquipmentCategory}
 
+end
 note over APTP
 If EquipmentCategory == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM :
 end note
