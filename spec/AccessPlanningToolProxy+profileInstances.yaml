@@ -285,6 +285,27 @@ profile-instances:
       string-value: ''
 
   - profile-name: 'StringProfile'
+    uuid: 'aptp-1-1-0-string-p-027'
+    capability:
+      string-name: 'RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.EquipmentUuid'
+    configuration:
+      string-value: 'equipment'
+
+  - profile-name: 'StringProfile'
+    uuid: 'aptp-1-1-0-string-p-028'
+    capability:
+      string-name: 'RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.EquipmentCategory'
+    configuration:
+      string-value: 'structure(category)'
+
+  - profile-name: 'StringProfile'
+    uuid: 'aptp-1-1-0-string-p-029'
+    capability:
+      string-name: 'RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.HolderLabel'
+    configuration:
+      string-value: 'equipment(contained-holder(occupying-fru;equipment-augment-1-0:holder-pac(vendor-label)))'
+
+  - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-040'
     capability:
       string-name: 'RequestForProvidingHistoricalPmDataCausesReadingLtpStructure.LtpStructure'
