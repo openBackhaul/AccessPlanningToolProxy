@@ -1,0 +1,39 @@
+@startuml 153_IfPortIdentifier
+skinparam responseMessageBelowArrow true
+
+title
+RequestForProvidingAcceptanceDataCausesDeterminingIfPortIdentifier
+end title
+
+participant "LinkVis" as LinkVis
+participant "APTP://v1/provide-acceptance-data-of-link-endpoint" as APTP
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}\n/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment" as EquipmentUuid
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}\n/equipment={uuid}/actual-equipment?fields=structure(category)" as EquipmentCategory
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}\n?fields=uuid;equipment(contained-holder(occupying-fru;equipment-augment-1-0:holder-pac(vendor-label)))" as HolderLabel
+
+
+LinkVis -> APTP: {MountName, LinkId} (apiKeyAuth)
+activate APTP
+
+APTP -> EquipmentUuid: {with uuid of AirInterfaceUnderTest} (apiKeyAuth)
+EquipmentUuid --> APTP: {EquipmentUuidList}
+
+loop for each EquipmentUuid in EquipmentUuidList
+APTP -> EquipmentCategory: {with uuid from EquipmentUuidList} (apiKeyAuth)
+EquipmentCategory --> APTP: {EquipmentCategory}
+
+end
+note over APTP
+If EquipmentCategory == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM :
+end note
+
+APTP -> HolderLabel: (apiKeyAuth)
+HolderLabel --> APTP: {Holder with occupyingFru and label}
+
+note over APTP
+if-port-identifier = equipment-augment-1-0:holder-pac/vendor-label for Holder with occupyingFru == (uuid from EquipmentUuidList with EquipmentCategory == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT)
+end note
+
+deactivate APTP
+
+@enduml
