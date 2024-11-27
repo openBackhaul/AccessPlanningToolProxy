@@ -445,7 +445,6 @@ profile-instances:
     configuration:
       string-value: ''
 
-
   - profile-name: 'IntegerProfile'
     uuid: 'aptp-1-1-0-integer-p-000'
     capability:
