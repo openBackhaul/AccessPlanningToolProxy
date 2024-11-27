@@ -1,8 +1,8 @@
-@startuml 150_ModemPosition
+@startuml 162_IfPortIdentifier
 skinparam responseMessageBelowArrow true
 
 title
-RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition
+RequestForProvidingAcceptanceDataCausesDeterminingIfPortIdentifier
 end title
 
 participant "LinkVis" as LinkVis
@@ -24,14 +24,14 @@ EquipmentCategory --> APTP: {EquipmentCategory}
 
 end
 note over APTP
-If EquipmentCategory == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM :
+If EquipmentCategory == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT :
 end note
 
 APTP -> HolderLabel: (apiKeyAuth)
 HolderLabel --> APTP: {Holder with occupyingFru and label}
 
 note over APTP
-position-of-modem-board = equipment-augment-1-0:holder-pac/vendor-label for Holder with occupyingFru == (uuid from EquipmentUuidList with EquipmentCategory == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM)
+if-port-identifier = equipment-augment-1-0:holder-pac/vendor-label for Holder with occupyingFru == (uuid from EquipmentUuidList with EquipmentCategory == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT)
 end note
 
 deactivate APTP

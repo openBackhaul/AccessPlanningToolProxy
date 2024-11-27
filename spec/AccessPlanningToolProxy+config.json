@@ -230,7 +230,7 @@
               "string-name": "RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure"
             },
             "string-profile-configuration": {
-              "string-value": "logical-termination-point%28uuid%3Bserver-ltp%3Bclient-ltp%3Blayer-protocol%28local-id%3Blayer-protocol-name%29%29"
+              "string-value": "logical-termination-point(uuid;server-ltp;client-ltp;layer-protocol(local-id;layer-protocol-name))"
             }
           }
         },
@@ -278,7 +278,7 @@
               "string-name": "RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive.StatusFromLive"
             },
             "string-profile-configuration": {
-              "string-value": "tx-level-cur%3Brx-level-cur%3Btransmission-mode-cur%3Brx-frequency-cur%3Btx-frequency-cur%3Bxpd-cur%3Bsnir-cur"
+              "string-value": "tx-level-cur;rx-level-cur;transmission-mode-cur;rx-frequency-cur;tx-frequency-cur;xpd-cur;snir-cur"
             }
           }
         },
@@ -290,7 +290,7 @@
               "string-name": "RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation.LtpDesignation"
             },
             "string-profile-configuration": {
-              "string-value": "original-ltp-name%3Bexternal-label"
+              "string-value": "original-ltp-name;external-label"
             }
           }
         },
@@ -398,7 +398,7 @@
               "string-name": "RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentInfo"
             },
             "string-profile-configuration": {
-              "string-value": "structure%28category%29%3Bmanufactured-thing%28equipment-type%28type-name%3Bpart-type-identifier%29%3Bequipment-instance%28serial-number%29%29"
+              "string-value": "structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier);equipment-instance(serial-number))"
             }
           }
         },
@@ -422,7 +422,7 @@
               "string-name": "RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.SupportedPmds"
             },
             "string-profile-configuration": {
-              "string-value": "supported-pmd-kind-list%28pmd-name%29"
+              "string-value": "supported-pmd-kind-list(pmd-name)"
             }
           }
         },
@@ -458,7 +458,7 @@
               "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory"
             },
             "string-profile-configuration": {
-              "string-value": "structure%28category%29"
+              "string-value": "structure(category)"
             }
           }
         },
@@ -470,7 +470,7 @@
               "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.HolderLabel"
             },
             "string-profile-configuration": {
-              "string-value": "uuid%3Bequipment%28contained-holder%28occupying-fru%3Bequipment-augment-1-0%3Aholder-pac%28vendor-label%29%29%29"
+              "string-value": "uuid;equipment(contained-holder(occupying-fru;equipment-augment-1-0:holder-pac(vendor-label)))"
             }
           }
         },
@@ -482,7 +482,7 @@
               "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorId"
             },
             "string-profile-configuration": {
-              "string-value": "equipment%3Bconnector"
+              "string-value": "equipment;connector"
             }
           }
         },
@@ -494,7 +494,7 @@
               "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorNumber"
             },
             "string-profile-configuration": {
-              "string-value": "equipment-augment-1-0%3Aconnector-pac%28sequence-id%29"
+              "string-value": "equipment-augment-1-0:connector-pac(sequence-id)"
             }
           }
         },
@@ -506,7 +506,7 @@
               "string-name": "RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.EquipmentInfo"
             },
             "string-profile-configuration": {
-              "string-value": "structure%28category%29%3Bmanufactured-thing%28equipment-type%28type-name%3Bpart-type-identifier%29%3Bequipment-instance%28serial-number%29%29"
+              "string-value": "structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier);equipment-instance(serial-number))"
             }
           }
         },
@@ -523,6 +523,42 @@
           }
         },
         {
+          "uuid": "aptp-1-1-0-string-p-027",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "string-profile-1-0:string-profile-pac": {
+            "string-profile-capability": {
+              "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.EquipmentUuid"
+            },
+            "string-profile-configuration": {
+              "string-value": "equipment"
+            }
+          }
+        },
+        {
+          "uuid": "aptp-1-1-0-string-p-028",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "string-profile-1-0:string-profile-pac": {
+            "string-profile-capability": {
+              "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.EquipmentCategory"
+            },
+            "string-profile-configuration": {
+              "string-value": "structure(category)"
+            }
+          }
+        },
+        {
+          "uuid": "aptp-1-1-0-string-p-029",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "string-profile-1-0:string-profile-pac": {
+            "string-profile-capability": {
+              "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.HolderLabel"
+            },
+            "string-profile-configuration": {
+              "string-value": "uuid;equipment(contained-holder(occupying-fru;equipment-augment-1-0:holder-pac(vendor-label)))"
+            }
+          }
+        },
+        {
           "uuid": "aptp-1-1-0-string-p-040",
           "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
@@ -530,7 +566,7 @@
               "string-name": "RequestForProvidingHistoricalPmDataCausesReadingLtpStructure.LtpStructure"
             },
             "string-profile-configuration": {
-              "string-value": "logical-termination-point%28uuid%3Bserver-ltp%3Bclient-ltp%3Blayer-protocol%28local-id%3Blayer-protocol-name%29%29"
+              "string-value": "logical-termination-point(uuid;server-ltp;client-ltp;layer-protocol(local-id;layer-protocol-name))"
             }
           }
         },
@@ -542,7 +578,7 @@
               "string-name": "RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInterfaces.LtpDesignation"
             },
             "string-profile-configuration": {
-              "string-value": "original-ltp-name%3Bexternal-label"
+              "string-value": "original-ltp-name;external-label"
             }
           }
         },
@@ -554,7 +590,7 @@
               "string-name": "RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregations.LtpDesignation"
             },
             "string-profile-configuration": {
-              "string-value": "original-ltp-name%3Bexternal-label"
+              "string-value": "original-ltp-name;external-label"
             }
           }
         },
@@ -614,7 +650,7 @@
               "string-name": "RequestForProvidingConfigurationForLivenetviewCausesReadingLtpStructure.LtpStructure"
             },
             "string-profile-configuration": {
-              "string-value": "logical-termination-point%28uuid%3Blayer-protocol%28local-id%3Blayer-protocol-name%29%29"
+              "string-value": "logical-termination-point(uuid;layer-protocol(local-id;layer-protocol-name))"
             }
           }
         },
@@ -662,7 +698,7 @@
               "string-name": "RequestForProvidingEquipmentInfoForLivenetviewCausesReadingLtpStructure.LtpStructure"
             },
             "string-profile-configuration": {
-              "string-value": "logical-termination-point%28uuid%3Blayer-protocol%28local-id%3Blayer-protocol-name%29%29"
+              "string-value": "logical-termination-point(uuid;layer-protocol(local-id;layer-protocol-name))"
             }
           }
         },
@@ -698,7 +734,7 @@
               "string-name": "RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo"
             },
             "string-profile-configuration": {
-              "string-value": "structure%28category%29%3Bmanufactured-thing%28equipment-type%28type-name%3Bpart-type-identifier%29%3Bequipment-instance%28serial-number%29%29"
+              "string-value": "structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier);equipment-instance(serial-number))"
             }
           }
         },
@@ -722,7 +758,7 @@
               "string-name": "RequestForProvidingStatusForLivenetviewCausesReadingLtpStructure.LtpStructure"
             },
             "string-profile-configuration": {
-              "string-value": "logical-termination-point%28uuid%3Blayer-protocol%28local-id%3Blayer-protocol-name%29%29"
+              "string-value": "logical-termination-point(uuid;layer-protocol(local-id;layer-protocol-name))"
             }
           }
         },
@@ -746,7 +782,7 @@
               "string-name": "RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive.DedicatedStatusValuesFromLive"
             },
             "string-profile-configuration": {
-              "string-value": "tx-level-cur%3Brx-level-cur%3Btransmission-mode-cur%3Brx-frequency-cur%3Btx-frequency-cur"
+              "string-value": "tx-level-cur;rx-level-cur;transmission-mode-cur;rx-frequency-cur;tx-frequency-cur"
             }
           }
         },
@@ -764,7 +800,7 @@
         },
         {
           "uuid": "aptp-1-1-0-integer-p-000",
-          "profile-name": "integer-profile-1-0:PROFILE_NAME_INTEGER_PROFILE",
+          "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
           "integer-profile-1-0:integer-profile-pac": {
             "integer-profile-capability": {
               "integer-name": "ProvideAcceptanceDataOfLinkEndPoint.MaxNumberOfParallelRequests",
@@ -779,7 +815,7 @@
         },
         {
           "uuid": "aptp-1-1-0-integer-p-001",
-          "profile-name": "integer-profile-1-0:PROFILE_NAME_INTEGER_PROFILE",
+          "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
           "integer-profile-1-0:integer-profile-pac": {
             "integer-profile-capability": {
               "integer-name": "ProvideHistoricalPmDataOfDevice.MaxNumberOfParallelRequests",
@@ -794,7 +830,7 @@
         },
         {
           "uuid": "aptp-1-1-0-integer-p-002",
-          "profile-name": "integer-profile-1-0:PROFILE_NAME_INTEGER_PROFILE",
+          "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
           "integer-profile-1-0:integer-profile-pac": {
             "integer-profile-capability": {
               "integer-name": "CheckRegisteredAvailabilityOfDevice.MaxNumberOfParallelRequests",
@@ -809,7 +845,7 @@
         },
         {
           "uuid": "aptp-1-1-0-integer-p-003",
-          "profile-name": "integer-profile-1-0:PROFILE_NAME_INTEGER_PROFILE",
+          "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
           "integer-profile-1-0:integer-profile-pac": {
             "integer-profile-capability": {
               "integer-name": "EmbedYourself.DeviceListRefreshPeriod",
@@ -825,7 +861,7 @@
         },
         {
           "uuid": "aptp-1-1-0-integer-p-004",
-          "profile-name": "integer-profile-1-0:PROFILE_NAME_INTEGER_PROFILE",
+          "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
           "integer-profile-1-0:integer-profile-pac": {
             "integer-profile-capability": {
               "integer-name": "UpdateAptClient.ThrottlingPeriod",
@@ -841,7 +877,7 @@
         },
         {
           "uuid": "aptp-1-1-0-integer-p-005",
-          "profile-name": "integer-profile-1-0:PROFILE_NAME_INTEGER_PROFILE",
+          "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
           "integer-profile-1-0:integer-profile-pac": {
             "integer-profile-capability": {
               "integer-name": "ProvideAlarmsForLivenetview.MaxNumberOfParallelRequests",
@@ -856,7 +892,7 @@
         },
         {
           "uuid": "aptp-1-1-0-integer-p-006",
-          "profile-name": "integer-profile-1-0:PROFILE_NAME_INTEGER_PROFILE",
+          "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
           "integer-profile-1-0:integer-profile-pac": {
             "integer-profile-capability": {
               "integer-name": "ProvideStatusForLivenetview.MaxNumberOfParallelRequests",
@@ -4459,6 +4495,81 @@
                 "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
                 "logical-termination-point": "aptp-1-1-0-op-c-is-mwdi-1-1-2-120"
+              }
+            ]
+          },
+          {
+            "uuid": "aptp-1-1-0-op-fc-is-162",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.EquipmentUuid"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aptp-1-1-0-op-s-is-000"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aptp-1-1-0-op-c-is-mwdi-1-1-2-201"
+              }
+            ]
+          },
+          {
+            "uuid": "aptp-1-1-0-op-fc-is-163",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.EquipmentCategory"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aptp-1-1-0-op-s-is-000"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aptp-1-1-0-op-c-is-mwdi-1-1-2-114"
+              }
+            ]
+          },
+          {
+            "uuid": "aptp-1-1-0-op-fc-is-164",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.HolderLabel"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aptp-1-1-0-op-s-is-000"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aptp-1-1-0-op-c-is-mwdi-1-1-2-000"
               }
             ]
           },
