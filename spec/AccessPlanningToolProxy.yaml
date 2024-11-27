@@ -3513,6 +3513,8 @@ paths:
         RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData:
           Response: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-apt-24-5-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
+              security:
+                - basicAuth: []
               requestBody:
                 content:
                   application/json:
@@ -5208,6 +5210,8 @@ paths:
         RequestForProvidingHistoricalPmDataCausesDeliveringRequestedHistoricalPmData:
           Response: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-apt-24-5-0-001/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
+              security:
+                - basicAuth: []
               requestBody:
                 content:
                   application/json:

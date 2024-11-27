@@ -455,6 +455,20 @@ profile-instances:
     configuration:
       string-value: ''
 
+  - profile-name: 'StringProfile'
+    uuid: 'aptp-1-1-0-string-p-998'
+    capability:
+      string-name: 'AccessPlanningToolCredentials.Username'
+    configuration:
+      string-value: 'aptp' ## final string-value of Usersame to be written in encrypted form
+
+  - profile-name: 'StringProfile'
+    uuid: 'aptp-1-1-0-string-p-999'
+    capability:
+      string-name: 'AccessPlanningToolCredentials.Password'
+    configuration:
+      string-value: 'aptpPr0x1!' ## final string-value of Password to be written in encrypted form
+
   - profile-name: 'IntegerProfile'
     uuid: 'aptp-1-1-0-integer-p-000'
     capability:
