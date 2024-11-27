@@ -3213,6 +3213,303 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+        RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier:
+          EquipmentUuid: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-mwdi-1-1-2-201/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mount-name of the device that is addressed by this callback
+                    from {$request.body#mount-name}'
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-2134638978'
+                  description: >
+                    'The UUID of the LogicalTerminationPoint that is addressed by the request
+                    from UuidUnderTest determined in RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest'
+                - name: fields
+                  in: query
+                  required: true
+                  schema:
+                    type: string
+                    example: 'equipment'
+                  description: >
+                    'If different from empty string, a fields filter with the following value to be added to the request
+                    from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-string-p-027/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+              responses:
+                '200':
+                  description: 'LtpAugment provided from cache'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        properties:
+                          ltp-augment-1-0:ltp-augment-pac:
+                            type: object
+                            properties:
+                              equipment:
+                                type: array
+                                items:
+                                  type: string
+                        example:
+                          ltp-augment-1-0:ltp-augment-pac:
+                            equipment:
+                              - '1921277951'
+                              - '1921274367'
+                  headers:
+                    x-correlator:
+                      schema:
+                        type: string
+                        example: '550e8400-e29b-11d4-a716-446655440000'
+                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+                    exec-time:
+                      schema:
+                        type: integer
+                        example: 1100
+                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+                    backend-time:
+                      schema:
+                        type: integer
+                        example: 850
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                    life-cycle-state:
+                      schema:
+                        type: string
+                        enum:
+                          - 'EXPERIMENTAL'
+                          - 'OPERATIONAL'
+                          - 'DEPRECATED'
+                          - 'OBSOLETE'
+                          - 'UNKNOWN'
+                          - 'NOT_YET_DEFINED'
+                        example: 'EXPERIMENTAL'
+                      description: 'Life cycle state of the consumed service'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+          EquipmentCategory: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-mwdi-1-1-2-114/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mount-name of the device that is addressed by this callback
+                    from {$request.body#mount-name}'
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '1921277951'
+                  description: >
+                    'The UUID of the Equipment that is addressed by this request
+                    from {RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentUuid.response.body#ltp-augment-1-0:ltp-augment-pac/equipment}'
+                - name: fields
+                  in: query
+                  required: true
+                  schema:
+                    type: string
+                    example: 'structure(category)'
+                  description: >
+                    'If different from empty string, a fields filter with the following value to be added to the request
+                    from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-string-p-028/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+              responses:
+                '200':
+                  description: 'ActualEquipment provided from cache'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        properties:
+                          core-model-1-4:actual-equipment:
+                            type: object
+                            properties:
+                              structure:
+                                type: object
+                                properties:
+                                  category:
+                                    type: string
+                        example:
+                          core-model-1-4:actual-equipment:
+                            structure:
+                              category: 'equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM'
+                  headers:
+                    x-correlator:
+                      schema:
+                        type: string
+                        example: '550e8400-e29b-11d4-a716-446655440000'
+                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+                    exec-time:
+                      schema:
+                        type: integer
+                        example: 1100
+                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+                    backend-time:
+                      schema:
+                        type: integer
+                        example: 850
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                    life-cycle-state:
+                      schema:
+                        type: string
+                        enum:
+                          - 'EXPERIMENTAL'
+                          - 'OPERATIONAL'
+                          - 'DEPRECATED'
+                          - 'OBSOLETE'
+                          - 'UNKNOWN'
+                          - 'NOT_YET_DEFINED'
+                        example: 'EXPERIMENTAL'
+                      description: 'Life cycle state of the consumed service'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+          HolderLabel: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-mwdi-1-1-2-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mount-name of the device that is addressed by this callback
+                    from {$request.body#mount-name}'
+                - name: fields
+                  in: query
+                  required: true
+                  schema:
+                    type: string
+                    example: 'equipment(contained-holder(occupying-fru;equipment-augment-1-0:holder-pac(vendor-label)))'
+                  description: >
+                    'If different from empty string, a fields filter with the following value to be added to the request
+                    from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-string-p-029/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+              responses:
+                '200':
+                  description: 'ControlConstruct provided from cache'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        properties:
+                          core-model-1-4:control-construct:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                equipment:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      contained-holder:
+                                        type: array
+                                        items:
+                                          type: object
+                                          properties:
+                                            occupying-fru:
+                                              type: string
+                                            equipment-augment-1-0:holder-pac:
+                                              type: object
+                                              properties:
+                                                vendor-label:
+                                                  type: string
+                        example:
+                          core-model-1-4:control-construct:
+                            - equipment:
+                                - contained-holder:
+                                    - occupying-fru: '1921277951'
+                                      equipment-augment-1-0:holder-pac:
+                                        vendor-label: 'Slot 1/5.1'
+                                    - occupying-fru: '1921261567'
+                                      equipment-augment-1-0:holder-pac:
+                                        vendor-label: 'Slot 1/1'
+                  headers:
+                    x-correlator:
+                      schema:
+                        type: string
+                        example: '550e8400-e29b-11d4-a716-446655440000'
+                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+                    exec-time:
+                      schema:
+                        type: integer
+                        example: 1100
+                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+                    backend-time:
+                      schema:
+                        type: integer
+                        example: 850
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                    life-cycle-state:
+                      schema:
+                        type: string
+                        enum:
+                          - 'EXPERIMENTAL'
+                          - 'OPERATIONAL'
+                          - 'DEPRECATED'
+                          - 'OBSOLETE'
+                          - 'UNKNOWN'
+                          - 'NOT_YET_DEFINED'
+                        example: 'EXPERIMENTAL'
+                      description: 'Life cycle state of the consumed service'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
         RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData:
           Response: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-apt-24-5-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
@@ -3645,8 +3942,20 @@ paths:
                                     Starting from the AirInterface that is identified by UuidUnderTest determined in RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest
                                     the underlaying equipment has to be identified by RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentUuid.response.body#ltp-augment-1-0:ltp-augment-pac/equipment
                                     for each of the EquipmentUuids the category has to be retrieved by RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory.response.by#core-model-1-4:actual-equipment/structure/category
-                                    for the single EquipmentUuid with RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory.response.by#core-model-1-4:actual-equipment/structure/category == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM
-                                    from RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.HolderLabel.response.body#core-model-1-4:control-construct/equipment/contained-holder/equipment-augment-1-0:holder-pac/vendor-label'
+                                    The single EquipmentUuid with RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory.response.by#core-model-1-4:actual-equipment/structure/category == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM
+                                    shall be used to select the correct object from RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.HolderLabel, where this EquipmentUuid equals RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.HolderLabel.response.body#core-model-1-4:control-construct/equipment/contained-holder/occupying-fru.
+                                    From RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.HolderLabel.response.body#core-model-1-4:control-construct/equipment/contained-holder/equipment-augment-1-0:holder-pac/vendor-label'
+                                if-port-identifier:
+                                  type: string
+                                  description: >
+                                    'Provided for split mount devices only
+                                    Identifier of the port that holds the link end point according to the currently valid, official documentation of the equipment
+                                    Starting from the AirInterface that is identified by UuidUnderTest determined in RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest
+                                    the underlaying equipment has to be identified by RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.EquipmentUuid.response.body#ltp-augment-1-0:ltp-augment-pac/equipment
+                                    for each of the EquipmentUuids the category has to be retrieved by RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.EquipmentCategory.response.by#core-model-1-4:actual-equipment/structure/category
+                                    The single EquipmentUuid with RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.EquipmentCategory.response.by#core-model-1-4:actual-equipment/structure/category == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT'
+                                    serves to select the ContainedHolder object for which RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.HolderLabel.response.body#core-model-1-4:control-construct/equipment/contained-holder/occupying-fru equals this EquipmentUuid.
+                                    From RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.HolderLabel.response.body#core-model-1-4:control-construct/equipment/contained-holder/equipment-augment-1-0:holder-pac/vendor-label'
                                 connector-plugging-the-outdoor-unit:
                                   type: integer
                                   description: >
@@ -3784,7 +4093,8 @@ paths:
                                   currently-operated-pmd: 'NOT_YET_DEFINED'
                                   sfp-transceiver-part-number: 'Unverified'
                                   sfp-transceiver-serial-number: '1000023941422'
-                              position-of-modem-board: 'Slot 1/5.1'
+                              position-of-modem-board: 'Slot 1/5'
+                              if-port-identifier: 'Slot 1/5.2'
                               connector-plugging-the-outdoor-unit: 1
                             alarms:
                               current-alarms:
