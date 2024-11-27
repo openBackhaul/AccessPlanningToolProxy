@@ -504,6 +504,42 @@
           }
         },
         {
+          "uuid": "aptp-1-1-0-string-p-027",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "string-profile-1-0:string-profile-pac": {
+            "string-profile-capability": {
+              "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.EquipmentUuid"
+            },
+            "string-profile-configuration": {
+              "string-value": "equipment"
+            }
+          }
+        },
+        {
+          "uuid": "aptp-1-1-0-string-p-028",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "string-profile-1-0:string-profile-pac": {
+            "string-profile-capability": {
+              "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.EquipmentCategory"
+            },
+            "string-profile-configuration": {
+              "string-value": "structure(category)"
+            }
+          }
+        },
+        {
+          "uuid": "aptp-1-1-0-string-p-029",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "string-profile-1-0:string-profile-pac": {
+            "string-profile-capability": {
+              "string-name": "RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.HolderLabel"
+            },
+            "string-profile-configuration": {
+              "string-value": "uuid;equipment(contained-holder(occupying-fru;equipment-augment-1-0:holder-pac(vendor-label)))"
+            }
+          }
+        },
+        {
           "uuid": "aptp-1-1-0-string-p-040",
           "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
@@ -4440,6 +4476,81 @@
                 "local-id": "200",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
                 "logical-termination-point": "aptp-1-1-0-op-c-is-mwdi-1-1-2-120"
+              }
+            ]
+          },
+          {
+            "uuid": "aptp-1-1-0-op-fc-is-162",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.EquipmentUuid"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aptp-1-1-0-op-s-is-000"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aptp-1-1-0-op-c-is-mwdi-1-1-2-201"
+              }
+            ]
+          },
+          {
+            "uuid": "aptp-1-1-0-op-fc-is-163",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.EquipmentCategory"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aptp-1-1-0-op-s-is-000"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aptp-1-1-0-op-c-is-mwdi-1-1-2-114"
+              }
+            ]
+          },
+          {
+            "uuid": "aptp-1-1-0-op-fc-is-164",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.HolderLabel"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aptp-1-1-0-op-s-is-000"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aptp-1-1-0-op-c-is-mwdi-1-1-2-000"
               }
             ]
           },
