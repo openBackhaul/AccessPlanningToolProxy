@@ -122,21 +122,21 @@ profile-instances:
       string-name: 'RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceLabel'
     configuration:
       string-value: 'external-label'
-  
+
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-002'
     capability:
       string-name: 'RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache'
     configuration:
       string-value: ''
-  
+
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-003'
     capability:
       string-name: 'RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache'
     configuration:
       string-value: ''
-  
+
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-004'
     capability:
@@ -157,35 +157,35 @@ profile-instances:
       string-name: 'RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive.AlarmsFromLive'
     configuration:
       string-value: ''
-  
+
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-007'
     capability:
       string-name: 'RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.OriginalLtpName'
     configuration:
       string-value: 'original-ltp-name'
-  
+
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-008'
     capability:
       string-name: 'RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.EthernetContainerStatus'
     configuration:
       string-value: 'interface-status'
-  
+
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-009'
     capability:
       string-name: 'RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.EthernetContainerStatus'
     configuration:
       string-value: 'interface-status'
-  
+
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-010'
     capability:
       string-name: 'RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.VlanInterfaceKind'
     configuration:
       string-value: 'interface-kind'
-  
+
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-011'
     capability:
