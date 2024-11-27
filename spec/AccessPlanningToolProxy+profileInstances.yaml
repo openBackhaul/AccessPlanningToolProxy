@@ -8,7 +8,7 @@ profile-instances:
       display-in-new-browser-window: false
     configuration:
       consequent-operation-reference: '/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-bs-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name'
-  
+
   - profile-name: 'ActionProfile'
     uuid: 'aptp-1-1-0-action-p-001'
     capability:
@@ -17,7 +17,7 @@ profile-instances:
       display-in-new-browser-window: false
     configuration:
       consequent-operation-reference: '/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-bs-004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name'
- 
+
   - profile-name: 'ActionProfile'
     uuid: 'aptp-1-1-0-action-p-002'
     capability:
@@ -37,7 +37,7 @@ profile-instances:
       datatype: 'string'
     configuration:
       value-reference: '/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name'
- 
+
   - profile-name: 'GenericResponseProfile'
     uuid: 'aptp-1-1-0-response-p-001'
     capability:
@@ -47,7 +47,7 @@ profile-instances:
       datatype: 'string'
     configuration:
       value-reference: '/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name'
-  
+
   - profile-name: 'GenericResponseProfile'
     uuid: 'aptp-1-1-0-response-p-002'
     capability:
@@ -57,7 +57,7 @@ profile-instances:
       datatype: 'string'
     configuration:
       value-reference: '/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-number'
- 
+
   - profile-name: 'GenericResponseProfile'
     uuid: 'aptp-1-1-0-response-p-003'
     capability:
@@ -67,7 +67,7 @@ profile-instances:
       datatype: 'string'
     configuration:
       value-reference: '/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-purpose'
-  
+
   - profile-name: 'GenericResponseProfile'
     uuid: 'aptp-1-1-0-response-p-004'
     capability:
@@ -77,7 +77,7 @@ profile-instances:
       datatype: 'string'
     configuration:
       value-reference: '/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/data-update-period'
-  
+
   - profile-name: 'GenericResponseProfile'
     uuid: 'aptp-1-1-0-response-p-005'
     capability:
@@ -87,7 +87,7 @@ profile-instances:
       datatype: 'string'
     configuration:
       value-reference: '/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/owner-name'
- 
+
   - profile-name: 'GenericResponseProfile'
     uuid: 'aptp-1-1-0-response-p-006'
     capability:
@@ -97,7 +97,7 @@ profile-instances:
       datatype: 'string'
     configuration:
       value-reference: '/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/owner-email-address'
-  
+
   - profile-name: 'GenericResponseProfile'
     uuid: 'aptp-1-1-0-response-p-007'
     capability:
