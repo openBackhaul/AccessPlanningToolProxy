@@ -43,4 +43,4 @@ The AccessPlanningToolProxy fulfils a quality assurance task on the live network
 - [Implementation](./server/)
 
 ### Comments
-This application got specified during training for ApplicationOwners.
+./.

@@ -1,4 +1,4 @@
-@startuml 152_radioComponentIdentifiers
+@startuml 160_radioComponentIdentifiers
 skinparam responseMessageBelowArrow true
 
 title
