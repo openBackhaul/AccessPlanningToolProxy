@@ -1,11 +1,17 @@
 'use strict';
 const ReadAirInterfaceData = require('./individualServices/ReadAirInterfaceData');
+const ReadConfigurationAirInterfaceData = require('./individualServices/ReadConfigurationAirInterfaceData');
 const ReadLtpStructure = require('./individualServices/ReadLtpStructure');
 const ReadVlanInterfaceData = require('./individualServices/ReadVlanInterfaceData');
 const ReadInventoryData = require('./individualServices/ReadInventoryData');
-const ReadAlarmsData = require('./individualServices/ReadAlarmsData');
+const ReadHistoricalData = require('./individualServices/ReadHistoricalData');
+const ReadLiveAlarmsData = require('./individualServices/ReadLiveAlarmsData');
+const ReadLiveStatusData = require('./individualServices/ReadLiveStatusData');
+const ReadLiveEquipmentData = require('./individualServices/ReadLiveEquipmentData');
 const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
 const createHttpError = require('http-errors');
+const IndividualServiceUtility = require('./individualServices/IndividualServiceUtility');
+const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
 
 const softwareUpgrade = require('./individualServices/SoftwareUpgrade');
 const HttpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
@@ -34,6 +40,42 @@ exports.bequeathYourDataAndDie = async function (body, user, originator, xCorrel
   }
 }
 
+
+/**
+ * Checks wheter a mountName is registered in the APTP-internal list of Connected devices and returns a boolean
+ *
+ * body V1_checkregisteredavailabilityofdevice_body 
+ * returns inline_response_200
+ **/
+exports.checkRegisteredAvailabilityOfDevice = function (body) {
+  return new Promise(async function (resolve, reject) {
+    var result = {};
+    try {
+      const forwardingName = "RequestForProvidingConfigurationForLivenetviewCausesReadingLtpStructure";
+      const forwardingConstruct = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+      let prefix = forwardingConstruct.uuid.split('op')[0];
+      let maxNumberOfParallelOperations = await IndividualServiceUtility.extractProfileConfiguration(prefix + "integer-p-002");
+      let counter = counter + 1;
+      if (counter > maxNumberOfParallelOperations) {
+        throw new createHttpError.TooManyRequests("Too many requests");
+      }
+      let mountName = body['mount-name'];
+      if (variabile["mount-name-list"].includes(mountName)) {   ///// TO FIX VARIABILE CON QUELLA GLOBALE CHE CONTIENE LA LISTA
+        result['application/json'] = {
+          "device-is-available": true
+        };
+      } else {
+        result['application/json'] = {
+          "device-is-available": false
+        };
+      }
+      resolve(Object.keys(result)[0]);
+    } catch (error) {
+      reject(error);
+      resolve(error);
+    }
+  });
+}
 
 
 /**
@@ -145,5 +187,352 @@ exports.provideAcceptanceDataOfLinkEndpoint = function (body, user, originator, 
       reject(error);
     }
 
+  });
+}
+
+/**
+ * Provides the current alarms in a device for display at the section \"LiveView aktuell\" in LinkVis
+ *
+ * body V1_providealarmsforlivenetview_body 
+ * returns inline_response_200_4
+ **/
+exports.provideAlarmsForLiveNetView = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      let traceIndicatorIncrementer = 1;
+      let mountName = body["mount-name"];
+      const forwardingName = "RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromLive";
+      const forwardingConstruct = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+      let prefix = forwardingConstruct.uuid.split('op')[0];
+      let maxNumberOfParallelOperations = await IndividualServiceUtility.extractProfileConfiguration(prefix + "integer-p-005");
+      counterAlarms = counterAlarms + 1;
+      if (counterAlarms > maxNumberOfParallelOperations) {
+        throw new createHttpError.TooManyRequests("Too many requests");
+      }
+
+      /****************************************************************************************
+         * Setting up request header object
+         ****************************************************************************************/
+      let requestHeaders = {
+        user: user,
+        originator: originator,
+        xCorrelator: xCorrelator,
+        traceIndicator: traceIndicator,
+        customerJourney: customerJourney
+      };
+
+      let alarmsResult = await ReadLiveAlarmsData.readLiveAlarmsData(mountName, requestHeaders, traceIndicatorIncrementer)
+        .catch(err => console.log(` ${err}`));
+      if (alarmsResult) {
+        if (Object.keys(alarmsResult.alarms).length != 0) {
+          if (alarmsResult.alarms) {
+            alarmsResult = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(alarmsResult);
+            counterAlarms--;
+            resolve(alarmsResult);
+          }
+        }
+      } else {
+        counterAlarms--;
+        resolve();
+      }
+    }
+    catch (error) {
+      reject(error);
+    }
+  });
+}
+
+
+/**
+ * Provides the configurations at link endpoint for display at the section \"LiveView aktuell\" in LinkVis
+ *
+ * body V1_provideconfigurationforlivenetview_body 
+ * returns inline_response_200_1
+ **/
+exports.provideConfigurationForLiveNetView = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      let configurationData = {};
+      let traceIndicatorIncrementer = 1;
+
+      /****************************************************************************************
+       * Setting up required local variables from the request body
+       ****************************************************************************************/
+      let mountName = body["mount-name"];
+      let linkId = body["link-id"];
+
+      /****************************************************************************************
+       * Setting up request header object
+       ****************************************************************************************/
+      let requestHeaders = {
+        user: user,
+        originator: originator,
+        xCorrelator: xCorrelator,
+        traceIndicator: traceIndicator,
+        customerJourney: customerJourney
+      };
+
+      /****************************************************************************************
+       * Collect complete ltp structure of mount-name in request bodys
+       ****************************************************************************************/
+      let ltpStructure = {};
+      try {
+        let ltpStructureResult = await ReadLtpStructure.readLtpStructure(mountName, requestHeaders, traceIndicatorIncrementer)
+        ltpStructure = ltpStructureResult.ltpStructure;
+        traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
+      } catch (err) {
+        throw new createHttpError.InternalServerError(`${err}`)
+      };
+
+
+      /****************************************************************************************
+       * Collect air-interface data
+       ****************************************************************************************/
+      let airInterfaceResult = await ReadConfigurationAirInterfaceData.readConfigurationAirInterfaceData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer)
+        .catch(err => console.log(` ${err}`));
+
+      let uuidUnderTest = "";
+      if (airInterfaceResult) {
+        if (airInterfaceResult.uuidUnderTest) {
+          uuidUnderTest = airInterfaceResult.uuidUnderTest;
+        }
+        if (Object.keys(airInterfaceResult.airInterface).length != 0) {
+          configurationData.airInterface = airInterfaceResult.airInterface;
+        }
+        traceIndicatorIncrementer = airInterfaceResult.traceIndicatorIncrementer;
+      }
+
+
+      //acceptanceDataOfLinkEndPoint = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(acceptanceDataOfLinkEndPoint);
+      resolve(configurationData.airInterface);
+
+    } catch (error) {
+      console.log(error)
+      reject(error);
+    }
+  });
+}
+
+
+/**
+ * Provides information about the radio component identifiers at the link endpoint for display at the section \"LiveView aktuell\" in LinkVis
+ *
+ * body V1_provideequipmentinfoforlivenetview_body 
+ * returns inline_response_200_2
+ **/
+exports.provideEquipmentInfoForLiveNetView = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      let traceIndicatorIncrementer = 1;
+      let equipmentForLiveNetView = {};
+
+      /****************************************************************************************
+       * Setting up required local variables from the request body
+       ****************************************************************************************/
+      let mountName = body["mount-name"];
+      let linkId = body["link-id"];
+
+      /****************************************************************************************
+       * Setting up request header object
+       ****************************************************************************************/
+      let requestHeaders = {
+        user: user,
+        originator: originator,
+        xCorrelator: xCorrelator,
+        traceIndicator: traceIndicator,
+        customerJourney: customerJourney
+      };
+
+      /****************************************************************************************
+       * Collect complete ltp structure of mount-name in request bodys
+       ****************************************************************************************/
+      let ltpStructure = {};
+      try {
+        let ltpStructureResult = await ReadLtpStructure.readLtpStructure(mountName, requestHeaders, traceIndicatorIncrementer)
+        ltpStructure = ltpStructureResult.ltpStructure;
+        traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
+      } catch (err) {
+        throw new createHttpError.InternalServerError(`${err}`)
+      };
+
+
+      /****************************************************************************************
+       * Collect equipment data
+       ****************************************************************************************/
+      let equipmentResult = await ReadLiveEquipmentData.readLiveEquipmentData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer)
+        .catch(err => console.log(` ${err}`));
+
+      resolve(equipmentResult);
+    } catch (error) {
+      console.log(error)
+      reject(error);
+    }
+
+  });
+}
+
+
+/**
+ * Provides the historical performance data, together with some relevant configurations and capabilities, of air-interfaces and ethernet-containers found in the device
+ *
+ * body V1_providehistoricalpmdataofdevice_body 
+ * returns inline_response_202_1
+ **/
+exports.provideHistoricalPmDataOfDevice = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      let HistoricalPmDataOfDevice = {};
+      let traceIndicatorIncrementer = 1;
+
+      /****************************************************************************************
+       * Setting up required local variables from the request body
+       ****************************************************************************************/
+      let mountName = body["mount-name"];
+      let timeStamp = body["time-stamp"];
+
+      /****************************************************************************************
+       * Setting up request header object
+       ****************************************************************************************/
+      let requestHeaders = {
+        user: user,
+        originator: originator,
+        xCorrelator: xCorrelator,
+        traceIndicator: traceIndicator,
+        customerJourney: customerJourney
+      };
+
+      /****************************************************************************************
+       * Collect complete ltp structure of mount-name in request bodys
+       ****************************************************************************************/
+      let ltpStructure = {};
+      try {
+        let ltpStructureResult = await ReadLtpStructure.readLtpStructure(mountName, requestHeaders, traceIndicatorIncrementer)
+        ltpStructure = ltpStructureResult.ltpStructure;
+        traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
+      } catch (err) {
+        throw new createHttpError.InternalServerError(`${err}`)
+      };
+      
+      /****************************************************************************************
+        * Collect history data
+        ****************************************************************************************/
+      
+      let historicalDataResult = await ReadHistoricalData.ReadHistoricalData(mountName, timeStamp, ltpStructure, requestHeaders, traceIndicatorIncrementer)
+        .catch(err => console.log(` ${err}`));
+
+      let uuidUnderTest = "";
+      if (airInterfaceResult) {
+        if (airInterfaceResult.uuidUnderTest) {
+          uuidUnderTest = airInterfaceResult.uuidUnderTest;
+        }
+        if (Object.keys(airInterfaceResult.airInterface).length != 0) {
+          acceptanceDataOfLinkEndPoint.airInterface = airInterfaceResult.airInterface;
+        }
+        traceIndicatorIncrementer = airInterfaceResult.traceIndicatorIncrementer;
+      }
+
+    } catch (error) {
+      console.log(error)
+      reject(error);
+    }
+  });
+}
+
+
+/**
+ * Provides information about the radio component identifiers at the link endpoint for display at the section \"LiveView aktuell\" in LinkVis
+ *
+ * body V1_providestatusforlivenetview_body 
+ * returns inline_response_200_3
+ **/
+exports.provideStatusForLiveNetView = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      let traceIndicatorIncrementer = 1;
+      const forwardingName = "RequestForProvidingConfigurationForLivenetviewCausesReadingLtpStructure";
+      const forwardingConstruct = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+      let prefix = forwardingConstruct.uuid.split('op')[0];
+      let maxNumberOfParallelOperations = await IndividualServiceUtility.extractProfileConfiguration(prefix + "integer-p-006");
+      counterStatus = counterStatus + 1;
+      if (counterStatus > maxNumberOfParallelOperations) {
+        throw new createHttpError.TooManyRequests("Too many requests");
+      }
+
+      let statusForLiveNetView = {};
+
+      /****************************************************************************************
+       * Setting up required local variables from the request body
+       ****************************************************************************************/
+      let mountName = body["mount-name"];
+      let linkId = body["link-id"];
+
+      /****************************************************************************************
+       * Setting up request header object
+       ****************************************************************************************/
+      let requestHeaders = {
+        user: user,
+        originator: originator,
+        xCorrelator: xCorrelator,
+        traceIndicator: traceIndicator,
+        customerJourney: customerJourney
+      };
+
+      /****************************************************************************************
+       * Collect complete ltp structure of mount-name in request bodys
+       ****************************************************************************************/
+      let ltpStructure = {};
+      try {
+        let ltpStructureResult = await ReadLtpStructure.readLtpStructure(mountName, requestHeaders, traceIndicatorIncrementer)
+        ltpStructure = ltpStructureResult.ltpStructure;
+        traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
+      } catch (err) {
+        throw new createHttpError.InternalServerError(`${err}`)
+      };
+
+
+      /****************************************************************************************
+       * Collect status data
+       ****************************************************************************************/
+      let statusResult = await ReadLiveStatusData.readStatusInterfaceData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer)
+        .catch(err => console.log(` ${err}`));
+
+      let uuidUnderTest = "";
+      if (statusResult) {
+        if (statusResult.uuidUnderTest) {
+          uuidUnderTest = statusResult.uuidUnderTest;
+        }
+        if (Object.keys(statusResult.airInterface).length != 0) {
+          statusForLiveNetView.airInterface = airInterfaceResult.airInterface;
+        }
+        traceIndicatorIncrementer = airInterfaceResult.traceIndicatorIncrementer;
+      }
+
+     // let acceptanecstatusForLiveNetView = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(statusForLiveNetView.airInterface);
+      resolve(statusForLiveNetView.airInterface);
+      counterStatus--;
+    } catch (error) {
+      console.log(error)
+      reject(error);
+    }
+
+  });
+}
+
+
+/**
+ * Allows updating connection data of the AccessPlanningTool
+ * 'Enables updating the TCP/IP addresses of existing APT-Interfaces. After successful execution of this service, a minimum time stated in [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-integer-p-001/integer-profile-1-0:integer-profile-pac/integer-profile-configuration/integer-value] must elapse before a processing of this service is permitted again' 
+ *
+ * body V1_updateaptclient_body 
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * no response value expected for this operation
+ **/
+exports.updateAptClient = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(function (resolve, reject) {
+    resolve();
   });
 }

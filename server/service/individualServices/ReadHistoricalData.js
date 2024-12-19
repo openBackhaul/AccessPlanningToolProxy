@@ -2,7 +2,7 @@
 
 /**
  * @file This module provides functionality to gather the air-interface data for given mount-name and linkId. 
- * @module readAirInterfaceData
+ * @module ReadHistoricalData
  **/
 const IndividualServiceUtility = require('./IndividualServiceUtility');
 const ltpStructureUtility = require('./LtpStructureUtility');
@@ -17,17 +17,25 @@ const AIR_INTERFACE = {
   STATUS: "air-interface-status",
   NAME: "air-interface-name"
 };
+const ETHERNET_INTERFACE = {
+  MODULE: "ethernet-container-2-0",
+  LAYER_PROTOCOL_NAME: "LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER",
+  CONFIGURATION: "ethernet-container-configuration",
+  CAPABILITY: "ethernet-container-capability",
+  STATUS: "ethernet-container-status",
+  NAME: "ethernet-container-name"
+};
 const LTP_AUGMENT = {
   MODULE: "ltp-augment-1-0:",
   PAC: "ltp-augment-pac",
   EXTERNAL_LABEL: "external-label",
-  INTERFACE_NAME:"original-ltp-name"
+  ORIGINAL_LTP_NAME:"original-ltp-name"
 };
 
 /**
  * This method performs the set of procedure to gather the airInterface data
  * @param {String}  mountName Identifier of the device at the Controller
- * @param {String}  linkId Identifier of the microwave link in the planning
+ * @param {String}  timeStamp timeStamp of the PM requested
  * @param {Object}  ltpStructure ControlConstruct provided from cache
  * @param {Object}  requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
  * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
@@ -38,7 +46,7 @@ const LTP_AUGMENT = {
  * 4. RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive
    @returns {Object} result which contains the airInterface data and uuidUnderTest
 * **/
-exports.readAirInterfaceData = async function (mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer) {
+exports.ReadHistoricalData = async function (mountName, timeStamp, ltpStructure, requestHeaders, traceIndicatorIncrementer) {
   try {
     /****************************************************************************************
      * Declaring required variables
@@ -50,10 +58,10 @@ exports.readAirInterfaceData = async function (mountName, linkId, ltpStructure, 
      *  Fetching and setting up UuidUnderTest and PathParameters
      ****************************************************************************************/
 
-    let uuidUnderTestResponse = await RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest(
+    let airAndEthernetInterfacesResponse = await RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInterfaces(
       ltpStructure,
       mountName,
-      linkId,
+      timeStamp,
       requestHeaders,
       traceIndicatorIncrementer);
 
@@ -85,10 +93,6 @@ exports.readAirInterfaceData = async function (mountName, linkId, ltpStructure, 
           traceIndicatorIncrementer = airInterfaceStatus.traceIndicatorIncrementer;
         }
 
-        let airInterfaceAggregation = await RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation(pathParams, requestHeaders, traceIndicatorIncrementer);
-        if (Object.keys(airInterfaceAggregation).length !== 0) {
-          traceIndicatorIncrementer = airInterfaceAggregation.traceIndicatorIncrementer;
-        }
 
         /****************************************************************************************
          *  Fetching the air interface data for response body
@@ -124,13 +128,14 @@ exports.readAirInterfaceData = async function (mountName, linkId, ltpStructure, 
  * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
  * @returns {Object} return values of uuidUnderTest,PathParams,trace indicator incrementer if external-label === linkId
  */
-async function RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest(ltpStructure, mountName, linkId, requestHeaders, traceIndicatorIncrementer) {
-  const forwardingName = "RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest";
-  const stringName = "RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceLabel";
+async function RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInterfaces(ltpStructure, mountName, linkId, requestHeaders, traceIndicatorIncrementer) {
+  const forwardingName = "RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInterfaces";
+  const stringName = "RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInterfaces.LtpDesignation";
   let uuidUnderTestResponse = {};
   let uuidUnderTest = "";
   let externalLabel = "";
   let pathParams = [];
+  let interfaceLtpList = [];
   try {
     let pathParamList = [];
 
@@ -140,10 +145,13 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUui
 
     let airInterfaceLtpList = await ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure(
       AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.LAYER_PROTOCOL_NAME, ltpStructure);
+    let ethInterfaceLtpList = await ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure(
+      ETHERNET_INTERFACE.MODULE + ":" + ETHERNET_INTERFACE.LAYER_PROTOCOL_NAME, ltpStructure);
+    interfaceLtpList = airInterfaceLtpList.concat(ethInterfaceLtpList);
     let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName)
-    for (let i = 0; i < airInterfaceLtpList.length; i++) {
-      let uuid = airInterfaceLtpList[i][onfAttributes.GLOBAL_CLASS.UUID];
-      let localId = airInterfaceLtpList[i][onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LOCAL_CLASS.LOCAL_ID];
+    for (let i = 0; i < interfaceLtpList.length; i++) {
+      let uuid = interfaceLtpList[i][onfAttributes.GLOBAL_CLASS.UUID];
+      let localId = interfaceLtpList[i][onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LOCAL_CLASS.LOCAL_ID];
       pathParamList = [];
       pathParamList.push(mountName);
       pathParamList.push(uuid);
@@ -151,7 +159,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUui
       let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
 
       /****************************************************************************************************
-       * RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest
+       * RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInterfaces
        *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}
        *      /ltp-augment-1-0:ltp-augment-pac?fields=external-label
        *****************************************************************************************************/
@@ -161,63 +169,17 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUui
         console.log(createHttpError.InternalServerError(`${forwardingName} is not success`));
       } else {
         externalLabelResponse = externalLabelResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.EXTERNAL_LABEL];
-        let linkIdFromExternalLabel = externalLabelResponse.substring(0, 9);
-        if (linkIdFromExternalLabel === linkId) {
-          uuidUnderTest = uuid;
-          externalLabel = externalLabelResponse;
-          pathParams = pathParamList;
-          break;
-        }
+       
       }
     }
   } catch (error) {
     console.log(`${forwardingName} is not success with ${error}`);
   }
-  uuidUnderTestResponse.uuidUnderTest = uuidUnderTest;
   uuidUnderTestResponse.pathParams = pathParams;
   uuidUnderTestResponse.externalLabel = externalLabel;
   uuidUnderTestResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
   return uuidUnderTestResponse;
 }
-
-
-/**
- * Prepare attributes and automate RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest
- * @param {Object}  pathParams path parameters UuidUnderTest and LocalIdUnderTest.
- * @param {Object}  requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
- * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
- * @returns {Object} returns airInterfaceAggregation for UuidUnderTest and LocalIdUnderTest
- */
-async function RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation(pathParams, requestHeaders, traceIndicatorIncrementer) {
-  const forwardingName = "RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation";
-  const stringName = "RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation.LtpDesignation"
-  let airInterfaceAggregation = {};
-
-  try {
-    /****************************************************************************************************
-      * RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation
-      *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
-      *    /logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=(original-ltp-name;external-label)
-      *****************************************************************************************************/
-    let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName)
-    let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
-    let airInterfaceAggregationResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
-    if (Object.keys(airInterfaceAggregationResponse).length === 0) {
-      console.log(`${forwardingName} is not success`);
-    } else {
-      let externalLabelResponse = airInterfaceAggregationResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.EXTERNAL_LABEL]
-      let originalLtpName = airInterfaceAggregationResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.INTERFACE_NAME]
-      let linkIdFromExternalLabel = externalLabelResponse.substring(0, 9);
-      //airInterfaceAggregation = airInterfaceAggregationResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.CONFIGURATION];
-    }
-
-  } catch (error) {
-    console.log(`${forwardingName} is not success with ${error}`);
-  }
-
-  return airInterfaceAggregationResponse;
-}
-
 
 /**
  * Prepare attributes and automate RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache

@@ -2,7 +2,7 @@
 
 /**
  * @file This module provides functionality to gather the air-interface data for given mount-name and linkId. 
- * @module readAirInterfaceData
+ * @module readConfigurationAirInterfaceData
  **/
 const IndividualServiceUtility = require('./IndividualServiceUtility');
 const ltpStructureUtility = require('./LtpStructureUtility');
@@ -20,8 +20,7 @@ const AIR_INTERFACE = {
 const LTP_AUGMENT = {
   MODULE: "ltp-augment-1-0:",
   PAC: "ltp-augment-pac",
-  EXTERNAL_LABEL: "external-label",
-  INTERFACE_NAME:"original-ltp-name"
+  EXTERNAL_LABEL: "external-label"
 };
 
 /**
@@ -38,7 +37,7 @@ const LTP_AUGMENT = {
  * 4. RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive
    @returns {Object} result which contains the airInterface data and uuidUnderTest
 * **/
-exports.readAirInterfaceData = async function (mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer) {
+exports.readConfigurationAirInterfaceData = async function (mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer) {
   try {
     /****************************************************************************************
      * Declaring required variables
@@ -80,23 +79,12 @@ exports.readAirInterfaceData = async function (mountName, linkId, ltpStructure, 
           traceIndicatorIncrementer = airInterfaceCapability.traceIndicatorIncrementer;
         }
 
-        let airInterfaceStatus = await RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive(pathParams, requestHeaders, traceIndicatorIncrementer);
-        if (Object.keys(airInterfaceStatus).length !== 0) {
-          traceIndicatorIncrementer = airInterfaceStatus.traceIndicatorIncrementer;
-        }
-
-        let airInterfaceAggregation = await RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation(pathParams, requestHeaders, traceIndicatorIncrementer);
-        if (Object.keys(airInterfaceAggregation).length !== 0) {
-          traceIndicatorIncrementer = airInterfaceAggregation.traceIndicatorIncrementer;
-        }
-
         /****************************************************************************************
          *  Fetching the air interface data for response body
          ****************************************************************************************/
         if (Object.keys(airInterfaceConfiguration).length !== 0 ||
-          Object.keys(airInterfaceCapability).length !== 0 ||
-          Object.keys(airInterfaceStatus).length !== 0) {
-          airInterface = await formulateAirInterfaceResponseBody(airInterfaceEndPointName, airInterfaceConfiguration, airInterfaceCapability, airInterfaceStatus)
+          Object.keys(airInterfaceCapability).length !== 0) {
+          airInterface = await formulateAirInterfaceResponseBody(airInterfaceEndPointName, airInterfaceConfiguration, airInterfaceCapability)
         }
       }
     } else {
@@ -111,7 +99,7 @@ exports.readAirInterfaceData = async function (mountName, linkId, ltpStructure, 
 
     return airInterfaceResult;
   } catch (error) {
-    console.log(`readAirInterfaceData is not success with ${error}`);
+    console.log(`readConfigurationAirInterfaceData is not success with ${error}`);
   }
 }
 
@@ -179,45 +167,6 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUui
   uuidUnderTestResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
   return uuidUnderTestResponse;
 }
-
-
-/**
- * Prepare attributes and automate RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest
- * @param {Object}  pathParams path parameters UuidUnderTest and LocalIdUnderTest.
- * @param {Object}  requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
- * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
- * @returns {Object} returns airInterfaceAggregation for UuidUnderTest and LocalIdUnderTest
- */
-async function RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation(pathParams, requestHeaders, traceIndicatorIncrementer) {
-  const forwardingName = "RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation";
-  const stringName = "RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation.LtpDesignation"
-  let airInterfaceAggregation = {};
-
-  try {
-    /****************************************************************************************************
-      * RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation
-      *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
-      *    /logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=(original-ltp-name;external-label)
-      *****************************************************************************************************/
-    let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName)
-    let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
-    let airInterfaceAggregationResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
-    if (Object.keys(airInterfaceAggregationResponse).length === 0) {
-      console.log(`${forwardingName} is not success`);
-    } else {
-      let externalLabelResponse = airInterfaceAggregationResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.EXTERNAL_LABEL]
-      let originalLtpName = airInterfaceAggregationResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.INTERFACE_NAME]
-      let linkIdFromExternalLabel = externalLabelResponse.substring(0, 9);
-      //airInterfaceAggregation = airInterfaceAggregationResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.CONFIGURATION];
-    }
-
-  } catch (error) {
-    console.log(`${forwardingName} is not success with ${error}`);
-  }
-
-  return airInterfaceAggregationResponse;
-}
-
 
 /**
  * Prepare attributes and automate RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache
@@ -296,60 +245,26 @@ async function RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCac
 }
 
 /**
- * Prepare attributes and automate RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive
+ * Prepare attributes and automate RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache
  * @param {Object}  pathParams path parameters UuidUnderTest and LocalIdUnderTest.
  * @param {Object}  requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
- * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator * 
- * @returns {Object} returns airInterfaceStatus for UuidUnderTest and LocalIdUnderTest
+ * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
+ * @returns {Object} returns airInterfaceCapability for UuidUnderTest and LocalIdUnderTest
  */
-async function RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive(pathParams, requestHeaders, traceIndicatorIncrementer) {
-  const forwardingName = "RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive";
-  const stringName = "RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive.StatusFromLive";
-  let airInterfaceStatus = {};
-  try {
-
-    /****************************************************************************************************
-     * RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive
-     *   MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}
-     *        /logical-termination-point={uuid}/layer-protocol={local-id}
-     *        /air-interface-2-0:air-interface-pac/air-interface-status
-     *        ?fields=tx-level-cur;rx-level-cur;transmission-mode-cur;xpd-cur;snir-cur
-     *****************************************************************************************************/
-
-    let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName)
-    let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
-    let airInterfaceStatusResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
-    if (Object.keys(airInterfaceStatusResponse).length === 0) {
-      console.log(`${forwardingName} is not success`);
-    } else {
-      airInterfaceStatus = airInterfaceStatusResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.STATUS];
-    }
-  } catch (error) {
-    console.log(`${forwardingName} is not success with ${error}`);
-  }
-  if (airInterfaceStatus == undefined) {
-    airInterfaceStatus = {};
-  }
-  airInterfaceStatus.traceIndicatorIncrementer = traceIndicatorIncrementer;
-  return airInterfaceStatus;
-}
 
 /**
  * Formulate air interface response body attributes.
  * @param {Object}  airInterfaceConfiguration air-interface-configuration fetched from callback RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.
  * @param {Object}  airInterfaceCapability air-interface-capability from callback RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache .
- * @param {Object}  airInterfaceStatus air-interface-status fetched from callback RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive.
  * @returns {Object} returns formulated air interface response body attributes.
  */
-async function formulateAirInterfaceResponseBody(airInterfaceEndPointName, airInterfaceConfiguration, airInterfaceCapability, airInterfaceStatus) {
+async function formulateAirInterfaceResponseBody(airInterfaceEndPointName, airInterfaceConfiguration, airInterfaceCapability) {
   let airInterface = {};
   try {
     if (airInterfaceEndPointName) airInterface["air-interface-endpoint-name"] = airInterfaceEndPointName;
     if (airInterfaceConfiguration.hasOwnProperty("tx-power")) airInterface["configured-tx-power"] = airInterfaceConfiguration["tx-power"];
-    if (airInterfaceStatus.hasOwnProperty("tx-level-cur")) airInterface["current-tx-power"] = airInterfaceStatus["tx-level-cur"];
-    if (airInterfaceStatus.hasOwnProperty("rx-level-cur")) airInterface["current-rx-level"] = airInterfaceStatus["rx-level-cur"];
-    if (airInterfaceConfiguration.hasOwnProperty("tx-frequency")) airInterface["configured-tx-frequency"] = airInterfaceConfiguration["tx-frequency"];
-    if (airInterfaceConfiguration.hasOwnProperty("rx-frequency")) airInterface["configured-rx-frequency"] = airInterfaceConfiguration["rx-frequency"];
+    if (airInterfaceCapability.hasOwnProperty("supported-radio-signal-id-datatype")) airInterface["supported-radio-signal-id-datatype"] = airInterfaceCapability["supported-radio-signal-id-datatype"];
+    if (airInterfaceCapability.hasOwnProperty("supported-radio-signal-id-length")) airInterface["supported-radio-signal-id-length"] = airInterfaceCapability["supported-radio-signal-id-length"];
     if (airInterfaceConfiguration.hasOwnProperty("transmitted-radio-signal-id")) airInterface["configured-transmitted-radio-signal-id"] = airInterfaceConfiguration["transmitted-radio-signal-id"];
     if (airInterfaceConfiguration.hasOwnProperty("expected-radio-signal-id")) airInterface["configured-expected-radio-signal-id"] = airInterfaceConfiguration["expected-radio-signal-id"];
     if (airInterfaceConfiguration.hasOwnProperty("atpc-is-on")) airInterface["configured-atpc-is-on"] = airInterfaceConfiguration["atpc-is-on"];
@@ -357,19 +272,12 @@ async function formulateAirInterfaceResponseBody(airInterfaceEndPointName, airIn
     if (airInterfaceConfiguration.hasOwnProperty("atpc-thresh-lower")) airInterface["configured-atpc-threshold-lower"] = airInterfaceConfiguration["atpc-thresh-lower"];
     if (airInterfaceConfiguration.hasOwnProperty("atpc-tx-power-min")) airInterface["configured-atpc-tx-power-min"] = airInterfaceConfiguration["atpc-tx-power-min"];
     if (airInterfaceConfiguration.hasOwnProperty("adaptive-modulation-is-on")) airInterface["configured-adaptive-modulation-is-on"] = airInterfaceConfiguration["adaptive-modulation-is-on"];
-    if (airInterfaceStatus.hasOwnProperty("xpd-cur")) airInterface["current-cross-polarization-discrimination"] = airInterfaceStatus["xpd-cur"];
-    if (airInterfaceConfiguration.hasOwnProperty("performance-monitoring-is-on")) airInterface["configured-performance-monitoring-is-on"] = airInterfaceConfiguration["performance-monitoring-is-on"];
-    if (airInterfaceConfiguration.hasOwnProperty("xpic-is-on")) airInterface["configured-xpic-is-on"] = airInterfaceConfiguration["xpic-is-on"];
-    if (airInterfaceStatus.hasOwnProperty("snir-cur")) airInterface["current-signal-to-noise-ratio"] = airInterfaceStatus["snir-cur"];
     let minTransmissionMode = await getConfiguredModulation(
       airInterfaceCapability,
       airInterfaceConfiguration["transmission-mode-min"]);
     let maxTransmissionMode = await getConfiguredModulation(
       airInterfaceCapability,
       airInterfaceConfiguration["transmission-mode-max"]);
-    let curTransmissionMode = await getConfiguredModulation(
-      airInterfaceCapability,
-      airInterfaceStatus["transmission-mode-cur"]);
     if (minTransmissionMode) {
       airInterface["configured-modulation-minimum"] = {
         "number-of-states": minTransmissionMode["modulation-scheme"],
@@ -382,14 +290,10 @@ async function formulateAirInterfaceResponseBody(airInterfaceEndPointName, airIn
         "name-at-lct": maxTransmissionMode["modulation-scheme-name-at-lct"]
       };
     }
-    if (curTransmissionMode) {
-      airInterface["current-modulation"] = {
-        "number-of-states": curTransmissionMode["modulation-scheme"],
-        "name-at-lct": curTransmissionMode["modulation-scheme-name-at-lct"]
-      };
-    }
     if (minTransmissionMode.hasOwnProperty("channel-bandwidth")) airInterface["configured-channel-bandwidth-min"] = minTransmissionMode["channel-bandwidth"];
     if (maxTransmissionMode.hasOwnProperty("channel-bandwidth")) airInterface["configured-channel-bandwidth-max"] = maxTransmissionMode["channel-bandwidth"];
+    if (airInterfaceConfiguration.hasOwnProperty("xpic-is-on")) airInterface["configured-xpic-is-on"] = airInterfaceConfiguration["xpic-is-on"];
+    
   } catch (error) {
     console.log(error);
   }
@@ -397,7 +301,7 @@ async function formulateAirInterfaceResponseBody(airInterfaceEndPointName, airIn
 }
 
 /**
- * Fetchs configured Modulation based on tansmission mode type min , max , or current .
+ * Fetchs configured Modulation based on transmission mode type min , max , or current .
  * @param {Object}  airInterfaceCapability air-interface-capability.
  * @param {Object}  transmissioModeType tansmission mode type min , max , or current.
  * @returns {Object} returns transmission mode fetched tansmission mode list of capability.

@@ -8,7 +8,8 @@ var appCommons = require('onf-core-model-ap/applicationPattern/commons/AppCommon
 var serverPort = 4009;
 
 // uncomment if you do not want to validate security e.g. operation-key, basic auth, etc
-// appCommons.openApiValidatorOptions.validateSecurity = false;
+appCommons.openApiValidatorOptions.validateSecurity = false;
+appCommons.openApiValidatorOptions.validateRequests = false;
 
 // swaggerRouter configuration
 var options = {
@@ -29,7 +30,9 @@ http.createServer(app).listen(serverPort, function () {
 });
 
 //setting the path to the database 
-global.databasePath = './database/load.json'
+global.databasePath = 'server/database/load.json'
+global.counterStatus = 0;
+global.counterAlarms = 0;
 
 appCommons.performApplicationRegistration();    
 
