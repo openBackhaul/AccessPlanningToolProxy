@@ -29,6 +29,45 @@ module.exports.bequeathYourDataAndDie = async function bequeathYourDataAndDie (r
     executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
+module.exports.checkRegisteredAvailabilityOfDevice = async function checkRegisteredAvailabilityOfDevice (req, res, next, body) {
+  let startTime = process.hrtime();
+  let responseCode = responseCodeEnum.code.OK;
+  let responseBodyToDocument = {};
+  /****************************************************************************************
+ * generates custom request header parameters : user, originator, xCorrelator, traceIndicator, customerJourney for callbacks
+ ****************************************************************************************/
+  let authorizationCode = req.headers.authorization;
+  let user = authorizingService.decodeAuthorizationCodeAndExtractUserName(authorizationCode);
+
+  let originator = await httpServerInterface.getApplicationNameAsync();
+
+  let customRequestHeaders = new RequestHeader(user, originator);
+
+  let xCorrelator = customRequestHeaders.xCorrelator;
+  let traceIndicator = customRequestHeaders.traceIndicator.toString();
+  let customerJourney = customRequestHeaders.customerJourney;
+  /****************************************************************************************
+  * generates response header parama
+  ****************************************************************************************/
+  let operationServerUuid = await operationServerInterface.getOperationServerUuidAsync(req.url);
+  let lifeCycleState = await operationServerInterface.getLifeCycleState(operationServerUuid);
+  let responseHeader = {};
+  responseHeader.lifeCycleState = lifeCycleState;
+  await IndividualServices.checkRegisteredAvailabilityOfDevice(body)
+    .then(async function (responseBody) {
+      responseBodyToDocument = responseBody;
+      let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
+      restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    })
+    .catch(async function (responseBody) {
+      let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
+      let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
+      responseCode = sentResp.code;
+      responseBodyToDocument = sentResp.body;
+    });
+  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, user, req.url, responseCode, req.body, responseBodyToDocument);
+};
+
 /**
  * generates request header parameters : user, originator, xCorrelator, traceIndicator, customerJourney
  **/

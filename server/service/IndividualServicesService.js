@@ -6,6 +6,8 @@ const ReadInventoryData = require('./individualServices/ReadInventoryData');
 const ReadAlarmsData = require('./individualServices/ReadAlarmsData');
 const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
 const createHttpError = require('http-errors');
+const IndividualServiceUtility = require('./individualServices/IndividualServiceUtility');
+const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
 
 const softwareUpgrade = require('./individualServices/SoftwareUpgrade');
 const HttpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
@@ -34,6 +36,52 @@ exports.bequeathYourDataAndDie = async function (body, user, originator, xCorrel
   }
 }
 
+
+/**
+ * Checks wheter a mountName is registered in the APTP-internal list of Connected devices and returns a boolean
+ *
+ * body V1_checkregisteredavailabilityofdevice_body 
+ * returns inline_response_200
+ **/
+exports.checkRegisteredAvailabilityOfDevice = function (body) {
+  return new Promise(async function (resolve, reject) {
+    var result = {};
+    let tmpConnectedDeviceList = {"mount-name-list": ["305251234","105258888"]};
+    try {
+      const forwardingName = "RequestForProvidingConfigurationForLivenetviewCausesReadingLtpStructure";
+      const forwardingConstruct = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+      let prefix = forwardingConstruct.uuid.split('op')[0];
+      let maxNumberOfParallelOperations = await IndividualServiceUtility.extractProfileConfiguration(prefix + "integer-p-002");
+      counter = counter + 1;
+      if (counter > maxNumberOfParallelOperations) {
+        throw new createHttpError.TooManyRequests("Too many requests");
+      }
+      let mountName = body['mount-name'];
+      
+      // if (global.connectedDeviceList["mount-name-list"].includes(mountName)) {
+      if (tmpConnectedDeviceList["mount-name-list"].includes(mountName)) {
+        result['application/json'] = {
+          "device-is-available": true
+        };
+      } else {
+        result['application/json'] = {
+          "device-is-available": false
+        };
+      }
+
+      resolve(Object.values(result)[0]);
+    } catch (error) {
+
+      reject(error);
+      resolve(error);
+    } finally {
+      if (counter > 0) {
+        counter = counter - 1;
+      }
+      
+    }
+  });
+}
 
 
 /**
