@@ -5,6 +5,7 @@ const ReadVlanInterfaceData = require('./individualServices/ReadVlanInterfaceDat
 const ReadInventoryData = require('./individualServices/ReadInventoryData');
 const ReadAlarmsData = require('./individualServices/ReadAlarmsData');
 const ReadLiveEquipmentData = require('./individualServices/ReadLiveEquipmentData');
+const ReadLiveStatusData = require('./individualServices/ReadLiveStatusData');
 const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
 const createHttpError = require('http-errors');
 const IndividualServiceUtility = require('./individualServices/IndividualServiceUtility');
@@ -258,3 +259,88 @@ exports.provideEquipmentInfoForLiveNetView = function (body, user, originator, x
 
   });
 }
+
+/**
+ * Provides information about the radio component identifiers at the link endpoint for display at the section \"LiveView aktuell\" in LinkVis
+ *
+ * body V1_providestatusforlivenetview_body 
+ * returns inline_response_200_3
+ **/
+exports.provideStatusForLiveNetView = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      let traceIndicatorIncrementer = 1;
+      const forwardingName = "RequestForProvidingConfigurationForLivenetviewCausesReadingLtpStructure";
+      const forwardingConstruct = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+      let prefix = forwardingConstruct.uuid.split('op')[0];
+      let maxNumberOfParallelOperations = await IndividualServiceUtility.extractProfileConfiguration(prefix + "integer-p-006");
+      counterStatus = counterStatus + 1;
+      if (counterStatus > maxNumberOfParallelOperations) {
+        throw new createHttpError.TooManyRequests("Too many requests");
+      }
+
+      let statusForLiveNetView = {};
+
+      /****************************************************************************************
+       * Setting up required local variables from the request body
+       ****************************************************************************************/
+      let mountName = body["mount-name"];
+      let linkId = body["link-id"];
+
+      /****************************************************************************************
+       * Setting up request header object
+       ****************************************************************************************/
+      let requestHeaders = {
+        user: user,
+        originator: originator,
+        xCorrelator: xCorrelator,
+        traceIndicator: traceIndicator,
+        customerJourney: customerJourney
+      };
+
+      /****************************************************************************************
+       * Collect complete ltp structure of mount-name in request bodys
+       ****************************************************************************************/
+      let ltpStructure = {};
+      try {
+        let ltpStructureResult = await ReadLtpStructure.readLtpStructure(mountName, requestHeaders, traceIndicatorIncrementer)
+        ltpStructure = ltpStructureResult.ltpStructure;
+        traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
+      } catch (err) {
+        throw new createHttpError.InternalServerError(`${err}`)
+      };
+
+
+      /****************************************************************************************
+       * Collect status data
+       ****************************************************************************************/
+      let statusResult = await ReadLiveStatusData.readStatusInterfaceData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer)
+        .catch(err => console.log(` ${err}`));
+
+      let uuidUnderTest = "";
+      if (statusResult) {
+        if (statusResult.uuidUnderTest) {
+          uuidUnderTest = statusResult.uuidUnderTest;
+        }
+        if (Object.keys(statusResult.airInterface).length != 0) {
+          statusForLiveNetView.airInterface = statusResult.airInterface; //airInterfaceResult.airInterface;
+        }
+        traceIndicatorIncrementer = statusResult.traceIndicatorIncrementer; //airInterfaceResult.traceIndicatorIncrementer;
+      }
+
+      // let acceptanecstatusForLiveNetView = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(statusForLiveNetView.airInterface);
+      if (statusForLiveNetView.airInterface == undefined) {
+        throw new createHttpError.NotFound("Empty Equiment not found");
+      } else {
+        resolve(statusForLiveNetView.airInterface);
+      }
+    } catch (error) {
+      console.log(error)
+      reject(error);
+    } finally {
+      counterStatus--;
+    }
+
+  });
+}
+
