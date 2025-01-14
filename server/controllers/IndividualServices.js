@@ -109,3 +109,41 @@ module.exports.provideAcceptanceDataOfLinkEndpoint = async function provideAccep
     //user is sent in place of originator for the root request since it is originated from user not application
     executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, user, req.url, responseCode, req.body, responseBodyToDocument);
 };
+
+module.exports.provideEquipmentInfoForLiveNetView = async function provideEquipmentInfoForLiveNetView (req, res, next, body) {
+  let startTime = process.hrtime();
+  let responseCode = responseCodeEnum.code.OK;
+  let responseBodyToDocument = {};
+  /****************************************************************************************
+   * generates custom request header parameters : user, originator, xCorrelator, traceIndicator, customerJourney for callbacks
+   ****************************************************************************************/
+  let authorizationCode = req.headers.authorization;
+  let user = authorizingService.decodeAuthorizationCodeAndExtractUserName(authorizationCode);
+
+  let originator = await httpServerInterface.getApplicationNameAsync();
+
+  let customRequestHeaders = new RequestHeader(user, originator);
+
+  let xCorrelator = customRequestHeaders.xCorrelator;
+  let traceIndicator = customRequestHeaders.traceIndicator.toString();
+  let customerJourney = customRequestHeaders.customerJourney;
+  /****************************************************************************************
+   * generates response header parama
+   ****************************************************************************************/
+  let operationServerUuid = await operationServerInterface.getOperationServerUuidAsync(req.url);
+  let lifeCycleState = await operationServerInterface.getLifeCycleState(operationServerUuid);
+  let responseHeader = {};
+  responseHeader.lifeCycleState = lifeCycleState;
+  await IndividualServices.provideEquipmentInfoForLiveNetView(body, user, originator, xCorrelator, traceIndicator, customerJourney)
+    .then(async function (responseBody) {
+      responseBodyToDocument = responseBody;
+      restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+    })
+    .catch(async function (responseBody) {
+      let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
+      responseCode = sentResp.code;
+      responseBodyToDocument = sentResp.body;
+    });
+  //user is sent in place of originator for the root request since it is originated from user not application
+  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, user, req.url, responseCode, req.body, responseBodyToDocument);
+};

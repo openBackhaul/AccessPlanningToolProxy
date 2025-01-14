@@ -4,6 +4,7 @@ const ReadLtpStructure = require('./individualServices/ReadLtpStructure');
 const ReadVlanInterfaceData = require('./individualServices/ReadVlanInterfaceData');
 const ReadInventoryData = require('./individualServices/ReadInventoryData');
 const ReadAlarmsData = require('./individualServices/ReadAlarmsData');
+const ReadLiveEquipmentData = require('./individualServices/ReadLiveEquipmentData');
 const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
 const createHttpError = require('http-errors');
 const IndividualServiceUtility = require('./individualServices/IndividualServiceUtility');
@@ -188,6 +189,68 @@ exports.provideAcceptanceDataOfLinkEndpoint = function (body, user, originator, 
       acceptanceDataOfLinkEndPoint = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(acceptanceDataOfLinkEndPoint);
       resolve(acceptanceDataOfLinkEndPoint);
 
+    } catch (error) {
+      console.log(error)
+      reject(error);
+    }
+
+  });
+}
+
+/**
+ * Provides information about the radio component identifiers at the link endpoint for display at the section \"LiveView aktuell\" in LinkVis
+ *
+ * body V1_provideequipmentinfoforlivenetview_body 
+ * returns inline_response_200_2
+ **/
+exports.provideEquipmentInfoForLiveNetView = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      let traceIndicatorIncrementer = 1;
+      let equipmentForLiveNetView = {};
+
+      /****************************************************************************************
+       * Setting up required local variables from the request body
+       ****************************************************************************************/
+      let mountName = body["mount-name"];
+      let linkId = body["link-id"];
+
+      /****************************************************************************************
+       * Setting up request header object
+       ****************************************************************************************/
+      let requestHeaders = {
+        user: user,
+        originator: originator,
+        xCorrelator: xCorrelator,
+        traceIndicator: traceIndicator,
+        customerJourney: customerJourney
+      };
+
+      /****************************************************************************************
+       * Collect complete ltp structure of mount-name in request bodys
+       ****************************************************************************************/
+      let ltpStructure = {};
+      try {
+        let ltpStructureResult = await ReadLtpStructure.readLtpStructure(mountName, requestHeaders, traceIndicatorIncrementer)
+        ltpStructure = ltpStructureResult.ltpStructure;
+        traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
+      } catch (err) {
+        throw new createHttpError.InternalServerError(`${err}`)
+      };
+
+
+      /****************************************************************************************
+       * Collect equipment data
+       ****************************************************************************************/
+      let equipmentResult = await ReadLiveEquipmentData.readLiveEquipmentData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer)
+        .catch(err => console.log(` ${err}`));
+
+      if (equipmentResult == undefined) {
+        throw new createHttpError.NotFound("Empty Equiment not found");
+      } else {
+        resolve(equipmentResult);
+      }
+      
     } catch (error) {
       console.log(error)
       reject(error);
