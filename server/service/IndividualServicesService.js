@@ -4,6 +4,7 @@ const ReadLtpStructure = require('./individualServices/ReadLtpStructure');
 const ReadVlanInterfaceData = require('./individualServices/ReadVlanInterfaceData');
 const ReadInventoryData = require('./individualServices/ReadInventoryData');
 const ReadAlarmsData = require('./individualServices/ReadAlarmsData');
+const ReadLiveAlarmsData = require('./individualServices/ReadLiveAlarmsData');
 const ReadLiveEquipmentData = require('./individualServices/ReadLiveEquipmentData');
 const ReadLiveStatusData = require('./individualServices/ReadLiveStatusData');
 const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
@@ -199,6 +200,59 @@ exports.provideAcceptanceDataOfLinkEndpoint = function (body, user, originator, 
 }
 
 /**
+ * Provides the current alarms in a device for display at the section \"LiveView aktuell\" in LinkVis
+ *
+ * body V1_providealarmsforlivenetview_body 
+ * returns inline_response_200_4
+ **/
+exports.provideAlarmsForLiveNetView = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      let traceIndicatorIncrementer = 1;
+      let mountName = body["mount-name"];
+      const forwardingName = "RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromLive";
+      const forwardingConstruct = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+      let prefix = forwardingConstruct.uuid.split('op')[0];
+      let maxNumberOfParallelOperations = await IndividualServiceUtility.extractProfileConfiguration(prefix + "integer-p-005");
+      counterAlarms = counterAlarms + 1;
+      if (counterAlarms > maxNumberOfParallelOperations) {
+        throw new createHttpError.TooManyRequests("Too many requests");
+      }
+
+      /****************************************************************************************
+       * Setting up request header object
+       ****************************************************************************************/
+      let requestHeaders = {
+        user: user,
+        originator: originator,
+        xCorrelator: xCorrelator,
+        traceIndicator: traceIndicator,
+        customerJourney: customerJourney
+      };
+
+      let alarmsResult = await ReadLiveAlarmsData.readLiveAlarmsData(mountName, requestHeaders, traceIndicatorIncrementer)
+        .catch(err => console.log(` ${err}`));
+      if (alarmsResult) {
+        if (Object.keys(alarmsResult.alarms).length != 0) {
+          if (alarmsResult.alarms) {
+            alarmsResult = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(alarmsResult);
+            resolve(alarmsResult.alarms);
+          }
+        }
+      } else {
+        resolve();
+      }
+    }
+    catch (error) {
+      reject(error);
+    }
+    finally {
+      counterAlarms--;
+    }
+  });
+}
+
+/*
  * Provides information about the radio component identifiers at the link endpoint for display at the section \"LiveView aktuell\" in LinkVis
  *
  * body V1_provideequipmentinfoforlivenetview_body 
