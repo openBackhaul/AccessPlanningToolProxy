@@ -7,6 +7,7 @@ const ReadAlarmsData = require('./individualServices/ReadAlarmsData');
 const ReadLiveAlarmsData = require('./individualServices/ReadLiveAlarmsData');
 const ReadLiveEquipmentData = require('./individualServices/ReadLiveEquipmentData');
 const ReadLiveStatusData = require('./individualServices/ReadLiveStatusData');
+const ReadConfigurationAirInterfaceData = require('./individualServices/ReadConfigurationAirInterfaceData');
 const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
 const createHttpError = require('http-errors');
 const IndividualServiceUtility = require('./individualServices/IndividualServiceUtility');
@@ -395,6 +396,73 @@ exports.provideStatusForLiveNetView = function (body, user, originator, xCorrela
       counterStatus--;
     }
 
+  });
+}
+
+/**
+ * Provides the configurations at link endpoint for display at the section \"LiveView aktuell\" in LinkVis
+ *
+ * body V1_provideconfigurationforlivenetview_body 
+ * returns inline_response_200_1
+ **/
+exports.provideConfigurationForLiveNetView = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      let configurationData = {};
+      let traceIndicatorIncrementer = 1;
+
+      /****************************************************************************************
+       * Setting up required local variables from the request body
+       ****************************************************************************************/
+      let mountName = body["mount-name"];
+      let linkId = body["link-id"];
+
+      /****************************************************************************************
+       * Setting up request header object
+       ****************************************************************************************/
+      let requestHeaders = {
+        user: user,
+        originator: originator,
+        xCorrelator: xCorrelator,
+        traceIndicator: traceIndicator,
+        customerJourney: customerJourney
+      };
+
+      /****************************************************************************************
+       * Collect complete ltp structure of mount-name in request bodys
+       ****************************************************************************************/
+      let ltpStructure = {};
+      try {
+        let ltpStructureResult = await ReadLtpStructure.readLtpStructure(mountName, requestHeaders, traceIndicatorIncrementer)
+        ltpStructure = ltpStructureResult.ltpStructure;
+        traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
+      } catch (err) {
+        throw new createHttpError.InternalServerError(`${err}`)
+      };
+
+      /****************************************************************************************
+       * Collect air-interface data
+       ****************************************************************************************/
+      let airInterfaceResult = await ReadConfigurationAirInterfaceData.readConfigurationAirInterfaceData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer)
+        .catch(err => console.log(` ${err}`));
+
+      let uuidUnderTest = "";
+      if (airInterfaceResult) {
+        if (airInterfaceResult.uuidUnderTest) {
+          uuidUnderTest = airInterfaceResult.uuidUnderTest;
+        }
+        if (Object.keys(airInterfaceResult.airInterface).length != 0) {
+          configurationData.airInterface = airInterfaceResult.airInterface;
+        }
+        traceIndicatorIncrementer = airInterfaceResult.traceIndicatorIncrementer;
+      }
+      let airInterface = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(configurationData.airInterface);
+      resolve(airInterface);
+
+    } catch (error) {
+      console.log(error)
+      reject(error);
+    }
   });
 }
 
