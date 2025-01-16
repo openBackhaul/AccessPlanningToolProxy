@@ -134,7 +134,7 @@ module.exports.provideAlarmsForLiveNetView = async function provideAlarmsForLive
   let lifeCycleState = await operationServerInterface.getLifeCycleState(operationServerUuid);
   let responseHeader = {};
   responseHeader.lifeCycleState = lifeCycleState;
-  await IndividualServices.provideAlarmsForLiveNetView(body)
+  await IndividualServices.provideAlarmsForLiveNetView(body, user, originator, xCorrelator, traceIndicator, customerJourney)
     .then(async function (responseBody) {
       responseBodyToDocument = responseBody;
       restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);

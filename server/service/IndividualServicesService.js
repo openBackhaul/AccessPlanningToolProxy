@@ -236,17 +236,18 @@ exports.provideAlarmsForLiveNetView = function (body, user, originator, xCorrela
         if (Object.keys(alarmsResult.alarms).length != 0) {
           if (alarmsResult.alarms) {
             alarmsResult = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(alarmsResult);
-            counterAlarms--;
-            resolve(alarmsResult);
+            resolve(alarmsResult.alarms);
           }
         }
       } else {
-        counterAlarms--;
         resolve();
       }
     }
     catch (error) {
       reject(error);
+    }
+    finally {
+      counterAlarms--;
     }
   });
 }
