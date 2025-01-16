@@ -456,9 +456,8 @@ exports.provideConfigurationForLiveNetView = function (body, user, originator, x
         }
         traceIndicatorIncrementer = airInterfaceResult.traceIndicatorIncrementer;
       }
-
-      //acceptanceDataOfLinkEndPoint = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(acceptanceDataOfLinkEndPoint);
-      resolve(configurationData.airInterface);
+      let airInterface = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(configurationData.airInterface);
+      resolve(airInterface);
 
     } catch (error) {
       console.log(error)
