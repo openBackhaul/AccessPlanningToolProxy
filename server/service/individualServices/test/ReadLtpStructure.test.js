@@ -74,4 +74,28 @@ describe('readLtpStructure', () => {
       'RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure'
     );
   });
+
+  test('should throw an error when forwardRequest fails', async () => {
+    const mockConsequentParams = { someKey: 'someValue' };
+    const mockError = new Error('Failed to forward request');
+  
+    IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValue(mockConsequentParams);
+    IndividualServiceUtility.forwardRequest.mockRejectedValue(mockError);
+  
+    await expect(
+      readLtpStructure(mountName, requestHeaders, traceIndicatorIncrementer)
+    ).rejects.toThrow(mockError);
+  
+    expect(IndividualServiceUtility.getConsequentOperationClientAndFieldParams).toHaveBeenCalledWith(
+      'RequestForProvidingAcceptanceDataCausesReadingLtpStructure',
+      'RequestForProvidingAcceptanceDataCausesReadingLtpStructure.LtpStructure'
+    );
+  
+    expect(IndividualServiceUtility.forwardRequest).toHaveBeenCalledWith(
+      mockConsequentParams,
+      [mountName],
+      requestHeaders,
+      traceIndicatorIncrementer
+    );
+  });
 });
