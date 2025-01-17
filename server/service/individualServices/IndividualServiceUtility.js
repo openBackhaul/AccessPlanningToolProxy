@@ -122,3 +122,11 @@ exports.forwardRequest = async function (operationClientAndFieldParams, pathPara
     return new createHttpError.InternalServerError(`${error}`);
   }
 }
+
+exports.extractProfileConfiguration = async function (uuid) {
+  const profileCollection = require('onf-core-model-ap/applicationPattern/onfModel/models/ProfileCollection');
+  let profile = await profileCollection.getProfileAsync(uuid);
+  let objectKey = Object.keys(profile)[2];
+  profile = profile[objectKey];
+  return profile["integer-profile-configuration"]["integer-value"];
+}
