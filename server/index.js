@@ -36,6 +36,7 @@ global.databasePath = './database/load.json'
 global.counter = 0;
 global.counterStatus = 0;
 global.counterAlarms = 0;
+global.counterTime   = 0;
 
 appCommons.performApplicationRegistration();
 

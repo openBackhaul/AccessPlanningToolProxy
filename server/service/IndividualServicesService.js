@@ -15,7 +15,9 @@ const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/
 
 const softwareUpgrade = require('./individualServices/SoftwareUpgrade');
 const HttpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
-
+const LogicalTerminationPointC = require('./individualServices/custom/LogicalTerminationPointC');
+const fileOperation = require('onf-core-model-ap/applicationPattern/databaseDriver/JSONDriver');
+const onfPaths = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfPaths');
 /**
  * Initiates process of embedding a new release
  *
@@ -203,7 +205,7 @@ exports.provideAcceptanceDataOfLinkEndpoint = function (body, user, originator, 
 /**
  * Provides the current alarms in a device for display at the section \"LiveView aktuell\" in LinkVis
  *
- * body V1_providealarmsforlivenetview_body 
+ * body V1_providealarmsforlivenetview_body
  * returns inline_response_200_4
  **/
 exports.provideAlarmsForLiveNetView = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -256,7 +258,7 @@ exports.provideAlarmsForLiveNetView = function (body, user, originator, xCorrela
 /*
  * Provides information about the radio component identifiers at the link endpoint for display at the section \"LiveView aktuell\" in LinkVis
  *
- * body V1_provideequipmentinfoforlivenetview_body 
+ * body V1_provideequipmentinfoforlivenetview_body
  * returns inline_response_200_2
  **/
 exports.provideEquipmentInfoForLiveNetView = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -306,7 +308,7 @@ exports.provideEquipmentInfoForLiveNetView = function (body, user, originator, x
       } else {
         resolve(equipmentResult);
       }
-      
+
     } catch (error) {
       console.log(error)
       reject(error);
@@ -318,7 +320,7 @@ exports.provideEquipmentInfoForLiveNetView = function (body, user, originator, x
 /**
  * Provides information about the radio component identifiers at the link endpoint for display at the section \"LiveView aktuell\" in LinkVis
  *
- * body V1_providestatusforlivenetview_body 
+ * body V1_providestatusforlivenetview_body
  * returns inline_response_200_3
  **/
 exports.provideStatusForLiveNetView = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -402,7 +404,7 @@ exports.provideStatusForLiveNetView = function (body, user, originator, xCorrela
 /**
  * Provides the configurations at link endpoint for display at the section \"LiveView aktuell\" in LinkVis
  *
- * body V1_provideconfigurationforlivenetview_body 
+ * body V1_provideconfigurationforlivenetview_body
  * returns inline_response_200_1
  **/
 exports.provideConfigurationForLiveNetView = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -466,3 +468,92 @@ exports.provideConfigurationForLiveNetView = function (body, user, originator, x
   });
 }
 
+/**
+ * Allows updating connection data of the AccessPlanningTool
+ * 'Enables updating the TCP/IP addresses of existing APT-Interfaces. After successful execution of this service, a minimum time stated in [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-integer-p-001/integer-profile-1-0:integer-profile-pac/integer-profile-configuration/integer-value] must elapse before a processing of this service is permitted again'
+ *
+ * body V1_updateaptclient_body
+ * no response value expected for this operation
+ **/
+exports.updateAptClient = function(body) {
+  return new Promise(async function (resolve, reject) {
+    var result = {};
+    try {
+        let future_release_number = undefined;
+        let future_apt_protocol = undefined;
+        let future_apt_address = undefined;
+        let future_apt_tcp_port = undefined;
+        let future_acceptance_data_receive_operation = undefined;
+        let future_performance_data_receive_operation = undefined;
+        let coreModelJsonObject = undefined;
+    		const forwardingName = "RequestForProvidingConfigurationForLivenetviewCausesReadingLtpStructure";
+        const forwardingConstruct = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+        let prefix = forwardingConstruct.uuid.split('op')[0];
+        let minimumTime = await IndividualServiceUtility.extractProfileConfiguration(prefix + "integer-p-004");
+        let currentTime = Date.now();
+        minimumTime = minimumTime*60*60*1000;
+        if (counterTime + minimumTime > currentTime) {
+          throw new createHttpError.TooEarly("Too early");
+        }
+
+        future_release_number = body["future-release-number"];
+        if(undefined != body["future-apt-protocol"] && body["future-apt-protocol"].length != 0){
+        future_apt_protocol = body["future-apt-protocol"] ==="HTTP" || body["future-apt-protocol"] ==="tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP" ? "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP" : body["future-apt-protocol"] ==="HTTPS" || body["future-apt-protocol"] ==="tcp-client-interface-1-0:PROTOCOL_TYPE_HTTPS" ? "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTPS" : ""  ;
+        }
+        if(undefined!=body["future-apt-address"] && undefined!=body["future-apt-address"]["ip-address"] && undefined!=body["future-apt-address"]["ip-address"]["ipv-4-address"]){
+        future_apt_address = body["future-apt-address"];
+        }
+        future_apt_tcp_port = body["future-apt-tcp-port"];
+        future_acceptance_data_receive_operation = body["future-acceptance-data-receive-operation"];
+        future_performance_data_receive_operation = body["future-performance-data-receive-operation"];
+
+        let validateResult = await IndividualServiceUtility.validatevalidateInputFieldsForUpdateAptClient(future_release_number,future_apt_protocol,future_apt_address,future_apt_tcp_port,future_acceptance_data_receive_operation,future_performance_data_receive_operation);
+
+        if(!validateResult)
+        {
+          throw new createHttpError.BadRequest("Bad Request");
+        }
+        try{
+        coreModelJsonObject  = await fileOperation.readFromDatabaseAsync("");
+        let uuidReleaseNumber = "aptp-1-1-0-http-c-apt-24-5-0-000";
+        if(!await LogicalTerminationPointC.setLayerProtolReleaseNumberLtpAsync(uuidReleaseNumber,future_release_number)){
+          throw new createHttpError.InternalServerError("Internal Server Error");
+        }
+
+        let uuidProtocolAddressPort = "aptp-1-1-0-tcp-c-apt-24-5-0-000";
+        if(!await LogicalTerminationPointC.setLayerProtolRemoteProtocolLtpAsync(uuidProtocolAddressPort,future_apt_protocol)){
+          throw new createHttpError.InternalServerError("Internal Server Error");
+        }
+
+        if(!await LogicalTerminationPointC.setLayerProtolRemotePortLtpAsync(uuidProtocolAddressPort,future_apt_tcp_port)){
+          throw new createHttpError.InternalServerError("Internal Server Error");
+        }
+
+        if(!await LogicalTerminationPointC.setLayerProtolRemoteAddressLtpAsync(uuidProtocolAddressPort,future_apt_address)){
+          throw new createHttpError.InternalServerError("Internal Server Error");
+        }
+
+        let uuidAcceptanceDataReceive = "aptp-1-1-0-op-c-is-apt-24-5-0-000";
+        if(!await LogicalTerminationPointC.setLayerProtolOperationNameLtpAsync(uuidAcceptanceDataReceive,future_acceptance_data_receive_operation)){
+          throw new createHttpError.InternalServerError("Internal Server Error");
+        }
+
+        let uuidPerformanceDataReceive = "aptp-1-1-0-op-c-is-apt-24-5-0-001";
+        if(!await LogicalTerminationPointC.setLayerProtolOperationNameLtpAsync(uuidPerformanceDataReceive,future_performance_data_receive_operation)){
+          throw new createHttpError.InternalServerError("Internal Server Error");
+        }
+      }
+      catch(error){
+      let originalFileRestored =  await IndividualServiceUtility.resetCompleteFile(coreModelJsonObject);
+      throw new createHttpError.InternalServerError("Internal Server Error");
+      }
+
+      counterTime = currentTime;
+      resolve(result);
+
+    } catch (error) {
+      console.log(error)
+      reject(error);
+    }
+  });
+}

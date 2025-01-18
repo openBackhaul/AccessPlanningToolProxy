@@ -7,7 +7,13 @@ const ForwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/
 const ForwardingConstruct = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingConstruct');
 const IndividualServiceUtility = require('./IndividualServiceUtility');
 const eventDispatcher = require('./EventDispatcherWithResponse');
+const fileOperation = require('onf-core-model-ap/applicationPattern/databaseDriver/JSONDriver');
+const onfPaths = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfPaths');
 
+const fileSystem = require('fs');
+const AsyncLock = require('async-lock');
+const lock = new AsyncLock();
+  
 /**
  * This function fetches the string value from the string profile based on the expected string name.
  * @param {String} expectedStringName string name of the string profile.
@@ -129,4 +135,70 @@ exports.extractProfileConfiguration = async function (uuid) {
   let objectKey = Object.keys(profile)[2];
   profile = profile[objectKey];
   return profile["integer-profile-configuration"]["integer-value"];
+}
+
+exports.validatevalidateInputFieldsForUpdateAptClient = async function (future_release_number,future_apt_protocol,future_apt_address,future_apt_tcp_port,future_acceptance_data_receive_operation,future_performance_data_receive_operation) {
+  let validate = true;
+  let validateRelease = false;
+  let validateProtocol = false;
+  let validateAddress = false;
+  let validateTcpPort = false;
+  let validateAcceptenceData = false;
+  let validatePerformanceData = false;
+  
+  if(undefined != future_release_number && future_release_number.length != 0){
+  validateRelease = true;
+  }
+  if(undefined != future_apt_protocol && future_apt_protocol.length != 0){
+    validateProtocol = true;
+  }
+  if(undefined != future_apt_address && future_apt_address.length != 0){
+    validateAddress = true;
+  }
+  if(undefined != future_apt_tcp_port && future_apt_tcp_port.length != 0 && !isNaN(future_apt_tcp_port)
+  &&(future_apt_tcp_port>=0 && future_apt_tcp_port<=65535)
+  ){
+    validateTcpPort = true;
+  }
+  if(undefined != future_acceptance_data_receive_operation && future_acceptance_data_receive_operation.length != 0){
+    validateAcceptenceData = true;
+  }
+  if(undefined != future_performance_data_receive_operation && future_performance_data_receive_operation.length != 0){
+    validatePerformanceData = true;
+  }
+ 
+  return validateRelease & 	validateProtocol & 	validateAddress & validateTcpPort & validateAcceptenceData & validatePerformanceData ;
+}
+
+
+/** 
+ * Write to the filesystem.<br>
+ * @param {JSON} coreModelJsonObject json object that needs to be updated
+ * @returns {Boolean} return true if the value is updated, otherwise returns false
+ **/
+exports.resetCompleteFile = async function (coreModelJsonObject) { 
+   let controlConstructPath = onfPaths.CONTROL_CONSTRUCT;
+   await fileOperation.deletefromDatabaseAsync(controlConstructPath);
+          
+    return await lock.acquire(global.databasePath, async () => {
+    let result = writeToFile(coreModelJsonObject);
+    return result;
+});
+        
+
+/** 
+ * Write to the filesystem.<br>
+ * @param {JSON} coreModelJsonObject json object that needs to be updated
+ * @returns {Boolean} return true if the value is updated, otherwise returns false
+ **/
+function writeToFile(coreModelJsonObject) {
+  try {
+      fileSystem.writeFileSync(global.databasePath, JSON.stringify(coreModelJsonObject));
+      return true;
+  } catch (error) {
+      console.log('write failed:', error)
+      return false;
+  }
+}
+
 }
