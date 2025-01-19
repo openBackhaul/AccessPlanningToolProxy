@@ -167,7 +167,7 @@ exports.validatevalidateInputFieldsForUpdateAptClient = async function (future_r
     validatePerformanceData = true;
   }
  
-  return validateRelease & 	validateProtocol & 	validateAddress & validateTcpPort & validateAcceptenceData & validatePerformanceData ;
+  return validateRelease && 	validateProtocol && 	validateAddress && validateTcpPort && validateAcceptenceData && validatePerformanceData ;
 }
 
 
