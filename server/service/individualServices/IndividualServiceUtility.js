@@ -137,39 +137,6 @@ exports.extractProfileConfiguration = async function (uuid) {
   return profile["integer-profile-configuration"]["integer-value"];
 }
 
-exports.validatevalidateInputFieldsForUpdateAptClient = async function (future_release_number,future_apt_protocol,future_apt_address,future_apt_tcp_port,future_acceptance_data_receive_operation,future_performance_data_receive_operation) {
-  let validate = true;
-  let validateRelease = false;
-  let validateProtocol = false;
-  let validateAddress = false;
-  let validateTcpPort = false;
-  let validateAcceptenceData = false;
-  let validatePerformanceData = false;
-  
-  if(undefined != future_release_number && future_release_number.length != 0){
-  validateRelease = true;
-  }
-  if(undefined != future_apt_protocol && future_apt_protocol.length != 0){
-    validateProtocol = true;
-  }
-  if(undefined != future_apt_address && future_apt_address.length != 0){
-    validateAddress = true;
-  }
-  if(undefined != future_apt_tcp_port && future_apt_tcp_port.length != 0 && !isNaN(future_apt_tcp_port)
-  &&(future_apt_tcp_port>=0 && future_apt_tcp_port<=65535)
-  ){
-    validateTcpPort = true;
-  }
-  if(undefined != future_acceptance_data_receive_operation && future_acceptance_data_receive_operation.length != 0){
-    validateAcceptenceData = true;
-  }
-  if(undefined != future_performance_data_receive_operation && future_performance_data_receive_operation.length != 0){
-    validatePerformanceData = true;
-  }
- 
-  return validateRelease && 	validateProtocol && 	validateAddress && validateTcpPort && validateAcceptenceData && validatePerformanceData ;
-}
-
 
 /** 
  * Write to the filesystem.<br>

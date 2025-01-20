@@ -497,22 +497,12 @@ exports.updateAptClient = function(body) {
         }
 
         future_release_number = body["future-release-number"];
-        if(undefined != body["future-apt-protocol"] && body["future-apt-protocol"].length != 0){
-        future_apt_protocol = body["future-apt-protocol"] ==="HTTP" || body["future-apt-protocol"] ==="tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP" ? "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP" : body["future-apt-protocol"] ==="HTTPS" || body["future-apt-protocol"] ==="tcp-client-interface-1-0:PROTOCOL_TYPE_HTTPS" ? "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTPS" : ""  ;
-        }
-        if(undefined!=body["future-apt-address"] && undefined!=body["future-apt-address"]["ip-address"] && undefined!=body["future-apt-address"]["ip-address"]["ipv-4-address"]){
+        future_apt_protocol = body["future-apt-protocol"] ==="HTTP"  ? "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP" : "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTPS";
         future_apt_address = body["future-apt-address"];
-        }
         future_apt_tcp_port = body["future-apt-tcp-port"];
         future_acceptance_data_receive_operation = body["future-acceptance-data-receive-operation"];
         future_performance_data_receive_operation = body["future-performance-data-receive-operation"];
 
-        let validateResult = await IndividualServiceUtility.validatevalidateInputFieldsForUpdateAptClient(future_release_number,future_apt_protocol,future_apt_address,future_apt_tcp_port,future_acceptance_data_receive_operation,future_performance_data_receive_operation);
-
-        if(!validateResult)
-        {
-          throw new createHttpError.BadRequest("Bad Request");
-        }
         try{
         coreModelJsonObject  = await fileOperation.readFromDatabaseAsync("");
         let uuidReleaseNumber = "aptp-1-1-0-http-c-apt-24-5-0-000";
