@@ -145,8 +145,10 @@ exports.extractProfileConfiguration = async function (uuid) {
  **/
 exports.resetCompleteFile = async function (coreModelJsonObject) { 
    let controlConstructPath = onfPaths.CONTROL_CONSTRUCT;
-   await fileOperation.deletefromDatabaseAsync(controlConstructPath);
-          
+   let resultDel = await fileOperation.deletefromDatabaseAsync(controlConstructPath);
+   if(!resultDel) {
+    return resultDel;
+   }
     return await lock.acquire(global.databasePath, async () => {
     let result = writeToFile(coreModelJsonObject);
     return result;
