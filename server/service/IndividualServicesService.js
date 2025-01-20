@@ -534,10 +534,14 @@ exports.updateAptClient = function(body) {
         }
       }
       catch(error){
-      let originalFileRestored =  await IndividualServiceUtility.resetCompleteFile(coreModelJsonObject);
-      throw new createHttpError.InternalServerError("Internal Server Error");
+        try{
+          let originalFileRestored =  await IndividualServiceUtility.resetCompleteFile(coreModelJsonObject);
+        }
+        catch(error){
+          console.log(error)
+        }
+        throw new createHttpError.InternalServerError("Internal Server Error");
       }
-
       counterTime = currentTime;
       resolve(result);
 
