@@ -479,12 +479,12 @@ exports.updateAptClient = function(body) {
   return new Promise(async function (resolve, reject) {
     var result = {};
     try {
-        let future_release_number = undefined;
-        let future_apt_protocol = undefined;
-        let future_apt_address = undefined;
-        let future_apt_tcp_port = undefined;
-        let future_acceptance_data_receive_operation = undefined;
-        let future_performance_data_receive_operation = undefined;
+        let future_release_number = body["future-release-number"];
+        let future_apt_protocol = body["future-apt-protocol"] ==="HTTP"  ? "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP" : "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTPS";
+        let future_apt_address = body["future-apt-address"];
+        let future_apt_tcp_port = body["future-apt-tcp-port"];
+        let future_acceptance_data_receive_operation = body["future-acceptance-data-receive-operation"];
+        let future_performance_data_receive_operation = body["future-performance-data-receive-operation"];
         let coreModelJsonObject = undefined;
     		const forwardingName = "RequestForProvidingConfigurationForLivenetviewCausesReadingLtpStructure";
         const forwardingConstruct = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
@@ -496,45 +496,40 @@ exports.updateAptClient = function(body) {
           throw new createHttpError.TooEarly("Too early");
         }
 
-        future_release_number = body["future-release-number"];
-        future_apt_protocol = body["future-apt-protocol"] ==="HTTP"  ? "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP" : "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTPS";
-        future_apt_address = body["future-apt-address"];
-        future_apt_tcp_port = body["future-apt-tcp-port"];
-        future_acceptance_data_receive_operation = body["future-acceptance-data-receive-operation"];
-        future_performance_data_receive_operation = body["future-performance-data-receive-operation"];
-
+        
         try{
         coreModelJsonObject  = await fileOperation.readFromDatabaseAsync("");
         let uuidReleaseNumber = "aptp-1-1-0-http-c-apt-24-5-0-000";
         if(!await LogicalTerminationPointC.setLayerProtolReleaseNumberLtpAsync(uuidReleaseNumber,future_release_number)){
-          throw new createHttpError.InternalServerError("Internal Server Error");
+          throw new createHttpError.InternalServerError("Updation of Release Number Failed");
         }
 
         let uuidProtocolAddressPort = "aptp-1-1-0-tcp-c-apt-24-5-0-000";
         if(!await LogicalTerminationPointC.setLayerProtolRemoteProtocolLtpAsync(uuidProtocolAddressPort,future_apt_protocol)){
-          throw new createHttpError.InternalServerError("Internal Server Error");
+          throw new createHttpError.InternalServerError("Updation of Protocol Failed");
         }
 
         if(!await LogicalTerminationPointC.setLayerProtolRemotePortLtpAsync(uuidProtocolAddressPort,future_apt_tcp_port)){
-          throw new createHttpError.InternalServerError("Internal Server Error");
+          throw new createHttpError.InternalServerError("Updation of Remote Port Failed");
         }
 
         if(!await LogicalTerminationPointC.setLayerProtolRemoteAddressLtpAsync(uuidProtocolAddressPort,future_apt_address)){
-          throw new createHttpError.InternalServerError("Internal Server Error");
+          throw new createHttpError.InternalServerError("Updation of Remote Address Failed");
         }
 
         let uuidAcceptanceDataReceive = "aptp-1-1-0-op-c-is-apt-24-5-0-000";
         if(!await LogicalTerminationPointC.setLayerProtolOperationNameLtpAsync(uuidAcceptanceDataReceive,future_acceptance_data_receive_operation)){
-          throw new createHttpError.InternalServerError("Internal Server Error");
+          throw new createHttpError.InternalServerError("Updation of Operation Name Failed");
         }
 
         let uuidPerformanceDataReceive = "aptp-1-1-0-op-c-is-apt-24-5-0-001";
         if(!await LogicalTerminationPointC.setLayerProtolOperationNameLtpAsync(uuidPerformanceDataReceive,future_performance_data_receive_operation)){
-          throw new createHttpError.InternalServerError("Internal Server Error");
+          throw new createHttpError.InternalServerError("Updation of Operation Name Failed");
         }
       }
       catch(error){
         try{
+          console.log(error);
           let originalFileRestored =  await IndividualServiceUtility.resetCompleteFile(coreModelJsonObject);
         }
         catch(error){
