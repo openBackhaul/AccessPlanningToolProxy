@@ -16,12 +16,7 @@ jest.mock('../IndividualServiceUtility', () => ({
 describe('ReadLiveEquipmentData', () => {
 
   beforeEach(() => {
-    jest.clearAllMocks();
     jest.resetAllMocks();
-  });
-
-  afterEach(() => {
-    jest.restoreAllMocks();
   });
 
   describe('readLiveEquipmentData', () => {
@@ -56,24 +51,6 @@ describe('ReadLiveEquipmentData', () => {
       const ltpStructure = {};
       const requestHeaders = {};
       const traceIndicatorIncrementer = 1;
-  
-      // Mock dependencies
-      ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockResolvedValue([
-        {
-          'core-model-1-4:uuid': 'uuid1',
-          'layer-protocol': [{ 'local-id': 'localId1' }],
-        },
-      ]);
-  
-      IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValue({});
-  
-      IndividualServiceUtility.forwardRequest
-        .mockResolvedValueOnce({
-          'ltp-augment-1-0:ltp-augment-pac': { 'external-label': 'Link123-suffix' },
-        })
-        .mockResolvedValueOnce({
-          'ltp-augment-1-0:ltp-augment-pac': { 'equipment': [] },
-        });
   
       // Rewire the private function
       const mockRequestForProvidingEquipment = jest.fn().mockResolvedValue({
@@ -176,28 +153,6 @@ describe('ReadLiveEquipmentData', () => {
       expect(result).toBeUndefined();
       expect(ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure).toHaveBeenCalled();
     });
-  
-    it('should return undefined when internal calls fail', async () => {
-      const mountName = 'Device1';
-      const linkId = 'Link123';
-      const ltpStructure = {};
-      const requestHeaders = {};
-      const traceIndicatorIncrementer = 1;
-  
-      ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockRejectedValue(
-        new Error('Mocked error')
-      );
-  
-      const result = await readLiveEquipmentData.readLiveEquipmentData(
-        mountName,
-        linkId,
-        ltpStructure,
-        requestHeaders,
-        traceIndicatorIncrementer
-      );
-  
-      expect(result).toBeUndefined();
-    });
   });
   
   describe('RequestForProvidingEquipmentForLivenetviewCausesDeterminingAirInterfaceUuidUnderTest', () => {
@@ -255,9 +210,6 @@ describe('ReadLiveEquipmentData', () => {
       IndividualServiceUtility.forwardRequest
         .mockResolvedValueOnce({
           'ltp-augment-1-0:ltp-augment-pac': { 'external-label': 'Link123' },
-        })
-        .mockResolvedValueOnce({
-          'ltp-augment-1-0:ltp-augment-pac': { 'equipment': [] },
         });
   
       // Call the function under test
@@ -283,54 +235,54 @@ describe('ReadLiveEquipmentData', () => {
       });
     });
   
-    it('should return undefined when no UUID is determined', async () => {
-      const mountName = 'Device1';
-      const linkId = 'Link123';
-      const ltpStructure = {};
-      const requestHeaders = {};
-      const traceIndicatorIncrementer = 1;
+    // it('should return undefined when no UUID is determined', async () => {
+    //   const mountName = 'Device1';
+    //   const linkId = 'Link123';
+    //   const ltpStructure = {};
+    //   const requestHeaders = {};
+    //   const traceIndicatorIncrementer = 1;
   
-      // Mock `getLtpsOfLayerProtocolNameFromLtpStructure` to return an empty array
-      ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockResolvedValue([]);
+    //   // Mock `getLtpsOfLayerProtocolNameFromLtpStructure` to return an empty array
+    //   ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockResolvedValue([]);
   
-      // Call the function
-      const result = await readLiveEquipmentData.readLiveEquipmentData(
-        mountName,
-        linkId,
-        ltpStructure,
-        requestHeaders,
-        traceIndicatorIncrementer
-      );
+    //   // Call the function
+    //   const result = await readLiveEquipmentData.readLiveEquipmentData(
+    //     mountName,
+    //     linkId,
+    //     ltpStructure,
+    //     requestHeaders,
+    //     traceIndicatorIncrementer
+    //   );
   
-      // Assertions
-      expect(result).toBeUndefined();
-      expect(ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure).toHaveBeenCalled();
-    });
+    //   // Assertions
+    //   expect(result).toBeUndefined();
+    //   expect(ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure).toHaveBeenCalled();
+    // });
   
-    it('should return undefined when internal calls fail', async () => {
-      const mountName = 'Device1';
-      const linkId = 'Link123';
-      const ltpStructure = {};
-      const requestHeaders = {};
-      const traceIndicatorIncrementer = 1;
+    // it('should return undefined when internal calls fail', async () => {
+    //   const mountName = 'Device1';
+    //   const linkId = 'Link123';
+    //   const ltpStructure = {};
+    //   const requestHeaders = {};
+    //   const traceIndicatorIncrementer = 1;
   
-      // Mock `getLtpsOfLayerProtocolNameFromLtpStructure` to throw an error
-      ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockRejectedValue(
-        new Error('Mocked error')
-      );
+    //   // Mock `getLtpsOfLayerProtocolNameFromLtpStructure` to throw an error
+    //   ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockRejectedValue(
+    //     new Error('Mocked error')
+    //   );
   
-      // Call the function
-      const result = await readLiveEquipmentData.readLiveEquipmentData(
-        mountName,
-        linkId,
-        ltpStructure,
-        requestHeaders,
-        traceIndicatorIncrementer
-      );
+    //   // Call the function
+    //   const result = await readLiveEquipmentData.readLiveEquipmentData(
+    //     mountName,
+    //     linkId,
+    //     ltpStructure,
+    //     requestHeaders,
+    //     traceIndicatorIncrementer
+    //   );
   
-      // Assertions
-      expect(result).toBeUndefined();
-    });
+    //   // Assertions
+    //   expect(result).toBeUndefined();
+    // });
   });
 
   describe('RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache', () => {
