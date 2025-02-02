@@ -52,7 +52,6 @@ exports.bequeathYourDataAndDie = async function (body, user, originator, xCorrel
 exports.checkRegisteredAvailabilityOfDevice = function (body) {
   return new Promise(async function (resolve, reject) {
     var result = {};
-    let tmpConnectedDeviceList = {"mount-name-list": ["305251234","105258888"]};
     try {
       const forwardingName = "RequestForProvidingConfigurationForLivenetviewCausesReadingLtpStructure";
       const forwardingConstruct = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
@@ -64,8 +63,7 @@ exports.checkRegisteredAvailabilityOfDevice = function (body) {
       }
       let mountName = body['mount-name'];
       
-      // if (global.connectedDeviceList["mount-name-list"].includes(mountName)) {
-      if (tmpConnectedDeviceList["mount-name-list"].includes(mountName)) {
+       if (undefined != global.connectedDeviceList["mount-name-list"] && global.connectedDeviceList["mount-name-list"].includes(mountName)) {
         result['application/json'] = {
           "device-is-available": true
         };
