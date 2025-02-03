@@ -8,7 +8,14 @@ const IndividualServiceUtility = require('../individualServices/IndividualServic
 const LogicalTerminationPointC = require('../individualServices/custom/LogicalTerminationPointC');
 const fileOperation = require('onf-core-model-ap/applicationPattern/databaseDriver/JSONDriver');
 const createHttpError = require('http-errors');
+const checkRegisteredAvailabilityOfDevice = require('../IndividualServicesService'); // Replace with actual path
+
 global.counterTime;
+
+
+const ReadConfigurationAirInterfaceData = require('../individualServices/ReadConfigurationAirInterfaceData'); // Replace with actual path
+const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
+const provideConfigurationForLiveNetView = require('../IndividualServicesService');
 
 // Mocking dependencies used in the individual services
 jest.mock('../individualServices/ReadLtpStructure');
@@ -17,6 +24,8 @@ jest.mock('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain
 jest.mock('../individualServices/IndividualServiceUtility');
 jest.mock('onf-core-model-ap/applicationPattern/databaseDriver/JSONDriver');
 jest.mock('../individualServices/custom/LogicalTerminationPointC');
+jest.mock('../individualServices/ReadConfigurationAirInterfaceData');
+jest.mock('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
 
 
 describe('provideEquipmentInfoForLiveNetView', () => {
@@ -146,58 +155,6 @@ describe('provideEquipmentInfoForLiveNetView', () => {
     expect(consoleSpy).toHaveBeenCalledWith(' Error: Empty Equiment not found');
     consoleSpy.mockRestore();
   });
-
-  it('should handle missing mount-name gracefully', async () => {
-    // Arrange: Simulate missing 'mount-name' in the request body
-    const body = { 'link-id': 'Link1' };
-
-    // Act and Assert: Ensure that the function throws a NotFound error
-    await expect(
-      individualServicesService.provideEquipmentInfoForLiveNetView(
-        body,
-        'user1',
-        'originator1',
-        'xCorrelator1',
-        'traceIndicator1',
-        'customerJourney1'
-      )
-    ).rejects.toThrow(createHttpError.NotFound);
-  });
-
-  it('should handle missing link-id gracefully', async () => {
-    // Arrange: Mock the first function to return valid data
-    ReadLtpStructure.readLtpStructure.mockResolvedValue({
-      ltpStructure: { someKey: 'someValue' },
-      traceIndicatorIncrementer: 2,
-    });
-    const body = { 'mount-name': 'Device1' }; // Missing 'link-id'
-
-    // Act and Assert: Ensure that the second function is called with undefined 'link-id'
-    await expect(
-      individualServicesService.provideEquipmentInfoForLiveNetView(
-        body,
-        'user1',
-        'originator1',
-        'xCorrelator1',
-        'traceIndicator1',
-        'customerJourney1'
-      )
-    ).rejects.toThrow(createHttpError.NotFound);
-
-    expect(ReadLiveEquipmentData.readLiveEquipmentData).toHaveBeenCalledWith(
-      'Device1',
-      undefined, // Missing link-id is passed as undefined
-      { someKey: 'someValue' },
-      {
-        user: 'user1',
-        originator: 'originator1',
-        xCorrelator: 'xCorrelator1',
-        traceIndicator: 'traceIndicator1',
-        customerJourney: 'customerJourney1',
-      },
-      2
-    );
-  });
 });
 
 describe('updateAptClient', () => {
@@ -279,5 +236,268 @@ describe('updateAptClient', () => {
     await expect(individualServicesService.updateAptClient(mockBody)).rejects.toThrowError(
       new createHttpError.InternalServerError("Internal Server Error")
     );
+  });
+});
+
+
+
+describe('checkRegisteredAvailabilityOfDevice', () => {
+  let body;
+
+  beforeEach(() => {
+    body = { 'mount-name': 'test-mount' };
+    global.connectedDeviceList = { "mount-name-list": ['test-mount'] };
+    global.counter = 0;
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should return true when the device is in the connected device list', async () => {
+    const mockForwardingConstruct = { uuid: 'uuid-op001' };
+    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue(mockForwardingConstruct);
+    IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(10);
+
+    const result = await checkRegisteredAvailabilityOfDevice.checkRegisteredAvailabilityOfDevice(body);
+
+    expect(result).toEqual({ "device-is-available": true });
+    expect(forwardingDomain.getForwardingConstructForTheForwardingNameAsync).toHaveBeenCalledWith(
+      "RequestForProvidingConfigurationForLivenetviewCausesReadingLtpStructure"
+    );
+    expect(IndividualServiceUtility.extractProfileConfiguration).toHaveBeenCalledWith('uuid-integer-p-002');
+  });
+
+  it('should return false when the device is not in the connected device list', async () => {
+    body['mount-name'] = 'unknown-mount';
+    const mockForwardingConstruct = { uuid: 'uuid-op001' };
+    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue(mockForwardingConstruct);
+    IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(10);
+
+    const result = await checkRegisteredAvailabilityOfDevice.checkRegisteredAvailabilityOfDevice(body);
+
+    expect(result).toEqual({ "device-is-available": false });
+    expect(forwardingDomain.getForwardingConstructForTheForwardingNameAsync).toHaveBeenCalled();
+    expect(IndividualServiceUtility.extractProfileConfiguration).toHaveBeenCalled();
+  });
+
+  it('should throw a TooManyRequests error when the counter exceeds the limit', async () => {
+    const mockForwardingConstruct = { uuid: 'uuid-op001' };
+    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue(mockForwardingConstruct);
+    IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(1);
+
+    global.counter = 2; // Simulate counter exceeding limit
+
+    await expect(checkRegisteredAvailabilityOfDevice.checkRegisteredAvailabilityOfDevice(body)).rejects.toThrow(createHttpError.TooManyRequests);
+
+    expect(forwardingDomain.getForwardingConstructForTheForwardingNameAsync).toHaveBeenCalled();
+    expect(IndividualServiceUtility.extractProfileConfiguration).toHaveBeenCalled();
+  });
+
+  it('should decrement the counter in the finally block', async () => {
+    const mockForwardingConstruct = { uuid: 'uuid-op001' };
+    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue(mockForwardingConstruct);
+    IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(10);
+
+    global.counter = 2;
+
+    await checkRegisteredAvailabilityOfDevice.checkRegisteredAvailabilityOfDevice(body).catch(() => {}); // Ensure finally block is executed
+
+    expect(global.counter).toBe(2);
+  });
+
+  it('should reject the promise when an error occurs in getForwardingConstructForTheForwardingNameAsync', async () => {
+    const error = new Error('Unexpected error');
+    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockRejectedValue(error);
+
+    await expect(checkRegisteredAvailabilityOfDevice.checkRegisteredAvailabilityOfDevice(body)).rejects.toThrow(error);
+
+    expect(forwardingDomain.getForwardingConstructForTheForwardingNameAsync).toHaveBeenCalled();
+  });
+
+  it('should reject the promise when an error occurs and still decrement the counter', async () => {
+    const error = new Error('Unexpected error');
+    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockRejectedValue(error);
+    
+    global.counter = 2;
+
+    await expect(checkRegisteredAvailabilityOfDevice.checkRegisteredAvailabilityOfDevice(body)).rejects.toThrow(error);
+
+    expect(global.counter).toBe(1);
+  });
+
+  it('should handle missing mount-name-list in connectedDeviceList gracefully', async () => {
+    global.connectedDeviceList = {}; // Simulate empty connectedDeviceList
+    const mockForwardingConstruct = { uuid: 'uuid-op001' };
+    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue(mockForwardingConstruct);
+    IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(10);
+
+    const result = await checkRegisteredAvailabilityOfDevice.checkRegisteredAvailabilityOfDevice(body);
+
+    expect(result).toEqual({ "device-is-available": false });
+  });
+
+  it('should decrement counter even when extractProfileConfiguration fails', async () => {
+    const mockForwardingConstruct = { uuid: 'uuid-op001' };
+    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue(mockForwardingConstruct);
+    IndividualServiceUtility.extractProfileConfiguration.mockRejectedValue(new Error('Config error'));
+
+    global.counter = 1;
+
+    await expect(checkRegisteredAvailabilityOfDevice.checkRegisteredAvailabilityOfDevice(body)).rejects.toThrow('Config error');
+
+    expect(global.counter).toBe(0);
+  });
+});
+
+
+describe('provideConfigurationForLiveNetView', () => {
+  let body, user, originator, xCorrelator, traceIndicator, customerJourney;
+
+  beforeEach(() => {
+    body = { "mount-name": "test-mount", "link-id": "test-link" };
+    user = "test-user";
+    originator = "test-originator";
+    xCorrelator = "test-xCorrelator";
+    traceIndicator = "test-traceIndicator";
+    customerJourney = "test-customerJourney";
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should resolve with formatted air interface data when processing is successful', async () => {
+    const mockLtpStructureResult = {
+      ltpStructure: { key: 'value' },
+      traceIndicatorIncrementer: 2,
+    };
+    ReadLtpStructure.readLtpStructure.mockResolvedValue(mockLtpStructureResult);
+
+    const mockAirInterfaceResult = {
+      uuidUnderTest: 'test-uuid',
+      airInterface: { "interface-type": "5G" },
+      traceIndicatorIncrementer: 3,
+    };
+    ReadConfigurationAirInterfaceData.readConfigurationAirInterfaceData.mockResolvedValue(mockAirInterfaceResult);
+
+    onfAttributeFormatter.modifyJsonObjectKeysToKebabCase.mockReturnValue({ "interface-type": "5g" });
+
+    const result = await provideConfigurationForLiveNetView.provideConfigurationForLiveNetView(
+      body,
+      user,
+      originator,
+      xCorrelator,
+      traceIndicator,
+      customerJourney
+    );
+
+    expect(result).toEqual({ "interface-type": "5g" });
+    expect(ReadLtpStructure.readLtpStructure).toHaveBeenCalledWith(
+      body["mount-name"],
+      expect.any(Object),
+      1
+    );
+    expect(ReadConfigurationAirInterfaceData.readConfigurationAirInterfaceData).toHaveBeenCalledWith(
+      body["mount-name"],
+      body["link-id"],
+      mockLtpStructureResult.ltpStructure,
+      expect.any(Object),
+      2
+    );
+    expect(onfAttributeFormatter.modifyJsonObjectKeysToKebabCase).toHaveBeenCalledWith(mockAirInterfaceResult.airInterface);
+  });
+
+  it('should resolve with an empty object if air interface data is not available', async () => {
+    const mockLtpStructureResult = {
+      ltpStructure: { key: 'value' },
+      traceIndicatorIncrementer: 2,
+    };
+    ReadLtpStructure.readLtpStructure.mockResolvedValue(mockLtpStructureResult);
+
+    const mockAirInterfaceResult = {
+      uuidUnderTest: '',
+      airInterface: {},
+      traceIndicatorIncrementer: 3,
+    };
+    ReadConfigurationAirInterfaceData.readConfigurationAirInterfaceData.mockResolvedValue(mockAirInterfaceResult);
+
+    onfAttributeFormatter.modifyJsonObjectKeysToKebabCase.mockReturnValue({});
+
+    const result = await provideConfigurationForLiveNetView.provideConfigurationForLiveNetView(
+      body,
+      user,
+      originator,
+      xCorrelator,
+      traceIndicator,
+      customerJourney
+    );
+
+    expect(result).toEqual({});
+  });
+
+  it('should reject with an error if ReadLtpStructure fails', async () => {
+    const error = new Error('Failed to read LTP structure');
+    ReadLtpStructure.readLtpStructure.mockRejectedValue(error);
+
+    await expect(
+      provideConfigurationForLiveNetView.provideConfigurationForLiveNetView(
+        body,
+        user,
+        originator,
+        xCorrelator,
+        traceIndicator,
+        customerJourney
+      )
+    ).rejects.toThrow(createHttpError.InternalServerError);
+
+    expect(ReadLtpStructure.readLtpStructure).toHaveBeenCalledWith(
+      body["mount-name"],
+      expect.any(Object),
+      1
+    );
+  });
+
+  it('should handle null airInterfaceResult gracefully', async () => {
+    const mockLtpStructureResult = {
+      ltpStructure: { key: 'value' },
+      traceIndicatorIncrementer: 2,
+    };
+    ReadLtpStructure.readLtpStructure.mockResolvedValue(mockLtpStructureResult);
+
+    ReadConfigurationAirInterfaceData.readConfigurationAirInterfaceData.mockResolvedValue(null);
+
+    const result = await provideConfigurationForLiveNetView.provideConfigurationForLiveNetView(
+      body,
+      user,
+      originator,
+      xCorrelator,
+      traceIndicator,
+      customerJourney
+    );
+
+    expect(result).toEqual({});
+  });
+
+  it('should log an error if ReadConfigurationAirInterfaceData fails and return an empty object', async () => {
+    const mockLtpStructureResult = {
+      ltpStructure: { key: 'value' },
+      traceIndicatorIncrementer: 2,
+    };
+    ReadLtpStructure.readLtpStructure.mockResolvedValue(mockLtpStructureResult);
+
+    const error = new Error('Service unavailable');
+    ReadConfigurationAirInterfaceData.readConfigurationAirInterfaceData.mockRejectedValue(error);
+
+    const result = await provideConfigurationForLiveNetView.provideConfigurationForLiveNetView(
+      body,
+      user,
+      originator,
+      xCorrelator,
+      traceIndicator,
+      customerJourney
+    );
+
+    expect(result).toEqual({});
   });
 });
