@@ -38,6 +38,7 @@ const LTP_AUGMENT = {
  * 4. RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive
    @returns {Object} result which contains the airInterface data and uuidUnderTest
 * **/
+
 exports.readConfigurationAirInterfaceData = async function (mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer) {
   try {
     /****************************************************************************************
@@ -50,7 +51,7 @@ exports.readConfigurationAirInterfaceData = async function (mountName, linkId, l
      *  Fetching and setting up UuidUnderTest and PathParameters
      ****************************************************************************************/
 
-    let uuidUnderTestResponse = await RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest(
+    let uuidUnderTestResponse = await exports.RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest(
       ltpStructure,
       mountName,
       linkId,
@@ -75,7 +76,7 @@ exports.readConfigurationAirInterfaceData = async function (mountName, linkId, l
           traceIndicatorIncrementer = airInterfaceConfiguration.traceIndicatorIncrementer;
         }
 
-        let airInterfaceCapability = await RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache(pathParams, requestHeaders, traceIndicatorIncrementer);
+        let airInterfaceCapability = await exports.RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache(pathParams, requestHeaders, traceIndicatorIncrementer);
         if (Object.keys(airInterfaceCapability).length !== 0) {
           traceIndicatorIncrementer = airInterfaceCapability.traceIndicatorIncrementer;
         }
@@ -113,7 +114,8 @@ exports.readConfigurationAirInterfaceData = async function (mountName, linkId, l
  * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
  * @returns {Object} return values of uuidUnderTest,PathParams,trace indicator incrementer if external-label === linkId
  */
-async function RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest(ltpStructure, mountName, linkId, requestHeaders, traceIndicatorIncrementer) {
+exports.RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest = async function (ltpStructure, mountName, linkId, requestHeaders, traceIndicatorIncrementer) 
+{
   const forwardingName = "RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest";
   const stringName = "RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceLabel";
   let uuidUnderTestResponse = {};
@@ -214,7 +216,7 @@ exports.RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache = a
  * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
  * @returns {Object} returns airInterfaceCapability for UuidUnderTest and LocalIdUnderTest
  */
-async function RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache(pathParams, requestHeaders, traceIndicatorIncrementer) {
+exports.RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache= async function (pathParams, requestHeaders, traceIndicatorIncrementer) {
   const forwardingName = "RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache";
   const stringName = "RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache"
   let airInterfaceCapability = {};
