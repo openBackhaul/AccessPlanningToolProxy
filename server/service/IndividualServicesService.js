@@ -497,12 +497,12 @@ exports.updateAptClient = function(body) {
         
         try{
         coreModelJsonObject  = await fileOperation.readFromDatabaseAsync("");
-        let uuidReleaseNumber = "aptp-1-1-0-http-c-apt-24-5-0-000";
+        let uuidReleaseNumber = prefix + "http-c-apt-24-5-0-000";
         if(!await LogicalTerminationPointC.setLayerProtolReleaseNumberLtpAsync(uuidReleaseNumber,future_release_number)){
           throw new createHttpError.InternalServerError("Updation of Release Number Failed");
         }
 
-        let uuidProtocolAddressPort = "aptp-1-1-0-tcp-c-apt-24-5-0-000";
+        let uuidProtocolAddressPort = prefix + "tcp-c-apt-24-5-0-000";
         if(!await LogicalTerminationPointC.setLayerProtolRemoteProtocolLtpAsync(uuidProtocolAddressPort,future_apt_protocol)){
           throw new createHttpError.InternalServerError("Updation of Protocol Failed");
         }
@@ -515,12 +515,12 @@ exports.updateAptClient = function(body) {
           throw new createHttpError.InternalServerError("Updation of Remote Address Failed");
         }
 
-        let uuidAcceptanceDataReceive = "aptp-1-1-0-op-c-is-apt-24-5-0-000";
+        let uuidAcceptanceDataReceive = prefix + "op-c-is-apt-24-5-0-000";
         if(!await LogicalTerminationPointC.setLayerProtolOperationNameLtpAsync(uuidAcceptanceDataReceive,future_acceptance_data_receive_operation)){
           throw new createHttpError.InternalServerError("Updation of Operation Name Failed");
         }
 
-        let uuidPerformanceDataReceive = "aptp-1-1-0-op-c-is-apt-24-5-0-001";
+        let uuidPerformanceDataReceive = prefix + "op-c-is-apt-24-5-0-001";
         if(!await LogicalTerminationPointC.setLayerProtolOperationNameLtpAsync(uuidPerformanceDataReceive,future_performance_data_receive_operation)){
           throw new createHttpError.InternalServerError("Updation of Operation Name Failed");
         }

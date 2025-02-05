@@ -180,7 +180,7 @@ describe('updateAptClient', () => {
 
   it('should resolve when all operations succeed', async () => {
     // Arrange: Mocking dependencies to simulate successful behavior
-    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue({ uuid: 'some-uuid' });
+    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue({ uuid: 'aptp-1-1-0-' });
     IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(1); // Assume minimum time = 1 hour
     fileOperation.readFromDatabaseAsync.mockResolvedValue({});
     LogicalTerminationPointC.setLayerProtolReleaseNumberLtpAsync.mockResolvedValue(true);
@@ -194,7 +194,7 @@ describe('updateAptClient', () => {
 
     // Assert: Verify all mocked dependencies were called with the expected parameters
     expect(forwardingDomain.getForwardingConstructForTheForwardingNameAsync).toHaveBeenCalledWith("RequestForProvidingConfigurationForLivenetviewCausesReadingLtpStructure");
-    expect(IndividualServiceUtility.extractProfileConfiguration).toHaveBeenCalledWith('some-uuidinteger-p-004');
+    expect(IndividualServiceUtility.extractProfileConfiguration).toHaveBeenCalledWith('aptp-1-1-0-integer-p-004');
     expect(fileOperation.readFromDatabaseAsync).toHaveBeenCalled();
     expect(LogicalTerminationPointC.setLayerProtolReleaseNumberLtpAsync).toHaveBeenCalledWith("aptp-1-1-0-http-c-apt-24-5-0-000", "1.0");
   });
