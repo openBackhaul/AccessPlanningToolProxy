@@ -316,6 +316,72 @@ exports.provideEquipmentInfoForLiveNetView = function (body, user, originator, x
 }
 
 /**
+ * Provides the historical performance data, together with some relevant configurations and capabilities, of air-interfaces and ethernet-containers found in the device
+ *
+ * body V1_providehistoricalpmdataofdevice_body 
+ * returns inline_response_202_1
+ **/
+exports.provideHistoricalPmDataOfDevice = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      let HistoricalPmDataOfDevice = {};
+      let traceIndicatorIncrementer = 1;
+
+      /****************************************************************************************
+       * Setting up required local variables from the request body
+       ****************************************************************************************/
+      let mountName = body["mount-name"];
+      let timeStamp = body["time-stamp"];
+
+      /****************************************************************************************
+       * Setting up request header object
+       ****************************************************************************************/
+      let requestHeaders = {
+        user: user,
+        originator: originator,
+        xCorrelator: xCorrelator,
+        traceIndicator: traceIndicator,
+        customerJourney: customerJourney
+      };
+
+      /****************************************************************************************
+       * Collect complete ltp structure of mount-name in request bodys
+       ****************************************************************************************/
+      let ltpStructure = {};
+      try {
+        let ltpStructureResult = await ReadLtpStructure.readLtpStructure(mountName, requestHeaders, traceIndicatorIncrementer)
+        ltpStructure = ltpStructureResult.ltpStructure;
+        traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
+      } catch (err) {
+        throw new createHttpError.InternalServerError(`${err}`)
+      };
+      
+      /****************************************************************************************
+        * Collect history data
+        ****************************************************************************************/
+      
+      let historicalDataResult = await ReadHistoricalData.ReadHistoricalData(mountName, timeStamp, ltpStructure, requestHeaders, traceIndicatorIncrementer)
+        .catch(err => console.log(` ${err}`));
+
+      let uuidUnderTest = "";
+      if (airInterfaceResult) {
+        if (airInterfaceResult.uuidUnderTest) {
+          uuidUnderTest = airInterfaceResult.uuidUnderTest;
+        }
+        if (Object.keys(airInterfaceResult.airInterface).length != 0) {
+          acceptanceDataOfLinkEndPoint.airInterface = airInterfaceResult.airInterface;
+        }
+        traceIndicatorIncrementer = airInterfaceResult.traceIndicatorIncrementer;
+      }
+
+    } catch (error) {
+      console.log(error)
+      reject(error);
+    }
+  });
+}
+
+/**
  * Provides information about the radio component identifiers at the link endpoint for display at the section \"LiveView aktuell\" in LinkVis
  *
  * body V1_providestatusforlivenetview_body
