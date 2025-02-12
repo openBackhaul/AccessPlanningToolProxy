@@ -61,9 +61,23 @@ exports.ReadHistoricalData = async function (mountName, timeStamp, ltpStructure,
     let airAndEthernetInterfacesResponse = await RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInterfaces(
       ltpStructure,
       mountName,
+      requestHeaders,
+      traceIndicatorIncrementer);
+      
+    if (Object.keys(airAndEthernetInterfacesResponse).length !== 0) {
+        traceIndicatorIncrementer = airAndEthernetInterfacesResponse.traceIndicatorIncrementer;
+      }
+
+    let airInterfaceHistoricalPerformance = await RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePerformanceFromCache(
+      ltpStructure,
+      mountName,
       timeStamp,
       requestHeaders,
       traceIndicatorIncrementer);
+
+      if (Object.keys(airInterfaceHistoricalPerformance).length !== 0) {
+        traceIndicatorIncrementer = airInterfaceHistoricalPerformance.traceIndicatorIncrementer;
+      }
 
     if (Object.keys(uuidUnderTestResponse).length !== 0) {
 
@@ -82,6 +96,8 @@ exports.ReadHistoricalData = async function (mountName, timeStamp, ltpStructure,
         if (Object.keys(airInterfaceConfiguration).length !== 0) {
           traceIndicatorIncrementer = airInterfaceConfiguration.traceIndicatorIncrementer;
         }
+
+       
 
         let airInterfaceCapability = await RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache(pathParams, requestHeaders, traceIndicatorIncrementer);
         if (Object.keys(airInterfaceCapability).length !== 0) {
@@ -123,12 +139,11 @@ exports.ReadHistoricalData = async function (mountName, timeStamp, ltpStructure,
  * Prepare attributes and automate RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest
  * @param {Object}  ltpStructure ControlConstruct provided from cache.
  * @param {String}  mountName Identifier of the device at the Controller
- * @param {String}  linkId Identifier of the microwave link in the planning
  * @param {Object}  requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
  * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
  * @returns {Object} return values of uuidUnderTest,PathParams,trace indicator incrementer if external-label === linkId
  */
-exports.RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInterfaces = async function (ltpStructure, mountName, linkId, requestHeaders, traceIndicatorIncrementer) {
+exports.RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInterfaces = async function (ltpStructure, mountName, requestHeaders, traceIndicatorIncrementer) {
   const forwardingName = "RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInterfaces";
   const stringName = "RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInterfaces.LtpDesignation";
   
@@ -194,6 +209,79 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInte
     console.log(`${forwardingName} is not success with ${error}`);
   }
   return processedLtpResponses;
+}
+
+
+/**
+ * Prepare attributes and automate RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePerformanceFromCache
+ * @param {Object}  ltpStructure ControlConstruct provided from cache.
+ * @param {String}  mountName Identifier of the device at the Controller
+ * @param {String}  timeStamp timeStamp of the PM requested
+ * @param {Object}  requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
+ * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
+ * @returns {Object} return values of uuidUnderTest,PathParams,trace indicator incrementer if external-label === linkId
+ */
+
+exports.RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePerformanceFromCache = async function (ltpStructure, mountName,timeStamp, requestHeaders, traceIndicatorIncrementer) {
+  const forwardingName = "RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePerformanceFromCache";
+  const stringName = "RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePerformanceFromCache.AirInterfaceHistoricalPmFromCache";
+  
+  let processedResponses = [];
+  
+  try {
+  let pathParams=[];
+  /***********************************************************************************
+   *Fetch LTPs for both AIR and ETHERNET layers
+   ************************************************************************************/
+  let interfaceLtpList = await ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure(
+      AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.LAYER_PROTOCOL_NAME, ltpStructure);
+  
+  
+  let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName);
+
+  /***********************************************************************************
+   *Loop through each LTP and fetch corresponding airInterfaceHistoricalPerformance
+   ************************************************************************************/
+  for (let i = 0; i < interfaceLtpList.length; i++) {
+    let uuid = interfaceLtpList[i][onfAttributes.GLOBAL_CLASS.UUID];
+    let localId = interfaceLtpList[i][onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LOCAL_CLASS.LOCAL_ID];
+
+    pathParams = [mountName, uuid, localId];
+    let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
+	  
+	  /****************************************************************************************************
+     * RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInterfaces
+     *MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/
+	 *air-interface-2-0:air-interface-pac/air-interface-historical-performances
+     *****************************************************************************************************/
+
+    // Fetch external label and original LTP name
+    let airInterfaceHistoricalPerformance = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
+
+    if (Object.keys(airInterfaceHistoricalPerformance).length === 0)
+      console.log(createHttpError.InternalServerError(`${forwardingName} is not success`));
+
+ let hpdListFiltered = [];
+    let hpdList = airInterfaceHistoricalPerformance["air-interface-2-0:air-interface-historical-performances"][0][historical-performance-data-list];
+    if (hpdList != undefined) {
+        hpdListFiltered = hpdList.filter(htp =>
+                htp["granularity-period"] === LayerProtocolName && htp["period-end-time"] > timeStamp))
+    }
+	
+    
+    // Map results based on protocol type
+    let responseObject = {
+      uuid: uuid,
+      localId: localId,
+      hpdList: hpdListFiltered,
+    };
+
+    processedResponses.push(responseObject);
+  }
+  } catch (error) {
+    console.log(`${forwardingName} is not success with ${error}`);
+  }
+  return processedResponses;
 }
 
 /**
