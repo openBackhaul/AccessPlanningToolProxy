@@ -265,7 +265,7 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePe
     let hpdList = airInterfaceHistoricalPerformance["air-interface-2-0:air-interface-historical-performances"][0][historical-performance-data-list];
     if (hpdList != undefined) {
         hpdListFiltered = hpdList.filter(htp =>
-                htp["granularity-period"] === LayerProtocolName && htp["period-end-time"] > timeStamp))
+                htp["granularity-period"] === "TYPE_PERIOD-15-MIN" && htp["period-end-time"] > timeStamp);
     }
 	
     
