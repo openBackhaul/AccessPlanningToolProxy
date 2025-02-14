@@ -15,7 +15,9 @@ const AIR_INTERFACE = {
   CONFIGURATION: "air-interface-configuration",
   CAPABILITY: "air-interface-capability",
   STATUS: "air-interface-status",
-  NAME: "air-interface-name"
+  NAME: "air-interface-name",
+  PAC: "air-container-pac",
+  HISTORICAL_PERFORMANCES: "air-container-historical-performances"
 };
 const ETHERNET_INTERFACE = {
   MODULE: "ethernet-container-2-0",
@@ -23,10 +25,12 @@ const ETHERNET_INTERFACE = {
   CONFIGURATION: "ethernet-container-configuration",
   CAPABILITY: "ethernet-container-capability",
   STATUS: "ethernet-container-status",
-  NAME: "ethernet-container-name"
+  NAME: "ethernet-container-name",
+  PAC: "ethernet-container-pac",
+  HISTORICAL_PERFORMANCES: "ethernet-container-historical-performances"
 };
 const LTP_AUGMENT = {
-  MODULE: "ltp-augment-1-0:",
+  MODULE: "ltp-augment-1-0",
   PAC: "ltp-augment-pac",
   EXTERNAL_LABEL: "external-label",
   ORIGINAL_LTP_NAME:"original-ltp-name"
@@ -187,8 +191,8 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInte
       console.log(createHttpError.InternalServerError(`${forwardingName} is not success`));
 
     // Extract the response fields
-    let originalLtpName = externalLabelResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.ORIGINAL_LTP_NAME];
-    let externalLabel = externalLabelResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.EXTERNAL_LABEL];
+    let originalLtpName = externalLabelResponse[LTP_AUGMENT.MODULE + ":" + LTP_AUGMENT.PAC][LTP_AUGMENT.ORIGINAL_LTP_NAME];
+    let externalLabel = externalLabelResponse[LTP_AUGMENT.MODULE + ":" + LTP_AUGMENT.PAC][LTP_AUGMENT.EXTERNAL_LABEL];
 
     // Map results based on protocol type
     let responseObject = {
@@ -210,7 +214,6 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInte
   }
   return processedLtpResponses;
 }
-
 
 /**
  * Prepare attributes and automate RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePerformanceFromCache
@@ -262,13 +265,12 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePe
       console.log(createHttpError.InternalServerError(`${forwardingName} is not success`));
 
  let hpdListFiltered = [];
-    let hpdList = airInterfaceHistoricalPerformance["air-interface-2-0:air-interface-historical-performances"][0][historical-performance-data-list];
+    let hpdList = airInterfaceHistoricalPerformance[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.HISTORICAL_PERFORMANCES][0][historical-performance-data-list];
     if (hpdList != undefined) {
         hpdListFiltered = hpdList.filter(htp =>
                 htp["granularity-period"] === "TYPE_PERIOD-15-MIN" && htp["period-end-time"] > timeStamp);
     }
 	
-    
     // Map results based on protocol type
     let responseObject = {
       uuid: uuid,
@@ -282,6 +284,75 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePe
     console.log(`${forwardingName} is not success with ${error}`);
   }
   return processedResponses;
+}
+
+/**
+ * Fetch historical Ethernet container performance data from the cache.
+ * @param {Object} ltpStructure - Control construct with Logical Termination Points.
+ * @param {String} mountName - Name of the device at the Controller.
+ * @param {String} timeStamp - Reference timestamp for filtering performance data.
+ * @param {Object} requestHeaders - Request headers (e.g., apiKeyAuth).
+ * @param {Integer} traceIndicatorIncrementer - Incrementer for trace indicator.
+ * @returns {Array} Filtered Ethernet container performance data.
+ */
+exports.RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache = async function( ltpStructure, mountName, timeStamp, requestHeaders, traceIndicatorIncrementer ) {
+  const forwardingName = "RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache";
+  const stringName = "RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache.EthernetContainerHistoricalPmFromCache"
+  const filteredPerformances = [];
+
+  try {
+    /***********************************************************************************
+     * Fetch LTPs with ETHERNET_CONTAINER_LAYER from ltpStructure
+     ************************************************************************************/
+    const ethInterfaceLtpList = await ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure(
+      ETHERNET_INTERFACE.MODULE + ":" + ETHERNET_INTERFACE.LAYER_PROTOCOL_NAME, ltpStructure );
+
+    const consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName);
+
+    /***********************************************************************************
+     * Loop through each ETHERNET_CONTAINER_LAYER LTP
+     ************************************************************************************/
+    for (let ltp of ethInterfaceLtpList) {
+      const uuid = ltp[onfAttributes.GLOBAL_CLASS.UUID];
+      const localId = ltp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LOCAL_CLASS.LOCAL_ID];
+
+      const pathParams = [mountName, uuid, localId];
+
+      // Increment the trace indicator for each request
+      const _traceIndicatorIncrementer = traceIndicatorIncrementer++;
+
+      /***********************************************************************************
+       * Fetch Ethernet container performances from cache
+       ************************************************************************************/
+      const ethernetInterfacePerformanceResponse  = await IndividualServiceUtility.forwardRequest(
+        consequentOperationClientAndFieldParams,
+        pathParams,
+        requestHeaders,
+        _traceIndicatorIncrementer
+      );
+      if (Object.keys(ethernetInterfacePerformanceResponse).length === 0) {
+        console.log(`${forwardingName} is not success for UUID: ${uuid}`);
+      }
+
+      const performances = ethernetInterfacePerformanceResponse[ETHERNET_INTERFACE.MODULE + ":" + ETHERNET_INTERFACE.PAC][0][ETHERNET_INTERFACE.HISTORICAL_PERFORMANCES];
+
+      /***********************************************************************************
+       * Filter performance measurements
+       ************************************************************************************/
+      const filteredEntries = performances.filter(entry => {
+        return (
+          entry["granularity-period"] === "TYPE_PERIOD-15-MIN" &&
+          new Date(entry["period-end-time"]) > new Date(timeStamp)
+        );
+      });
+
+      filteredPerformances.push(...filteredEntries);
+    }
+  } catch (error) {
+    console.log(`${forwardingName} is not success with ${error}`);
+  }
+
+  return filteredPerformances;
 }
 
 /**
