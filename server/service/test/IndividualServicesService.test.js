@@ -8,12 +8,17 @@ const IndividualServiceUtility = require('../individualServices/IndividualServic
 const LogicalTerminationPointC = require('../individualServices/custom/LogicalTerminationPointC');
 const fileOperation = require('onf-core-model-ap/applicationPattern/databaseDriver/JSONDriver');
 const createHttpError = require('http-errors');
-const checkRegisteredAvailabilityOfDevice = require('../IndividualServicesService'); // Replace with actual path
+const checkRegisteredAvailabilityOfDevice = require('../IndividualServicesService');
+
+const { provideAlarmsForLiveNetView } = require('../IndividualServicesService'); 
+const ReadLiveAlarmsData = require('../individualServices/ReadLiveAlarmsData');
+
+const { provideStatusForLiveNetView } = require('../IndividualServicesService');
+const ReadLiveStatusData = require('../individualServices/ReadLiveStatusData');
 
 global.counterTime;
 
-
-const ReadConfigurationAirInterfaceData = require('../individualServices/ReadConfigurationAirInterfaceData'); // Replace with actual path
+const ReadConfigurationAirInterfaceData = require('../individualServices/ReadConfigurationAirInterfaceData'); 
 const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
 const provideConfigurationForLiveNetView = require('../IndividualServicesService');
 
@@ -27,7 +32,12 @@ jest.mock('../individualServices/custom/LogicalTerminationPointC');
 jest.mock('../individualServices/ReadConfigurationAirInterfaceData');
 jest.mock('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
 
+jest.mock('../individualServices/ReadLiveAlarmsData');
+//=====================================================//
+jest.mock('../individualServices/ReadLiveStatusData');
 
+
+//=======================================================//
 describe('provideEquipmentInfoForLiveNetView', () => {
   afterEach(() => {
     // Clear all mock calls and instances after each test to prevent interference
@@ -499,5 +509,116 @@ describe('provideConfigurationForLiveNetView', () => {
     );
 
     expect(result).toEqual({});
+  });
+});
+
+describe('provideAlarmsForLiveNetView', () => {
+  let mockBody, mockUser, mockHeaders;
+
+  beforeEach(() => {
+    // Reset counter status
+    global.counterAlarms = 0;
+
+    // Mock request data
+    mockBody = { "mount-name": "testMount" };
+    mockUser = "testUser";
+    mockHeaders = {
+      originator: "testOriginator",
+      xCorrelator: "testXCorrelator",
+      traceIndicator: "testTrace",
+      customerJourney: "testJourney"
+    };
+
+    // Mocking forwarding construct
+    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue({ uuid: "op12345" });
+
+    // Mocking profile configuration
+    IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(5);
+
+    // Mocking alarm data retrieval
+    ReadLiveAlarmsData.readLiveAlarmsData.mockResolvedValue({
+      alarms: { alarm1: "high", alarm2: "low" }
+    });
+
+    // Mock attribute formatter
+    onfAttributeFormatter.modifyJsonObjectKeysToKebabCase.mockImplementation(obj => obj);
+  });
+
+  test('should return alarms data successfully', async () => {
+    await expect(provideAlarmsForLiveNetView(mockBody, mockUser, ...Object.values(mockHeaders)))
+      .resolves.toEqual({ alarm1: "high", alarm2: "low" });
+  });
+
+  test('should throw TooManyRequests error when max requests exceeded', async () => {
+    global.counterAlarms = 6; // Simulate exceeding request limit
+
+    await expect(provideAlarmsForLiveNetView(mockBody, mockUser, ...Object.values(mockHeaders)))
+      .rejects.toThrow(createHttpError.TooManyRequests);
+  });
+
+  test('should resolve empty when no alarms are found', async () => {
+    ReadLiveAlarmsData.readLiveAlarmsData.mockResolvedValue();
+
+    await expect(provideAlarmsForLiveNetView(mockBody, mockUser, ...Object.values(mockHeaders)))
+      .resolves.toBeUndefined();
+  });
+
+  test('should throw InternalServerError when alarm retrieval fails', async () => {
+    ReadLiveAlarmsData.readLiveAlarmsData.mockRejectedValue(new Error('Alarm Retrieval Failed'));
+
+    await expect(provideAlarmsForLiveNetView(mockBody, mockUser, ...Object.values(mockHeaders)))
+      .toBeUndefined;
+  });
+
+});
+
+describe('provideStatusForLiveNetView', () => {
+  let mockBody, mockUser, mockHeaders;
+  beforeEach(() => {
+    // Reset counter status
+    global.counterStatus = 0;
+
+    // Mock request data
+    mockBody = { "mount-name": "testMount", "link-id": "testLink" };
+    mockUser = "testUser";
+    mockHeaders = {
+      originator: "testOriginator",
+      xCorrelator: "testXCorrelator",
+      traceIndicator: "testTrace",
+      customerJourney: "testJourney"
+    };
+
+    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue({ uuid: "op12345" });
+
+    IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(5);
+
+    ReadLtpStructure.readLtpStructure.mockResolvedValue({
+      ltpStructure: { someKey: "someValue" },
+      traceIndicatorIncrementer: 2
+    });
+
+    ReadLiveStatusData.readStatusInterfaceData.mockResolvedValue({
+      airInterface: { status: "active" },
+      traceIndicatorIncrementer: 3
+    });
+  });
+
+  test('should return status for live net view', async () => {
+    await expect(provideStatusForLiveNetView(mockBody, mockUser, ...Object.values(mockHeaders)))
+      .resolves.toEqual({ status: "active" });
+  });
+
+  test('should throw TooManyRequests error when max requests exceeded', async () => {
+    global.counterStatus = 6; // Simulate max requests exceeded
+
+    await expect(provideStatusForLiveNetView(mockBody, mockUser, ...Object.values(mockHeaders)))
+      .rejects.toThrow(createHttpError.TooManyRequests);
+  });
+
+  test('should throw InternalServerError when LTP structure retrieval fails', async () => {
+    ReadLtpStructure.readLtpStructure.mockRejectedValue(new Error('LTP Error'));
+
+    await expect(provideStatusForLiveNetView(mockBody, mockUser, ...Object.values(mockHeaders)))
+      .rejects.toThrow(createHttpError.InternalServerError);
   });
 });
