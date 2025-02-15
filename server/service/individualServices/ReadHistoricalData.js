@@ -216,6 +216,88 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInte
 }
 
 /**
+ * Identify physical link aggregations based on AirInterfaceUuid.
+ * @param {Object} ltpStructure - The control construct containing LTP details.
+ * @param {String} mountName - The device name.
+ * @param {Object} requestHeaders - Request headers including `apiKeyAuth`.
+ * @param {Integer} traceIndicatorIncrementer - Trace indicator incrementer.
+ * @returns {Array} Aggregated results for Wire/AirInterfaces.
+ */
+exports.RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregations = async function (ltpStructure, mountName, requestHeaders, traceIndicatorIncrementer) {
+  const forwardingName = 'RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregations';
+  const stringName = "RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregations.LtpDesignation";
+  let aggregatedResults = [];
+
+  try {
+    /***************************************************************************************************************
+     * Fetch all AIR_LAYER LTPs
+     ****************************************************************************************************************/
+    const airInterfaceLtps = ltpStructure.filter(
+      (ltp) => ltp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0]
+                [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL_NAME] === 'AIR_LAYER');
+
+    /***************************************************************************************************************
+     * Process each AirInterfaceUuid to find corresponding EthernetContainerUuid and Wire/AirInterfaceUuids
+     ****************************************************************************************************************/
+    for (let airLtp of airInterfaceLtps) {
+      const airInterfaceUuid = airLtp[onfAttributes.GLOBAL_CLASS.UUID];
+      let clientStructureUuid = airLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP][0];
+
+      // Navigate upwards to find the EthernetContainerUuid
+      let clientEthernetContainerUuid;
+      while (clientStructureUuid) {
+        const clientLtp = ltpStructure.find((ltp) => ltp[airInterfaceUuid] === clientStructureUuid);
+
+        if (clientLtp && clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][
+            onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL_NAME] === 'ETHERNET_CONTAINER_LAYER') {
+          clientEthernetContainerUuid = clientStructureUuid;
+          break;
+        }
+        clientStructureUuid = clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP][0];
+      }
+
+      // Navigate downwards to find Wire/AirInterfaceUuids
+      const servingStructureUuids = [];
+      const ethernetContainerLtp = ltpStructure.find((ltp) => ltp[airInterfaceUuid] === clientEthernetContainerUuid);
+      if (ethernetContainerLtp) {
+        servingStructureUuids.push(...ethernetContainerLtp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP]);
+      }
+
+      for (let servingUuid of servingStructureUuids) {
+        const serverLtp = ltpStructure.find((ltp) => ltp[airInterfaceUuid] === servingUuid);
+
+        if (serverLtp) {
+          const layerProtocolName = serverLtp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0]
+                                                [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL_NAME];
+
+          const pathParams = [mountName, servingUuid];
+          const consequentOperationClientAndFieldParams =await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName);
+          const ltpDesignationResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, traceIndicatorIncrementer++);
+
+          if (Object.keys(ltpDesignationResponse).length > 0) {
+            const originalLtpName = ltpDesignationResponse[LTP_AUGMENT.MODULE + ":" + LTP_AUGMENT.PAC][LTP_AUGMENT.ORIGINAL_LTP_NAME];
+            const externalLabel = ltpDesignationResponse[LTP_AUGMENT.MODULE + ":" +LTP_AUGMENT.PAC][LTP_AUGMENT.EXTERNAL_LABEL];
+            const result = { uuid: servingUuid, layerProtocolName };
+
+            if (layerProtocolName === 'WIRE_LAYER') {
+              result['interface-name'] = originalLtpName;
+            } else if (layerProtocolName === 'AIR_LAYER') {
+              result['link-id'] = externalLabel.substring(0, 9);
+            }
+
+            aggregatedResults.push(result);
+          }
+        }
+      }
+    }
+  } catch (error) {
+    console.error(`${forwardingName} is not success with ${error}`);
+  }
+
+  return aggregatedResults;
+};
+
+/**
  * Prepare attributes and automate RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePerformanceFromCache
  * @param {Object}  ltpStructure ControlConstruct provided from cache.
  * @param {String}  mountName Identifier of the device at the Controller
