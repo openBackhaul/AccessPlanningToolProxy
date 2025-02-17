@@ -324,14 +324,8 @@ exports.provideEquipmentInfoForLiveNetView = function (body, user, originator, x
 exports.provideHistoricalPmDataOfDevice = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
     try {
-      let HistoricalPmDataOfDevice = {};
+      let HistoricalPmDataOfDevice = [];
       let traceIndicatorIncrementer = 1;
-
-      /****************************************************************************************
-       * Setting up required local variables from the request body
-       ****************************************************************************************/
-      let mountName = body["mount-name"];
-      let timeStamp = body["time-stamp"];
 
       /****************************************************************************************
        * Setting up request header object
@@ -343,6 +337,22 @@ exports.provideHistoricalPmDataOfDevice = function (body, user, originator, xCor
         traceIndicator: traceIndicator,
         customerJourney: customerJourney
       };
+
+      const forwardingName = "RequestForProvidingConfigurationForLivenetviewCausesReadingLtpStructure";
+      const forwardingConstruct = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+      let prefix = forwardingConstruct.uuid.split('op')[0];
+      let maxNumberOfParallelOperations = await IndividualServiceUtility.extractProfileConfiguration(prefix + "integer-p-001");
+      counterStatusHistoricalPMDataCall = counterStatusHistoricalPMDataCall + 1;
+      if (counterStatusHistoricalPMDataCall > maxNumberOfParallelOperations) {
+        throw new createHttpError.TooManyRequests("Too many requests");
+      }
+
+      /****************************************************************************************
+       * Loop through each request in the body array
+       ****************************************************************************************/
+      for(let i=0; i<body.length; i++){
+          let mountName = body[i]["mount-name"]; 
+          let timeStamp = body[i]["time-stamp"];
 
       /****************************************************************************************
        * Collect complete ltp structure of mount-name in request bodys
@@ -357,26 +367,19 @@ exports.provideHistoricalPmDataOfDevice = function (body, user, originator, xCor
       };
       
       /****************************************************************************************
-        * Collect history data
-        ****************************************************************************************/
+       * Collect history data
+       ****************************************************************************************/
       
-      let historicalDataResult = await ReadHistoricalData.ReadHistoricalData(mountName, timeStamp, ltpStructure, requestHeaders, traceIndicatorIncrementer)
+      let historicalDataResult = await ReadHistoricalData.readHistoricalData(mountName, timeStamp, ltpStructure, requestHeaders, traceIndicatorIncrementer)
         .catch(err => console.log(` ${err}`));
 
-      let uuidUnderTest = "";
-      if (airInterfaceResult) {
-        if (airInterfaceResult.uuidUnderTest) {
-          uuidUnderTest = airInterfaceResult.uuidUnderTest;
-        }
-        if (Object.keys(airInterfaceResult.airInterface).length != 0) {
-          acceptanceDataOfLinkEndPoint.airInterface = airInterfaceResult.airInterface;
-        }
-        traceIndicatorIncrementer = airInterfaceResult.traceIndicatorIncrementer;
+        HistoricalPmDataOfDevice.push(historicalDataResult);
       }
-
     } catch (error) {
       console.log(error)
       reject(error);
+    }finally {
+      counterStatusHistoricalPMDataCall--;
     }
   });
 }

@@ -15,7 +15,9 @@ const AIR_INTERFACE = {
   CONFIGURATION: "air-interface-configuration",
   CAPABILITY: "air-interface-capability",
   STATUS: "air-interface-status",
-  NAME: "air-interface-name"
+  NAME: "air-interface-name",
+  PAC: "air-container-pac",
+  HISTORICAL_PERFORMANCES: "air-container-historical-performances"
 };
 const ETHERNET_INTERFACE = {
   MODULE: "ethernet-container-2-0",
@@ -23,10 +25,12 @@ const ETHERNET_INTERFACE = {
   CONFIGURATION: "ethernet-container-configuration",
   CAPABILITY: "ethernet-container-capability",
   STATUS: "ethernet-container-status",
-  NAME: "ethernet-container-name"
+  NAME: "ethernet-container-name",
+  PAC: "ethernet-container-pac",
+  HISTORICAL_PERFORMANCES: "ethernet-container-historical-performances"
 };
 const LTP_AUGMENT = {
-  MODULE: "ltp-augment-1-0:",
+  MODULE: "ltp-augment-1-0",
   PAC: "ltp-augment-pac",
   EXTERNAL_LABEL: "external-label",
   ORIGINAL_LTP_NAME:"original-ltp-name"
@@ -46,76 +50,84 @@ const LTP_AUGMENT = {
  * 4. RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive
    @returns {Object} result which contains the airInterface data and uuidUnderTest
 * **/
-exports.ReadHistoricalData = async function (mountName, timeStamp, ltpStructure, requestHeaders, traceIndicatorIncrementer) {
+exports.readHistoricalData = async function (mountName, timeStamp, ltpStructure, requestHeaders, traceIndicatorIncrementer) {
   try {
-    /****************************************************************************************
-     * Declaring required variables
-     ****************************************************************************************/
-    let uuidUnderTest = "";
-    let airInterface = {};
 
     /****************************************************************************************
-     *  Fetching and setting up UuidUnderTest and PathParameters
+     *  Fetch Name of Air and Ethernet Interfaces
      ****************************************************************************************/
-
     let airAndEthernetInterfacesResponse = await RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInterfaces(
-      ltpStructure,
-      mountName,
-      timeStamp,
-      requestHeaders,
-      traceIndicatorIncrementer);
-
-    if (Object.keys(uuidUnderTestResponse).length !== 0) {
-
-      uuidUnderTest = uuidUnderTestResponse.uuidUnderTest;
-      let pathParams = uuidUnderTestResponse.pathParams;
-      let airInterfaceEndPointName = uuidUnderTestResponse.externalLabel;
-      traceIndicatorIncrementer = uuidUnderTestResponse.traceIndicatorIncrementer;
-
-      /****************************************************************************************
-       *  Fetching airInterfaceConfiguration , airInterfaceCapability, airInterfaceStatus
-       ****************************************************************************************/
-      if (uuidUnderTest != "") {
-
-        let airInterfaceConfiguration = await exports.RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache(pathParams, requestHeaders, traceIndicatorIncrementer);
-
-        if (Object.keys(airInterfaceConfiguration).length !== 0) {
-          traceIndicatorIncrementer = airInterfaceConfiguration.traceIndicatorIncrementer;
-        }
-
-        let airInterfaceCapability = await RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache(pathParams, requestHeaders, traceIndicatorIncrementer);
-        if (Object.keys(airInterfaceCapability).length !== 0) {
-          traceIndicatorIncrementer = airInterfaceCapability.traceIndicatorIncrementer;
-        }
-
-        let airInterfaceStatus = await RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive(pathParams, requestHeaders, traceIndicatorIncrementer);
-        if (Object.keys(airInterfaceStatus).length !== 0) {
-          traceIndicatorIncrementer = airInterfaceStatus.traceIndicatorIncrementer;
-        }
-
-
-        /****************************************************************************************
-         *  Fetching the air interface data for response body
-         ****************************************************************************************/
-        if (Object.keys(airInterfaceConfiguration).length !== 0 ||
-          Object.keys(airInterfaceCapability).length !== 0 ||
-          Object.keys(airInterfaceStatus).length !== 0) {
-          airInterface = await formulateAirInterfaceResponseBody(airInterfaceEndPointName, airInterfaceConfiguration, airInterfaceCapability, airInterfaceStatus)
-        }
+      ltpStructure, mountName, requestHeaders, traceIndicatorIncrementer);
+      
+    if (Object.keys(airAndEthernetInterfacesResponse).length !== 0) {
+        traceIndicatorIncrementer = airAndEthernetInterfacesResponse.traceIndicatorIncrementer;
       }
-    } else {
-      console.log(`Unable to fetch UuidUnderTest and LocalIdUnderTest for linkId ${linkId} and muntName ${mountName}`);
+
+    /****************************************************************************************
+     *  Identify Physical Link Aggregations
+     ****************************************************************************************/
+    let physicalLinkAggregations = await exports.RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregations(
+      ltpStructure, mountName, requestHeaders, traceIndicatorIncrementer);
+
+    if (Object.keys(physicalLinkAggregations).length !== 0) {
+      traceIndicatorIncrementer = physicalLinkAggregations.traceIndicatorIncrementer;
     }
 
-    let airInterfaceResult = {
-      uuidUnderTest: uuidUnderTest,
-      airInterface: airInterface,
-      traceIndicatorIncrementer: traceIndicatorIncrementer
-    };
+    /****************************************************************************************
+     *  Fetch Air Interface Configuration from Cache
+     ****************************************************************************************/
+    let airInterfaceConfiguration = await exports.RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache(
+      ltpStructure, mountName, requestHeaders, traceIndicatorIncrementer);
 
-    return airInterfaceResult;
+    if (Object.keys(airInterfaceConfiguration).length !== 0) {
+      traceIndicatorIncrementer = airInterfaceConfiguration.traceIndicatorIncrementer;
+    }
+
+    /****************************************************************************************
+     *  Fetch Air Interface Capabilities from Cache
+     ****************************************************************************************/
+    let airInterfaceCapabilities = await exports.RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceCapabilitiesFromCache(
+      ltpStructure, mountName, requestHeaders, traceIndicatorIncrementer);
+
+    if (Object.keys(airInterfaceCapabilities).length !== 0) {
+      traceIndicatorIncrementer = airInterfaceCapabilities.traceIndicatorIncrementer;
+    }
+
+    /****************************************************************************************
+     *  Fetch Historical Air Interface Performance from Cache
+     ****************************************************************************************/
+    let airInterfacePerformance = await exports.RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePerformanceFromCache(
+      ltpStructure, mountName, timeStamp, requestHeaders, traceIndicatorIncrementer);
+
+    if (Object.keys(airInterfacePerformance).length !== 0) {
+      traceIndicatorIncrementer = airInterfacePerformance.traceIndicatorIncrementer;
+    }
+
+    /****************************************************************************************
+     *  Fetch Historical Ethernet Container Performance from Cache
+     ****************************************************************************************/
+    let ethernetPerformance = await exports.RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache(
+      ltpStructure, mountName, timeStamp, requestHeaders, traceIndicatorIncrementer);
+
+    if (Object.keys(ethernetPerformance).length !== 0) {
+      traceIndicatorIncrementer = ethernetPerformance.traceIndicatorIncrementer;
+    }
+
+    /****************************************************************************************
+    *  Aggregating all retrieved data into a structured response format.
+    *  This function combines Air & Ethernet Interface names, Physical Link Aggregations, 
+    *  Air Interface Configuration, Capabilities, Historical Performance, 
+    *  and Ethernet Container Performance into a single response.
+    ******************************************************************************************/
+    let historicalData = RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData(airAndEthernetInterfacesResponse, physicalLinkAggregations, airInterfaceConfiguration,
+      airInterfaceCapabilities, airInterfacePerformance, ethernetPerformance);
+
+    
+    // Returning the final structured historical PM data response.
+    return historicalData;
   } catch (error) {
-    console.log(`readAirInterfaceData is not success with ${error}`);
+    console.error(`readAirInterfaceData is not success with ${error}`);
+    throw error;
   }
 }
 
@@ -123,12 +135,11 @@ exports.ReadHistoricalData = async function (mountName, timeStamp, ltpStructure,
  * Prepare attributes and automate RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest
  * @param {Object}  ltpStructure ControlConstruct provided from cache.
  * @param {String}  mountName Identifier of the device at the Controller
- * @param {String}  linkId Identifier of the microwave link in the planning
  * @param {Object}  requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
  * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
  * @returns {Object} return values of uuidUnderTest,PathParams,trace indicator incrementer if external-label === linkId
  */
-exports.RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInterfaces = async function (ltpStructure, mountName, linkId, requestHeaders, traceIndicatorIncrementer) {
+exports.RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInterfaces = async function (ltpStructure, mountName, requestHeaders, traceIndicatorIncrementer) {
   const forwardingName = "RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInterfaces";
   const stringName = "RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInterfaces.LtpDesignation";
   
@@ -172,13 +183,14 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInte
       console.log(createHttpError.InternalServerError(`${forwardingName} is not success`));
 
     // Extract the response fields
-    let originalLtpName = externalLabelResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.ORIGINAL_LTP_NAME];
-    let externalLabel = externalLabelResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.EXTERNAL_LABEL];
+    let originalLtpName = externalLabelResponse[LTP_AUGMENT.MODULE + ":" + LTP_AUGMENT.PAC][LTP_AUGMENT.ORIGINAL_LTP_NAME];
+    let externalLabel = externalLabelResponse[LTP_AUGMENT.MODULE + ":" + LTP_AUGMENT.PAC][LTP_AUGMENT.EXTERNAL_LABEL];
 
     // Map results based on protocol type
     let responseObject = {
       uuid: uuid,
       localId: localId,
+      mountName : mountName,
       layerProtocolName: layerProtocolName,
     };
 
@@ -197,156 +209,369 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInte
 }
 
 /**
- * Prepare attributes and automate RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache
- * @param {Object}  pathParams path parameters UuidUnderTest and LocalIdUnderTest.
- * @param {Object}  requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
+ * Identify physical link aggregations based on AirInterfaceUuid.
+ * @param {Object} ltpStructure - The control construct containing LTP details.
+ * @param {String} mountName - The device name.
+ * @param {Object} requestHeaders - Request headers including `apiKeyAuth`.
+ * @param {Integer} traceIndicatorIncrementer - Trace indicator incrementer.
+ * @returns {Array} Aggregated results for Wire/AirInterfaces.
+ */
+exports.RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregations = async function (ltpStructure, mountName, requestHeaders, traceIndicatorIncrementer) {
+  const forwardingName = 'RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregations';
+  const stringName = "RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregations.LtpDesignation";
+  let aggregatedResults = [];
+
+  try {
+    /***************************************************************************************************************
+     * Fetch all AIR_LAYER LTPs
+     ****************************************************************************************************************/
+    const airInterfaceLtps = ltpStructure.filter(
+      (ltp) => ltp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0]
+                [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL_NAME] === 'AIR_LAYER');
+
+    /***************************************************************************************************************
+     * Process each AirInterfaceUuid to find corresponding EthernetContainerUuid and Wire/AirInterfaceUuids
+     ****************************************************************************************************************/
+    for (let airLtp of airInterfaceLtps) {
+      const airInterfaceUuid = airLtp[onfAttributes.GLOBAL_CLASS.UUID];
+      let clientStructureUuid = airLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP][0];
+
+      // Navigate upwards to find the EthernetContainerUuid
+      let clientEthernetContainerUuid;
+      while (clientStructureUuid) {
+        const clientLtp = ltpStructure.find((ltp) => ltp[airInterfaceUuid] === clientStructureUuid);
+
+        if (clientLtp && clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][
+            onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL_NAME] === 'ETHERNET_CONTAINER_LAYER') {
+          clientEthernetContainerUuid = clientStructureUuid;
+          break;
+        }
+        clientStructureUuid = clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP][0];
+      }
+
+      // Navigate downwards to find Wire/AirInterfaceUuids
+      const servingStructureUuids = [];
+      const ethernetContainerLtp = ltpStructure.find((ltp) => ltp[airInterfaceUuid] === clientEthernetContainerUuid);
+      if (ethernetContainerLtp) {
+        servingStructureUuids.push(...ethernetContainerLtp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP]);
+      }
+
+      for (let servingUuid of servingStructureUuids) {
+        const serverLtp = ltpStructure.find((ltp) => ltp[airInterfaceUuid] === servingUuid);
+
+        if (serverLtp) {
+          const layerProtocolName = serverLtp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0]
+                                                [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL_NAME];
+
+          const pathParams = [mountName, servingUuid];
+          const consequentOperationClientAndFieldParams =await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName);
+          const ltpDesignationResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, traceIndicatorIncrementer++);
+
+          if (Object.keys(ltpDesignationResponse).length > 0) {
+            const originalLtpName = ltpDesignationResponse[LTP_AUGMENT.MODULE + ":" + LTP_AUGMENT.PAC][LTP_AUGMENT.ORIGINAL_LTP_NAME];
+            const externalLabel = ltpDesignationResponse[LTP_AUGMENT.MODULE + ":" +LTP_AUGMENT.PAC][LTP_AUGMENT.EXTERNAL_LABEL];
+            const result = 
+            { uuid: servingUuid, 
+              mountName: mountName, 
+              layerProtocolName: layerProtocolName };
+
+            if (layerProtocolName === 'WIRE_LAYER') {
+              result['interface-name'] = originalLtpName;
+            } else if (layerProtocolName === 'AIR_LAYER') {
+              result['link-id'] = externalLabel.substring(0, 9);
+            }
+
+            aggregatedResults.push(result);
+          }
+        }
+      }
+    }
+  } catch (error) {
+    console.error(`${forwardingName} is not success with ${error}`);
+  }
+
+  return aggregatedResults;
+};
+
+/**
+ * This method fetches Air Interface Configuration from Cache
+ * @param {Object} ltpStructure ControlConstruct provided from cache.
+ * @param {String} mountName Identifier of the device at the Controller
+ * @param {Object} requestHeaders Holds information of the requestHeaders
  * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
- * @returns {Object} returns airInterfaceConfiguration for UuidUnderTest and LocalIdUnderTest
- */
-exports.RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache = async function (pathParams, requestHeaders, traceIndicatorIncrementer) {
-  const forwardingName = "RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache";
-  const stringName = "RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.ConfigurationFromCache"
-  let airInterfaceConfiguration = {};
+ * @returns {Object} Returns air interface configurations from cache
+ **/
+exports.RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache = async function (ltpStructure, mountName, requestHeaders, traceIndicatorIncrementer) {
+  const forwardingName = "RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache";
+  const stringName = "RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache.AirInterfaceConfiguration";
+  let airInterfaceConfigurations = [];
+
   try {
+    // Fetch all LTPs of AIR_LAYER
+    let airInterfaceLtpList = await ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure(
+      "air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER", ltpStructure);
 
-    /****************************************************************************************************
-     * RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache
-     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
-     *    /logical-termination-point={uuid}/layer-protocol={local-id}
-     *        /air-interface-2-0:air-interface-pac/air-interface-configuration
-     *****************************************************************************************************/
+    let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName);
 
-    let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName)
-    let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
-    let airInterfaceConfigurationResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
-    if (Object.keys(airInterfaceConfigurationResponse).length === 0) {
-      console.log(`${forwardingName} is not success`);
-    } else {
-      airInterfaceConfiguration = airInterfaceConfigurationResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.CONFIGURATION];
+    // Loop through each LTP and fetch corresponding Air Interface Configuration
+    for (let i = 0; i < airInterfaceLtpList.length; i++) {
+      let uuid = airInterfaceLtpList[i]["uuid"];
+      let localId = airInterfaceLtpList[i]["layerProtocol"][0]["local-id"];
+
+      let pathParams = [mountName, uuid, localId];
+      let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
+
+      let airInterfaceConfigurationResponse = await IndividualServiceUtility.forwardRequest(
+        consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
+
+      let response= {
+        mountName: mountName,
+        uuid: uuid,
+        localId: localId
+      };
+
+      if (Object.keys(airInterfaceConfigurationResponse).length === 0) {
+        console.log(`${forwardingName} is not success`);
+      } else {
+        response.push(airInterfaceConfigurationResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.PAC][AIR_INTERFACE.CONFIGURATION]);
+        airInterfaceConfigurations.push(response);
+      }
     }
   } catch (error) {
     console.log(`${forwardingName} is not success with ${error}`);
   }
-  if (airInterfaceConfiguration == undefined) {
-    airInterfaceConfiguration = {};
-  }
-  airInterfaceConfiguration.traceIndicatorIncrementer = traceIndicatorIncrementer;
-  return airInterfaceConfiguration;
-}
+
+  return airInterfaceConfigurations;
+};
 
 /**
- * Prepare attributes and automate RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache
- * @param {Object}  pathParams path parameters UuidUnderTest and LocalIdUnderTest.
- * @param {Object}  requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
+ * This method fetches Air Interface Capabilities from Cache
+ * @param {Object} ltpStructure ControlConstruct provided from cache.
+ * @param {String} mountName Identifier of the device at the Controller
+ * @param {Object} requestHeaders Holds information of the requestHeaders
  * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
- * @returns {Object} returns airInterfaceCapability for UuidUnderTest and LocalIdUnderTest
- */
-async function RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache(pathParams, requestHeaders, traceIndicatorIncrementer) {
-  const forwardingName = "RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache";
-  const stringName = "RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache"
-  let airInterfaceCapability = {};
+ * @returns {Object} Returns air interface capabilities from cache
+ **/
+exports.RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceCapabilitiesFromCache = async function (ltpStructure, mountName, requestHeaders, traceIndicatorIncrementer) {
+  const forwardingName = "RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceCapabilitiesFromCache";
+  const stringName = "RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceCapabilitiesFromCache.AirInterfaceCapabilities";
+  let airInterfaceCapabilities = [];
+
   try {
+    // Fetch all LTPs of AIR_LAYER
+    let airInterfaceLtpList = await ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure(
+      "air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER", ltpStructure);
 
-    /****************************************************************************************************
-     * RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache
-     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
-     *          /logical-termination-point={uuid}/layer-protocol={local-id}
-     *        /air-interface-2-0:air-interface-pac/air-interface-capability
-     *****************************************************************************************************/
+    let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName);
 
-    let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName)
-    let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
-    let airInterfaceCapabilityResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
-    if (Object.keys(airInterfaceCapabilityResponse).length === 0) {
-      console.log(`${forwardingName} is not success`);
-    } else {
-      airInterfaceCapability = airInterfaceCapabilityResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.CAPABILITY];
+    // Loop through each LTP and fetch corresponding Air Interface Capabilities
+    for (let i = 0; i < airInterfaceLtpList.length; i++) {
+      let uuid = airInterfaceLtpList[i]["uuid"];
+      let localId = airInterfaceLtpList[i]["layerProtocol"][0]["local-id"];
+
+      let pathParams = [mountName, uuid, localId];
+      let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
+
+      let airInterfaceCapabilitiesResponse = await IndividualServiceUtility.forwardRequest(
+        consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
+        let response= {
+          mountName: mountName,
+          uuid: uuid,
+          localId: localId
+        };
+
+      if (Object.keys(airInterfaceCapabilitiesResponse).length === 0) {
+        console.log(`${forwardingName} is not success`);
+      } else {
+        response.push(airInterfaceCapabilitiesResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.PAC][AIR_INTERFACE.CAPABILITY]);
+        airInterfaceCapabilities.push(response);
+      }
     }
   } catch (error) {
     console.log(`${forwardingName} is not success with ${error}`);
   }
-  if (airInterfaceCapability == undefined) {
-    airInterfaceCapability = {};
+
+  return airInterfaceCapabilities;
+};
+
+/**
+ * Prepare attributes and automate RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePerformanceFromCache
+ * @param {*} ltpStructure ControlConstruct provided from cache.
+ * @param {*} mountName Identifier of the device at the Controller
+ * @param {*} timeStamp timeStamp of the PM requested
+ * @param {*} requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
+ * @param {*} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
+ * @returns {Object} return values of uuidUnderTest,PathParams,trace indicator incrementer if external-label === linkId
+ */
+exports.RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePerformanceFromCache = async function (ltpStructure, mountName,timeStamp, requestHeaders, traceIndicatorIncrementer) {
+  const forwardingName = "RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePerformanceFromCache";
+  const stringName = "RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePerformanceFromCache.AirInterfaceHistoricalPmFromCache";
+  
+  let processedResponses = [];
+  
+  try {
+  let pathParams=[];
+  /***********************************************************************************
+   *Fetch LTPs for both AIR and ETHERNET layers
+   ************************************************************************************/
+  let interfaceLtpList = await ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure(
+      AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.LAYER_PROTOCOL_NAME, ltpStructure);
+  
+  
+  let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName);
+
+  /***********************************************************************************
+   *Loop through each LTP and fetch corresponding airInterfaceHistoricalPerformance
+   ************************************************************************************/
+  for (let i = 0; i < interfaceLtpList.length; i++) {
+    let uuid = interfaceLtpList[i][onfAttributes.GLOBAL_CLASS.UUID];
+    let localId = interfaceLtpList[i][onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LOCAL_CLASS.LOCAL_ID];
+
+    pathParams = [mountName, uuid, localId];
+    let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
+	  
+	  /****************************************************************************************************
+     * RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInterfaces
+     *MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/
+	 *air-interface-2-0:air-interface-pac/air-interface-historical-performances
+     *****************************************************************************************************/
+
+    // Fetch external label and original LTP name
+    let airInterfaceHistoricalPerformance = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
+
+    if (Object.keys(airInterfaceHistoricalPerformance).length === 0)
+      console.log(createHttpError.InternalServerError(`${forwardingName} is not success`));
+
+ let hpdListFiltered = [];
+    let hpdList = airInterfaceHistoricalPerformance[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.HISTORICAL_PERFORMANCES][0][historical-performance-data-list];
+    if (hpdList != undefined) {
+        hpdListFiltered = hpdList.filter(htp =>
+                htp["granularity-period"] === "TYPE_PERIOD-15-MIN" && htp["period-end-time"] > timeStamp);
+    }
+	
+    // Map results based on protocol type
+    let responseObject = {
+      uuid: uuid,
+      mountName: mountName,
+      localId: localId,
+      hpdList: hpdListFiltered,
+    };
+
+    processedResponses.push(responseObject);
   }
-  airInterfaceCapability.traceIndicatorIncrementer = traceIndicatorIncrementer;
-  return airInterfaceCapability;
+  } catch (error) {
+    console.log(`${forwardingName} is not success with ${error}`);
+  }
+  return processedResponses;
 }
 
 /**
- * Prepare attributes and automate RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive
- * @param {Object}  pathParams path parameters UuidUnderTest and LocalIdUnderTest.
- * @param {Object}  requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
- * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator * 
- * @returns {Object} returns airInterfaceStatus for UuidUnderTest and LocalIdUnderTest
+ * Fetch historical Ethernet container performance data from the cache.
+ * @param {Object} ltpStructure - Control construct with Logical Termination Points.
+ * @param {String} mountName - Name of the device at the Controller.
+ * @param {String} timeStamp - Reference timestamp for filtering performance data.
+ * @param {Object} requestHeaders - Request headers (e.g., apiKeyAuth).
+ * @param {Integer} traceIndicatorIncrementer - Incrementer for trace indicator.
+ * @returns {Array} Filtered Ethernet container performance data.
  */
-async function RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive(pathParams, requestHeaders, traceIndicatorIncrementer) {
-  const forwardingName = "RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive";
-  const stringName = "RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive.StatusFromLive";
-  let airInterfaceStatus = {};
+exports.RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache = async function( ltpStructure, mountName, timeStamp, requestHeaders, traceIndicatorIncrementer ) {
+  const forwardingName = "RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache";
+  const stringName = "RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache.EthernetContainerHistoricalPmFromCache"
+  const processedResponses = [];
+
   try {
+    /***********************************************************************************
+     * Fetch LTPs with ETHERNET_CONTAINER_LAYER from ltpStructure
+     ************************************************************************************/
+    const ethInterfaceLtpList = await ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure(
+      ETHERNET_INTERFACE.MODULE + ":" + ETHERNET_INTERFACE.LAYER_PROTOCOL_NAME, ltpStructure );
 
-    /****************************************************************************************************
-     * RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive
-     *   MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}
-     *        /logical-termination-point={uuid}/layer-protocol={local-id}
-     *        /air-interface-2-0:air-interface-pac/air-interface-status
-     *        ?fields=tx-level-cur;rx-level-cur;transmission-mode-cur;xpd-cur;snir-cur
-     *****************************************************************************************************/
+    const consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName);
 
-    let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName)
-    let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
-    let airInterfaceStatusResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
-    if (Object.keys(airInterfaceStatusResponse).length === 0) {
-      console.log(`${forwardingName} is not success`);
-    } else {
-      airInterfaceStatus = airInterfaceStatusResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.STATUS];
+    /***********************************************************************************
+     * Loop through each ETHERNET_CONTAINER_LAYER LTP
+     ************************************************************************************/
+    for (let ltp of ethInterfaceLtpList) {
+      const uuid = ltp[onfAttributes.GLOBAL_CLASS.UUID];
+      const localId = ltp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LOCAL_CLASS.LOCAL_ID];
+
+      const pathParams = [mountName, uuid, localId];
+
+      // Increment the trace indicator for each request
+      const _traceIndicatorIncrementer = traceIndicatorIncrementer++;
+
+      /***********************************************************************************
+       * Fetch Ethernet container performances from cache
+       ************************************************************************************/
+      const ethernetInterfacePerformanceResponse  = await IndividualServiceUtility.forwardRequest(
+        consequentOperationClientAndFieldParams,
+        pathParams,
+        requestHeaders,
+        _traceIndicatorIncrementer
+      );
+      if (Object.keys(ethernetInterfacePerformanceResponse).length === 0) {
+        console.log(`${forwardingName} is not success for UUID: ${uuid}`);
+      }
+
+      const performances = ethernetInterfacePerformanceResponse[ETHERNET_INTERFACE.MODULE + ":" + ETHERNET_INTERFACE.PAC][0][ETHERNET_INTERFACE.HISTORICAL_PERFORMANCES];
+
+      /***********************************************************************************
+       * Filter performance measurements
+       ************************************************************************************/
+      const filteredEntries = performances.filter(entry => {
+        return (
+          entry["granularity-period"] === "TYPE_PERIOD-15-MIN" &&
+          new Date(entry["period-end-time"]) > new Date(timeStamp)
+        );
+      });
+
+          // Map results based on protocol type
+      let responseObject = {
+        uuid: uuid,
+        mountName: mountName,
+        localId: localId,
+        filteredEntries: filteredEntries
+      };
+
+    processedResponses.push(responseObject);
     }
   } catch (error) {
     console.log(`${forwardingName} is not success with ${error}`);
   }
-  if (airInterfaceStatus == undefined) {
-    airInterfaceStatus = {};
-  }
-  airInterfaceStatus.traceIndicatorIncrementer = traceIndicatorIncrementer;
-  return airInterfaceStatus;
+
+  return processedResponses;
 }
 
 /**
- * Formulate air interface response body attributes.
- * @param {Object}  airInterfaceConfiguration air-interface-configuration fetched from callback RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache.
- * @param {Object}  airInterfaceCapability air-interface-capability from callback RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache .
- * @param {Object}  airInterfaceStatus air-interface-status fetched from callback RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive.
- * @returns {Object} returns formulated air interface response body attributes.
+ * Function to deliver the requested PM data by aggregating the results 
+ * and sending them to LinkVis.
+ * @param {Array} airAndEthernetInterfacesResponse - The retrieved Name of Air and Ethernet Interfaces
+ * @param {Array} physicalLinkAggregations - Identify Physical Link Aggregations
+ * @param {Array} airInterfaceConfiguration - The retrieved Air Interface Configurations.
+ * @param {Array} airInterfaceCapabilities - The retrieved Air Interface Capabilities.
+ * @param {Array} airInterfacePerformance - The retrieved historical performance of Air Interfaces.
+ * @param {Array} ethernetPerformance - The retrieved historical performance of Ethernet interfaces.
+ * @returns {Object} Response status of the PM data delivery.
  */
-async function formulateAirInterfaceResponseBody(airInterfaceEndPointName, airInterfaceConfiguration, airInterfaceCapability, airInterfaceStatus) {
+exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = async function (airAndEthernetInterfacesResponse, physicalLinkAggregations, airInterfaceConfiguration,
+  airInterfaceCapabilities, airInterfacePerformance, ethernetPerformance)
+{
   let airInterface = {};
   try {
-    if (airInterfaceEndPointName) airInterface["air-interface-endpoint-name"] = airInterfaceEndPointName;
-    if (airInterfaceConfiguration.hasOwnProperty("tx-power")) airInterface["configured-tx-power"] = airInterfaceConfiguration["tx-power"];
-    if (airInterfaceStatus.hasOwnProperty("tx-level-cur")) airInterface["current-tx-power"] = airInterfaceStatus["tx-level-cur"];
-    if (airInterfaceStatus.hasOwnProperty("rx-level-cur")) airInterface["current-rx-level"] = airInterfaceStatus["rx-level-cur"];
-    if (airInterfaceConfiguration.hasOwnProperty("tx-frequency")) airInterface["configured-tx-frequency"] = airInterfaceConfiguration["tx-frequency"];
-    if (airInterfaceConfiguration.hasOwnProperty("rx-frequency")) airInterface["configured-rx-frequency"] = airInterfaceConfiguration["rx-frequency"];
-    if (airInterfaceConfiguration.hasOwnProperty("transmitted-radio-signal-id")) airInterface["configured-transmitted-radio-signal-id"] = airInterfaceConfiguration["transmitted-radio-signal-id"];
-    if (airInterfaceConfiguration.hasOwnProperty("expected-radio-signal-id")) airInterface["configured-expected-radio-signal-id"] = airInterfaceConfiguration["expected-radio-signal-id"];
+
+    if(airAndEthernetInterfacesResponse.hasOwnProperty("link-end-point-name")) airInterface["link-end-point-name"] = airAndEthernetInterfacesResponse["link-end-point-name"];
+    if(airAndEthernetInterfacesResponse.hasOwnProperty("interface-name")) airInterface["interface-name"] = airAndEthernetInterfacesResponse["interface-name"];
+
+    if(physicalLinkAggregations.hasOwnProperty("link-id")) airInterface["link-id"] = physicalLinkAggregations["link-id"];
+    if(physicalLinkAggregations.hasOwnProperty("interface-name")) airInterface["interface-name"] = physicalLinkAggregations["interface-name"];
+
     if (airInterfaceConfiguration.hasOwnProperty("atpc-is-on")) airInterface["configured-atpc-is-on"] = airInterfaceConfiguration["atpc-is-on"];
-    if (airInterfaceConfiguration.hasOwnProperty("atpc-thresh-upper")) airInterface["configured-atpc-threshold-upper"] = airInterfaceConfiguration["atpc-thresh-upper"];
-    if (airInterfaceConfiguration.hasOwnProperty("atpc-thresh-lower")) airInterface["configured-atpc-threshold-lower"] = airInterfaceConfiguration["atpc-thresh-lower"];
-    if (airInterfaceConfiguration.hasOwnProperty("atpc-tx-power-min")) airInterface["configured-atpc-tx-power-min"] = airInterfaceConfiguration["atpc-tx-power-min"];
-    if (airInterfaceConfiguration.hasOwnProperty("adaptive-modulation-is-on")) airInterface["configured-adaptive-modulation-is-on"] = airInterfaceConfiguration["adaptive-modulation-is-on"];
-    if (airInterfaceStatus.hasOwnProperty("xpd-cur")) airInterface["current-cross-polarization-discrimination"] = airInterfaceStatus["xpd-cur"];
-    if (airInterfaceConfiguration.hasOwnProperty("performance-monitoring-is-on")) airInterface["configured-performance-monitoring-is-on"] = airInterfaceConfiguration["performance-monitoring-is-on"];
-    if (airInterfaceConfiguration.hasOwnProperty("xpic-is-on")) airInterface["configured-xpic-is-on"] = airInterfaceConfiguration["xpic-is-on"];
-    if (airInterfaceStatus.hasOwnProperty("snir-cur")) airInterface["current-signal-to-noise-ratio"] = airInterfaceStatus["snir-cur"];
     let minTransmissionMode = await getConfiguredModulation(
-      airInterfaceCapability,
+      airInterfaceCapabilities,
       airInterfaceConfiguration["transmission-mode-min"]);
     let maxTransmissionMode = await getConfiguredModulation(
-      airInterfaceCapability,
+      airInterfaceCapabilities,
       airInterfaceConfiguration["transmission-mode-max"]);
-    let curTransmissionMode = await getConfiguredModulation(
-      airInterfaceCapability,
-      airInterfaceStatus["transmission-mode-cur"]);
     if (minTransmissionMode) {
       airInterface["configured-modulation-minimum"] = {
         "number-of-states": minTransmissionMode["modulation-scheme"],
@@ -359,14 +584,14 @@ async function formulateAirInterfaceResponseBody(airInterfaceEndPointName, airIn
         "name-at-lct": maxTransmissionMode["modulation-scheme-name-at-lct"]
       };
     }
-    if (curTransmissionMode) {
-      airInterface["current-modulation"] = {
-        "number-of-states": curTransmissionMode["modulation-scheme"],
-        "name-at-lct": curTransmissionMode["modulation-scheme-name-at-lct"]
-      };
-    }
     if (minTransmissionMode.hasOwnProperty("channel-bandwidth")) airInterface["configured-channel-bandwidth-min"] = minTransmissionMode["channel-bandwidth"];
     if (maxTransmissionMode.hasOwnProperty("channel-bandwidth")) airInterface["configured-channel-bandwidth-max"] = maxTransmissionMode["channel-bandwidth"];
+
+
+    if(airInterfaceCapabilities) airInterface['air-interface-capabilities'] = airInterfaceCapabilities;  
+    if(airInterfacePerformance) airInterface['air-interface-performance'] = airInterfacePerformance;  
+    if(ethernetPerformance) airInterface['ethernet-performance'] = ethernetPerformance;   
+
   } catch (error) {
     console.log(error);
   }
@@ -375,14 +600,14 @@ async function formulateAirInterfaceResponseBody(airInterfaceEndPointName, airIn
 
 /**
  * Fetchs configured Modulation based on tansmission mode type min , max , or current .
- * @param {Object}  airInterfaceCapability air-interface-capability.
+ * @param {Object}  airInterfaceCapabilities air-interface-capability.
  * @param {Object}  transmissioModeType tansmission mode type min , max , or current.
  * @returns {Object} returns transmission mode fetched tansmission mode list of capability.
  */
-async function getConfiguredModulation(airInterfaceCapability, transmissioModeType) {
+async function getConfiguredModulation(airInterfaceCapabilities, transmissioModeType) {
   let transmissionModeFromtransmissionModeList = {};
-  if (airInterfaceCapability && airInterfaceCapability.hasOwnProperty("transmission-mode-list")) {
-    let transmissionModeList = airInterfaceCapability["transmission-mode-list"];
+  if (airInterfaceCapabilities && airInterfaceCapabilities.hasOwnProperty("transmission-mode-list")) {
+    let transmissionModeList = airInterfaceCapabilities["transmission-mode-list"];
     if (transmissionModeList != undefined && transmissioModeType != undefined) {
       transmissionModeFromtransmissionModeList = transmissionModeList.find(transmissionMode =>
         transmissionMode["transmission-mode-name"] === transmissioModeType)
