@@ -29,6 +29,17 @@ const ETHERNET_INTERFACE = {
   PAC: "ethernet-container-pac",
   HISTORICAL_PERFORMANCES: "ethernet-container-historical-performances"
 };
+
+const WIRE_INTERFACE = {
+  MODULE: "wire-interface-2-0:",
+  LAYER_PROTOCOL_NAME: "LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
+  CAPABILITY: "wire-interface-capability",
+  STATUS: "wire-interface-status",
+  SUPPORTED_PMD_LIST: "supported-pmd-kind-list",
+  PMD_NAME: "pmd-name",
+  PMD_KIND_CUR: "pmd-kind-cur"
+};
+
 const LTP_AUGMENT = {
   MODULE: "ltp-augment-1-0",
   PAC: "ltp-augment-pac",
@@ -165,7 +176,7 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInte
   for (let i = 0; i < interfaceLtpList.length; i++) {
     let uuid = interfaceLtpList[i][onfAttributes.GLOBAL_CLASS.UUID];
     let localId = interfaceLtpList[i][onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LOCAL_CLASS.LOCAL_ID];
-    let layerProtocolName = interfaceLtpList[i][onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL_NAME];
+    let layerProtocolName = interfaceLtpList[i][onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME];
 
     pathParams = [mountName, uuid, localId];
     let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
@@ -194,9 +205,9 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInte
       layerProtocolName: layerProtocolName,
     };
 
-    if (layerProtocolName === "AIR_LAYER") {
-      responseObject["linkEndPointName"] = externalLabel;
-    } else if (layerProtocolName === "ETHERNET_CONTAINER_LAYER") {
+    if (layerProtocolName === AIR_INTERFACE.LAYER_PROTOCOL_NAME) {
+      responseObject["link-endpoint-id"] = externalLabel;
+    } else if (layerProtocolName === ETHERNET_INTERFACE.LAYER_PROTOCOL_NAME) {
       responseObject["interfaceName"] = originalLtpName;
     }
 
@@ -227,7 +238,7 @@ exports.RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregat
      ****************************************************************************************************************/
     const airInterfaceLtps = ltpStructure.filter(
       (ltp) => ltp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0]
-                [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL_NAME] === 'AIR_LAYER');
+                [onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME] === AIR_INTERFACE.LAYER_PROTOCOL_NAME);
 
     /***************************************************************************************************************
      * Process each AirInterfaceUuid to find corresponding EthernetContainerUuid and Wire/AirInterfaceUuids
@@ -242,7 +253,7 @@ exports.RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregat
         const clientLtp = ltpStructure.find((ltp) => ltp[airInterfaceUuid] === clientStructureUuid);
 
         if (clientLtp && clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][
-            onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL_NAME] === 'ETHERNET_CONTAINER_LAYER') {
+            onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME] === ETHERNET_INTERFACE.LAYER_PROTOCOL_NAME) {
           clientEthernetContainerUuid = clientStructureUuid;
           break;
         }
@@ -261,7 +272,7 @@ exports.RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregat
 
         if (serverLtp) {
           const layerProtocolName = serverLtp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0]
-                                                [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL_NAME];
+                                                [onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME];
 
           const pathParams = [mountName, servingUuid];
           const consequentOperationClientAndFieldParams =await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName);
@@ -275,9 +286,9 @@ exports.RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregat
               mountName: mountName, 
               layerProtocolName: layerProtocolName };
 
-            if (layerProtocolName === 'WIRE_LAYER') {
+            if (layerProtocolName === WIRE_INTERFACE.LAYER_PROTOCOL_NAME) {
               result['interface-name'] = originalLtpName;
-            } else if (layerProtocolName === 'AIR_LAYER') {
+            } else if (layerProtocolName === AIR_INTERFACE.LAYER_PROTOCOL_NAME) {
               result['link-id'] = externalLabel.substring(0, 9);
             }
 
@@ -308,8 +319,8 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfiguratio
 
   try {
     // Fetch all LTPs of AIR_LAYER
-    let airInterfaceLtpList = await ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure(
-      "air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER", ltpStructure);
+      let airInterfaceLtpList = await ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure(
+            AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.LAYER_PROTOCOL_NAME, ltpStructure);
 
     let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName);
 
@@ -360,7 +371,7 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceCapabilities
   try {
     // Fetch all LTPs of AIR_LAYER
     let airInterfaceLtpList = await ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure(
-      "air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER", ltpStructure);
+      AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.LAYER_PROTOCOL_NAME, ltpStructure);
 
     let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName);
 
@@ -412,7 +423,7 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePe
   try {
   let pathParams=[];
   /***********************************************************************************
-   *Fetch LTPs for both AIR and ETHERNET layers
+   *Fetch LTPs for AIR layers
    ************************************************************************************/
   let interfaceLtpList = await ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure(
       AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.LAYER_PROTOCOL_NAME, ltpStructure);
@@ -446,7 +457,8 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePe
     let hpdList = airInterfaceHistoricalPerformance[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.HISTORICAL_PERFORMANCES][0][historical-performance-data-list];
     if (hpdList != undefined) {
         hpdListFiltered = hpdList.filter(htp =>
-                htp["granularity-period"] === "TYPE_PERIOD-15-MIN" && htp["period-end-time"] > timeStamp);
+                htp["granularity-period"] === AIR_INTERFACE.MODULE+ ":" + "GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN" 
+                && new Date(htp["period-end-time"]) > new Date(timeStamp));
     }
 	
     // Map results based on protocol type
@@ -520,7 +532,7 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContai
        ************************************************************************************/
       const filteredEntries = performances.filter(entry => {
         return (
-          entry["granularity-period"] === "TYPE_PERIOD-15-MIN" &&
+          entry["granularity-period"] === ETHERNET_INTERFACE.MODULE+ ":" + "GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN"  &&
           new Date(entry["period-end-time"]) > new Date(timeStamp)
         );
       });

@@ -324,7 +324,7 @@ exports.provideEquipmentInfoForLiveNetView = function (body, user, originator, x
 exports.provideHistoricalPmDataOfDevice = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
     try {
-      let HistoricalPmDataOfDevice = [];
+      let historicalPmDataOfDevice = [];
       let traceIndicatorIncrementer = 1;
 
       /****************************************************************************************
@@ -373,7 +373,7 @@ exports.provideHistoricalPmDataOfDevice = function (body, user, originator, xCor
       let historicalDataResult = await ReadHistoricalData.readHistoricalData(mountName, timeStamp, ltpStructure, requestHeaders, traceIndicatorIncrementer)
         .catch(err => console.log(` ${err}`));
 
-        HistoricalPmDataOfDevice.push(historicalDataResult);
+        historicalPmDataOfDevice.push(historicalDataResult);
       }
     } catch (error) {
       console.log(error)
