@@ -130,7 +130,7 @@ exports.readHistoricalData = async function (mountName, timeStamp, ltpStructure,
     *  Air Interface Configuration, Capabilities, Historical Performance, 
     *  and Ethernet Container Performance into a single response.
     ******************************************************************************************/
-    let historicalData = RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData(airAndEthernetInterfacesResponse, physicalLinkAggregations, airInterfaceConfiguration,
+    let historicalData = RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData(mountName,ltpStructure,airAndEthernetInterfacesResponse, physicalLinkAggregations, airInterfaceConfiguration,
       airInterfaceCapabilities, airInterfacePerformance, ethernetPerformance);
 
     
@@ -175,6 +175,8 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInte
    ************************************************************************************/
   for (let i = 0; i < interfaceLtpList.length; i++) {
     let uuid = interfaceLtpList[i][onfAttributes.GLOBAL_CLASS.UUID];
+
+    
     let localId = interfaceLtpList[i][onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LOCAL_CLASS.LOCAL_ID];
     let layerProtocolName = interfaceLtpList[i][onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME];
 
@@ -250,7 +252,7 @@ exports.RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregat
       // Navigate upwards to find the EthernetContainerUuid
       let clientEthernetContainerUuid;
       while (clientStructureUuid) {
-        const clientLtp = ltpStructure.find((ltp) => ltp[airInterfaceUuid] === clientStructureUuid);
+        const clientLtp = ltpStructure.find((ltp) => ltp[onfAttributes.GLOBAL_CLASS.UUID] === clientStructureUuid);
 
         if (clientLtp && clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][
             onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME] === ETHERNET_INTERFACE.LAYER_PROTOCOL_NAME) {
@@ -262,13 +264,13 @@ exports.RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregat
 
       // Navigate downwards to find Wire/AirInterfaceUuids
       const servingStructureUuids = [];
-      const ethernetContainerLtp = ltpStructure.find((ltp) => ltp[airInterfaceUuid] === clientEthernetContainerUuid);
+      const ethernetContainerLtp = ltpStructure.find((ltp) => ltp[onfAttributes.GLOBAL_CLASS.UUID] === clientEthernetContainerUuid);
       if (ethernetContainerLtp) {
         servingStructureUuids.push(...ethernetContainerLtp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP]);
       }
 
       for (let servingUuid of servingStructureUuids) {
-        const serverLtp = ltpStructure.find((ltp) => ltp[airInterfaceUuid] === servingUuid);
+        const serverLtp = ltpStructure.find((ltp) => ltp[onfAttributes.GLOBAL_CLASS.UUID] === servingUuid);
 
         if (serverLtp) {
           const layerProtocolName = serverLtp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0]
@@ -326,8 +328,8 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfiguratio
 
     // Loop through each LTP and fetch corresponding Air Interface Configuration
     for (let i = 0; i < airInterfaceLtpList.length; i++) {
-      let uuid = airInterfaceLtpList[i]["uuid"];
-      let localId = airInterfaceLtpList[i]["layerProtocol"][0]["local-id"];
+      let uuid = airInterfaceLtpList[i][onfAttributes.GLOBAL_CLASS.UUID];
+      let localId = airInterfaceLtpList[i][onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LOCAL_CLASS.LOCAL_ID];
 
       let pathParams = [mountName, uuid, localId];
       let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
@@ -344,7 +346,7 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfiguratio
       if (Object.keys(airInterfaceConfigurationResponse).length === 0) {
         console.log(`${forwardingName} is not success`);
       } else {
-        response.push(airInterfaceConfigurationResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.PAC][AIR_INTERFACE.CONFIGURATION]);
+        response["airInterfaceConfiguration"] = airInterfaceConfigurationResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.PAC][AIR_INTERFACE.CONFIGURATION]; 
         airInterfaceConfigurations.push(response);
       }
     }
@@ -565,49 +567,193 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContai
  * @param {Array} ethernetPerformance - The retrieved historical performance of Ethernet interfaces.
  * @returns {Object} Response status of the PM data delivery.
  */
-exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = async function (airAndEthernetInterfacesResponse, physicalLinkAggregations, airInterfaceConfiguration,
+exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = async function (mountName,ltpStructure,airAndEthernetInterfacesResponse, physicalLinkAggregations, airInterfaceConfiguration,
   airInterfaceCapabilities, airInterfacePerformance, ethernetPerformance)
-{
-  let airInterface = {};
-  try {
+{ let result = [];
+  let air_interface_list = [];
+  let ethernet_container_list = [];
+  try{
+          for (let i = 0; i < ltpStructure.length; i++) {
 
-    if(airAndEthernetInterfacesResponse.hasOwnProperty("link-end-point-name")) airInterface["link-end-point-name"] = airAndEthernetInterfacesResponse["link-end-point-name"];
-    if(airAndEthernetInterfacesResponse.hasOwnProperty("interface-name")) airInterface["interface-name"] = airAndEthernetInterfacesResponse["interface-name"];
+            let uuid = interfaceLtpList[i][onfAttributes.GLOBAL_CLASS.UUID];
 
-    if(physicalLinkAggregations.hasOwnProperty("link-id")) airInterface["link-id"] = physicalLinkAggregations["link-id"];
-    if(physicalLinkAggregations.hasOwnProperty("interface-name")) airInterface["interface-name"] = physicalLinkAggregations["interface-name"];
+            const airAndEthernetObj = airAndEthernetInterfacesResponse.filter( (obj) => obj[onfAttributes.GLOBAL_CLASS.UUID] === uuid );
+            const physicalLinkAggregationsObj = physicalLinkAggregations.filter( (obj) => obj[onfAttributes.GLOBAL_CLASS.UUID] === uuid );
+            const airInterfaceConfigurationObj = airInterfaceConfiguration.filter( (obj) => obj[onfAttributes.GLOBAL_CLASS.UUID] === uuid );
+            const airInterfaceCapabilitiesObj = airInterfaceCapabilities.filter( (obj) => obj[onfAttributes.GLOBAL_CLASS.UUID] === uuid );
+            const airInterfacePerformanceObj = airInterfacePerformance.filter( (obj) => obj[onfAttributes.GLOBAL_CLASS.UUID] === uuid );
+            const ethernetPerformanceObj = ethernetPerformance.filter( (obj) => obj[onfAttributes.GLOBAL_CLASS.UUID] === uuid );
+            
+            
+            let air_interface = [];
+            let air_interface_performance_measurements_list = [];
+            let transmission_mode_list = [];
+            let ethernet_container = [];
+            let ethernet_container_performance_measurements_list = [];
+            if (airAndEthernetObj && airAndEthernetObj.hasOwnProperty("link-endpoint-id")){
+                air_interface["air-interface-identifiers"]["mountName"] = mountName;
+                air_interface["air-interface-identifiers"]["link-endpoint-id"] = airAndEthernetObj["link-endpoint-id"];
+                air_interface["air-interface-identifiers"]["link-id"] = airAndEthernetObj["link-endpoint-id"].substring(0, 9);
+                air_interface["air-interface-identifiers"]["logical-termination-point-id"] = uuid;
+                if (physicalLinkAggregationsObj.hasOwnProperty("link-id"))air_interface["air-interface-identifiers"]["link-aggregation-identifiers"]["link-id"] = physicalLinkAggregationsObj["link-id"];
+                if (physicalLinkAggregationsObj.hasOwnProperty("interface-name"))air_interface["air-interface-identifiers"]["link-aggregation-identifiers"]["interface-name"] = physicalLinkAggregationsObj["interface-name"];
+                
+                
+                if (airInterfaceConfigurationObj.hasOwnProperty("atpc-is-on")) air_interface["air-interface-configuration"]["configured-atpc-is-on"] = airInterfaceConfigurationObj["atpc-is-on"];
+                if (airInterfaceConfigurationObj.hasOwnProperty("atpc-threshold-upper")) air_interface["air-interface-configuration"]["configured-atpc-threshold-upper"] = airInterfaceConfigurationObj["atpc-threshold-upper"];
+                if (airInterfaceConfigurationObj.hasOwnProperty("atpc-threshold-lower")) air_interface["air-interface-configuration"]["configured-atpc-threshold-lower"] = airInterfaceConfigurationObj["atpc-threshold-lower"];
+                if (airInterfaceConfigurationObj.hasOwnProperty("tx-power")) air_interface["air-interface-configuration"]["configured-tx-power"] = airInterfaceConfigurationObj["configured-tx-power"];
+                
 
-    if (airInterfaceConfiguration.hasOwnProperty("atpc-is-on")) airInterface["configured-atpc-is-on"] = airInterfaceConfiguration["atpc-is-on"];
-    let minTransmissionMode = await getConfiguredModulation(
-      airInterfaceCapabilities,
-      airInterfaceConfiguration["transmission-mode-min"]);
-    let maxTransmissionMode = await getConfiguredModulation(
-      airInterfaceCapabilities,
-      airInterfaceConfiguration["transmission-mode-max"]);
-    if (minTransmissionMode) {
-      airInterface["configured-modulation-minimum"] = {
-        "number-of-states": minTransmissionMode["modulation-scheme"],
-        "name-at-lct": minTransmissionMode["modulation-scheme-name-at-lct"]
-      };
-    }
-    if (maxTransmissionMode) {
-      airInterface["configured-modulation-maximum"] = {
-        "number-of-states": maxTransmissionMode["modulation-scheme"],
-        "name-at-lct": maxTransmissionMode["modulation-scheme-name-at-lct"]
-      };
-    }
-    if (minTransmissionMode.hasOwnProperty("channel-bandwidth")) airInterface["configured-channel-bandwidth-min"] = minTransmissionMode["channel-bandwidth"];
-    if (maxTransmissionMode.hasOwnProperty("channel-bandwidth")) airInterface["configured-channel-bandwidth-max"] = maxTransmissionMode["channel-bandwidth"];
+                let minTransmissionMode = await getConfiguredModulation(
+                  airInterfaceCapabilitiesObj,
+                  airInterfaceConfigurationObj["transmission-mode-min"]);
+                let maxTransmissionMode = await getConfiguredModulation(
+                  airInterfaceCapabilitiesObj,
+                  airInterfaceConfigurationObj["transmission-mode-max"]);
+                if (minTransmissionMode) {
+                  air_interface["air-interface-configuration"]["configured-modulation-minimum"] = {
+                    "number-of-states": minTransmissionMode["modulation-scheme"],
+                    "name-at-lct": minTransmissionMode["modulation-scheme-name-at-lct"],
+                    "configured-capacity-minimum":"-1" //need to be checked again
+                  };
+                }
+                if (maxTransmissionMode) {
+                  air_interface["air-interface-configuration"]["configured-modulation-maximum"] = {
+                    "number-of-states": maxTransmissionMode["modulation-scheme"],
+                    "name-at-lct": maxTransmissionMode["modulation-scheme-name-at-lct"],
+                    "configured-capacity-maximum":"-1" //need to be checked again
+                  };
+                }
+                if (minTransmissionMode.hasOwnProperty("channel-bandwidth")) air_interface["air-interface-configuration"]["configured-channel-bandwidth-min"] = minTransmissionMode["channel-bandwidth"];
+                if (maxTransmissionMode.hasOwnProperty("channel-bandwidth")) air_interface["air-interface-configuration"]["configured-channel-bandwidth-max"] = maxTransmissionMode["channel-bandwidth"];
 
+              
+                air_interface["air_interface_performance_measurements_list"] = air_interface_performance_measurements_list;
+              
+                if(airInterfacePerformanceObj){
+                  
+                  for(let j = 0; j < airInterfacePerformanceObj.length; j++){
+                    let air_interface_performance_measurements_list_obj = [];
+                    
+                    const outputParams = ["granularity-period","period-end-time","transmit-level-minimum",
+                      "transmit-level-maximum","transmit-level-avearge","receive-level-minimum","receive-level-maximum",
+                      "receive-level-average","signal-to-noise-ratio-minimum","signal-to-noise-ratio-maximum","signal-to-noise-ratio-average",
+                      "cross-polarization-discrimination-minimum","cross-polarization-discrimination-maximum","cross-polarization-discrimination-average",
+                      "errorred-seconds","severely-errorred-seconds","consecutive-severely-errorred-seconds",
+                      "total-unavailability","defect-blocks"];
 
-    if(airInterfaceCapabilities) airInterface['air-interface-capabilities'] = airInterfaceCapabilities;  
-    if(airInterfacePerformance) airInterface['air-interface-performance'] = airInterfacePerformance;  
-    if(ethernetPerformance) airInterface['ethernet-performance'] = ethernetPerformance;   
+                    const callbackParams = ["granularity-period","period-end-time","tx-level-min",
+                        "tx-level-max","tx-level-avg","rx-level-min","rx-level-max","rx-level-avg",
+                        "snir-min","snir-max","snir-avg","xpd-min",
+                        "xpd-max","xpd-avg","es","ses",
+                        "cses","unavailability","defect-blocks-sum"];
 
-  } catch (error) {
-    console.log(error);
-  }
-  return airInterface;
+                    
+                      for (let i = 0; i < outputParams.length; i++) {
+                        if (airInterfacePerformanceObj[j].hasOwnProperty(callbackParams[i])) {
+                          air_interface_performance_measurements_list_obj[outputParams[i]] = airInterfacePerformanceObj[j][callbackParams[i]];
+                        }
+                    }
+                      
+                      let interval_capacity = -1;
+                    
+                    
+                    //description: List of operated transmission modes with respective operation time periods. Only those entries where operation time is greater than 0 seconds shall be listed
+                    if(airInterfacePerformanceObj[j].hasOwnProperty("time-xstates-list")){
+                      let operated_transmission_modes_list = [];
+                      let filtered_time_xstates_list = airInterfacePerformanceObj[j]["time-xstates-list"].filter((obj) => obj["time"] > 0);
+                      
+                      for(let filtered_time_xstates of filtered_time_xstates_list){
+                            let operated_transmission_modes_list_obj = [];
+                            operated_transmission_modes_list_obj["capacity"] = -1;
+                            if(filtered_time_xstates.hasOwnProperty('transmission-mode-name'))operated_transmission_modes_list_obj["transmission-mode-name"] = filtered_time_xstates["transmission-mode-name"];
+                            if(filtered_time_xstates.hasOwnProperty('time'))operated_transmission_modes_list_obj["time"] = filtered_time_xstates["time"];
+                            if(filtered_time_xstates.hasOwnProperty('modulation-scheme-name-at-lct'))operated_transmission_modes_list_obj["modulation-scheme-name-at-lct"] = filtered_time_xstates["modulation-scheme-name-at-lct"];
+                            if(filtered_time_xstates.hasOwnProperty('capacity')){
+                              operated_transmission_modes_list_obj["capacity"] = filtered_time_xstates["capacity"];
+                              if(filtered_time_xstates["capacity"] != -1){
+                              if(interval_capacity === -1) interval_capacity = 0;
+                              interval_capacity = interval_capacity + filtered_time_xstates["capacity"];
+                              }
+                            }
+                            operated_transmission_modes_list.push(operated_transmission_modes_list_obj);
+                        }
+                        air_interface_performance_measurements_list_obj["operated_transmission_modes_list"] = operated_transmission_modes_list;
+                        air_interface_performance_measurements_list_obj["interval-capacity"] = interval_capacity;
+                        
+                        }
+                      air_interface_performance_measurements_list.push(air_interface_performance_measurements_list_obj);
+                      }
+                    }
+              
+                if (airInterfaceCapabilitiesObj && airInterfaceCapabilitiesObj.hasOwnProperty("transmission-mode-list")) {
+                    
+                    for(let tmObj of airInterfaceCapabilitiesObj["transmission-mode-list"]){
+                      
+                      let transmission_mode_list_obj = [];
+                      
+                      if(tmObj.hasOwnProperty("transmission-mode-name"))transmission_mode_list_obj["transmission-mode-name"] = tmObj["transmission-mode-name"];
+                      if(tmObj.hasOwnProperty("modulation-scheme"))transmission_mode_list_obj["number-of-states"] = tmObj["modulation-scheme"];
+                      if(tmObj.hasOwnProperty("modulation-scheme-name-at-lct"))transmission_mode_list_obj["modulation-scheme-name-at-lct"] = tmObj["modulation-scheme-name-at-lct"];
+                      if(tmObj.hasOwnProperty("channel-bandwidth"))transmission_mode_list_obj["channel-bandwidth"] = tmObj["channel-bandwidth"];
+                      if(tmObj.hasOwnProperty("code-rate"))transmission_mode_list_obj["code-rate"] = tmObj["code-rate"];
+                      if(tmObj.hasOwnProperty("symbol-rate-reduction-factor"))transmission_mode_list_obj["symbol-rate-reduction-factor"] = tmObj["symbol-rate-reduction-factor"];
+                      transmission_mode_list.push(tmObj);
+                    
+                    }
+                    air_interface["transmission-mode-list"] = transmission_mode_list;
+                  }
+                air_interface_list.push(air_interface);
+              }
+            if (airAndEthernetObj && airAndEthernetObj.hasOwnProperty("interfaceName")){
+              ethernet_container["ethernet-container-identifiers"]["mountName"] = mountName;
+              ethernet_container["ethernet-container-identifiers"]["interfaceName"] = airAndEthernetObj["interfaceName"];
+              ethernet_container["ethernet-container-identifiers"]["logical-termination-point-id"] = uuid;
+              ethernet_container["ethernet_container_performance_measurements_list"] = ethernet_container_performance_measurements_list;
+            
+              if(ethernetPerformanceObj){
+                
+                for(let k = 0; k < ethernetPerformanceObj.length; k++){
+                  let ethernet_container_performance_measurements_list_obj = [];
+                  const outputParams = ["granularity-period","period-end-time","max-bytes-per-second-output",
+                    "total-bytes-input","total-bytes-output","total-frames-input","total-frames-output",
+                    "forwarded-frames-input","forwarded-frames-output","unicast-frames-input","unicast-frames-output",
+                    "multicast-frames-input","multicast-frames-output","broadcast-frames-input","broadcast-frames-output",
+                    "fragmented-frames-input","errored-frames-input","errored-frames-output","dropped-frames-input",
+                    "dropped-frames-output","oversized-frames-ingress","undersized-frames-ingress","jabber-frames-ingress",
+                    "unknown-protocol-frames-input"];
+                  const callbackParams = ["granularity-period","period-end-time","max-bytes-per-second-output",
+                      "total-bytes-input","total-bytes-output","total-frames-input","total-frames-output",
+                      "forwarded-frames-input","forwarded-frames-output","unicast-frames-input","unicast-frames-output",
+                      "multicast-frames-input","multicast-frames-output","broadcast-frames-input","broadcast-frames-output",
+                      "fragmented-frames-input","errored-frames-input","errored-frames-output","dropped-frames-input",
+                      "dropped-frames-output","oversized-frames-ingress","undersized-frames-ingress","jabber-frames-ingress",
+                      "unknown-protocol-frames-input"];
+                  
+                    for (let i = 0; i < outputParams.length; i++) {
+                      if (ethernetPerformanceObj[k].hasOwnProperty(callbackParams[i])) {
+                          ethernet_container_performance_measurements_list_obj[outputParams[i]] = ethernetPerformanceObj[k][callbackParams[i]];
+                      }
+                  }
+                  ethernet_container_performance_measurements_list.push(ethernet_container_performance_measurements_list_obj);
+              }
+
+              ethernet_container_list.push(ethernet_container);
+            }
+
+              }
+
+          }
+      } catch (error) {
+        console.log(error);
+      }
+      
+  result["air_interface_list"] = air_interface_list;
+  result["ethernet_container_list"] = ethernet_container_list;
+
+  return result;
+
 }
 
 /**

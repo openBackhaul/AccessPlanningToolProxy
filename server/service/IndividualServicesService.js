@@ -351,29 +351,35 @@ exports.provideHistoricalPmDataOfDevice = function (body, user, originator, xCor
        * Loop through each request in the body array
        ****************************************************************************************/
       for(let i=0; i<body.length; i++){
-          let mountName = body[i]["mount-name"]; 
-          let timeStamp = body[i]["time-stamp"];
+              let mountName = body[i]["mount-name"]; 
+              let timeStamp = body[i]["time-stamp"];
 
-      /****************************************************************************************
-       * Collect complete ltp structure of mount-name in request bodys
-       ****************************************************************************************/
-      let ltpStructure = {};
-      try {
-        let ltpStructureResult = await ReadLtpStructure.readLtpStructure(mountName, requestHeaders, traceIndicatorIncrementer)
-        ltpStructure = ltpStructureResult.ltpStructure;
-        traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
-      } catch (err) {
-        throw new createHttpError.InternalServerError(`${err}`)
-      };
-      
-      /****************************************************************************************
-       * Collect history data
-       ****************************************************************************************/
-      
-      let historicalDataResult = await ReadHistoricalData.readHistoricalData(mountName, timeStamp, ltpStructure, requestHeaders, traceIndicatorIncrementer)
-        .catch(err => console.log(` ${err}`));
+          /****************************************************************************************
+           * Collect complete ltp structure of mount-name in request bodys
+           ****************************************************************************************/
+          let ltpStructure = {};
+          try {
+            let ltpStructureResult = await ReadLtpStructure.readLtpStructure(mountName, requestHeaders, traceIndicatorIncrementer)
+            ltpStructure = ltpStructureResult.ltpStructure;
+            traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
+          } catch (err) {
+            throw new createHttpError.InternalServerError(`${err}`)
+          };
+          
+          /****************************************************************************************
+           * Collect history data
+           ****************************************************************************************/
+          
+          let historicalDataResult = await ReadHistoricalData.readHistoricalData(mountName, timeStamp, ltpStructure, requestHeaders, traceIndicatorIncrementer)
+            .catch(err => console.log(` ${err}`));
 
-        historicalPmDataOfDevice.push(historicalDataResult);
+            historicalPmDataOfDevice["air-interface-list"].push(historicalDataResult["air-interface-list"]);
+            historicalPmDataOfDevice["ethernet-container-list"].push(historicalDataResult["ethernet-container-list"]);
+      }
+      if (historicalPmDataOfDevice == undefined || historicalPmDataOfDevice === "[]" ) {
+        throw new createHttpError.NotFound("Empty : data not found");
+      } else {
+        resolve(historicalPmDataOfDevice);
       }
     } catch (error) {
       console.log(error)
