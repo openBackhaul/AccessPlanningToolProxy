@@ -4,6 +4,8 @@ const readHistoricalData = require('../ReadHistoricalData');
 const ltpStructureUtility = require('../LtpStructureUtility');
 const IndividualServiceUtility = require('../IndividualServiceUtility');
 const createHttpError = require('http-errors');
+const { RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache } = require("../ReadHistoricalData");
+
 const onfAttributes = {
   GLOBAL_CLASS: { UUID: 'uuid' },
   LOGICAL_TERMINATION_POINT: {
@@ -15,14 +17,17 @@ const onfAttributes = {
   LOCAL_CLASS: { LOCAL_ID: 'local-id' }
 };
 
-jest.mock('../LtpStructureUtility', () => ({
-  getLtpsOfLayerProtocolNameFromLtpStructure: jest.fn(),
-}));
+jest.mock("../LtpStructureUtility");
+jest.mock("../IndividualServiceUtility");
 
-jest.mock('../IndividualServiceUtility', () => ({
-  getConsequentOperationClientAndFieldParams: jest.fn(),
-  forwardRequest: jest.fn(),
-}));
+// jest.mock('../LtpStructureUtility', () => ({
+//   getLtpsOfLayerProtocolNameFromLtpStructure: jest.fn(),
+// }));
+
+// jest.mock('../IndividualServiceUtility', () => ({
+//   getConsequentOperationClientAndFieldParams: jest.fn(),
+//   forwardRequest: jest.fn(),
+// }));
 
 describe('RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInterfaces', () => {
   let mockLtpStructure;
@@ -137,3 +142,204 @@ describe('RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetIn
     expect(result).toEqual([]);
   });
 });
+
+
+describe("RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache", () => {
+  let ltpStructure, mountName, requestHeaders, traceIndicatorIncrementer;
+ 
+  beforeEach(() => {
+    ltpStructure = {};
+    mountName = "testMount";
+    requestHeaders = { Authorization: "Bearer test-token" };
+    traceIndicatorIncrementer = 1;
+  });
+ 
+  test("should return air interface configurations when responses are valid", async () => {
+    const mockLtpList = [
+      {
+        [onfAttributes.GLOBAL_CLASS.UUID]: "uuid1",
+        [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL]: [
+          {
+            [onfAttributes.LOCAL_CLASS.LOCAL_ID]: "localId1",
+            [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL_NAME]: "AIR_LAYER",
+          },
+        ],
+      },
+    ];
+ 
+    ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockResolvedValue(mockLtpList);
+    IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValue({});
+ 
+    IndividualServiceUtility.forwardRequest.mockResolvedValue({
+      "air-interface-2-0:air-container-pac": {
+        "air-interface-configuration": { configKey: "configValue" },
+      },
+    });
+ 
+    const result = await RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache(
+      ltpStructure,
+      mountName,
+      requestHeaders,
+      traceIndicatorIncrementer
+    );
+ 
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          mountName: "testMount",
+          uuid: "uuid1",
+          localId: "localId1",
+          airInterfaceConfiguration: { configKey: "configValue" },
+        }),
+      ])
+    );
+  });
+ 
+  test("should return empty array when no LTPs are found", async () => {
+    ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockResolvedValue([]);
+ 
+    const result = await RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache(
+      ltpStructure,
+      mountName,
+      requestHeaders,
+      traceIndicatorIncrementer
+    );
+ 
+    expect(result).toEqual([]);
+  });
+ 
+  test("should handle empty response from forwardRequest", async () => {
+    const mockLtpList = [
+      {
+        [onfAttributes.GLOBAL_CLASS.UUID]: "uuid1",
+        [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL]: [
+          {
+            [onfAttributes.LOCAL_CLASS.LOCAL_ID]: "localId1",
+            [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL_NAME]: "AIR_LAYER",
+          },
+        ],
+      },
+    ];
+ 
+    ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockResolvedValue(mockLtpList);
+    IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValue({});
+    IndividualServiceUtility.forwardRequest.mockResolvedValue({});
+ 
+    const result = await RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache(
+      ltpStructure,
+      mountName,
+      requestHeaders,
+      traceIndicatorIncrementer
+    );
+ 
+    expect(result).toEqual([]);
+  });
+ 
+  test("should handle errors gracefully", async () => {
+    ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockRejectedValue(new Error("LTP Fetch Failed"));
+    const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+ 
+    const result = await RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache(
+      ltpStructure,
+      mountName,
+      requestHeaders,
+      traceIndicatorIncrementer
+    );
+ 
+    expect(consoleSpy).toHaveBeenCalledWith(
+      expect.stringContaining("RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache is not success")
+    );
+    expect(result).toEqual([]);
+ 
+    consoleSpy.mockRestore();
+  });
+ 
+  test("should handle multiple LTPs correctly", async () => {
+    const mockLtpList = [
+      {
+        [onfAttributes.GLOBAL_CLASS.UUID]: "uuid1",
+        [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL]: [
+          {
+            [onfAttributes.LOCAL_CLASS.LOCAL_ID]: "localId1",
+            [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL_NAME]: "AIR_LAYER",
+          },
+        ],
+      },
+      {
+        [onfAttributes.GLOBAL_CLASS.UUID]: "uuid2",
+        [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL]: [
+          {
+            [onfAttributes.LOCAL_CLASS.LOCAL_ID]: "localId2",
+            [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL_NAME]: "AIR_LAYER",
+          },
+        ],
+      },
+    ];
+ 
+    ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockResolvedValue(mockLtpList);
+    IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValue({});
+ 
+    IndividualServiceUtility.forwardRequest.mockResolvedValue({
+      "air-interface-2-0:air-container-pac": {
+        "air-interface-configuration": { configKey: "configValue" },
+      },
+    });
+ 
+    const result = await RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache(
+      ltpStructure,
+      mountName,
+      requestHeaders,
+      traceIndicatorIncrementer
+    );
+ 
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          mountName: "testMount",
+          uuid: "uuid1",
+          localId: "localId1",
+          airInterfaceConfiguration: { configKey: "configValue" },
+        }),
+        expect.objectContaining({
+          mountName: "testMount",
+          uuid: "uuid2",
+          localId: "localId2",
+          airInterfaceConfiguration: { configKey: "configValue" },
+        }),
+      ])
+    );
+  });
+ 
+  test("should handle when forwardRequest throws an error", async () => {
+    const mockLtpList = [
+      {
+        [onfAttributes.GLOBAL_CLASS.UUID]: "uuid1",
+        [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL]: [
+          {
+            [onfAttributes.LOCAL_CLASS.LOCAL_ID]: "localId1",
+            [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL_NAME]: "AIR_LAYER",
+          },
+        ],
+      },
+    ];
+ 
+    ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockResolvedValue(mockLtpList);
+    IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValue({});
+    IndividualServiceUtility.forwardRequest.mockRejectedValue(new Error("Forward request failed"));
+ 
+    const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+    const result = await RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache(
+      ltpStructure,
+      mountName,
+      requestHeaders,
+      traceIndicatorIncrementer
+    );
+ 
+    expect(consoleSpy).toHaveBeenCalledWith(
+      expect.stringContaining("RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache is not success")
+    );
+    expect(result).toEqual([]);
+    consoleSpy.mockRestore();
+  });
+});
+ 
