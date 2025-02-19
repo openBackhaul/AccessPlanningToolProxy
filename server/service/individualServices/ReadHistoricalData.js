@@ -17,7 +17,8 @@ const AIR_INTERFACE = {
   STATUS: "air-interface-status",
   NAME: "air-interface-name",
   PAC: "air-container-pac",
-  HISTORICAL_PERFORMANCES: "air-container-historical-performances"
+  HISTORICAL_PERFORMANCES: "air-container-historical-performances",
+  HISTORICAL_PERFORMANCE_DATA_LIST: "historical-performance-data-list"
 };
 const ETHERNET_INTERFACE = {
   MODULE: "ethernet-container-2-0",
@@ -210,7 +211,7 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInte
     if (layerProtocolName === AIR_INTERFACE.LAYER_PROTOCOL_NAME) {
       responseObject["link-endpoint-id"] = externalLabel;
     } else if (layerProtocolName === ETHERNET_INTERFACE.LAYER_PROTOCOL_NAME) {
-      responseObject["interfaceName"] = originalLtpName;
+      responseObject["interface-name"] = originalLtpName;
     }
 
     processedLtpResponses.push(responseObject);
@@ -346,7 +347,7 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfiguratio
       if (Object.keys(airInterfaceConfigurationResponse).length === 0) {
         console.log(`${forwardingName} is not success`);
       } else {
-        response["airInterfaceConfiguration"] = airInterfaceConfigurationResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.PAC][AIR_INTERFACE.CONFIGURATION]; 
+        response["airInterfaceConfiguration"] = airInterfaceConfigurationResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.PAC][AIR_INTERFACE.CONFIGURATION];
         airInterfaceConfigurations.push(response);
       }
     }
@@ -379,8 +380,8 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceCapabilities
 
     // Loop through each LTP and fetch corresponding Air Interface Capabilities
     for (let i = 0; i < airInterfaceLtpList.length; i++) {
-      let uuid = airInterfaceLtpList[i]["uuid"];
-      let localId = airInterfaceLtpList[i]["layerProtocol"][0]["local-id"];
+      let uuid = airInterfaceLtpList[i][onfAttributes.GLOBAL_CLASS.UUID];
+      let localId = airInterfaceLtpList[i][onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LOCAL_CLASS.LOCAL_ID];
 
       let pathParams = [mountName, uuid, localId];
       let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
@@ -396,7 +397,7 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceCapabilities
       if (Object.keys(airInterfaceCapabilitiesResponse).length === 0) {
         console.log(`${forwardingName} is not success`);
       } else {
-        response.push(airInterfaceCapabilitiesResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.PAC][AIR_INTERFACE.CAPABILITY]);
+        response["airInterfaceCapabilities"] = airInterfaceCapabilitiesResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.PAC][AIR_INTERFACE.CAPABILITY];
         airInterfaceCapabilities.push(response);
       }
     }
@@ -456,7 +457,7 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePe
       console.log(createHttpError.InternalServerError(`${forwardingName} is not success`));
 
  let hpdListFiltered = [];
-    let hpdList = airInterfaceHistoricalPerformance[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.HISTORICAL_PERFORMANCES][0][historical-performance-data-list];
+    let hpdList = airInterfaceHistoricalPerformance[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.HISTORICAL_PERFORMANCES][0][AIR_INTERFACE.HISTORICAL_PERFORMANCE_DATA_LIST];
     if (hpdList != undefined) {
         hpdListFiltered = hpdList.filter(htp =>
                 htp["granularity-period"] === AIR_INTERFACE.MODULE+ ":" + "GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN" 
