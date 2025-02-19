@@ -560,6 +560,8 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContai
 /**
  * Function to deliver the requested PM data by aggregating the results 
  * and sending them to LinkVis.
+ * @param {String} mountName - Name of the device at the Controller.
+ * @param {Object} ltpStructure - Control construct with Logical Termination Points.
  * @param {Array} airAndEthernetInterfacesResponse - The retrieved Name of Air and Ethernet Interfaces
  * @param {Array} physicalLinkAggregations - Identify Physical Link Aggregations
  * @param {Array} airInterfaceConfiguration - The retrieved Air Interface Configurations.
@@ -576,7 +578,7 @@ exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = asy
   try{
           for (let i = 0; i < ltpStructure.length; i++) {
 
-            let uuid = interfaceLtpList[i][onfAttributes.GLOBAL_CLASS.UUID];
+            let uuid = ltpStructure[i][onfAttributes.GLOBAL_CLASS.UUID];
 
             const airAndEthernetObj = airAndEthernetInterfacesResponse.filter( (obj) => obj[onfAttributes.GLOBAL_CLASS.UUID] === uuid );
             const physicalLinkAggregationsObj = physicalLinkAggregations.filter( (obj) => obj[onfAttributes.GLOBAL_CLASS.UUID] === uuid );
@@ -596,9 +598,8 @@ exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = asy
                 air_interface["air-interface-identifiers"]["link-endpoint-id"] = airAndEthernetObj["link-endpoint-id"];
                 air_interface["air-interface-identifiers"]["link-id"] = airAndEthernetObj["link-endpoint-id"].substring(0, 9);
                 air_interface["air-interface-identifiers"]["logical-termination-point-id"] = uuid;
-                if (physicalLinkAggregationsObj.hasOwnProperty("link-id"))air_interface["air-interface-identifiers"]["link-aggregation-identifiers"]["link-id"] = physicalLinkAggregationsObj["link-id"];
-                if (physicalLinkAggregationsObj.hasOwnProperty("interface-name"))air_interface["air-interface-identifiers"]["link-aggregation-identifiers"]["interface-name"] = physicalLinkAggregationsObj["interface-name"];
-                
+                if (physicalLinkAggregations && physicalLinkAggregationsObj.hasOwnProperty("link-id"))air_interface["air-interface-identifiers"]["link-aggregation-identifiers"]["link-id"] = physicalLinkAggregationsObj["link-id"];
+                if (physicalLinkAggregations && physicalLinkAggregationsObj.hasOwnProperty("interface-name"))air_interface["air-interface-identifiers"]["link-aggregation-identifiers"]["interface-name"] = physicalLinkAggregationsObj["interface-name"];
                 
                 if (airInterfaceConfigurationObj.hasOwnProperty("atpc-is-on")) air_interface["air-interface-configuration"]["configured-atpc-is-on"] = airInterfaceConfigurationObj["atpc-is-on"];
                 if (airInterfaceConfigurationObj.hasOwnProperty("atpc-threshold-upper")) air_interface["air-interface-configuration"]["configured-atpc-threshold-upper"] = airInterfaceConfigurationObj["atpc-threshold-upper"];
@@ -626,8 +627,8 @@ exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = asy
                     "configured-capacity-maximum":"-1" //need to be checked again
                   };
                 }
-                if (minTransmissionMode.hasOwnProperty("channel-bandwidth")) air_interface["air-interface-configuration"]["configured-channel-bandwidth-min"] = minTransmissionMode["channel-bandwidth"];
-                if (maxTransmissionMode.hasOwnProperty("channel-bandwidth")) air_interface["air-interface-configuration"]["configured-channel-bandwidth-max"] = maxTransmissionMode["channel-bandwidth"];
+                // if (minTransmissionMode.hasOwnProperty("channel-bandwidth")) air_interface["air-interface-configuration"]["configured-channel-bandwidth-min"] = minTransmissionMode["channel-bandwidth"];
+                // if (maxTransmissionMode.hasOwnProperty("channel-bandwidth")) air_interface["air-interface-configuration"]["configured-channel-bandwidth-max"] = maxTransmissionMode["channel-bandwidth"];
 
               
                 air_interface["air_interface_performance_measurements_list"] = air_interface_performance_measurements_list;
@@ -707,9 +708,9 @@ exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = asy
                   }
                 air_interface_list.push(air_interface);
               }
-            if (airAndEthernetObj && airAndEthernetObj.hasOwnProperty("interfaceName")){
+            if (airAndEthernetObj && airAndEthernetObj.hasOwnProperty("interface-name")){
               ethernet_container["ethernet-container-identifiers"]["mountName"] = mountName;
-              ethernet_container["ethernet-container-identifiers"]["interfaceName"] = airAndEthernetObj["interfaceName"];
+              ethernet_container["ethernet-container-identifiers"]["interface-name"] = airAndEthernetObj["interface-name"];
               ethernet_container["ethernet-container-identifiers"]["logical-termination-point-id"] = uuid;
               ethernet_container["ethernet_container_performance_measurements_list"] = ethernet_container_performance_measurements_list;
             

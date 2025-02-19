@@ -3,8 +3,6 @@ const readHistoricalDataRewire = rewire('../ReadHistoricalData');
 const readHistoricalData = require('../ReadHistoricalData');
 const ltpStructureUtility = require('../LtpStructureUtility');
 const IndividualServiceUtility = require('../IndividualServiceUtility');
-const createHttpError = require('http-errors');
-const { RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache } = require("../ReadHistoricalData");
 
 const onfAttributes = {
   GLOBAL_CLASS: { UUID: 'uuid' },
@@ -19,15 +17,6 @@ const onfAttributes = {
 
 jest.mock("../LtpStructureUtility");
 jest.mock("../IndividualServiceUtility");
-
-// jest.mock('../LtpStructureUtility', () => ({
-//   getLtpsOfLayerProtocolNameFromLtpStructure: jest.fn(),
-// }));
-
-// jest.mock('../IndividualServiceUtility', () => ({
-//   getConsequentOperationClientAndFieldParams: jest.fn(),
-//   forwardRequest: jest.fn(),
-// }));
 
 describe('RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInterfaces', () => {
   let mockLtpStructure;
@@ -108,7 +97,7 @@ describe('RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetIn
 
   it('should handle errors in forwardRequest and return an empty array', async () => {
     ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockResolvedValue([
-      { uuid: 'uuid1', 'layer-protocol': [{ 'local-id': 'localId1', 'layer-protocol-name': 'AIR_LAYER' }] },
+      { uuid: 'uuid1', 'layer-protocol': [{ 'local-id': 'localId1', 'layer-protocol-name': 'LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER' }] },
     ]);
 
     IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValue({});
@@ -126,7 +115,7 @@ describe('RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetIn
 
   it('should handle an empty response from forwardRequest and return an empty array', async () => {
     ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockResolvedValue([
-      { uuid: 'uuid1', 'layer-protocol': [{ 'local-id': 'localId1', 'layer-protocol-name': 'AIR_LAYER' }] },
+      { uuid: 'uuid1', 'layer-protocol': [{ 'local-id': 'localId1', 'layer-protocol-name': 'LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER' }] },
     ]);
 
     IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValue({});
@@ -142,8 +131,7 @@ describe('RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetIn
     expect(result).toEqual([]);
   });
 });
-
-
+ 
 describe("RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache", () => {
   let ltpStructure, mountName, requestHeaders, traceIndicatorIncrementer;
  
@@ -176,7 +164,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurat
       },
     });
  
-    const result = await RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache(
+    const result = await readHistoricalData.RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache(
       ltpStructure,
       mountName,
       requestHeaders,
@@ -198,7 +186,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurat
   test("should return empty array when no LTPs are found", async () => {
     ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockResolvedValue([]);
  
-    const result = await RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache(
+    const result = await readHistoricalData.RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache(
       ltpStructure,
       mountName,
       requestHeaders,
@@ -225,7 +213,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurat
     IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValue({});
     IndividualServiceUtility.forwardRequest.mockResolvedValue({});
  
-    const result = await RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache(
+    const result = await readHistoricalData.RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache(
       ltpStructure,
       mountName,
       requestHeaders,
@@ -239,7 +227,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurat
     ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockRejectedValue(new Error("LTP Fetch Failed"));
     const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
  
-    const result = await RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache(
+    const result = await readHistoricalData.RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache(
       ltpStructure,
       mountName,
       requestHeaders,
@@ -285,7 +273,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurat
       },
     });
  
-    const result = await RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache(
+    const result = await readHistoricalData.RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache(
       ltpStructure,
       mountName,
       requestHeaders,
@@ -328,7 +316,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurat
     IndividualServiceUtility.forwardRequest.mockRejectedValue(new Error("Forward request failed"));
  
     const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
-    const result = await RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache(
+    const result = await readHistoricalData.RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache(
       ltpStructure,
       mountName,
       requestHeaders,
@@ -342,4 +330,67 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurat
     consoleSpy.mockRestore();
   });
 });
- 
+
+describe('getConfiguredModulation', () => {
+    let getConfiguredModulation;
+   
+    beforeEach(() => {
+      // Access the private function
+      getConfiguredModulation = readHistoricalDataRewire.__get__('getConfiguredModulation');
+    });
+   
+    it('should return the correct transmission mode when present in the list', async () => {
+      const airInterfaceCapabilities = {
+        "transmission-mode-list": [
+          { "transmission-mode-name": "ModeA", "modulation": "QAM16" },
+          { "transmission-mode-name": "ModeB", "modulation": "QAM64" }
+        ]
+      };
+      const transmissioModeType = "ModeA";
+      const result = await getConfiguredModulation(airInterfaceCapabilities, transmissioModeType);
+      expect(result).toEqual({ "transmission-mode-name": "ModeA", "modulation": "QAM16" });
+    });
+   
+    it('should return an empty object if the transmission mode is not found', async () => {
+      const airInterfaceCapabilities = {
+        "transmission-mode-list": [
+          { "transmission-mode-name": "ModeA", "modulation": "QAM16" }
+        ]
+      };
+      const transmissioModeType = "ModeC";
+      const result = await getConfiguredModulation(airInterfaceCapabilities, transmissioModeType);
+      expect(result).toBeUndefined;
+    });
+   
+    it('should return an empty object if transmission-mode-list is undefined', async () => {
+      const airInterfaceCapabilities = {};
+      const transmissioModeType = "ModeA";
+      const result = await getConfiguredModulation(airInterfaceCapabilities, transmissioModeType);
+      expect(result).toEqual({});
+    });
+   
+    it('should return an empty object if airInterfaceCapabilities is undefined', async () => {
+      const transmissioModeType = "ModeA";
+      const result = await getConfiguredModulation(undefined, transmissioModeType);
+      expect(result).toEqual({});
+    });
+   
+    it('should return an empty object if transmissioModeType is undefined', async () => {
+      const airInterfaceCapabilities = {
+        "transmission-mode-list": [
+          { "transmission-mode-name": "ModeA", "modulation": "QAM16" }
+        ]
+      };
+      const result = await getConfiguredModulation(airInterfaceCapabilities, undefined);
+      expect(result).toEqual({});
+    });
+   
+    it('should return an empty object if transmission-mode-list is an empty array', async () => {
+      const airInterfaceCapabilities = {
+        "transmission-mode-list": []
+      };
+      const transmissioModeType = "ModeA";
+      const result = await getConfiguredModulation(airInterfaceCapabilities, transmissioModeType);
+      expect(result).toBeUndefined;
+    });
+}); 
