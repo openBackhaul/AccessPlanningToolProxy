@@ -12,7 +12,7 @@ const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfM
 const createHttpError = require('http-errors');
 const IndividualServiceUtility = require('./individualServices/IndividualServiceUtility');
 const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
-
+const ReadHistoricalData = require('./individualServices/ReadHistoricalData');
 const softwareUpgrade = require('./individualServices/SoftwareUpgrade');
 const HttpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
 const LogicalTerminationPointC = require('./individualServices/custom/LogicalTerminationPointC');
