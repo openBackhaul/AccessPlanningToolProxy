@@ -324,7 +324,10 @@ exports.provideEquipmentInfoForLiveNetView = function (body, user, originator, x
 exports.provideHistoricalPmDataOfDevice = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
     try {
-      let historicalPmDataOfDevice = [];
+      let historicalPmDataOfDevice = {
+        "air-interface-list": [],
+        "ethernet-container-list": []
+      };  
       let traceIndicatorIncrementer = 1;
 
       /****************************************************************************************
@@ -373,8 +376,13 @@ exports.provideHistoricalPmDataOfDevice = function (body, user, originator, xCor
           let historicalDataResult = await ReadHistoricalData.readHistoricalData(mountName, timeStamp, ltpStructure, requestHeaders, traceIndicatorIncrementer)
             .catch(err => console.log(` ${err}`));
 
-            historicalPmDataOfDevice["air-interface-list"].push(historicalDataResult["air-interface-list"]);
-            historicalPmDataOfDevice["ethernet-container-list"].push(historicalDataResult["ethernet-container-list"]);
+            if (Object.keys(historicalDataResult).length !== 0){
+              if(historicalDataResult.hasOwnProperty("air-interface-list"))historicalPmDataOfDevice["air-interface-list"].push(historicalDataResult["air-interface-list"]);
+              if(historicalDataResult.hasOwnProperty("ethernet-container-list"))historicalPmDataOfDevice["ethernet-container-list"].push(historicalDataResult["ethernet-container-list"]);
+            }
+            else{
+              historicalPmDataOfDevice["mount-name-list-with-errors"].push(mountName);
+            }
       }
       if (historicalPmDataOfDevice == undefined || historicalPmDataOfDevice === "[]" ) {
         throw new createHttpError.NotFound("Empty : data not found");
