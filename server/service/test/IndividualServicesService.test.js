@@ -22,6 +22,9 @@ const ReadConfigurationAirInterfaceData = require('../individualServices/ReadCon
 const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
 const provideConfigurationForLiveNetView = require('../IndividualServicesService');
 
+const {provideHistoricalPmDataOfDevice} = require("../IndividualServicesService");
+const ReadHistoricalData = require("../individualServices/ReadHistoricalData");
+
 // Mocking dependencies used in the individual services
 jest.mock('../individualServices/ReadLtpStructure');
 jest.mock('../individualServices/ReadLiveEquipmentData');
@@ -35,6 +38,7 @@ jest.mock('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFor
 jest.mock('../individualServices/ReadLiveAlarmsData');
 //=====================================================//
 jest.mock('../individualServices/ReadLiveStatusData');
+jest.mock("../individualServices/ReadHistoricalData");
 
 
 //=======================================================//
@@ -619,6 +623,80 @@ describe('provideStatusForLiveNetView', () => {
     ReadLtpStructure.readLtpStructure.mockRejectedValue(new Error('LTP Error'));
 
     await expect(provideStatusForLiveNetView(mockBody, mockUser, ...Object.values(mockHeaders)))
+      .rejects.toThrow(createHttpError.InternalServerError);
+  });
+});
+
+describe("provideHistoricalPmDataOfDevice", () => {
+  let body, user, originator, xCorrelator, traceIndicator, customerJourney;
+
+  beforeEach(() => {
+    body = [{ "mount-name": "device1", "time-stamp": "2024-02-20T12:00:00Z" }];
+    user = "testUser";
+    originator = "testOriginator";
+    xCorrelator = "testXCorrelator";
+    traceIndicator = "testTraceIndicator";
+    customerJourney = "testCustomerJourney";
+    global.counterStatusHistoricalPMDataCall = 0; // Mock global variable
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test("should return historical PM data when valid input is provided", async () => {
+    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue({ uuid: "op1234" });
+    IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(5);
+    ReadLtpStructure.readLtpStructure.mockResolvedValue({
+      ltpStructure: { some: "structure" },
+      traceIndicatorIncrementer: 2
+    });
+
+    ReadHistoricalData.readHistoricalData.mockResolvedValue({
+      "air-interface-list": ["air-interface-data"],
+      "ethernet-container-list": ["ethernet-container-data"]
+    });
+
+    await expect(provideHistoricalPmDataOfDevice(body, user, originator, xCorrelator, traceIndicator, customerJourney))
+      .resolves.toEqual({
+        "air-interface-list": [["air-interface-data"]],
+        "ethernet-container-list": [["ethernet-container-data"]]
+      });
+  });
+
+  test("should throw TooManyRequests error when max parallel operations exceeded", async () => {
+    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue({ uuid: "op1234" });
+    IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(0);
+
+    await expect(provideHistoricalPmDataOfDevice(body, user, originator, xCorrelator, traceIndicator, customerJourney))
+      .rejects.toThrow(createHttpError.TooManyRequests);
+  });
+
+  test("should log error and continue when readHistoricalData fails", async () => {
+    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue({ uuid: "op1234" });
+    IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(5);
+    ReadLtpStructure.readLtpStructure.mockResolvedValue({
+      ltpStructure: { some: "structure" },
+      traceIndicatorIncrementer: 2
+    });
+
+    const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+    ReadHistoricalData.readHistoricalData.mockRejectedValue(new Error("Historical Data Error"));
+
+    await expect(provideHistoricalPmDataOfDevice(body, user, originator, xCorrelator, traceIndicator, customerJourney))
+      .rejects.toThrow(createHttpError.TypeError);
+
+    expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("Historical Data Error"));
+
+    consoleSpy.mockRestore();
+  });
+
+  test("should handle errors thrown by readLtpStructure", async () => {
+    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue({ uuid: "op1234" });
+    IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(5);
+    ReadLtpStructure.readLtpStructure.mockRejectedValue(new Error("LTP Structure Error"));
+
+    await expect(provideHistoricalPmDataOfDevice(body, user, originator, xCorrelator, traceIndicator, customerJourney))
       .rejects.toThrow(createHttpError.InternalServerError);
   });
 });
