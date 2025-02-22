@@ -194,8 +194,9 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInte
       // Fetch external label and original LTP name
       let externalLabelResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
 
-      if (Object.keys(externalLabelResponse).length === 0)
+      if (Object.keys(externalLabelResponse).length === 0){
         console.log(createHttpError.InternalServerError(`${forwardingName} is not success`));
+      }
 
       // Extract the response fields
       let originalLtpName = externalLabelResponse[LTP_AUGMENT.MODULE + ":" + LTP_AUGMENT.PAC][LTP_AUGMENT.ORIGINAL_LTP_NAME];
@@ -484,8 +485,9 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePe
       // Fetch external label and original LTP name
       let airInterfaceHistoricalPerformance = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
 
-      if (Object.keys(airInterfaceHistoricalPerformance).length === 0)
+      if (Object.keys(airInterfaceHistoricalPerformance).length === 0){
         console.log(createHttpError.InternalServerError(`${forwardingName} is not success`));
+      }
       else {
         let hpdListFiltered = [];
         let hpdList = airInterfaceHistoricalPerformance[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.HISTORICAL_PERFORMANCES][0][AIR_INTERFACE.HISTORICAL_PERFORMANCE_DATA_LIST];
@@ -674,10 +676,10 @@ exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = asy
         }
 
         if (Object.keys(airInterfaceConfigurationObj).length !== 0) {
-          if (airInterfaceConfigurationObj.hasOwnProperty("atpc-is-on")) air_interface["air-interface-configuration"]["configured-atpc-is-on"] = airInterfaceConfigurationObj["atpc-is-on"];//change
-          if (airInterfaceConfigurationObj.hasOwnProperty("atpc-threshold-upper")) air_interface["air-interface-configuration"]["configured-atpc-threshold-upper"] = airInterfaceConfigurationObj["atpc-threshold-upper"];//change
-          if (airInterfaceConfigurationObj.hasOwnProperty("atpc-threshold-lower")) air_interface["air-interface-configuration"]["configured-atpc-threshold-lower"] = airInterfaceConfigurationObj["atpc-threshold-lower"];//change
-          if (airInterfaceConfigurationObj.hasOwnProperty("tx-power")) air_interface["air-interface-configuration"]["configured-tx-power"] = airInterfaceConfigurationObj["configured-tx-power"];//change
+          if (airInterfaceConfigurationObj.hasOwnProperty("atpc-is-on")) { air_interface["air-interface-configuration"]["configured-atpc-is-on"] = airInterfaceConfigurationObj["atpc-is-on"]; }//change
+          if (airInterfaceConfigurationObj.hasOwnProperty("atpc-threshold-upper")) { air_interface["air-interface-configuration"]["configured-atpc-threshold-upper"] = airInterfaceConfigurationObj["atpc-threshold-upper"]; }//change
+          if (airInterfaceConfigurationObj.hasOwnProperty("atpc-threshold-lower")) { air_interface["air-interface-configuration"]["configured-atpc-threshold-lower"] = airInterfaceConfigurationObj["atpc-threshold-lower"]; }//change
+          if (airInterfaceConfigurationObj.hasOwnProperty("tx-power")) { air_interface["air-interface-configuration"]["configured-tx-power"] = airInterfaceConfigurationObj["configured-tx-power"]; }//change
         }
         if (Object.keys(airInterfaceConfigurationObj).length !== 0 && Object.keys(airInterfaceCapabilitiesObj).length !== 0) {
           let minTransmissionMode = await getConfiguredModulation(
@@ -743,13 +745,13 @@ exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = asy
               for (let filtered_time_xstates of filtered_time_xstates_list) {
                 let operated_transmission_modes_list_obj = [];
                 operated_transmission_modes_list_obj["capacity"] = -1;
-                if (filtered_time_xstates.hasOwnProperty('transmission-mode-name')) operated_transmission_modes_list_obj["transmission-mode-name"] = filtered_time_xstates["transmission-mode-name"];
-                if (filtered_time_xstates.hasOwnProperty('time')) operated_transmission_modes_list_obj["time"] = filtered_time_xstates["time"];
-                if (filtered_time_xstates.hasOwnProperty('modulation-scheme-name-at-lct')) operated_transmission_modes_list_obj["modulation-scheme-name-at-lct"] = filtered_time_xstates["modulation-scheme-name-at-lct"];
+                if (filtered_time_xstates.hasOwnProperty('transmission-mode-name')) { operated_transmission_modes_list_obj["transmission-mode-name"] = filtered_time_xstates["transmission-mode-name"]; }
+                if (filtered_time_xstates.hasOwnProperty('time')) { operated_transmission_modes_list_obj["time"] = filtered_time_xstates["time"]; }
+                if (filtered_time_xstates.hasOwnProperty('modulation-scheme-name-at-lct')) { operated_transmission_modes_list_obj["modulation-scheme-name-at-lct"] = filtered_time_xstates["modulation-scheme-name-at-lct"]; }
                 if (filtered_time_xstates.hasOwnProperty('capacity')) {
                   operated_transmission_modes_list_obj["capacity"] = filtered_time_xstates["capacity"];
                   if (filtered_time_xstates["capacity"] != -1) {
-                    if (interval_capacity === -1) interval_capacity = 0;
+                    if (interval_capacity === -1) { interval_capacity = 0; }
                     interval_capacity = interval_capacity + filtered_time_xstates["capacity"];
                   }
                 }
@@ -769,12 +771,12 @@ exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = asy
 
             let transmission_mode_list_obj = [];
 
-            if (tmObj.hasOwnProperty("transmission-mode-name")) transmission_mode_list_obj["transmission-mode-name"] = tmObj["transmission-mode-name"];
-            if (tmObj.hasOwnProperty("modulation-scheme")) transmission_mode_list_obj["number-of-states"] = tmObj["modulation-scheme"];
-            if (tmObj.hasOwnProperty("modulation-scheme-name-at-lct")) transmission_mode_list_obj["modulation-scheme-name-at-lct"] = tmObj["modulation-scheme-name-at-lct"];
-            if (tmObj.hasOwnProperty("channel-bandwidth")) transmission_mode_list_obj["channel-bandwidth"] = tmObj["channel-bandwidth"];
-            if (tmObj.hasOwnProperty("code-rate")) transmission_mode_list_obj["code-rate"] = tmObj["code-rate"];
-            if (tmObj.hasOwnProperty("symbol-rate-reduction-factor")) transmission_mode_list_obj["symbol-rate-reduction-factor"] = tmObj["symbol-rate-reduction-factor"];
+            if (tmObj.hasOwnProperty("transmission-mode-name")) { transmission_mode_list_obj["transmission-mode-name"] = tmObj["transmission-mode-name"]; }
+            if (tmObj.hasOwnProperty("modulation-scheme")) { transmission_mode_list_obj["number-of-states"] = tmObj["modulation-scheme"]; }
+            if (tmObj.hasOwnProperty("modulation-scheme-name-at-lct")) { transmission_mode_list_obj["modulation-scheme-name-at-lct"] = tmObj["modulation-scheme-name-at-lct"]; }
+            if (tmObj.hasOwnProperty("channel-bandwidth")) { transmission_mode_list_obj["channel-bandwidth"] = tmObj["channel-bandwidth"]; }
+            if (tmObj.hasOwnProperty("code-rate")) { transmission_mode_list_obj["code-rate"] = tmObj["code-rate"]; }
+            if (tmObj.hasOwnProperty("symbol-rate-reduction-factor")) { transmission_mode_list_obj["symbol-rate-reduction-factor"] = tmObj["symbol-rate-reduction-factor"]; }
             transmission_mode_list.push(tmObj);
 
           }
@@ -829,8 +831,8 @@ exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = asy
     console.log(error);
   }
 
-  if (Object.keys(air_interface_list).length !== 0) result["air-interface-list"] = air_interface_list;
-  if (Object.keys(ethernet_container_list).length !== 0) result["ethernet-container-list"] = ethernet_container_list;
+  if (Object.keys(air_interface_list).length !== 0) { result["air-interface-list"] = air_interface_list; }
+  if (Object.keys(ethernet_container_list).length !== 0) { result["ethernet-container-list"] = ethernet_container_list; }
 
   return result;
 
