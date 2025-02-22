@@ -331,6 +331,10 @@ module.exports.provideHistoricalPmDataOfDevice = async function provideHistorica
   await IndividualServices.provideHistoricalPmDataOfDevice(body, user, originator, xCorrelator, traceIndicator, customerJourney)
     .then(async function (responseBody) {
       responseBodyToDocument = responseBody;
+      if (Object.keys(responseBody["mount-name-list-with-errors"]).length !== 0){
+          responseCode = 206;
+      }
+      
       restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
     })
     .catch(async function (responseBody) {
