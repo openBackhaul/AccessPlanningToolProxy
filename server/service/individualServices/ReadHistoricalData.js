@@ -257,46 +257,57 @@ exports.RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregat
      ****************************************************************************************************************/
     for (let airLtp of airInterfaceLtps) {
       const airInterfaceUuid = airLtp[onfAttributes.GLOBAL_CLASS.UUID];
-      let clientStructureUuid = airLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP][0];
-
+      let clientStructureUuid = undefined;
+      if(airLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP] != undefined && airLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP].length != 0) {
+        clientStructureUuid = airLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP][0];
+      }
       // Navigate upwards to find the EthernetContainerUuid
-      let clientEthernetContainerUuid;
+      let clientEthernetContainerUuid = undefined;
       while (clientStructureUuid) {
         const clientLtp = await ltpStructureUtility.getLtpForUuidFromLtpStructure(clientStructureUuid, ltpStructure);
         //const clientLtp = ltpStructure.find((ltp) => ltp[onfAttributes.GLOBAL_CLASS.UUID] === clientStructureUuid);
 
         if (clientLtp && clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][
-          onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME] === ETHERNET_INTERFACE.LAYER_PROTOCOL_NAME) {
+          onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME] === ETHERNET_INTERFACE.MODULE + ":" + ETHERNET_INTERFACE.LAYER_PROTOCOL_NAME) {
           clientEthernetContainerUuid = clientStructureUuid;
           break;
         }
+        if(clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP] != undefined && clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP].length != 0) {
         clientStructureUuid = clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP][0];
+        }
+        else{
+          clientStructureUuid = undefined;
+        }
       }
 
       // Navigate downwards to find Wire/AirInterfaceUuids
       const servingStructureUuids = [];
-      const ethernetContainerLtp = await ltpStructureUtility.getLtpForUuidFromLtpStructure(clientEthernetContainerUuid, ltpStructure);
-      //const ethernetContainerLtp = ltpStructure.find((ltp) => ltp[onfAttributes.GLOBAL_CLASS.UUID] === clientEthernetContainerUuid);
-      if (ethernetContainerLtp) {
-        servingStructureUuids.push(...ethernetContainerLtp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP]);
+      if(clientEthernetContainerUuid != undefined){
+        const ethernetContainerLtp = await ltpStructureUtility.getLtpForUuidFromLtpStructure(clientEthernetContainerUuid, ltpStructure);
+        //const ethernetContainerLtp = ltpStructure.find((ltp) => ltp[onfAttributes.GLOBAL_CLASS.UUID] === clientEthernetContainerUuid);
+        if (ethernetContainerLtp) {
+          servingStructureUuids.push(...ethernetContainerLtp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP]);
+        }
       }
-
       const resultForOneLtp =
-      {
-        uuid: airInterfaceUuid,
-        mountName: mountName,
-        layerProtocolName: layerProtocolName
-      };
+        {
+          uuid: airInterfaceUuid,
+          mountName: mountName
+        };
       let subResultsList = [];
 
       for (let servingUuid of servingStructureUuids) {
         const ltp = await ltpStructureUtility.getLtpForUuidFromLtpStructure(servingUuid, ltpStructure);
         //const ltp = ltpStructure.find((ltp) => ltp[onfAttributes.GLOBAL_CLASS.UUID] === servingUuid);
 
-        if (ltp) {
-          const serverLtp = ltp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP];
-          const layerProtocolName = ltp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0]
-          [onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME];
+        if ( ltp != undefined &&
+             Object.keys(ltp).length > 0 && 
+             undefined != ltp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP] &&
+             ltp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP].length != 0
+          ) {
+          const serverLtp = ltp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP][0];
+          const serverLtpStructure = await ltpStructureUtility.getLtpForUuidFromLtpStructure(serverLtp, ltpStructure);
+          const layerProtocolName = serverLtpStructure[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME];
 
           const pathParams = [mountName, serverLtp];
           const consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName);
@@ -638,22 +649,22 @@ exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = asy
 
 
       if (Object.keys(airAndEthernetInterfacesResponse).length !== 0) {
-         airAndEthernetObj = airAndEthernetInterfacesResponse.processedLtpResponses.filter((obj) => obj[onfAttributes.GLOBAL_CLASS.UUID] === uuid)[0] || []; 
+         airAndEthernetObj = airAndEthernetInterfacesResponse.processedLtpResponses.filter((obj) => obj[onfAttributes.GLOBAL_CLASS.UUID] === uuid)[0] || {}; 
         }
       if (Object.keys(physicalLinkAggregations).length !== 0) {
-         physicalLinkAggregationsObj = physicalLinkAggregations.aggregatedResults.filter((obj) => obj[onfAttributes.GLOBAL_CLASS.UUID] === uuid)[0] || []; 
+         physicalLinkAggregationsObj = physicalLinkAggregations.aggregatedResults.filter((obj) => obj[onfAttributes.GLOBAL_CLASS.UUID] === uuid)[0] || {}; 
         }
       if (Object.keys(airInterfaceConfiguration).length !== 0) {
-         airInterfaceConfigurationObj = airInterfaceConfiguration.airInterfaceConfigurations.filter((obj) => obj[onfAttributes.GLOBAL_CLASS.UUID] === uuid)[0] || []; 
+         airInterfaceConfigurationObj = airInterfaceConfiguration.airInterfaceConfigurations.filter((obj) => obj[onfAttributes.GLOBAL_CLASS.UUID] === uuid)[0] || {}; 
         }
       if (Object.keys(airInterfaceCapabilities).length !== 0) {
-         airInterfaceCapabilitiesObj = airInterfaceCapabilities.airInterfaceCapabilities.filter((obj) => obj[onfAttributes.GLOBAL_CLASS.UUID] === uuid)[0] || []; 
+         airInterfaceCapabilitiesObj = airInterfaceCapabilities.airInterfaceCapabilities.filter((obj) => obj[onfAttributes.GLOBAL_CLASS.UUID] === uuid)[0] || {}; 
         }
       if (Object.keys(airInterfacePerformance).length !== 0) {
-         airInterfacePerformanceObj = airInterfacePerformance.processedResponses.filter((obj) => obj[onfAttributes.GLOBAL_CLASS.UUID] === uuid)[0] || []; 
+         airInterfacePerformanceObj = airInterfacePerformance.processedResponses.filter((obj) => obj[onfAttributes.GLOBAL_CLASS.UUID] === uuid)[0] || {}; 
         }
       if (Object.keys(ethernetPerformance).length !== 0) {
-         ethernetPerformanceObj = ethernetPerformance.processedResponses.filter((obj) => obj[onfAttributes.GLOBAL_CLASS.UUID] === uuid)[0] || []; 
+         ethernetPerformanceObj = ethernetPerformance.processedResponses.filter((obj) => obj[onfAttributes.GLOBAL_CLASS.UUID] === uuid)[0] || {}; 
         }
 
 
@@ -671,7 +682,7 @@ exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = asy
         };
         let link_aggregation_identifiers = [];
         if (Object.keys(physicalLinkAggregationsObj).length !== 0 && physicalLinkAggregationsObj.hasOwnProperty("list")) {
-          link_aggregation_identifiers.push(physicalLinkAggregationsObj["list"]);
+          link_aggregation_identifiers.push(...physicalLinkAggregationsObj["list"]);
           a["link-aggregation-identifiers"] = link_aggregation_identifiers;
         }
 
@@ -811,11 +822,10 @@ exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = asy
         ethernet_container["ethernet-container-identifiers"] = {
           "mount-name": mountName,
           "logical-termination-point-id": uuid,
-          "interface-name":airAndEthernetObj["interface-name"],
-          "ethernet-container-performance-measurements-list":ethernet_container_performance_measurements_list
+          "interface-name":airAndEthernetObj["interface-name"]
         };
 
-        
+        ethernet_container["ethernet-container-performance-measurements-list"] = ethernet_container_performance_measurements_list;
         if (Object.keys(ethernetPerformanceObj).length !== 0) {
 
           for (let k = 0; k < ethernetPerformanceObj.length; k++) {

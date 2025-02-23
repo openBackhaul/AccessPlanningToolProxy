@@ -380,8 +380,8 @@ exports.provideHistoricalPmDataOfDevice = function (body, user, originator, xCor
             .catch(err => console.log(` ${err}`));
 
             if (Object.keys(historicalDataResult).length !== 0){
-              if(historicalDataResult.hasOwnProperty("air-interface-list"))historicalPmDataOfDevice["air-interface-list"].push(historicalDataResult["air-interface-list"]);
-              if(historicalDataResult.hasOwnProperty("ethernet-container-list"))historicalPmDataOfDevice["ethernet-container-list"].push(historicalDataResult["ethernet-container-list"]);
+              if(historicalDataResult.hasOwnProperty("air-interface-list"))historicalPmDataOfDevice["air-interface-list"].push(...historicalDataResult["air-interface-list"]);
+              if(historicalDataResult.hasOwnProperty("ethernet-container-list"))historicalPmDataOfDevice["ethernet-container-list"].push(...historicalDataResult["ethernet-container-list"]);
             }
             else{
               mountNameWithError.push(mountName);
