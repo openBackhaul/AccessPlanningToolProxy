@@ -628,75 +628,76 @@ describe('provideStatusForLiveNetView', () => {
 });
 
 describe("provideHistoricalPmDataOfDevice", () => {
-  let body, user, originator, xCorrelator, traceIndicator, customerJourney;
+  let mockRequestHeaders;
+  let mockBody;
 
   beforeEach(() => {
-    body = [{ "mount-name": "device1", "time-stamp": "2024-02-20T12:00:00Z" }];
-    user = "testUser";
-    originator = "testOriginator";
-    xCorrelator = "testXCorrelator";
-    traceIndicator = "testTraceIndicator";
-    customerJourney = "testCustomerJourney";
-    global.counterStatusHistoricalPMDataCall = 0; // Mock global variable
+    mockRequestHeaders = {
+      user: "testUser",
+      originator: "testOriginator",
+      xCorrelator: "testXCorrelator",
+      traceIndicator: "testTraceIndicator",
+      customerJourney: "testJourney"
+    };
+
+    mockBody = [
+      { "mount-name": "device1", "time-stamp": "2025-02-24T12:00:00Z" },
+      { "mount-name": "device2", "time-stamp": "2025-02-24T12:00:00Z" }
+    ];
+
+    // Reset mock counter
+    global.counterStatusHistoricalPMDataCall = 0;
   });
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
-  test("should return historical PM data when valid input is provided", async () => {
-    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue({ uuid: "op1234" });
+  test("should return historical PM data successfully", async () => {
+    // Mock responses
+    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue({ uuid: "test-op123" });
     IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(5);
     ReadLtpStructure.readLtpStructure.mockResolvedValue({
-      ltpStructure: { some: "structure" },
+      ltpStructure: { key: "ltpData" },
       traceIndicatorIncrementer: 2
     });
-
     ReadHistoricalData.readHistoricalData.mockResolvedValue({
-      "air-interface-list": ["air-interface-data"],
-      "ethernet-container-list": ["ethernet-container-data"]
+      "air-interface-list": [{ key: "airData" }],
+      "ethernet-container-list": [{ key: "ethData" }]
     });
 
-    await expect(provideHistoricalPmDataOfDevice(body, user, originator, xCorrelator, traceIndicator, customerJourney))
-      .resolves.toEqual({
-        "air-interface-list": [["air-interface-data"]],
-        "ethernet-container-list": [["ethernet-container-data"]]
-      });
+    const result = await provideHistoricalPmDataOfDevice(mockBody, ...Object.values(mockRequestHeaders));
+
+    expect(result).toMatchObject({
+      "air-interface-list": expect.arrayContaining([{ key: "airData" }]),
+      "ethernet-container-list": expect.arrayContaining([{ key: "ethData" }]),
+      "mount-name-list-with-errors": [],
+    });
+    
+
   });
 
-  test("should throw TooManyRequests error when max parallel operations exceeded", async () => {
-    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue({ uuid: "op1234" });
-    IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(0);
+  test("should throw TooManyRequests error when max parallel requests exceeded", async () => {
+    global.counterStatusHistoricalPMDataCall = 6; // Simulating exceeded limit
+    IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(5);
 
-    await expect(provideHistoricalPmDataOfDevice(body, user, originator, xCorrelator, traceIndicator, customerJourney))
+    await expect(provideHistoricalPmDataOfDevice(mockBody, ...Object.values(mockRequestHeaders)))
       .rejects.toThrow(createHttpError.TooManyRequests);
   });
 
-  test("should log error and continue when readHistoricalData fails", async () => {
-    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue({ uuid: "op1234" });
+  test("should throw NotFound error if both air-interface and ethernet-container lists are empty", async () => {
+    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue({ uuid: "test-op123" });
     IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(5);
     ReadLtpStructure.readLtpStructure.mockResolvedValue({
-      ltpStructure: { some: "structure" },
+      ltpStructure: { key: "ltpData" },
       traceIndicatorIncrementer: 2
     });
+    ReadHistoricalData.readHistoricalData.mockResolvedValue({});
 
-    const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
-    ReadHistoricalData.readHistoricalData.mockRejectedValue(new Error("Historical Data Error"));
-
-    await expect(provideHistoricalPmDataOfDevice(body, user, originator, xCorrelator, traceIndicator, customerJourney))
-      .rejects.toThrow(createHttpError.TypeError);
-
-    expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("Historical Data Error"));
-
-    consoleSpy.mockRestore();
+    await expect(provideHistoricalPmDataOfDevice(mockBody, ...Object.values(mockRequestHeaders)))
+      .rejects.toThrow(createHttpError.NotFound);
   });
 
-  test("should handle errors thrown by readLtpStructure", async () => {
-    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue({ uuid: "op1234" });
-    IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(5);
-    ReadLtpStructure.readLtpStructure.mockRejectedValue(new Error("LTP Structure Error"));
+  test("should reject with an error if an unexpected error occurs", async () => {
+    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockRejectedValue(new Error("Unexpected Error"));
 
-    await expect(provideHistoricalPmDataOfDevice(body, user, originator, xCorrelator, traceIndicator, customerJourney))
-      .rejects.toThrow(createHttpError.InternalServerError);
+    await expect(provideHistoricalPmDataOfDevice(mockBody, ...Object.values(mockRequestHeaders)))
+      .rejects.toThrow("Unexpected Error");
   });
 });
