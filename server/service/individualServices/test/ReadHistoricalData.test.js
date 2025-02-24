@@ -53,8 +53,25 @@ describe('RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetIn
       traceIndicatorIncrementer
     );
 
-    expect(result).toEqual({"processedLtpResponses": [{"layerProtocolName": "air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER", "localId": "localId1", "mountName": "Device1", "uuid": "uuid1"}, 
-      {"layerProtocolName": "ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER", "localId": "localId2", "mountName": "Device1", "uuid": "uuid2"}], "traceIndicatorIncrementer": 3});
+    expect(result).toEqual({
+      processedLtpResponses: [
+        {
+          uuid: 'uuid1',
+          localId: 'localId1',
+          mountName: 'Device1',
+          layerProtocolName: 'air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER',
+          'link-endpoint-id': 'AirLink1'
+        },
+        {
+          uuid: 'uuid2',
+          localId: 'localId2',
+          mountName: 'Device1',
+          layerProtocolName: 'ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER',     
+          'interface-name': 'Eth2'
+        }],
+      traceIndicatorIncrementer: 3
+    }
+ );
   });
 
   it('should return an empty array if no LTPs are found', async () => {
@@ -836,3 +853,121 @@ describe('getConfiguredModulation', () => {
       expect(result).toBeUndefined;
     });
 }); 
+
+describe('ReadHistoricalData', () => {
+  let mockRequestHeaders;
+  let mockLtpStructure;
+  let mountName;
+  let timeStamp;
+  let traceIndicatorIncrementer;
+ 
+  beforeEach(() => {
+      jest.clearAllMocks();
+ 
+      mountName = 'testMount';
+      timeStamp = '2025-02-17T12:00:00Z';
+      traceIndicatorIncrementer = 1;
+ 
+      mockRequestHeaders = {
+          user: 'testUser',
+          originator: 'testOriginator',
+          xCorrelator: 'testXCorrelator',
+          traceIndicator: 'testTraceIndicator',
+          customerJourney: 'testCustomerJourney'
+      };
+ 
+      mockLtpStructure = {
+          'core-model-1-4:control-construct': [
+              {
+                  'logical-termination-point': [
+                      {
+                          uuid: 'ltp-123',
+                          'layer-protocol': [{ 'local-id': 'lp-001', 'layer-protocol-name': 'AIR_LAYER' }]
+                      }
+                  ]
+              }
+          ]
+      };
+ 
+      jest.spyOn(readHistoricalData, 'RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInterfaces')
+          .mockResolvedValue({
+              processedLtpResponses: [{ uuid: 'ltp-123', localId: 'lp-001', layerProtocolName: 'AIR_LAYER' }],
+              traceIndicatorIncrementer: 2
+          });
+ 
+      jest.spyOn(readHistoricalData, 'RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregations')
+          .mockResolvedValue({
+              aggregatedResults: [{ uuid: 'ltp-123', linkId: 'link-001' }],
+              traceIndicatorIncrementer: 3
+          });
+ 
+      jest.spyOn(readHistoricalData, 'RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache')
+          .mockResolvedValue({
+              airInterfaceConfigurations: [{ uuid: 'ltp-123', config: 'configData' }],
+              traceIndicatorIncrementer: 4
+          });
+ 
+      jest.spyOn(readHistoricalData, 'RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceCapabilitiesFromCache')
+          .mockResolvedValue({
+              airInterfaceCapabilities: [{ uuid: 'ltp-123', capabilities: 'capabilityData' }],
+              traceIndicatorIncrementer: 5
+          });
+ 
+      jest.spyOn(readHistoricalData, 'RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePerformanceFromCache')
+          .mockResolvedValue({
+              processedResponses: [{ uuid: 'ltp-123', performance: 'performanceData' }],
+              traceIndicatorIncrementer: 6
+          });
+ 
+      jest.spyOn(readHistoricalData, 'RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache')
+          .mockResolvedValue({
+              processedResponses: [{ uuid: 'ltp-123', ethernetPerformance: 'ethernetPerformanceData' }],
+              traceIndicatorIncrementer: 7
+          });
+ 
+      jest.spyOn(readHistoricalData, 'RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData')
+          .mockResolvedValue({
+              historicalData: 'finalAggregatedData'
+          });
+  });
+ 
+  test('should call all sub-functions and return historical PM data', async () => {
+      const result = await readHistoricalData.readHistoricalData(mountName, timeStamp, mockLtpStructure, mockRequestHeaders, traceIndicatorIncrementer);
+ 
+      expect(readHistoricalData.RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInterfaces)
+          .toHaveBeenCalledWith(mockLtpStructure, mountName, mockRequestHeaders, traceIndicatorIncrementer);
+ 
+      expect(readHistoricalData.RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregations)
+          .toHaveBeenCalledWith(mockLtpStructure, mountName, mockRequestHeaders, expect.any(Number));
+ 
+      expect(readHistoricalData.RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache)
+          .toHaveBeenCalledWith(mockLtpStructure, mountName, mockRequestHeaders, expect.any(Number));
+ 
+      expect(readHistoricalData.RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceCapabilitiesFromCache)
+          .toHaveBeenCalledWith(mockLtpStructure, mountName, mockRequestHeaders, expect.any(Number));
+ 
+      expect(readHistoricalData.RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePerformanceFromCache)
+          .toHaveBeenCalledWith(mockLtpStructure, mountName, timeStamp, mockRequestHeaders, expect.any(Number));
+ 
+      expect(readHistoricalData.RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache)
+          .toHaveBeenCalledWith(mockLtpStructure, mountName, timeStamp, mockRequestHeaders, expect.any(Number));
+ 
+      expect(readHistoricalData.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData)
+          .toHaveBeenCalledWith(
+              mountName, mockLtpStructure,
+              expect.any(Object), expect.any(Object),
+              expect.any(Object), expect.any(Object),
+              expect.any(Object), expect.any(Object)
+          );
+ 
+      expect(result).toEqual({ historicalData: 'finalAggregatedData' });
+  });
+ 
+  test('should throw an error if a sub-function fails', async () => {
+      readHistoricalData.RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInterfaces
+          .mockRejectedValue(new Error('Mocked error'));
+ 
+      await expect(readHistoricalData.readHistoricalData(mountName, timeStamp, mockLtpStructure, mockRequestHeaders, traceIndicatorIncrementer))
+          .rejects.toThrow('Mocked error');
+  });
+});
