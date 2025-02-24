@@ -31,7 +31,7 @@ describe('RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnde
         "layer-protocol": [
           {
             "local-id": "localid",
-            "layer-protocol-name": "LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER"
+            "layer-protocol-name": "air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER"
           }
         ]
       }
@@ -71,7 +71,7 @@ describe('RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnde
         "layer-protocol": [
           {
             "local-id": "localid",
-            "layer-protocol-name": "LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER"
+            "layer-protocol-name": "air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER"
           }
         ]
       }
@@ -103,7 +103,7 @@ describe('RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnde
         "layer-protocol": [
           {
             "local-id": "localid",
-            "layer-protocol-name": "LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER"
+            "layer-protocol-name": "air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER"
           }
         ]
       }

@@ -33,7 +33,7 @@ const ETHERNET_INTERFACE = {
 };
 
 const WIRE_INTERFACE = {
-  MODULE: "wire-interface-2-0:",
+  MODULE: "wire-interface-2-0",
   LAYER_PROTOCOL_NAME: "LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
   CAPABILITY: "wire-interface-capability",
   STATUS: "wire-interface-status",
@@ -324,9 +324,9 @@ exports.RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregat
             const externalLabel = ltpDesignationResponse[LTP_AUGMENT.MODULE + ":" + LTP_AUGMENT.PAC][LTP_AUGMENT.EXTERNAL_LABEL] || "N/A";
 
             let subResult = {}; 
-            if (layerProtocolName === WIRE_INTERFACE.LAYER_PROTOCOL_NAME) {
+            if (layerProtocolName === WIRE_INTERFACE.MODULE + ":" + WIRE_INTERFACE.LAYER_PROTOCOL_NAME) {
               subResult['interface-name'] = originalLtpName;
-            } else if (layerProtocolName === AIR_INTERFACE.LAYER_PROTOCOL_NAME) {
+            } else if (layerProtocolName === AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.LAYER_PROTOCOL_NAME) {
               subResult['link-id'] = externalLabel.substring(0, 9);
             }
 

@@ -25,10 +25,10 @@ describe('RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetIn
   it('should process valid responses for both air and ethernet interfaces', async () => {
     ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure
       .mockResolvedValueOnce([
-        { uuid: 'uuid1', 'layer-protocol': [{ 'local-id': 'localId1', 'layer-protocol-name': 'LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER' }] },
+        { uuid: 'uuid1', 'layer-protocol': [{ 'local-id': 'localId1', 'layer-protocol-name': 'air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER' }] },
       ])
       .mockResolvedValueOnce([
-        { uuid: 'uuid2', 'layer-protocol': [{ 'local-id': 'localId2', 'layer-protocol-name': 'LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER' }] },
+        { uuid: 'uuid2', 'layer-protocol': [{ 'local-id': 'localId2', 'layer-protocol-name': 'ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER' }] },
       ]);
 
     IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValue({});
@@ -53,8 +53,8 @@ describe('RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetIn
       traceIndicatorIncrementer
     );
 
-    expect(result).toEqual({"processedLtpResponses": [{"layerProtocolName": "LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER", "localId": "localId1", "mountName": "Device1", "uuid": "uuid1"}, 
-      {"layerProtocolName": "LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER", "localId": "localId2", "mountName": "Device1", "uuid": "uuid2"}], "traceIndicatorIncrementer": 3});
+    expect(result).toEqual({"processedLtpResponses": [{"layerProtocolName": "air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER", "localId": "localId1", "mountName": "Device1", "uuid": "uuid1"}, 
+      {"layerProtocolName": "ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER", "localId": "localId2", "mountName": "Device1", "uuid": "uuid2"}], "traceIndicatorIncrementer": 3});
   });
 
   it('should return an empty array if no LTPs are found', async () => {
@@ -85,7 +85,7 @@ describe('RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetIn
 
   it('should handle errors in forwardRequest and return an empty array', async () => {
     ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockResolvedValue([
-      { uuid: 'uuid1', 'layer-protocol': [{ 'local-id': 'localId1', 'layer-protocol-name': 'LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER' }] },
+      { uuid: 'uuid1', 'layer-protocol': [{ 'local-id': 'localId1', 'layer-protocol-name': 'air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER' }] },
     ]);
 
     IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValue({});
@@ -103,7 +103,7 @@ describe('RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetIn
 
   it('should handle an empty response from forwardRequest and return an empty array', async () => {
     ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockResolvedValue([
-      { uuid: 'uuid1', 'layer-protocol': [{ 'local-id': 'localId1', 'layer-protocol-name': 'LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER' }] },
+      { uuid: 'uuid1', 'layer-protocol': [{ 'local-id': 'localId1', 'layer-protocol-name': 'air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER' }] },
     ]);
 
     IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValue({});
@@ -157,7 +157,7 @@ describe('RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggreg
       [onfAttributes.GLOBAL_CLASS.UUID]: "server-ltp-uuid",
       [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL]: [
         { 
-          [onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME]: "LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER" 
+          [onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME]: "air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER" 
         }
       ],
       [onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP]: ["final-server-ltp-uuid"], // ✅ Ensure this exists
@@ -167,7 +167,7 @@ describe('RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggreg
     const mockEthernetContainerLtp = {
       [onfAttributes.GLOBAL_CLASS.UUID]: "ethernet-container-ltp-uuid",
       [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL]: [
-        { [onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME]: "LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER" }
+        { [onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME]: "ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER" }
       ],
       [onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP]: ["mock-server-ltp-uuid-1", "mock-server-ltp-uuid-2"], // ✅ Add Server LTP
     };
@@ -253,7 +253,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurat
         [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL]: [
           {
             [onfAttributes.LOCAL_CLASS.LOCAL_ID]: "localId1",
-            [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL_NAME]: "AIR_LAYER",
+            [onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME]: "air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER",
           },
         ],
       },
@@ -299,7 +299,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurat
         [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL]: [
           {
             [onfAttributes.LOCAL_CLASS.LOCAL_ID]: "localId1",
-            [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL_NAME]: "AIR_LAYER",
+            [onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME]: "air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER",
           },
         ],
       },
@@ -345,7 +345,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurat
         [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL]: [
           {
             [onfAttributes.LOCAL_CLASS.LOCAL_ID]: "localId1",
-            [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL_NAME]: "AIR_LAYER",
+            [onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME]: "air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER",
           },
         ],
       },
@@ -354,7 +354,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurat
         [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL]: [
           {
             [onfAttributes.LOCAL_CLASS.LOCAL_ID]: "localId2",
-            [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL_NAME]: "AIR_LAYER",
+            [onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME]: "air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER",
           },
         ],
       },
@@ -388,7 +388,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurat
         [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL]: [
           {
             [onfAttributes.LOCAL_CLASS.LOCAL_ID]: "localId1",
-            [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL_NAME]: "AIR_LAYER",
+            [onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME]: "air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER",
           },
         ],
       },
@@ -519,7 +519,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterface
         [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL]: [
           {
             [onfAttributes.LOCAL_CLASS.LOCAL_ID]: "localId1",
-            [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL_NAME]: "LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER",
+            [onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME]: "air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER",
           },
         ],
       },
@@ -577,7 +577,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterface
         [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL]: [
           {
             [onfAttributes.LOCAL_CLASS.LOCAL_ID]: "localId1",
-            [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL_NAME]: "LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER",
+            [onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME]: "air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER",
           },
         ],
       },
@@ -605,7 +605,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterface
           [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL]: [
             {
               [onfAttributes.LOCAL_CLASS.LOCAL_ID]: "localId1",
-              [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL_NAME]: "LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER",
+              [onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME]: "air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER",
             },
           ],
         },
@@ -645,7 +645,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetCont
         [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL]: [
           {
             [onfAttributes.LOCAL_CLASS.LOCAL_ID]: "localId1",
-            [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL_NAME]: "LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER",
+            [onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME]: "ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER",
           },
         ],
       },
