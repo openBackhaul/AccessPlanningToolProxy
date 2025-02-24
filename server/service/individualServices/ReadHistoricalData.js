@@ -236,7 +236,9 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInte
  * @param {Integer} traceIndicatorIncrementer - Trace indicator incrementer.
  * @returns {Array} Aggregated results for Wire/AirInterfaces.
  */
-exports.RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregations = async function (ltpStructure, mountName, requestHeaders, traceIndicatorIncrementer) {
+exports.RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregations = async function (
+  ltpStructure, mountName, requestHeaders, traceIndicatorIncrementer
+) {
   const forwardingName = 'RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregations';
   const stringName = "RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregations.LtpDesignation";
   let aggregatedResults = [];
@@ -246,65 +248,69 @@ exports.RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregat
     /***************************************************************************************************************
      * Fetch all AIR_LAYER LTPs
      ****************************************************************************************************************/
-    // const airInterfaceLtps = ltpStructure.filter(
-    //   (ltp) => ltp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0]
-    //             [onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME] === AIR_INTERFACE.LAYER_PROTOCOL_NAME);
-
     const airInterfaceLtps = await ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure(
       AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.LAYER_PROTOCOL_NAME, ltpStructure);
+
     /***************************************************************************************************************
      * Process each AirInterfaceUuid to find corresponding EthernetContainerUuid and Wire/AirInterfaceUuids
      ****************************************************************************************************************/
     for (let airLtp of airInterfaceLtps) {
       const airInterfaceUuid = airLtp[onfAttributes.GLOBAL_CLASS.UUID];
       let clientStructureUuid = undefined;
-      if(airLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP] != undefined && airLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP].length != 0) {
+
+      if (airLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP] &&
+          airLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP].length > 0) {
         clientStructureUuid = airLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP][0];
       }
+
       // Navigate upwards to find the EthernetContainerUuid
       let clientEthernetContainerUuid = undefined;
       while (clientStructureUuid) {
-        const clientLtp = await ltpStructureUtility.getLtpForUuidFromLtpStructure(clientStructureUuid, ltpStructure);
-        //const clientLtp = ltpStructure.find((ltp) => ltp[onfAttributes.GLOBAL_CLASS.UUID] === clientStructureUuid);
+        const clientLtp = await ltpStructureUtility.getLtpForUuidFromLtpStructure(clientStructureUuid, ltpStructure) || {};
 
-        if (clientLtp && clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][
-          onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME] === ETHERNET_INTERFACE.MODULE + ":" + ETHERNET_INTERFACE.LAYER_PROTOCOL_NAME) {
+        // ✅ Ensure CLIENT_LTP exists
+        if (!clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP]) {
+          console.warn("CLIENT_LTP is missing. Assigning empty array.");
+          clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP] = [];
+        }
+
+        if (clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL] &&
+            clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0] &&
+            clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME] === 
+            (ETHERNET_INTERFACE.MODULE + ":" + ETHERNET_INTERFACE.LAYER_PROTOCOL_NAME)) {
           clientEthernetContainerUuid = clientStructureUuid;
           break;
         }
-        if(clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP] != undefined && clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP].length != 0) {
-        clientStructureUuid = clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP][0];
-        }
-        else{
+
+        if (clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP].length > 0) {
+          clientStructureUuid = clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP][0];
+        } else {
           clientStructureUuid = undefined;
         }
       }
 
       // Navigate downwards to find Wire/AirInterfaceUuids
       const servingStructureUuids = [];
-      if(clientEthernetContainerUuid != undefined){
+      if (clientEthernetContainerUuid) {
         const ethernetContainerLtp = await ltpStructureUtility.getLtpForUuidFromLtpStructure(clientEthernetContainerUuid, ltpStructure);
-        //const ethernetContainerLtp = ltpStructure.find((ltp) => ltp[onfAttributes.GLOBAL_CLASS.UUID] === clientEthernetContainerUuid);
-        if (ethernetContainerLtp) {
+        if (ethernetContainerLtp &&
+            ethernetContainerLtp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP]) {
           servingStructureUuids.push(...ethernetContainerLtp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP]);
         }
       }
-      const resultForOneLtp =
-        {
-          uuid: airInterfaceUuid,
-          mountName: mountName
-        };
+
+      const resultForOneLtp = {
+        uuid: airInterfaceUuid,
+        mountName: mountName
+      };
+
       let subResultsList = [];
 
       for (let servingUuid of servingStructureUuids) {
         const ltp = await ltpStructureUtility.getLtpForUuidFromLtpStructure(servingUuid, ltpStructure);
-        //const ltp = ltpStructure.find((ltp) => ltp[onfAttributes.GLOBAL_CLASS.UUID] === servingUuid);
+        if (ltp && ltp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP] &&
+            ltp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP].length > 0) {
 
-        if ( ltp != undefined &&
-             Object.keys(ltp).length > 0 && 
-             undefined != ltp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP] &&
-             ltp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP].length != 0
-          ) {
           const serverLtp = ltp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP][0];
           const serverLtpStructure = await ltpStructureUtility.getLtpForUuidFromLtpStructure(serverLtp, ltpStructure);
           const layerProtocolName = serverLtpStructure[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME];
@@ -313,31 +319,36 @@ exports.RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregat
           const consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName);
           const ltpDesignationResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, traceIndicatorIncrementer++);
 
-          if (Object.keys(ltpDesignationResponse).length > 0) {
-            const originalLtpName = ltpDesignationResponse[LTP_AUGMENT.MODULE + ":" + LTP_AUGMENT.PAC][LTP_AUGMENT.ORIGINAL_LTP_NAME];
-            const externalLabel = ltpDesignationResponse[LTP_AUGMENT.MODULE + ":" + LTP_AUGMENT.PAC][LTP_AUGMENT.EXTERNAL_LABEL];
-            let subResult = [];
-            if (layerProtocolName === WIRE_INTERFACE.MODULE + ":" + WIRE_INTERFACE.LAYER_PROTOCOL_NAME) {
+          if (ltpDesignationResponse && Object.keys(ltpDesignationResponse).length > 0) {
+            const originalLtpName = ltpDesignationResponse[LTP_AUGMENT.MODULE + ":" + LTP_AUGMENT.PAC][LTP_AUGMENT.ORIGINAL_LTP_NAME] || "unknown";
+            const externalLabel = ltpDesignationResponse[LTP_AUGMENT.MODULE + ":" + LTP_AUGMENT.PAC][LTP_AUGMENT.EXTERNAL_LABEL] || "N/A";
+
+            let subResult = {}; 
+            if (layerProtocolName === WIRE_INTERFACE.LAYER_PROTOCOL_NAME) {
               subResult['interface-name'] = originalLtpName;
-            } else if (layerProtocolName === AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.LAYER_PROTOCOL_NAME) {
+            } else if (layerProtocolName === AIR_INTERFACE.LAYER_PROTOCOL_NAME) {
               subResult['link-id'] = externalLabel.substring(0, 9);
             }
 
-            subResultsList.push(subResult);
+            if (Object.keys(subResult).length > 0) {
+              subResultsList.push(subResult);
+            }
           }
         }
-
       }
+
       resultForOneLtp["list"] = subResultsList;
       aggregatedResults.push(resultForOneLtp);
     }
   } catch (error) {
     console.error(`${forwardingName} is not success with ${error}`);
   }
+
   aggregatedResultsResponse = {
     aggregatedResults: aggregatedResults,
     traceIndicatorIncrementer: traceIndicatorIncrementer
-  }
+  };
+  
   return aggregatedResultsResponse;
 };
 

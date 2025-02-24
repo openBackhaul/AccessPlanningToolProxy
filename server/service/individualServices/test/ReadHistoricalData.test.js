@@ -3,23 +3,10 @@ const readHistoricalDataRewire = rewire('../ReadHistoricalData');
 const readHistoricalData = require('../ReadHistoricalData');
 const ltpStructureUtility = require('../LtpStructureUtility');
 const IndividualServiceUtility = require('../IndividualServiceUtility');
-
-const onfAttributes = {
-  GLOBAL_CLASS: { UUID: 'uuid' },
-  LOGICAL_TERMINATION_POINT: {
-    LAYER_PROTOCOL: 'layer-protocol',
-    CLIENT_LTP: 'client-ltp',
-    SERVER_LTP: 'server-ltp',
-    LAYER_PROTOCOL_NAME: 'layer-protocol-name'
-  },
-  LOCAL_CLASS: { LOCAL_ID: 'local-id' }
-};
+const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 
 jest.mock("../LtpStructureUtility");
 jest.mock("../IndividualServiceUtility");
-
-
-
 
 describe('RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInterfaces', () => {
   let mockLtpStructure;
@@ -130,6 +117,122 @@ describe('RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetIn
     );
 
     expect(result).toEqual( {"processedLtpResponses": [], "traceIndicatorIncrementer": 2});
+  });
+});
+
+describe('RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregations', () => {
+  let mockLtpStructure, mountName, requestHeaders, traceIndicatorIncrementer;
+
+  beforeEach(() => {
+    jest.clearAllMocks(); // Reset mock functions before each test case
+
+    mountName = "mock-mount-name";
+    requestHeaders = { user: "test-user", xCorrelator: "test-correlation-id" };
+    traceIndicatorIncrementer = 1;
+
+    mockLtpStructure = {
+      [onfAttributes.GLOBAL_CLASS.UUID]: "mock-uuid",
+      [onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP]: ["mock-client-ltp-uuid"],
+    };
+  });
+
+  it('should return aggregated results for valid LTP structure', async () => {
+    const mockAirInterfaceLtp = [
+      {
+        [onfAttributes.GLOBAL_CLASS.UUID]: "air-ltp-uuid",
+        [onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP]: ["client-ltp-uuid"],
+      }
+    ];
+    
+    const mockClientLtp = {
+      [onfAttributes.GLOBAL_CLASS.UUID]: "client-ltp-uuid",
+      [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL]: [
+        { [onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME]: "ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER" }
+      ],
+      [onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP]: ["ethernet-container-ltp-uuid"], // ✅ Added this to link to Ethernet Container
+      [onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP]: ["server-ltp-uuid"],
+    };
+
+    const mockServerLtp = {
+      [onfAttributes.GLOBAL_CLASS.UUID]: "server-ltp-uuid",
+      [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL]: [
+        { 
+          [onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME]: "LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER" 
+        }
+      ],
+      [onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP]: ["final-server-ltp-uuid"], // ✅ Ensure this exists
+    };
+    
+    
+    const mockEthernetContainerLtp = {
+      [onfAttributes.GLOBAL_CLASS.UUID]: "ethernet-container-ltp-uuid",
+      [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL]: [
+        { [onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME]: "LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER" }
+      ],
+      [onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP]: ["mock-server-ltp-uuid-1", "mock-server-ltp-uuid-2"], // ✅ Add Server LTP
+    };
+    
+
+    const mockLtpDesignationResponse = {
+      "ltp-augment-1-0:ltp-augment-pac": {
+        "original-ltp-name": "mock-original-ltp",
+        "external-label": "mock-external-label"
+      }
+    };
+
+    // Mock utility function responses
+    ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockResolvedValue(mockAirInterfaceLtp);
+    
+    // Update mock for getLtpForUuidFromLtpStructure
+    ltpStructureUtility.getLtpForUuidFromLtpStructure
+    .mockResolvedValueOnce(mockClientLtp)  // First call: Client LTP
+    .mockResolvedValueOnce(mockEthernetContainerLtp) // Second call: Ethernet Container LTP ✅
+    .mockResolvedValueOnce(mockServerLtp)  // Third call: Server LTP ✅
+    .mockResolvedValueOnce(mockServerLtp); // Fourth call: Ensuring `serverLtpStructure` returns correctly ✅  
+
+    IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValue({ param: "mock-param" });
+    IndividualServiceUtility.forwardRequest.mockResolvedValue(mockLtpDesignationResponse);
+
+    // Call function
+    const result = await readHistoricalData.RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregations(
+      mockLtpStructure, mountName, requestHeaders, traceIndicatorIncrementer
+    );
+
+    // Assertions
+    expect(result.aggregatedResults).toHaveLength(1);
+    expect(result.aggregatedResults[0]).toHaveProperty('uuid', "air-ltp-uuid");
+
+    // Ensure `subResultsList` is correctly populated
+    expect(result.aggregatedResults[0].list).toEqual([
+      { "link-id": "mock-exte" } // external-label substring (0-9 characters)
+    ]);
+    
+    expect(result.traceIndicatorIncrementer).toBeGreaterThan(1);
+  });
+
+  it('should return an empty array if no AIR_LAYER LTPs are found', async () => {
+    ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockResolvedValue([]);
+
+    const result = await readHistoricalData.RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregations(
+      mockLtpStructure, mountName, requestHeaders, traceIndicatorIncrementer
+    );
+
+    expect(result.aggregatedResults).toEqual([]);
+    expect(result.traceIndicatorIncrementer).toBe(traceIndicatorIncrementer);
+  });
+
+  it('should log an error and return an empty response if an error occurs', async () => {
+    console.error = jest.fn(); // Mock console error
+
+    ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockRejectedValue(new Error("Mock error"));
+
+    const result = await readHistoricalData.RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregations(
+      mockLtpStructure, mountName, requestHeaders, traceIndicatorIncrementer
+    );
+
+    expect(console.error).toHaveBeenCalledWith(expect.stringContaining("is not success with Error: Mock error"));
+    expect(result.aggregatedResults).toEqual([]);
+    expect(result.traceIndicatorIncrementer).toBe(traceIndicatorIncrementer);
   });
 });
  
@@ -531,8 +634,6 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterface
 
   
 });
-
-
  
 describe("RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache", () => {
   let ltpStructure, mountName, timeStamp, requestHeaders, traceIndicatorIncrementer;
@@ -671,7 +772,6 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetCont
     consoleSpy.mockRestore();
   });
 });
- 
  
 describe('getConfiguredModulation', () => {
     let getConfiguredModulation;
