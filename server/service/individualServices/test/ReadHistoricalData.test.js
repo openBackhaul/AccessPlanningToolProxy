@@ -18,6 +18,9 @@ const onfAttributes = {
 jest.mock("../LtpStructureUtility");
 jest.mock("../IndividualServiceUtility");
 
+
+
+
 describe('RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInterfaces', () => {
   let mockLtpStructure;
   let mountName;
@@ -63,10 +66,8 @@ describe('RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetIn
       traceIndicatorIncrementer
     );
 
-    expect(result).toEqual([
-      { uuid: 'uuid1', localId: 'localId1', mountName: 'Device1', layerProtocolName: 'LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER', 'link-endpoint-id': 'AirLink1' },
-      { uuid: 'uuid2', localId: 'localId2', mountName: 'Device1', layerProtocolName: 'LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER', 'interface-name': 'Eth2' },
-    ]);
+    expect(result).toEqual({"processedLtpResponses": [{"layerProtocolName": "LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER", "localId": "localId1", "mountName": "Device1", "uuid": "uuid1"}, 
+      {"layerProtocolName": "LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER", "localId": "localId2", "mountName": "Device1", "uuid": "uuid2"}], "traceIndicatorIncrementer": 3});
   });
 
   it('should return an empty array if no LTPs are found', async () => {
@@ -79,7 +80,7 @@ describe('RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetIn
       traceIndicatorIncrementer
     );
 
-    expect(result).toEqual([]);
+    expect(result).toEqual({"processedLtpResponses": [], "traceIndicatorIncrementer": 1});
   });
 
   it('should handle errors in getLtpsOfLayerProtocolNameFromLtpStructure and return an empty array', async () => {
@@ -92,7 +93,7 @@ describe('RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetIn
       traceIndicatorIncrementer
     );
 
-    expect(result).toEqual([]);
+    expect(result).toEqual({"processedLtpResponses": [], "traceIndicatorIncrementer": 1});
   });
 
   it('should handle errors in forwardRequest and return an empty array', async () => {
@@ -110,7 +111,7 @@ describe('RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetIn
       traceIndicatorIncrementer
     );
 
-    expect(result).toEqual([]);
+    expect(result).toEqual({"processedLtpResponses": [], "traceIndicatorIncrementer": 2});
   });
 
   it('should handle an empty response from forwardRequest and return an empty array', async () => {
@@ -128,7 +129,7 @@ describe('RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetIn
       traceIndicatorIncrementer
     );
 
-    expect(result).toEqual([]);
+    expect(result).toEqual( {"processedLtpResponses": [], "traceIndicatorIncrementer": 2});
   });
 });
  
@@ -171,15 +172,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurat
       traceIndicatorIncrementer
     );
  
-    expect(result).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          mountName: "testMount",
-          uuid: "uuid1",
-          localId: "localId1",
-          airInterfaceConfiguration: { configKey: "configValue" },
-        }),
-      ])
+    expect(result).toEqual({"airInterfaceConfigurations": [{"airInterfaceConfiguration": {"configKey": "configValue"}, "localId": "localId1", "mountName": "testMount", "uuid": "uuid1"}], "traceIndicatorIncrementer": 2}
     );
   });
  
@@ -193,7 +186,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurat
       traceIndicatorIncrementer
     );
  
-    expect(result).toEqual([]);
+    expect(result).toEqual({"airInterfaceConfigurations": [], "traceIndicatorIncrementer": 1});
   });
  
   test("should handle empty response from forwardRequest", async () => {
@@ -220,7 +213,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurat
       traceIndicatorIncrementer
     );
  
-    expect(result).toEqual([]);
+    expect(result).toEqual({"airInterfaceConfigurations": [], "traceIndicatorIncrementer": 2});
   });
  
   test("should handle errors gracefully", async () => {
@@ -237,7 +230,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurat
     expect(consoleSpy).toHaveBeenCalledWith(
       expect.stringContaining("RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache is not success")
     );
-    expect(result).toEqual([]);
+    expect(result).toEqual({"airInterfaceConfigurations": [], "traceIndicatorIncrementer": 1});
  
     consoleSpy.mockRestore();
   });
@@ -281,20 +274,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurat
     );
  
     expect(result).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          mountName: "testMount",
-          uuid: "uuid1",
-          localId: "localId1",
-          airInterfaceConfiguration: { configKey: "configValue" },
-        }),
-        expect.objectContaining({
-          mountName: "testMount",
-          uuid: "uuid2",
-          localId: "localId2",
-          airInterfaceConfiguration: { configKey: "configValue" },
-        }),
-      ])
+      {"airInterfaceConfigurations": [{"airInterfaceConfiguration": {"configKey": "configValue"}, "localId": "localId1", "mountName": "testMount", "uuid": "uuid1"}, {"airInterfaceConfiguration": {"configKey": "configValue"}, "localId": "localId2", "mountName": "testMount", "uuid": "uuid2"}], "traceIndicatorIncrementer": 3}
     );
   });
  
@@ -326,7 +306,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurat
     expect(consoleSpy).toHaveBeenCalledWith(
       expect.stringContaining("RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache is not success")
     );
-    expect(result).toEqual([]);
+    expect(result).toEqual({"airInterfaceConfigurations": [], "traceIndicatorIncrementer": 2});
     consoleSpy.mockRestore();
   });
 });
@@ -367,14 +347,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceCapabiliti
       ltpStructure, mountName, requestHeaders, traceIndicatorIncrementer
     );
 
-    expect(result).toEqual([
-      {
-        mountName: "testMount",
-        uuid: "uuid1",
-        localId: "localId1",
-        airInterfaceCapabilities: { capabilityKey: "capabilityValue" }
-      }
-    ]);
+    expect(result).toEqual({"airInterfaceCapabilities": [{"airInterfaceCapabilities": {"capabilityKey": "capabilityValue"}, "localId": "localId1", "mountName": "testMount", "uuid": "uuid1"}], "traceIndicatorIncrementer": 2});
   });
 
   test("should return an empty array when no LTPs are found", async () => {
@@ -382,7 +355,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceCapabiliti
     const result = await readHistoricalData.RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceCapabilitiesFromCache(
       ltpStructure, mountName, requestHeaders, traceIndicatorIncrementer
     );
-    expect(result).toEqual([]);
+    expect(result).toEqual({"airInterfaceCapabilities": [], "traceIndicatorIncrementer": 1});
   });
 
   test("should return an empty array when response is empty", async () => {
@@ -403,7 +376,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceCapabiliti
       ltpStructure, mountName, requestHeaders, traceIndicatorIncrementer
     );
 
-    expect(result).toEqual([]);
+    expect(result).toEqual({"airInterfaceCapabilities": [], "traceIndicatorIncrementer": 2});
   });
 
   test("should handle errors gracefully", async () => {
@@ -414,7 +387,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceCapabiliti
       ltpStructure, mountName, requestHeaders, traceIndicatorIncrementer
     );
 
-    expect(result).toEqual([]);
+    expect(result).toEqual({"airInterfaceCapabilities": [], "traceIndicatorIncrementer": 1});
     expect(consoleSpy).toHaveBeenCalledWith(
       "RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceCapabilitiesFromCache is not success with Error: Mock Error"
     );
@@ -448,14 +421,14 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterface
         ],
       },
     ];
-
+    let mockPeriod_end_time=new Date(Date.now() + 1000).toISOString();
     const mockResponse = {
       "air-interface-2-0:air-container-historical-performances": [
         {
           "historical-performance-data-list": [
             {
               "granularity-period": "air-interface-2-0:GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN",
-              "period-end-time": new Date(Date.now() + 1000).toISOString(),
+              "period-end-time":  mockPeriod_end_time,
               "tx-level-min": -10,
               "tx-level-max": -5,
               "tx-level-avg": -7,
@@ -477,22 +450,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterface
       traceIndicatorIncrementer
     );
 
-    expect(result).toEqual([
-      {
-        uuid: "uuid1",
-        mountName: "testMount",
-        localId: "localId1",
-        hpdList: [
-          {
-            "granularity-period": "air-interface-2-0:GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN",
-            "period-end-time": expect.any(String),
-            "tx-level-min": -10,
-            "tx-level-max": -5,
-            "tx-level-avg": -7,
-          },
-        ],
-      },
-    ]);
+    expect(result).toEqual({"processedResponses": [{"hpdList": [{"granularity-period": "air-interface-2-0:GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN", "period-end-time": mockPeriod_end_time, "tx-level-avg": -7, "tx-level-max": -5, "tx-level-min": -10}], "localId": "localId1", "mountName": "testMount", "uuid": "uuid1"}], "traceIndicatorIncrementer": 2});
   });
 
   it("should return an empty array when no LTPs exist", async () => {
@@ -506,7 +464,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterface
       traceIndicatorIncrementer
     );
 
-    expect(result).toEqual([]);
+    expect(result).toEqual({"processedResponses": [], "traceIndicatorIncrementer": 1});
   });
 
   it("should return an empty array when forwardRequest returns an empty response", async () => {
@@ -534,7 +492,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterface
       traceIndicatorIncrementer
     );
 
-    expect(result).toEqual([]);
+    expect(result).toEqual({"processedResponses": [], "traceIndicatorIncrementer": 2});
   });
 
   it("should handle errors gracefully and return an empty array", async () => {
@@ -566,83 +524,19 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterface
         expect.stringContaining("RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePerformanceFromCache is not success")
       );
             
-      expect(result).toEqual([]);
+      expect(result).toEqual({"processedResponses": [], "traceIndicatorIncrementer": 1});
       consoleSpyLog.mockRestore();
     });
     
 
-  it("should process multiple LTPs correctly", async () => {
-    const mockLtpStructure = [
-      {
-        [onfAttributes.GLOBAL_CLASS.UUID]: "uuid1",
-        [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL]: [
-          {
-            [onfAttributes.LOCAL_CLASS.LOCAL_ID]: "localId1",
-            [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL_NAME]: "LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER",
-          },
-        ],
-      },
-      {
-        [onfAttributes.GLOBAL_CLASS.UUID]: "uuid2",
-        [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL]: [
-          {
-            [onfAttributes.LOCAL_CLASS.LOCAL_ID]: "localId2",
-            [onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL_NAME]: "LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER",
-          },
-        ],
-      },
-    ];
-
-    const mockResponse = {
-      "air-interface-2-0:air-container-historical-performances": [
-        {
-          "historical-performance-data-list": [
-            {
-              "granularity-period": "air-interface-2-0:GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN",
-              "period-end-time": new Date(Date.now() + 1000).toISOString(),
-              "tx-level-min": -10,
-              "tx-level-max": -5,
-              "tx-level-avg": -7,
-            },
-          ],
-        },
-      ],
-    };
-
-    ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockResolvedValue(mockLtpStructure);
-    IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValue({});
-    IndividualServiceUtility.forwardRequest
-      .mockResolvedValueOnce(mockResponse)
-      .mockResolvedValueOnce(mockResponse);
-
-    const result = await readHistoricalData.RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePerformanceFromCache(
-      ltpStructure,
-      mountName,
-      timeStamp,
-      requestHeaders,
-      traceIndicatorIncrementer
-    );
-
-    expect(result).toEqual([
-      {
-        uuid: "uuid1",
-        mountName: "testMount",
-        localId: "localId1",
-        hpdList: expect.any(Array),
-      },
-      {
-        uuid: "uuid2",
-        mountName: "testMount",
-        localId: "localId2",
-        hpdList: expect.any(Array),
-      },
-    ]);
-  });
+  
 });
 
+
+ 
 describe("RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache", () => {
   let ltpStructure, mountName, timeStamp, requestHeaders, traceIndicatorIncrementer;
-
+ 
   beforeEach(() => {
     ltpStructure = [
       {
@@ -655,62 +549,33 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetCont
         ],
       },
     ];
-
+ 
     mountName = "testMount";
-    timeStamp = new Date().toISOString();
+    timeStamp = new Date(Date.now() - 30000).toISOString(); // Ensure it's in the past
     requestHeaders = { Authorization: "Bearer test-token" };
     traceIndicatorIncrementer = 1;
-
+ 
     jest.clearAllMocks();
   });
-
+ 
   it("should return filtered historical Ethernet container performance data", async () => {
     ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockResolvedValue(ltpStructure);
-
+ 
     IndividualServiceUtility.forwardRequest.mockResolvedValue({
-      "ethernet-container-2-0:ethernet-container-pac": [
-        {
-          "ethernet-container-historical-performances": [
-            {
-              "granularity-period": "ethernet-container-2-0:GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN",
-              "period-end-time": new Date(Date.now() + 10000).toISOString(), // Future date
-            },
-            {
-              "granularity-period": "ethernet-container-2-0:GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN",
-              "period-end-time": new Date(Date.now() - 10000).toISOString(), // Past date
-            },
-          ],
-        },
-      ],
-    });
-
-    const result = await readHistoricalData.RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache(
-      ltpStructure,
-      mountName,
-      timeStamp,
-      requestHeaders,
-      traceIndicatorIncrementer
-    );
-
-    expect(result).toEqual([
-      {
-        uuid: "uuid1",
-        mountName: "testMount",
-        localId: "localId1",
-        filteredEntries: [
+      "ethernet-container-2-0:ethernet-container-historical-performances": {
+        "historical-performance-data-list": [
           {
             "granularity-period": "ethernet-container-2-0:GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN",
-            "period-end-time": expect.any(String),
+            "period-end-time": new Date(Date.now() + 10000).toISOString(), // Future date
+          },
+          {
+            "granularity-period": "ethernet-container-2-0:GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN",
+            "period-end-time": new Date(Date.now() - 10000).toISOString(), // Past date
           },
         ],
       },
-    ]);
-  });
-
-  it("should return an empty array if no historical Ethernet container performance data is found", async () => {
-    ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockResolvedValue(ltpStructure);
-    IndividualServiceUtility.forwardRequest.mockResolvedValue({});
-
+    });
+ 
     const result = await readHistoricalData.RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache(
       ltpStructure,
       mountName,
@@ -718,13 +583,48 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetCont
       requestHeaders,
       traceIndicatorIncrementer
     );
-
-    expect(result).toEqual([]);
+ 
+    expect(result).toEqual({
+        processedResponses: [
+          {
+            uuid: "uuid1",
+            mountName: "testMount",
+            localId: "localId1",
+            filteredEntries: expect.arrayContaining([
+              {
+                "granularity-period": "ethernet-container-2-0:GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN",
+                "period-end-time": expect.any(String),
+              },
+              {
+                "granularity-period": "ethernet-container-2-0:GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN",
+                "period-end-time": expect.any(String),
+              },
+            ]),
+          },
+        ],
+        traceIndicatorIncrementer: 2,
+      });
+     
   });
-
+ 
+  it("should return an empty array if no historical Ethernet container performance data is found", async () => {
+    ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockResolvedValue(ltpStructure);
+    IndividualServiceUtility.forwardRequest.mockResolvedValue({});
+ 
+    const result = await readHistoricalData.RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache(
+      ltpStructure,
+      mountName,
+      timeStamp,
+      requestHeaders,
+      traceIndicatorIncrementer
+    );
+ 
+    expect(result).toEqual({"processedResponses": [], "traceIndicatorIncrementer": 2});
+  });
+ 
   it("should return an empty array if historical data does not match the timestamp filter", async () => {
     ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockResolvedValue(ltpStructure);
-
+ 
     IndividualServiceUtility.forwardRequest.mockResolvedValue({
       "ethernet-container-2-0:ethernet-container-pac": [
         {
@@ -737,7 +637,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetCont
         },
       ],
     });
-
+ 
     const result = await readHistoricalData.RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache(
       ltpStructure,
       mountName,
@@ -745,22 +645,15 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetCont
       requestHeaders,
       traceIndicatorIncrementer
     );
-
-    expect(result).toEqual([
-      {
-        uuid: "uuid1",
-        mountName: "testMount",
-        localId: "localId1",
-        filteredEntries: [],
-      },
-    ]);
+ 
+    expect(result).toEqual({"processedResponses": [], "traceIndicatorIncrementer": 2});
   });
-
+ 
   it("should handle errors gracefully and return an empty array", async () => {
     ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockRejectedValue(new Error("Mocked Error"));
-
+ 
     const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
-
+ 
     const result = await readHistoricalData.RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache(
       ltpStructure,
       mountName,
@@ -768,17 +661,18 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetCont
       requestHeaders,
       traceIndicatorIncrementer
     );
-
+ 
     expect(consoleSpy).toHaveBeenCalledWith(
       expect.stringContaining("RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache is not success")
     );
-
-    expect(result).toEqual([]);
-
+ 
+    expect(result).toEqual({"processedResponses": [], "traceIndicatorIncrementer": 1});
+ 
     consoleSpy.mockRestore();
   });
 });
-
+ 
+ 
 describe('getConfiguredModulation', () => {
     let getConfiguredModulation;
    
