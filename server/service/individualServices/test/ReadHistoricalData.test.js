@@ -1289,7 +1289,7 @@ describe("RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData", (
           "link-aggregation-identifiers": [
             {
               uuid: "ltp-aggregated-1",
-              layerProtocolName: "AIR_LAYER"
+              layerProtocolName: "air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER"
             }
           ]
         },
@@ -1309,7 +1309,7 @@ describe("RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData", (
           list: [
             {
               uuid: "ltp-aggregated-1",
-              layerProtocolName: "AIR_LAYER"
+              layerProtocolName: "air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER"
             }
           ]
         }
@@ -1514,7 +1514,7 @@ describe("RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData", (
 
     mockEthernetPerformance = {
         processedResponses: [
-            { "uuid": "LTP-1",
+            { "uuid": "LTP-2",
                 "mountName": "exampleMountName",
                 "localId": "localId",
       "filteredEntries": 
@@ -1707,8 +1707,8 @@ describe("RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData", (
     expect(result).toHaveProperty("air-interface-list");
     expect(result).toHaveProperty("ethernet-container-list");
  
-    expect(result["air-interface-list"]["air-interface-identifiers"]).toBeDefined();
-    expect(Object.keys(result["air-interface-list"]["air-interface-identifiers"]).length).toBeGreaterThan(0);
+    expect(result["air-interface-list"][0]["air-interface-identifiers"]).toBeDefined();
+    expect(Object.keys(result["air-interface-list"][0]["air-interface-identifiers"]).length).toBeGreaterThan(0);
  
     expect(result["air-interface-list"][0]["air-interface-performance-measurements-list"]).toBeDefined();
     expect(result["air-interface-list"][0]["air-interface-performance-measurements-list"].length).toBeGreaterThan(0);
@@ -1863,7 +1863,7 @@ describe('ReadHistoricalData', () => {
                   'logical-termination-point': [
                       {
                           uuid: 'ltp-123',
-                          'layer-protocol': [{ 'local-id': 'lp-001', 'layer-protocol-name': 'AIR_LAYER' }]
+                          'layer-protocol': [{ 'local-id': 'lp-001', 'layer-protocol-name': 'air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER' }]
                       }
                   ]
               }
@@ -1872,7 +1872,7 @@ describe('ReadHistoricalData', () => {
  
       jest.spyOn(readHistoricalData, 'RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInterfaces')
           .mockResolvedValue({
-              processedLtpResponses: [{ uuid: 'ltp-123', localId: 'lp-001', layerProtocolName: 'AIR_LAYER' }],
+              processedLtpResponses: [{ uuid: 'ltp-123', localId: 'lp-001', layerProtocolName: 'air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER' }],
               traceIndicatorIncrementer: 2
           });
  

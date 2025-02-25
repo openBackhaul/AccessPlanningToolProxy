@@ -764,13 +764,13 @@ exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = asy
               "xpd-max", "xpd-avg", "es", "ses",
               "cses", "unavailability", "defect-blocks-sum"];
 
-
-            for (let i = 0; i < outputParams.length; i++) {
-              if (airInterfacePerformanceObj.hpdList[j].hasOwnProperty(callbackParams[i])) {
-                air_interface_performance_measurements_list_obj[outputParams[i]] = airInterfacePerformanceObj.hpdList[j][callbackParams[i]];
+            if(airInterfacePerformanceObj.hpdList[j].hasOwnProperty("performance-data")){
+              for (let i = 0; i < outputParams.length; i++) {
+                if (airInterfacePerformanceObj.hpdList[j]["performance-data"].hasOwnProperty(callbackParams[i])) {
+                  air_interface_performance_measurements_list_obj[outputParams[i]] = airInterfacePerformanceObj.hpdList[j]["performance-data"][callbackParams[i]];
+                }
               }
             }
-
             let interval_capacity = -1;
 
 
@@ -803,8 +803,8 @@ exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = asy
         }
 
         air_interface["air-interface-performance-measurements-list"] = air_interface_performance_measurements_list;
-
-        if (Object.keys(airInterfaceCapabilitiesObj).length !== 0 && airInterfaceCapabilitiesObj.hasOwnProperty("transmission-mode-list")) {
+        
+        if (Object.keys(airInterfaceCapabilitiesObj).length !== 0  && airInterfaceCapabilitiesObj.hasOwnProperty("transmission-mode-list")) {
 
           for (let tmObj of airInterfaceCapabilitiesObj["transmission-mode-list"]) {
 
@@ -866,12 +866,14 @@ exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = asy
               "dropped-frames-output", "oversized-frames-ingress", "undersized-frames-ingress", "jabber-frames-ingress",
               "unknown-protocol-frames-input"];
 
-            for (let i = 0; i < outputParams.length; i++) {
-              if (ethernetPerformanceObj.filteredEntries[k].hasOwnProperty(callbackParams[i])) {
-                ethernet_container_performance_measurements_list_obj[outputParams[i]] = ethernetPerformanceObj.filteredEntries[k][callbackParams[i]];
+              if(ethernetPerformanceObj.filteredEntries[k].hasOwnProperty("performance-data")){   
+              for (let i = 0; i < outputParams.length; i++) {
+                if (ethernetPerformanceObj.filteredEntries[k]["performance-data"].hasOwnProperty(callbackParams[i])) {
+                  ethernet_container_performance_measurements_list_obj[outputParams[i]] = ethernetPerformanceObj.filteredEntries[k]["performance-data"][callbackParams[i]];
+                }
               }
-            }
-            ethernet_container_performance_measurements_list.push(ethernet_container_performance_measurements_list_obj);
+              ethernet_container_performance_measurements_list.push(ethernet_container_performance_measurements_list_obj);
+             }
           }
           ethernet_container["ethernet-container-performance-measurements-list"] = ethernet_container_performance_measurements_list;
 
