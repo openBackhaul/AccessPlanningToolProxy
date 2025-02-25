@@ -49,7 +49,7 @@ exports.readStatusInterfaceData = async function (mountName, linkId, ltpStructur
      *  Fetching and setting up UuidUnderTest and PathParameters
      ****************************************************************************************/
 
-    let uuidUnderTestResponse = await RequestForProvidingStatusForLivenetviewCausesDeterminingAirInterfaceUuidUnderTest(
+    let uuidUnderTestResponse = await exports.RequestForProvidingStatusForLivenetviewCausesDeterminingAirInterfaceUuidUnderTest(
       ltpStructure,
       mountName,
       linkId,
@@ -68,12 +68,12 @@ exports.readStatusInterfaceData = async function (mountName, linkId, ltpStructur
        ****************************************************************************************/
       if (uuidUnderTest != "") {
 
-        let airInterfaceCapability = await RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache(pathParams, requestHeaders, traceIndicatorIncrementer);
+        let airInterfaceCapability = await exports.RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache(pathParams, requestHeaders, traceIndicatorIncrementer);
         if (Object.keys(airInterfaceCapability).length !== 0) {
           traceIndicatorIncrementer = airInterfaceCapability.traceIndicatorIncrementer;
         }
 
-        let airInterfaceStatus = await RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive(pathParams, requestHeaders, traceIndicatorIncrementer);
+        let airInterfaceStatus = await exports.RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive(pathParams, requestHeaders, traceIndicatorIncrementer);
         if (Object.keys(airInterfaceStatus).length !== 0) {
           traceIndicatorIncrementer = airInterfaceStatus.traceIndicatorIncrementer;
         }
@@ -112,7 +112,7 @@ exports.readStatusInterfaceData = async function (mountName, linkId, ltpStructur
  * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
  * @returns {Object} return values of uuidUnderTest,PathParams,trace indicator incrementer if external-label === linkId
  */
-async function RequestForProvidingStatusForLivenetviewCausesDeterminingAirInterfaceUuidUnderTest(ltpStructure, mountName, linkId, requestHeaders, traceIndicatorIncrementer) {
+exports.RequestForProvidingStatusForLivenetviewCausesDeterminingAirInterfaceUuidUnderTest = async function (ltpStructure, mountName, linkId, requestHeaders, traceIndicatorIncrementer) {
   const forwardingName = "RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest";
   const stringName = "RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceLabel";
   let uuidUnderTestResponse = {};
@@ -213,7 +213,7 @@ exports.RequestForProvidingStatusForLivenetviewCausesReadingConfigurationFromCac
  * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
  * @returns {Object} returns airInterfaceCapability for UuidUnderTest and LocalIdUnderTest
  */
-async function RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache(pathParams, requestHeaders, traceIndicatorIncrementer) {
+exports.RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache = async function (pathParams, requestHeaders, traceIndicatorIncrementer) {
   const forwardingName = "RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache";
   const stringName = "RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache"
   let airInterfaceCapability = {};
@@ -251,7 +251,7 @@ async function RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesF
  * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator * 
  * @returns {Object} returns airInterfaceStatus for UuidUnderTest and LocalIdUnderTest
  */
-async function RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive(pathParams, requestHeaders, traceIndicatorIncrementer) {
+exports.RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive = async function(pathParams, requestHeaders, traceIndicatorIncrementer) {
   const forwardingName = "RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive";
   const stringName = "RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive.DedicatedStatusValuesFromLive";
   let airInterfaceStatus = {};

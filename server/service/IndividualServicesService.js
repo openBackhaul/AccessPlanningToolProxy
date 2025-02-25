@@ -12,7 +12,7 @@ const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfM
 const createHttpError = require('http-errors');
 const IndividualServiceUtility = require('./individualServices/IndividualServiceUtility');
 const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
-
+const ReadHistoricalData = require('./individualServices/ReadHistoricalData');
 const softwareUpgrade = require('./individualServices/SoftwareUpgrade');
 const HttpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
 const LogicalTerminationPointC = require('./individualServices/custom/LogicalTerminationPointC');
@@ -316,6 +316,95 @@ exports.provideEquipmentInfoForLiveNetView = function (body, user, originator, x
 }
 
 /**
+ * Provides the historical performance data, together with some relevant configurations and capabilities, of air-interfaces and ethernet-containers found in the device
+ *
+ * body V1_providehistoricalpmdataofdevice_body 
+ * returns inline_response_202_1
+ **/
+exports.provideHistoricalPmDataOfDevice = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      let historicalPmDataOfDevice = {
+        "air-interface-list": [],
+        "ethernet-container-list": [],
+        "mount-name-list-with-errors":[]
+      };  
+      let mountNameWithError = [];
+      let traceIndicatorIncrementer = 1;
+
+      /****************************************************************************************
+       * Setting up request header object
+       ****************************************************************************************/
+      let requestHeaders = {
+        user: user,
+        originator: originator,
+        xCorrelator: xCorrelator,
+        traceIndicator: traceIndicator,
+        customerJourney: customerJourney
+      };
+
+      const forwardingName = "RequestForProvidingConfigurationForLivenetviewCausesReadingLtpStructure";
+      const forwardingConstruct = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+      let prefix = forwardingConstruct.uuid.split('op')[0];
+      let maxNumberOfParallelOperations = await IndividualServiceUtility.extractProfileConfiguration(prefix + "integer-p-001");
+      counterStatusHistoricalPMDataCall = counterStatusHistoricalPMDataCall + 1;
+      if (counterStatusHistoricalPMDataCall > maxNumberOfParallelOperations) {
+        throw new createHttpError.TooManyRequests("Too many requests");
+      }
+
+      /****************************************************************************************
+       * Loop through each request in the body array
+       ****************************************************************************************/
+      for(let i=0; i<body.length; i++){
+              let mountName = body[i]["mount-name"]; 
+              let timeStamp = body[i]["time-stamp"];
+
+          /****************************************************************************************
+           * Collect complete ltp structure of mount-name in request bodys
+           ****************************************************************************************/
+          let ltpStructure = {};
+          try {
+            let ltpStructureResult = await ReadLtpStructure.readLtpStructure(mountName, requestHeaders, traceIndicatorIncrementer)
+            ltpStructure = ltpStructureResult.ltpStructure;
+            traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
+          } catch (err) {
+            mountNameWithError.push(mountName);
+            continue;
+          };
+          
+          /****************************************************************************************
+           * Collect history data
+           ****************************************************************************************/
+          
+          let historicalDataResult = await ReadHistoricalData.readHistoricalData(mountName, timeStamp, ltpStructure, requestHeaders, traceIndicatorIncrementer)
+            .catch(err => console.log(` ${err}`));
+
+            if (Object.keys(historicalDataResult).length !== 0){
+              if(historicalDataResult.hasOwnProperty("air-interface-list"))historicalPmDataOfDevice["air-interface-list"].push(...historicalDataResult["air-interface-list"]);
+              if(historicalDataResult.hasOwnProperty("ethernet-container-list"))historicalPmDataOfDevice["ethernet-container-list"].push(...historicalDataResult["ethernet-container-list"]);
+            }
+            else{
+              mountNameWithError.push(mountName);
+            }
+      }
+      historicalPmDataOfDevice["mount-name-list-with-errors"] = mountNameWithError;
+      
+      if (Object.keys(historicalPmDataOfDevice["air-interface-list"]).length == 0 &&
+      Object.keys(historicalPmDataOfDevice["ethernet-container-list"]).length == 0 ) {
+        throw new createHttpError.NotFound("Empty : data not found");
+      } else {
+        resolve(historicalPmDataOfDevice);
+      }
+    } catch (error) {
+      console.log(error)
+      reject(error);
+    }finally {
+      counterStatusHistoricalPMDataCall--;
+    }
+  });
+}
+
+/**
  * Provides information about the radio component identifiers at the link endpoint for display at the section \"LiveView aktuell\" in LinkVis
  *
  * body V1_providestatusforlivenetview_body
@@ -497,12 +586,12 @@ exports.updateAptClient = function(body) {
         
         try{
         coreModelJsonObject  = await fileOperation.readFromDatabaseAsync("");
-        let uuidReleaseNumber = "aptp-1-1-0-http-c-apt-24-5-0-000";
+        let uuidReleaseNumber = prefix + "http-c-apt-24-5-0-000";
         if(!await LogicalTerminationPointC.setLayerProtolReleaseNumberLtpAsync(uuidReleaseNumber,future_release_number)){
           throw new createHttpError.InternalServerError("Updation of Release Number Failed");
         }
 
-        let uuidProtocolAddressPort = "aptp-1-1-0-tcp-c-apt-24-5-0-000";
+        let uuidProtocolAddressPort = prefix + "tcp-c-apt-24-5-0-000";
         if(!await LogicalTerminationPointC.setLayerProtolRemoteProtocolLtpAsync(uuidProtocolAddressPort,future_apt_protocol)){
           throw new createHttpError.InternalServerError("Updation of Protocol Failed");
         }
@@ -515,12 +604,12 @@ exports.updateAptClient = function(body) {
           throw new createHttpError.InternalServerError("Updation of Remote Address Failed");
         }
 
-        let uuidAcceptanceDataReceive = "aptp-1-1-0-op-c-is-apt-24-5-0-000";
+        let uuidAcceptanceDataReceive = prefix + "op-c-is-apt-24-5-0-000";
         if(!await LogicalTerminationPointC.setLayerProtolOperationNameLtpAsync(uuidAcceptanceDataReceive,future_acceptance_data_receive_operation)){
           throw new createHttpError.InternalServerError("Updation of Operation Name Failed");
         }
 
-        let uuidPerformanceDataReceive = "aptp-1-1-0-op-c-is-apt-24-5-0-001";
+        let uuidPerformanceDataReceive = prefix + "op-c-is-apt-24-5-0-001";
         if(!await LogicalTerminationPointC.setLayerProtolOperationNameLtpAsync(uuidPerformanceDataReceive,future_performance_data_receive_operation)){
           throw new createHttpError.InternalServerError("Updation of Operation Name Failed");
         }

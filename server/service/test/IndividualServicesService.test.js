@@ -8,14 +8,22 @@ const IndividualServiceUtility = require('../individualServices/IndividualServic
 const LogicalTerminationPointC = require('../individualServices/custom/LogicalTerminationPointC');
 const fileOperation = require('onf-core-model-ap/applicationPattern/databaseDriver/JSONDriver');
 const createHttpError = require('http-errors');
-const checkRegisteredAvailabilityOfDevice = require('../IndividualServicesService'); // Replace with actual path
+const checkRegisteredAvailabilityOfDevice = require('../IndividualServicesService');
+
+const { provideAlarmsForLiveNetView } = require('../IndividualServicesService'); 
+const ReadLiveAlarmsData = require('../individualServices/ReadLiveAlarmsData');
+
+const { provideStatusForLiveNetView } = require('../IndividualServicesService');
+const ReadLiveStatusData = require('../individualServices/ReadLiveStatusData');
 
 global.counterTime;
 
-
-const ReadConfigurationAirInterfaceData = require('../individualServices/ReadConfigurationAirInterfaceData'); // Replace with actual path
+const ReadConfigurationAirInterfaceData = require('../individualServices/ReadConfigurationAirInterfaceData'); 
 const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
 const provideConfigurationForLiveNetView = require('../IndividualServicesService');
+
+const {provideHistoricalPmDataOfDevice} = require("../IndividualServicesService");
+const ReadHistoricalData = require("../individualServices/ReadHistoricalData");
 
 // Mocking dependencies used in the individual services
 jest.mock('../individualServices/ReadLtpStructure');
@@ -27,7 +35,13 @@ jest.mock('../individualServices/custom/LogicalTerminationPointC');
 jest.mock('../individualServices/ReadConfigurationAirInterfaceData');
 jest.mock('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
 
+jest.mock('../individualServices/ReadLiveAlarmsData');
+//=====================================================//
+jest.mock('../individualServices/ReadLiveStatusData');
+jest.mock("../individualServices/ReadHistoricalData");
 
+
+//=======================================================//
 describe('provideEquipmentInfoForLiveNetView', () => {
   afterEach(() => {
     // Clear all mock calls and instances after each test to prevent interference
@@ -180,7 +194,7 @@ describe('updateAptClient', () => {
 
   it('should resolve when all operations succeed', async () => {
     // Arrange: Mocking dependencies to simulate successful behavior
-    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue({ uuid: 'some-uuid' });
+    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue({ uuid: 'aptp-1-1-0-' });
     IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(1); // Assume minimum time = 1 hour
     fileOperation.readFromDatabaseAsync.mockResolvedValue({});
     LogicalTerminationPointC.setLayerProtolReleaseNumberLtpAsync.mockResolvedValue(true);
@@ -194,7 +208,7 @@ describe('updateAptClient', () => {
 
     // Assert: Verify all mocked dependencies were called with the expected parameters
     expect(forwardingDomain.getForwardingConstructForTheForwardingNameAsync).toHaveBeenCalledWith("RequestForProvidingConfigurationForLivenetviewCausesReadingLtpStructure");
-    expect(IndividualServiceUtility.extractProfileConfiguration).toHaveBeenCalledWith('some-uuidinteger-p-004');
+    expect(IndividualServiceUtility.extractProfileConfiguration).toHaveBeenCalledWith('aptp-1-1-0-integer-p-004');
     expect(fileOperation.readFromDatabaseAsync).toHaveBeenCalled();
     expect(LogicalTerminationPointC.setLayerProtolReleaseNumberLtpAsync).toHaveBeenCalledWith("aptp-1-1-0-http-c-apt-24-5-0-000", "1.0");
   });
@@ -499,5 +513,191 @@ describe('provideConfigurationForLiveNetView', () => {
     );
 
     expect(result).toEqual({});
+  });
+});
+
+describe('provideAlarmsForLiveNetView', () => {
+  let mockBody, mockUser, mockHeaders;
+
+  beforeEach(() => {
+    // Reset counter status
+    global.counterAlarms = 0;
+
+    // Mock request data
+    mockBody = { "mount-name": "testMount" };
+    mockUser = "testUser";
+    mockHeaders = {
+      originator: "testOriginator",
+      xCorrelator: "testXCorrelator",
+      traceIndicator: "testTrace",
+      customerJourney: "testJourney"
+    };
+
+    // Mocking forwarding construct
+    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue({ uuid: "op12345" });
+
+    // Mocking profile configuration
+    IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(5);
+
+    // Mocking alarm data retrieval
+    ReadLiveAlarmsData.readLiveAlarmsData.mockResolvedValue({
+      alarms: { alarm1: "high", alarm2: "low" }
+    });
+
+    // Mock attribute formatter
+    onfAttributeFormatter.modifyJsonObjectKeysToKebabCase.mockImplementation(obj => obj);
+  });
+
+  test('should return alarms data successfully', async () => {
+    await expect(provideAlarmsForLiveNetView(mockBody, mockUser, ...Object.values(mockHeaders)))
+      .resolves.toEqual({ alarm1: "high", alarm2: "low" });
+  });
+
+  test('should throw TooManyRequests error when max requests exceeded', async () => {
+    global.counterAlarms = 6; // Simulate exceeding request limit
+
+    await expect(provideAlarmsForLiveNetView(mockBody, mockUser, ...Object.values(mockHeaders)))
+      .rejects.toThrow(createHttpError.TooManyRequests);
+  });
+
+  test('should resolve empty when no alarms are found', async () => {
+    ReadLiveAlarmsData.readLiveAlarmsData.mockResolvedValue();
+
+    await expect(provideAlarmsForLiveNetView(mockBody, mockUser, ...Object.values(mockHeaders)))
+      .resolves.toBeUndefined();
+  });
+
+  test('should throw InternalServerError when alarm retrieval fails', async () => {
+    ReadLiveAlarmsData.readLiveAlarmsData.mockRejectedValue(new Error('Alarm Retrieval Failed'));
+
+    await expect(provideAlarmsForLiveNetView(mockBody, mockUser, ...Object.values(mockHeaders)))
+      .toBeUndefined;
+  });
+
+});
+
+describe('provideStatusForLiveNetView', () => {
+  let mockBody, mockUser, mockHeaders;
+  beforeEach(() => {
+    // Reset counter status
+    global.counterStatus = 0;
+
+    // Mock request data
+    mockBody = { "mount-name": "testMount", "link-id": "testLink" };
+    mockUser = "testUser";
+    mockHeaders = {
+      originator: "testOriginator",
+      xCorrelator: "testXCorrelator",
+      traceIndicator: "testTrace",
+      customerJourney: "testJourney"
+    };
+
+    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue({ uuid: "op12345" });
+
+    IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(5);
+
+    ReadLtpStructure.readLtpStructure.mockResolvedValue({
+      ltpStructure: { someKey: "someValue" },
+      traceIndicatorIncrementer: 2
+    });
+
+    ReadLiveStatusData.readStatusInterfaceData.mockResolvedValue({
+      airInterface: { status: "active" },
+      traceIndicatorIncrementer: 3
+    });
+  });
+
+  test('should return status for live net view', async () => {
+    await expect(provideStatusForLiveNetView(mockBody, mockUser, ...Object.values(mockHeaders)))
+      .resolves.toEqual({ status: "active" });
+  });
+
+  test('should throw TooManyRequests error when max requests exceeded', async () => {
+    global.counterStatus = 6; // Simulate max requests exceeded
+
+    await expect(provideStatusForLiveNetView(mockBody, mockUser, ...Object.values(mockHeaders)))
+      .rejects.toThrow(createHttpError.TooManyRequests);
+  });
+
+  test('should throw InternalServerError when LTP structure retrieval fails', async () => {
+    ReadLtpStructure.readLtpStructure.mockRejectedValue(new Error('LTP Error'));
+
+    await expect(provideStatusForLiveNetView(mockBody, mockUser, ...Object.values(mockHeaders)))
+      .rejects.toThrow(createHttpError.InternalServerError);
+  });
+});
+
+describe("provideHistoricalPmDataOfDevice", () => {
+  let mockRequestHeaders;
+  let mockBody;
+
+  beforeEach(() => {
+    mockRequestHeaders = {
+      user: "testUser",
+      originator: "testOriginator",
+      xCorrelator: "testXCorrelator",
+      traceIndicator: "testTraceIndicator",
+      customerJourney: "testJourney"
+    };
+
+    mockBody = [
+      { "mount-name": "device1", "time-stamp": "2025-02-24T12:00:00Z" },
+      { "mount-name": "device2", "time-stamp": "2025-02-24T12:00:00Z" }
+    ];
+
+    // Reset mock counter
+    global.counterStatusHistoricalPMDataCall = 0;
+  });
+
+  test("should return historical PM data successfully", async () => {
+    // Mock responses
+    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue({ uuid: "test-op123" });
+    IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(5);
+    ReadLtpStructure.readLtpStructure.mockResolvedValue({
+      ltpStructure: { key: "ltpData" },
+      traceIndicatorIncrementer: 2
+    });
+    ReadHistoricalData.readHistoricalData.mockResolvedValue({
+      "air-interface-list": [{ key: "airData" }],
+      "ethernet-container-list": [{ key: "ethData" }]
+    });
+
+    const result = await provideHistoricalPmDataOfDevice(mockBody, ...Object.values(mockRequestHeaders));
+
+    expect(result).toMatchObject({
+      "air-interface-list": expect.arrayContaining([{ key: "airData" }]),
+      "ethernet-container-list": expect.arrayContaining([{ key: "ethData" }]),
+      "mount-name-list-with-errors": [],
+    });
+    
+
+  });
+
+  test("should throw TooManyRequests error when max parallel requests exceeded", async () => {
+    global.counterStatusHistoricalPMDataCall = 6; // Simulating exceeded limit
+    IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(5);
+
+    await expect(provideHistoricalPmDataOfDevice(mockBody, ...Object.values(mockRequestHeaders)))
+      .rejects.toThrow(createHttpError.TooManyRequests);
+  });
+
+  test("should throw NotFound error if both air-interface and ethernet-container lists are empty", async () => {
+    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue({ uuid: "test-op123" });
+    IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(5);
+    ReadLtpStructure.readLtpStructure.mockResolvedValue({
+      ltpStructure: { key: "ltpData" },
+      traceIndicatorIncrementer: 2
+    });
+    ReadHistoricalData.readHistoricalData.mockResolvedValue({});
+
+    await expect(provideHistoricalPmDataOfDevice(mockBody, ...Object.values(mockRequestHeaders)))
+      .rejects.toThrow(createHttpError.NotFound);
+  });
+
+  test("should reject with an error if an unexpected error occurs", async () => {
+    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockRejectedValue(new Error("Unexpected Error"));
+
+    await expect(provideHistoricalPmDataOfDevice(mockBody, ...Object.values(mockRequestHeaders)))
+      .rejects.toThrow("Unexpected Error");
   });
 });

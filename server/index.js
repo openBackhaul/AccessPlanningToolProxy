@@ -37,7 +37,7 @@ global.counter = 0;
 global.counterStatus = 0;
 global.counterAlarms = 0;
 global.counterTime   = 0;
-
+global.counterStatusHistoricalPMDataCall = 0;
 //creating connected device list obj
 global.connectedDeviceList = "";
 appCommons.performApplicationRegistration();
