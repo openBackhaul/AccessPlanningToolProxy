@@ -1,5 +1,5 @@
 const rewire = require('rewire');
-const readLiveEquipmentDataRewire = rewire('../readLiveEquipmentData');
+const readLiveEquipmentDataRewire = rewire('../ReadLiveEquipmentData');
 const readLiveEquipmentData = require('../ReadLiveEquipmentData');
 const ltpStructureUtility = require('../LtpStructureUtility');
 const IndividualServiceUtility = require('../IndividualServiceUtility');
