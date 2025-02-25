@@ -522,7 +522,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterface
   beforeEach(() => {
     ltpStructure = [];
     mountName = "testMount";
-    timeStamp = new Date().toISOString();
+    timeStamp = "2023-03-11T09:45:00.0+00:00";
     requestHeaders = { Authorization: "Bearer test-token" };
     traceIndicatorIncrementer = 1;
 
@@ -543,19 +543,152 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterface
     ];
     let mockPeriod_end_time=new Date(Date.now() + 1000).toISOString();
     const mockResponse = {
-      "air-interface-2-0:air-container-historical-performances": [
-        {
+      "air-interface-2-0:air-interface-historical-performances": {
           "historical-performance-data-list": [
             {
               "granularity-period": "air-interface-2-0:GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN",
-              "period-end-time":  mockPeriod_end_time,
-              "tx-level-min": -10,
-              "tx-level-max": -5,
-              "tx-level-avg": -7,
+              "period-end-time": "2024-03-11T09:45:00.0+00:00",
+              "suspect-interval-flag": true,
+              "history-data-id": "PM_RADIO_15M_02",
+              "performance-data": {
+                "defect-blocks-sum": 0,
+                "cses": 0,
+                "es": 0,
+                "xpd-max": -99,
+                "tx-level-max": 5,
+                "ses": 0,
+                "rx-level-max": -51,
+                "rf-temp-max": -99,
+                "snir-min": -99,
+                "snir-avg": -99,
+                "rx-level-avg": -51,
+                "unavailability": 0,
+                "time-xstates-list": [
+                  {
+                    "time-xstate-sequence-number": 8,
+                    "time": 0,
+                    "transmission-mode": "56008"
+                  },
+                  {
+                    "time-xstate-sequence-number": 6,
+                    "time": 0,
+                    "transmission-mode": "56006"
+                  },
+                  {
+                    "time-xstate-sequence-number": 7,
+                    "time": 0,
+                    "transmission-mode": "56007"
+                  },
+                  {
+                    "time-xstate-sequence-number": 4,
+                    "time": 29362160,
+                    "transmission-mode": "56004"
+                  },
+                  {
+                    "time-xstate-sequence-number": 5,
+                    "time": 0,
+                    "transmission-mode": "56005"
+                  },
+                  {
+                    "time-xstate-sequence-number": 2,
+                    "time": 0,
+                    "transmission-mode": "56002"
+                  },
+                  {
+                    "time-xstate-sequence-number": 3,
+                    "time": 0,
+                    "transmission-mode": "56003"
+                  },
+                  {
+                    "time-xstate-sequence-number": 1,
+                    "time": 0,
+                    "transmission-mode": "56001"
+                  }
+                ],
+                "rx-level-min": -51,
+                "xpd-min": -99,
+                "xpd-avg": -99,
+                "tx-level-min": 5,
+                "tx-level-avg": 5,
+                "rf-temp-min": -99,
+                "rf-temp-avg": -99,
+                "snir-max": -99,
+                "time-period": 900
+              }
             },
-          ],
-        },
-      ],
+            {
+              "granularity-period": "air-interface-2-0:GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN",
+              "period-end-time": "2024-03-11T09:30:00.0+00:00",
+              "suspect-interval-flag": true,
+              "history-data-id": "PM_RADIO_15M_03",
+              "performance-data": {
+                "defect-blocks-sum": 0,
+                "cses": 0,
+                "es": 0,
+                "xpd-max": -99,
+                "tx-level-max": 5,
+                "ses": 0,
+                "rx-level-max": -51,
+                "rf-temp-max": -99,
+                "snir-min": -99,
+                "snir-avg": -99,
+                "rx-level-avg": -51,
+                "unavailability": 0,
+                "time-xstates-list": [
+                  {
+                    "time-xstate-sequence-number": 8,
+                    "time": 0,
+                    "transmission-mode": "56008"
+                  },
+                  {
+                    "time-xstate-sequence-number": 6,
+                    "time": 0,
+                    "transmission-mode": "56006"
+                  },
+                  {
+                    "time-xstate-sequence-number": 7,
+                    "time": 0,
+                    "transmission-mode": "56007"
+                  },
+                  {
+                    "time-xstate-sequence-number": 4,
+                    "time": 0,
+                    "transmission-mode": "56004"
+                  },
+                  {
+                    "time-xstate-sequence-number": 5,
+                    "time": 0,
+                    "transmission-mode": "56005"
+                  },
+                  {
+                    "time-xstate-sequence-number": 2,
+                    "time": 0,
+                    "transmission-mode": "56002"
+                  },
+                  {
+                    "time-xstate-sequence-number": 3,
+                    "time": 0,
+                    "transmission-mode": "56003"
+                  },
+                  {
+                    "time-xstate-sequence-number": 1,
+                    "time": 0,
+                    "transmission-mode": "56001"
+                  }
+                ],
+                "rx-level-min": -51,
+                "xpd-min": -99,
+                "xpd-avg": -99,
+                "tx-level-min": 5,
+                "tx-level-avg": 5,
+                "rf-temp-min": -99,
+                "rf-temp-avg": -99,
+                "snir-max": -99,
+                "time-period": 900
+              }
+            }
+          ]
+        }
     };
 
     ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockResolvedValue(mockLtpStructure);
@@ -570,7 +703,154 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterface
       traceIndicatorIncrementer
     );
 
-    expect(result).toEqual({"processedResponses": [{"hpdList": [{"granularity-period": "air-interface-2-0:GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN", "period-end-time": mockPeriod_end_time, "tx-level-avg": -7, "tx-level-max": -5, "tx-level-min": -10}], "localId": "localId1", "mountName": "testMount", "uuid": "uuid1"}], "traceIndicatorIncrementer": 2});
+    expect(result).toEqual({
+      "processedResponses": [{"hpdList": [
+        {
+          "granularity-period": "air-interface-2-0:GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN",
+          "period-end-time": "2024-03-11T09:45:00.0+00:00",
+          "suspect-interval-flag": true,
+          "history-data-id": "PM_RADIO_15M_02",
+          "performance-data": {
+            "defect-blocks-sum": 0,
+            "cses": 0,
+            "es": 0,
+            "xpd-max": -99,
+            "tx-level-max": 5,
+            "ses": 0,
+            "rx-level-max": -51,
+            "rf-temp-max": -99,
+            "snir-min": -99,
+            "snir-avg": -99,
+            "rx-level-avg": -51,
+            "unavailability": 0,
+            "time-xstates-list": [
+              {
+                "time-xstate-sequence-number": 8,
+                "time": 0,
+                "transmission-mode": "56008"
+              },
+              {
+                "time-xstate-sequence-number": 6,
+                "time": 0,
+                "transmission-mode": "56006"
+              },
+              {
+                "time-xstate-sequence-number": 7,
+                "time": 0,
+                "transmission-mode": "56007"
+              },
+              {
+                "time-xstate-sequence-number": 4,
+                "time": 29362160,
+                "transmission-mode": "56004"
+              },
+              {
+                "time-xstate-sequence-number": 5,
+                "time": 0,
+                "transmission-mode": "56005"
+              },
+              {
+                "time-xstate-sequence-number": 2,
+                "time": 0,
+                "transmission-mode": "56002"
+              },
+              {
+                "time-xstate-sequence-number": 3,
+                "time": 0,
+                "transmission-mode": "56003"
+              },
+              {
+                "time-xstate-sequence-number": 1,
+                "time": 0,
+                "transmission-mode": "56001"
+              }
+            ],
+            "rx-level-min": -51,
+            "xpd-min": -99,
+            "xpd-avg": -99,
+            "tx-level-min": 5,
+            "tx-level-avg": 5,
+            "rf-temp-min": -99,
+            "rf-temp-avg": -99,
+            "snir-max": -99,
+            "time-period": 900
+          }
+        },
+        {
+          "granularity-period": "air-interface-2-0:GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN",
+          "period-end-time": "2024-03-11T09:30:00.0+00:00",
+          "suspect-interval-flag": true,
+          "history-data-id": "PM_RADIO_15M_03",
+          "performance-data": {
+            "defect-blocks-sum": 0,
+            "cses": 0,
+            "es": 0,
+            "xpd-max": -99,
+            "tx-level-max": 5,
+            "ses": 0,
+            "rx-level-max": -51,
+            "rf-temp-max": -99,
+            "snir-min": -99,
+            "snir-avg": -99,
+            "rx-level-avg": -51,
+            "unavailability": 0,
+            "time-xstates-list": [
+              {
+                "time-xstate-sequence-number": 8,
+                "time": 0,
+                "transmission-mode": "56008"
+              },
+              {
+                "time-xstate-sequence-number": 6,
+                "time": 0,
+                "transmission-mode": "56006"
+              },
+              {
+                "time-xstate-sequence-number": 7,
+                "time": 0,
+                "transmission-mode": "56007"
+              },
+              {
+                "time-xstate-sequence-number": 4,
+                "time": 0,
+                "transmission-mode": "56004"
+              },
+              {
+                "time-xstate-sequence-number": 5,
+                "time": 0,
+                "transmission-mode": "56005"
+              },
+              {
+                "time-xstate-sequence-number": 2,
+                "time": 0,
+                "transmission-mode": "56002"
+              },
+              {
+                "time-xstate-sequence-number": 3,
+                "time": 0,
+                "transmission-mode": "56003"
+              },
+              {
+                "time-xstate-sequence-number": 1,
+                "time": 0,
+                "transmission-mode": "56001"
+              }
+            ],
+            "rx-level-min": -51,
+            "xpd-min": -99,
+            "xpd-avg": -99,
+            "tx-level-min": 5,
+            "tx-level-avg": 5,
+            "rf-temp-min": -99,
+            "rf-temp-avg": -99,
+            "snir-max": -99,
+            "time-period": 900
+          }
+        }],
+         "localId": "localId1", 
+         "mountName": "testMount", 
+         "uuid": "uuid1"}], 
+         "traceIndicatorIncrementer": 2});
   });
 
   it("should return an empty array when no LTPs exist", async () => {
@@ -669,7 +949,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetCont
     ];
  
     mountName = "testMount";
-    timeStamp = new Date(Date.now() - 30000).toISOString(); // Ensure it's in the past
+    timeStamp = "2021-06-06T10:45:00.0+00:00"; 
     requestHeaders = { Authorization: "Bearer test-token" };
     traceIndicatorIncrementer = 1;
  
@@ -684,14 +964,112 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetCont
         "historical-performance-data-list": [
           {
             "granularity-period": "ethernet-container-2-0:GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN",
-            "period-end-time": new Date(Date.now() + 10000).toISOString(), // Future date
+            "period-end-time": "2022-06-06T10:45:00.0+00:00",
+            "suspect-interval-flag": false,
+            "performance-data": {
+              "broadcast-frames-output": 0,
+              "jabber-frames-ingress": 0,
+              "total-frames-input": "0",
+              "multicast-frames-output": 0,
+              "total-bytes-input": "0",
+              "total-bytes-output": "0",
+              "oversized-frames-ingress": 0,
+              "unicast-frames-input": "-1",
+              "unicast-frames-output": "-1",
+              "total-frames-output": "0",
+              "errored-frames-input": 0,
+              "multicast-frames-input": 0,
+              "fragmented-frames-input": 0,
+              "dropped-frames-input": 0,
+              "dropped-frames-output": -1,
+              "queue-utilization-list": [
+                {
+                  "queue-name": "ethernet-container-2-0:QUEUE_NAME_TYPE_ASSURED_FORWARDING_QUEUE3",
+                  "max-queue-length": -1,
+                  "avg-queue-length": -1
+                },
+                {
+                  "queue-name": "ethernet-container-2-0:QUEUE_NAME_TYPE_ASSURED_FORWARDING_QUEUE2",
+                  "max-queue-length": -1,
+                  "avg-queue-length": -1
+                },
+                {
+                  "queue-name": "ethernet-container-2-0:QUEUE_NAME_TYPE_ASSURED_FORWARDING_QUEUE1",
+                  "max-queue-length": -1,
+                  "avg-queue-length": -1
+                },
+                {
+                  "queue-name": "ethernet-container-2-0:QUEUE_NAME_TYPE_BEST_EFFORT_QUEUE",
+                  "max-queue-length": -1,
+                  "avg-queue-length": -1
+                }
+              ],
+              "unknown-protocol-frames-input": -1,
+              "max-bytes-per-second-output": -1,
+              "forwarded-frames-output": "-1",
+              "broadcast-frames-input": 0,
+              "errored-frames-output": -1,
+              "forwarded-frames-input": "-1",
+              "time-period": 900,
+              "undersized-frames-ingress": 0
+            },
+            "history-data-id": "PM_ETH_CONTAINER_RADIO_15M"
           },
           {
             "granularity-period": "ethernet-container-2-0:GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN",
-            "period-end-time": new Date(Date.now() - 10000).toISOString(), // Past date
-          },
-        ],
-      },
+            "period-end-time": "2022-06-06T11:15:00.0+00:00",
+            "suspect-interval-flag": false,
+            "performance-data": {
+              "broadcast-frames-output": 0,
+              "jabber-frames-ingress": 0,
+              "total-frames-input": "0",
+              "multicast-frames-output": 0,
+              "total-bytes-input": "0",
+              "total-bytes-output": "0",
+              "oversized-frames-ingress": 0,
+              "unicast-frames-input": "-1",
+              "unicast-frames-output": "-1",
+              "total-frames-output": "0",
+              "errored-frames-input": 0,
+              "multicast-frames-input": 0,
+              "fragmented-frames-input": 0,
+              "dropped-frames-input": 0,
+              "dropped-frames-output": -1,
+              "queue-utilization-list": [
+                {
+                  "queue-name": "ethernet-container-2-0:QUEUE_NAME_TYPE_ASSURED_FORWARDING_QUEUE3",
+                  "max-queue-length": -1,
+                  "avg-queue-length": -1
+                },
+                {
+                  "queue-name": "ethernet-container-2-0:QUEUE_NAME_TYPE_ASSURED_FORWARDING_QUEUE2",
+                  "max-queue-length": -1,
+                  "avg-queue-length": -1
+                },
+                {
+                  "queue-name": "ethernet-container-2-0:QUEUE_NAME_TYPE_ASSURED_FORWARDING_QUEUE1",
+                  "max-queue-length": -1,
+                  "avg-queue-length": -1
+                },
+                {
+                  "queue-name": "ethernet-container-2-0:QUEUE_NAME_TYPE_BEST_EFFORT_QUEUE",
+                  "max-queue-length": -1,
+                  "avg-queue-length": -1
+                }
+              ],
+              "unknown-protocol-frames-input": -1,
+              "max-bytes-per-second-output": -1,
+              "forwarded-frames-output": "-1",
+              "broadcast-frames-input": 0,
+              "errored-frames-output": -1,
+              "forwarded-frames-input": "-1",
+              "time-period": 900,
+              "undersized-frames-ingress": 0
+            },
+            "history-data-id": "PM_ETH_CONTAINER_RADIO_15M"
+          }
+        ]
+      }
     });
  
     const result = await readHistoricalData.RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache(
@@ -711,16 +1089,113 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetCont
             filteredEntries: expect.arrayContaining([
               {
                 "granularity-period": "ethernet-container-2-0:GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN",
-                "period-end-time": expect.any(String),
+                "period-end-time": "2022-06-06T10:45:00.0+00:00",
+                "suspect-interval-flag": false,
+                "performance-data": {
+                  "broadcast-frames-output": 0,
+                  "jabber-frames-ingress": 0,
+                  "total-frames-input": "0",
+                  "multicast-frames-output": 0,
+                  "total-bytes-input": "0",
+                  "total-bytes-output": "0",
+                  "oversized-frames-ingress": 0,
+                  "unicast-frames-input": "-1",
+                  "unicast-frames-output": "-1",
+                  "total-frames-output": "0",
+                  "errored-frames-input": 0,
+                  "multicast-frames-input": 0,
+                  "fragmented-frames-input": 0,
+                  "dropped-frames-input": 0,
+                  "dropped-frames-output": -1,
+                  "queue-utilization-list": [
+                    {
+                      "queue-name": "ethernet-container-2-0:QUEUE_NAME_TYPE_ASSURED_FORWARDING_QUEUE3",
+                      "max-queue-length": -1,
+                      "avg-queue-length": -1
+                    },
+                    {
+                      "queue-name": "ethernet-container-2-0:QUEUE_NAME_TYPE_ASSURED_FORWARDING_QUEUE2",
+                      "max-queue-length": -1,
+                      "avg-queue-length": -1
+                    },
+                    {
+                      "queue-name": "ethernet-container-2-0:QUEUE_NAME_TYPE_ASSURED_FORWARDING_QUEUE1",
+                      "max-queue-length": -1,
+                      "avg-queue-length": -1
+                    },
+                    {
+                      "queue-name": "ethernet-container-2-0:QUEUE_NAME_TYPE_BEST_EFFORT_QUEUE",
+                      "max-queue-length": -1,
+                      "avg-queue-length": -1
+                    }
+                  ],
+                  "unknown-protocol-frames-input": -1,
+                  "max-bytes-per-second-output": -1,
+                  "forwarded-frames-output": "-1",
+                  "broadcast-frames-input": 0,
+                  "errored-frames-output": -1,
+                  "forwarded-frames-input": "-1",
+                  "time-period": 900,
+                  "undersized-frames-ingress": 0
+                },
+                "history-data-id": "PM_ETH_CONTAINER_RADIO_15M"
               },
               {
                 "granularity-period": "ethernet-container-2-0:GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN",
-                "period-end-time": expect.any(String),
-              },
-            ]),
-          },
-        ],
-        traceIndicatorIncrementer: 2,
+                "period-end-time": "2022-06-06T11:15:00.0+00:00",
+                "suspect-interval-flag": false,
+                "performance-data": {
+                  "broadcast-frames-output": 0,
+                  "jabber-frames-ingress": 0,
+                  "total-frames-input": "0",
+                  "multicast-frames-output": 0,
+                  "total-bytes-input": "0",
+                  "total-bytes-output": "0",
+                  "oversized-frames-ingress": 0,
+                  "unicast-frames-input": "-1",
+                  "unicast-frames-output": "-1",
+                  "total-frames-output": "0",
+                  "errored-frames-input": 0,
+                  "multicast-frames-input": 0,
+                  "fragmented-frames-input": 0,
+                  "dropped-frames-input": 0,
+                  "dropped-frames-output": -1,
+                  "queue-utilization-list": [
+                    {
+                      "queue-name": "ethernet-container-2-0:QUEUE_NAME_TYPE_ASSURED_FORWARDING_QUEUE3",
+                      "max-queue-length": -1,
+                      "avg-queue-length": -1
+                    },
+                    {
+                      "queue-name": "ethernet-container-2-0:QUEUE_NAME_TYPE_ASSURED_FORWARDING_QUEUE2",
+                      "max-queue-length": -1,
+                      "avg-queue-length": -1
+                    },
+                    {
+                      "queue-name": "ethernet-container-2-0:QUEUE_NAME_TYPE_ASSURED_FORWARDING_QUEUE1",
+                      "max-queue-length": -1,
+                      "avg-queue-length": -1
+                    },
+                    {
+                      "queue-name": "ethernet-container-2-0:QUEUE_NAME_TYPE_BEST_EFFORT_QUEUE",
+                      "max-queue-length": -1,
+                      "avg-queue-length": -1
+                    }
+                  ],
+                  "unknown-protocol-frames-input": -1,
+                  "max-bytes-per-second-output": -1,
+                  "forwarded-frames-output": "-1",
+                  "broadcast-frames-input": 0,
+                  "errored-frames-output": -1,
+                  "forwarded-frames-input": "-1",
+                  "time-period": 900,
+                  "undersized-frames-ingress": 0
+                },
+                "history-data-id": "PM_ETH_CONTAINER_RADIO_15M"
+              }
+            ])
+          }],
+          traceIndicatorIncrementer: 2
       });
      
   });
