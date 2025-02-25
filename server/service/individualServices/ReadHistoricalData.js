@@ -705,27 +705,27 @@ exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = asy
           air_interface_identifier["link-aggregation-identifiers"] = link_aggregation_identifiers;
         }
 
-        if (Object.keys(airInterfaceConfigurationObj).length !== 0) {
-          if (airInterfaceConfigurationObj.hasOwnProperty("atpc-is-on")) { 
-            air_interface_configuration["configured-atpc-is-on"] = airInterfaceConfigurationObj["atpc-is-on"]; 
+        if (Object.keys(airInterfaceConfigurationObj).length !== 0  && airInterfaceConfigurationObj.hasOwnProperty("airInterfaceConfiguration")) {
+          if (airInterfaceConfigurationObj["airInterfaceConfiguration"].hasOwnProperty("atpc-is-on")) { 
+            air_interface_configuration["configured-atpc-is-on"] = airInterfaceConfigurationObj["airInterfaceConfiguration"]["atpc-is-on"]; 
             }//change
-          if (airInterfaceConfigurationObj.hasOwnProperty("atpc-threshold-upper")) {
-            air_interface_configuration["configured-atpc-threshold-upper"] = airInterfaceConfigurationObj["atpc-threshold-upper"]; 
+          if (airInterfaceConfigurationObj["airInterfaceConfiguration"].hasOwnProperty("atpc-threshold-upper")) {
+            air_interface_configuration["configured-atpc-threshold-upper"] = airInterfaceConfigurationObj["airInterfaceConfiguration"]["atpc-threshold-upper"]; 
             }//change
-          if (airInterfaceConfigurationObj.hasOwnProperty("atpc-threshold-lower")) { 
-            air_interface_configuration["configured-atpc-threshold-lower"] = airInterfaceConfigurationObj["atpc-threshold-lower"]; 
+          if (airInterfaceConfigurationObj["airInterfaceConfiguration"].hasOwnProperty("atpc-threshold-lower")) { 
+            air_interface_configuration["configured-atpc-threshold-lower"] = airInterfaceConfigurationObj["airInterfaceConfiguration"]["atpc-threshold-lower"]; 
           }//change
-          if (airInterfaceConfigurationObj.hasOwnProperty("tx-power")) { 
-            air_interface_configuration["configured-tx-power"] = airInterfaceConfigurationObj["tx-power"]; 
+          if (airInterfaceConfigurationObj["airInterfaceConfiguration"].hasOwnProperty("tx-power")) { 
+            air_interface_configuration["configured-tx-power"] = airInterfaceConfigurationObj["airInterfaceConfiguration"]["tx-power"]; 
           }//change
         }
-        if (Object.keys(airInterfaceConfigurationObj).length !== 0 && Object.keys(airInterfaceCapabilitiesObj).length !== 0) {
+        if (Object.keys(airInterfaceConfigurationObj).length !== 0  && airInterfaceConfigurationObj.hasOwnProperty("airInterfaceConfiguration") && Object.keys(airInterfaceCapabilitiesObj).length !== 0 && airInterfaceCapabilitiesObj.hasOwnProperty("airInterfaceCapabilities")) {
           let minTransmissionMode = await getConfiguredModulation(
-            airInterfaceCapabilitiesObj,
-            airInterfaceConfigurationObj["transmission-mode-min"]);
+            airInterfaceCapabilitiesObj["airInterfaceCapabilities"],
+            airInterfaceConfigurationObj["airInterfaceConfiguration"]["transmission-mode-min"]);
           let maxTransmissionMode = await getConfiguredModulation(
-            airInterfaceCapabilitiesObj,
-            airInterfaceConfigurationObj["transmission-mode-max"]);
+            airInterfaceCapabilitiesObj["airInterfaceCapabilities"],
+                  airInterfaceConfigurationObj["airInterfaceConfiguration"]["transmission-mode-max"]);
           if (minTransmissionMode) {
             air_interface_configuration["configured-modulation-minimum"] = {//change
               "number-of-states": minTransmissionMode["modulation-scheme"],
