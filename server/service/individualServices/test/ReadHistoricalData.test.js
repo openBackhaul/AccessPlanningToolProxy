@@ -280,9 +280,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurat
     IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValue({});
  
     IndividualServiceUtility.forwardRequest.mockResolvedValue({
-      "air-interface-2-0:air-container-pac": {
-        "air-interface-configuration": { configKey: "configValue" },
-      },
+      "air-interface-2-0:air-interface-configuration": { configKey: "configValue" },
     });
  
     const result = await readHistoricalData.RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache(
@@ -381,9 +379,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurat
     IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValue({});
  
     IndividualServiceUtility.forwardRequest.mockResolvedValue({
-      "air-interface-2-0:air-container-pac": {
-        "air-interface-configuration": { configKey: "configValue" },
-      },
+      "air-interface-2-0:air-interface-configuration": {configKey: "configValue" },
     });
  
     const result = await readHistoricalData.RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache(
@@ -456,9 +452,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceCapabiliti
     IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValue({});
 
     const mockCapabilitiesResponse = {
-      ["air-interface-2-0:air-container-pac"]: {
-        "air-interface-capability": { capabilityKey: "capabilityValue" }
-      }
+      ["air-interface-2-0:air-interface-capability"]: {capabilityKey: "capabilityValue" }
     };
 
     IndividualServiceUtility.forwardRequest.mockResolvedValue(mockCapabilitiesResponse);
