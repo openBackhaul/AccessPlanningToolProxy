@@ -17,7 +17,7 @@ const AIR_INTERFACE = {
   STATUS: "air-interface-status",
   NAME: "air-interface-name",
   PAC: "air-container-pac",
-  HISTORICAL_PERFORMANCES: "air-container-historical-performances",
+  HISTORICAL_PERFORMANCES: "air-interface-historical-performances",
   HISTORICAL_PERFORMANCE_DATA_LIST: "historical-performance-data-list"
 };
 const ETHERNET_INTERFACE = {
@@ -207,7 +207,7 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInte
         uuid: uuid,
         localId: localId,
         mountName: mountName,
-        layerProtocolName: layerProtocolName,
+        layerProtocolName: layerProtocolName
       };
 
       if (layerProtocolName === AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.LAYER_PROTOCOL_NAME) {
@@ -387,13 +387,14 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfiguratio
       let response = {
         mountName: mountName,
         uuid: uuid,
-        localId: localId
+        localId: localId,
+        airInterfaceConfiguration: {}
       };
 
       if (Object.keys(airInterfaceConfigurationResponse).length === 0) {
         console.log(`${forwardingName} is not success`);
       } else {
-        response["airInterfaceConfiguration"] = airInterfaceConfigurationResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.PAC][AIR_INTERFACE.CONFIGURATION];
+        response["airInterfaceConfiguration"] = airInterfaceConfigurationResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.CONFIGURATION];
         airInterfaceConfigurations.push(response);
       }
     }
@@ -441,13 +442,14 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceCapabilities
       let response = {
         mountName: mountName,
         uuid: uuid,
-        localId: localId
+        localId: localId,
+        airInterfaceCapabilities: {}
       };
 
       if (Object.keys(airInterfaceCapabilitiesResponse).length === 0) {
         console.log(`${forwardingName} is not success`);
       } else {
-        response["airInterfaceCapabilities"] = airInterfaceCapabilitiesResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.PAC][AIR_INTERFACE.CAPABILITY];
+        response["airInterfaceCapabilities"] = airInterfaceCapabilitiesResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.CAPABILITY];
         airInterfaceCapabilities.push(response);
       }
     }
@@ -512,7 +514,7 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePe
       }
       else {
         let hpdListFiltered = [];
-        let hpdList = airInterfaceHistoricalPerformance[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.HISTORICAL_PERFORMANCES][0][AIR_INTERFACE.HISTORICAL_PERFORMANCE_DATA_LIST];
+        let hpdList = airInterfaceHistoricalPerformance[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.HISTORICAL_PERFORMANCES][AIR_INTERFACE.HISTORICAL_PERFORMANCE_DATA_LIST];
         if (hpdList != undefined) {
           hpdListFiltered = hpdList.filter(htp =>
             htp["granularity-period"] === AIR_INTERFACE.MODULE + ":" + "GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN"
@@ -524,7 +526,7 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePe
           uuid: uuid,
           mountName: mountName,
           localId: localId,
-          hpdList: hpdListFiltered,
+          hpdList: hpdListFiltered
         };
 
         processedResponses.push(responseObject);
@@ -598,7 +600,8 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContai
         /***********************************************************************************
          * Filter performance measurements
          ************************************************************************************/
-        const filteredEntries = performances.filter(entry => {
+        let filteredEntries = [];
+        filteredEntries = performances.filter(entry => {
           return (
             entry["granularity-period"] === ETHERNET_INTERFACE.MODULE + ":" + "GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN" &&
             new Date(entry["period-end-time"]) > new Date(timeStamp)
@@ -642,10 +645,14 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContai
  */
 exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = async function (mountName, ltpStructure, airAndEthernetInterfacesResponse, physicalLinkAggregations, airInterfaceConfiguration,
   airInterfaceCapabilities, airInterfacePerformance, ethernetPerformance) {
-  let result = [];
+  let result = {
+    "air-interface-list": [],
+    "ethernet-container-list": []
+  };  
   let air_interface_list = [];
   let ethernet_container_list = [];
   let ltpStructureList = ltpStructure["core-model-1-4:control-construct"][0][onfAttributes.CONTROL_CONSTRUCT.LOGICAL_TERMINATION_POINT];
+
   try {
     for (let i = 0; i < ltpStructureList.length; i++) {
 
@@ -680,12 +687,13 @@ exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = asy
 
 
       let air_interface = {};
+      let air_interface_configuration = {};
       let air_interface_performance_measurements_list = [];
       let transmission_mode_list = [];
       let ethernet_container = {};
       let ethernet_container_performance_measurements_list = [];
       if (Object.keys(airAndEthernetObj).length !== 0 && airAndEthernetObj.hasOwnProperty("link-endpoint-id")) {
-        let a = {
+        let air_interface_identifier = {
           "mount-name": mountName,
           "link-endpoint-id": airAndEthernetObj["link-endpoint-id"],
           "link-id": airAndEthernetObj["link-endpoint-id"].substring(0, 9),
@@ -694,21 +702,21 @@ exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = asy
         let link_aggregation_identifiers = [];
         if (Object.keys(physicalLinkAggregationsObj).length !== 0 && physicalLinkAggregationsObj.hasOwnProperty("list")) {
           link_aggregation_identifiers.push(...physicalLinkAggregationsObj["list"]);
-          a["link-aggregation-identifiers"] = link_aggregation_identifiers;
+          air_interface_identifier["link-aggregation-identifiers"] = link_aggregation_identifiers;
         }
 
         if (Object.keys(airInterfaceConfigurationObj).length !== 0) {
           if (airInterfaceConfigurationObj.hasOwnProperty("atpc-is-on")) { 
-            a["configured-atpc-is-on"] = airInterfaceConfigurationObj["atpc-is-on"]; 
+            air_interface_configuration["configured-atpc-is-on"] = airInterfaceConfigurationObj["atpc-is-on"]; 
             }//change
           if (airInterfaceConfigurationObj.hasOwnProperty("atpc-threshold-upper")) {
-             a["configured-atpc-threshold-upper"] = airInterfaceConfigurationObj["atpc-threshold-upper"]; 
+            air_interface_configuration["configured-atpc-threshold-upper"] = airInterfaceConfigurationObj["atpc-threshold-upper"]; 
             }//change
           if (airInterfaceConfigurationObj.hasOwnProperty("atpc-threshold-lower")) { 
-            a["configured-atpc-threshold-lower"] = airInterfaceConfigurationObj["atpc-threshold-lower"]; 
+            air_interface_configuration["configured-atpc-threshold-lower"] = airInterfaceConfigurationObj["atpc-threshold-lower"]; 
           }//change
           if (airInterfaceConfigurationObj.hasOwnProperty("tx-power")) { 
-            a["configured-tx-power"] = airInterfaceConfigurationObj["configured-tx-power"]; 
+            air_interface_configuration["configured-tx-power"] = airInterfaceConfigurationObj["tx-power"]; 
           }//change
         }
         if (Object.keys(airInterfaceConfigurationObj).length !== 0 && Object.keys(airInterfaceCapabilitiesObj).length !== 0) {
@@ -719,14 +727,14 @@ exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = asy
             airInterfaceCapabilitiesObj,
             airInterfaceConfigurationObj["transmission-mode-max"]);
           if (minTransmissionMode) {
-            a["configured-modulation-minimum"] = {//change
+            air_interface_configuration["configured-modulation-minimum"] = {//change
               "number-of-states": minTransmissionMode["modulation-scheme"],
               "name-at-lct": minTransmissionMode["modulation-scheme-name-at-lct"],
               "configured-capacity-minimum": "-1" //need to be checked again
             };
           }
           if (maxTransmissionMode) {
-            a["configured-modulation-maximum"] = {//change
+            air_interface_configuration["configured-modulation-maximum"] = {//change
               "number-of-states": maxTransmissionMode["modulation-scheme"],
               "name-at-lct": maxTransmissionMode["modulation-scheme-name-at-lct"],
               "configured-capacity-maximum": "-1" //need to be checked again
@@ -735,13 +743,12 @@ exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = asy
         }
         // if (minTransmissionMode.hasOwnProperty("channel-bandwidth")) air_interface["air-interface-configuration"]["configured-channel-bandwidth-min"] = minTransmissionMode["channel-bandwidth"];
         // if (maxTransmissionMode.hasOwnProperty("channel-bandwidth")) air_interface["air-interface-configuration"]["configured-channel-bandwidth-max"] = maxTransmissionMode["channel-bandwidth"];
-        air_interface["air-interface-identifiers"] = a;
-
-        air_interface["air-interface-performance-measurements-list"] = air_interface_performance_measurements_list;
+        air_interface["air-interface-identifiers"] = air_interface_identifier;
+        air_interface["air-interface-configuration"] = air_interface_configuration;
 
         if (Object.keys(airInterfacePerformanceObj).length !== 0) {
 
-          for (let j = 0; j < airInterfacePerformanceObj.length; j++) {
+          for (let j = 0; j < airInterfacePerformanceObj.hpdList.length; j++) {
             let air_interface_performance_measurements_list_obj = [];
 
             const outputParams = ["granularity-period", "period-end-time", "transmit-level-minimum",
@@ -759,8 +766,8 @@ exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = asy
 
 
             for (let i = 0; i < outputParams.length; i++) {
-              if (airInterfacePerformanceObj[j].hasOwnProperty(callbackParams[i])) {
-                air_interface_performance_measurements_list_obj[outputParams[i]] = airInterfacePerformanceObj[j][callbackParams[i]];
+              if (airInterfacePerformanceObj.hpdList[j].hasOwnProperty(callbackParams[i])) {
+                air_interface_performance_measurements_list_obj[outputParams[i]] = airInterfacePerformanceObj.hpdList[j][callbackParams[i]];
               }
             }
 
@@ -768,9 +775,9 @@ exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = asy
 
 
             //description: List of operated transmission modes with respective operation time periods. Only those entries where operation time is greater than 0 seconds shall be listed
-            if (airInterfacePerformanceObj[j].hasOwnProperty("time-xstates-list")) {
+            if (airInterfacePerformanceObj.hpdList[j].hasOwnProperty("time-xstates-list")) {
               let operated_transmission_modes_list = [];
-              let filtered_time_xstates_list = airInterfacePerformanceObj[j]["time-xstates-list"].filter((obj) => obj["time"] > 0);
+              let filtered_time_xstates_list = airInterfacePerformanceObj.hpdList[j]["time-xstates-list"].filter((obj) => obj["time"] > 0);
 
               for (let filtered_time_xstates of filtered_time_xstates_list) {
                 let operated_transmission_modes_list_obj = [];
@@ -794,6 +801,8 @@ exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = asy
             air_interface_performance_measurements_list.push(air_interface_performance_measurements_list_obj);
           }
         }
+
+        air_interface["air-interface-performance-measurements-list"] = air_interface_performance_measurements_list;
 
         if (Object.keys(airInterfaceCapabilitiesObj).length !== 0 && airInterfaceCapabilitiesObj.hasOwnProperty("transmission-mode-list")) {
 
@@ -828,6 +837,7 @@ exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = asy
         air_interface_list.push(air_interface);
       
       }
+
       if (Object.keys(airAndEthernetObj).length !== 0 && airAndEthernetObj.hasOwnProperty("interface-name")) {
 
         ethernet_container["ethernet-container-identifiers"] = {
@@ -836,10 +846,10 @@ exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = asy
           "interface-name":airAndEthernetObj["interface-name"]
         };
 
-        ethernet_container["ethernet-container-performance-measurements-list"] = ethernet_container_performance_measurements_list;
+        // ethernet_container["ethernet-container-performance-measurements-list"] = ethernet_container_performance_measurements_list;
         if (Object.keys(ethernetPerformanceObj).length !== 0) {
-
-          for (let k = 0; k < ethernetPerformanceObj.length; k++) {
+          
+          for (let k = 0; k < ethernetPerformanceObj.filteredEntries.length; k++) {
             let ethernet_container_performance_measurements_list_obj = [];
             const outputParams = ["granularity-period", "period-end-time", "max-bytes-per-second-output",
               "total-bytes-input", "total-bytes-output", "total-frames-input", "total-frames-output",
@@ -857,16 +867,16 @@ exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = asy
               "unknown-protocol-frames-input"];
 
             for (let i = 0; i < outputParams.length; i++) {
-              if (ethernetPerformanceObj[k].hasOwnProperty(callbackParams[i])) {
-                ethernet_container_performance_measurements_list_obj[outputParams[i]] = ethernetPerformanceObj[k][callbackParams[i]];
+              if (ethernetPerformanceObj.filteredEntries[k].hasOwnProperty(callbackParams[i])) {
+                ethernet_container_performance_measurements_list_obj[outputParams[i]] = ethernetPerformanceObj.filteredEntries[k][callbackParams[i]];
               }
             }
             ethernet_container_performance_measurements_list.push(ethernet_container_performance_measurements_list_obj);
           }
+          ethernet_container["ethernet-container-performance-measurements-list"] = ethernet_container_performance_measurements_list;
 
           ethernet_container_list.push(ethernet_container);
-        }
-
+        } 
       }
 
     }
@@ -874,11 +884,17 @@ exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = asy
     console.log(error);
   }
 
-  if (Object.keys(air_interface_list).length !== 0) { result["air-interface-list"] = air_interface_list; }
-  if (Object.keys(ethernet_container_list).length !== 0) { result["ethernet-container-list"] = ethernet_container_list; }
+  // if (Object.keys(air_interface_list).length !== 0) { result["air-interface-list"] = air_interface_list; }
+  // if (Object.keys(ethernet_container_list).length !== 0) { result["ethernet-container-list"] = ethernet_container_list; }
+
+  if (air_interface_list.length > 0) {
+    result["air-interface-list"] = air_interface_list;
+  }
+  if (ethernet_container_list.length > 0) {
+    result["ethernet-container-list"] = ethernet_container_list;
+  }
 
   return result;
-
 }
 
 /**
