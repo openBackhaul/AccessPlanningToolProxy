@@ -209,7 +209,7 @@ exports.RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfo
   return newStructure;
 }
 
-// Funzione per aggiungere la nuova struttura a newStructure
+// Helping routine that extract data and fill the structure with equipment information
 function addToStructure(data, structure) {
   const { category } = data.structure;
   const { "type-name": equipmentName, "part-type-identifier": partNumber } = data["manufactured-thing"]["equipment-type"];
