@@ -227,7 +227,7 @@ function addToStructure(data, structure) {
       "serial-number": serialNumber,
       "part-number": partNumber,
     };
-  } else if (category === "equipment-augment-1-0:EQUIPMENT_CATEGORY_FULL_OUTDOOR_UNIT" || category === "core-model-1-4:EQUIPMENT_CATEGORY_SUBRACK") {
+  } else if (category === "equipment-augment-1-0:EQUIPMENT_CATEGORY_FULL_OUTDOOR_UNIT") {
     structure.device = {
       "equipment-name": equipmentName,
       "serial-number": serialNumber,
