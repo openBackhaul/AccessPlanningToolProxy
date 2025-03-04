@@ -34478,7 +34478,7 @@ components:
       type: object
       properties:
         mount-name:
-          pattern: "^(?:\\d{3}(?:25|27)\\d{4}|\\d{3}55\\d{4}[AB])$"
+          pattern: "^(?:\\d{3}(?:25|27)\\d{4}|\\d{3}55\\d{4}[AB]|CO\\d{5})$"
           type: string
           description: Identifier of the device at the Controller
         link-id:
@@ -34538,7 +34538,7 @@ components:
       type: object
       properties:
         mount-name:
-          pattern: "^(?:\\d{3}(?:25|27)\\d{4}|\\d{3}55\\d{4}[AB])$"
+          pattern: "^(?:\\d{3}(?:25|27)\\d{4}|\\d{3}55\\d{4}[AB]|CO\\d{5})$"
           type: string
           description: Identifier of the device at the Controller
         time-stamp:
@@ -34568,7 +34568,7 @@ components:
       type: object
       properties:
         mount-name:
-          pattern: "^(?:\\d{3}(?:25|27)\\d{4}|\\d{3}55\\d{4}[AB])$"
+          pattern: "^(?:\\d{3}(?:25|27)\\d{4}|\\d{3}55\\d{4}[AB]|CO\\d{5})$"
           type: string
           description: Identifier of the device at the Controller
       example:
@@ -34620,7 +34620,7 @@ components:
       type: object
       properties:
         mount-name:
-          pattern: "^(?:\\d{3}(?:25|27)\\d{4}|\\d{3}55\\d{4}[AB])$"
+          pattern: "^(?:\\d{3}(?:25|27)\\d{4}|\\d{3}55\\d{4}[AB]|CO\\d{5})$"
           type: string
           description: Identifier of the device at the Controller
         link-id:
@@ -34758,7 +34758,7 @@ components:
       type: object
       properties:
         mount-name:
-          pattern: "^(?:\\d{3}(?:25|27)\\d{4}|\\d{3}55\\d{4}[AB])$"
+          pattern: "^(?:\\d{3}(?:25|27)\\d{4}|\\d{3}55\\d{4}[AB]|CO\\d{5})$"
           type: string
           description: Identifier of the device at the Controller
         link-id:
@@ -34798,11 +34798,12 @@ components:
     v1_providestatusforlivenetview_body:
       required:
       - link-id
+      
       - mount-name
       type: object
       properties:
         mount-name:
-          pattern: "^(?:\\d{3}(?:25|27)\\d{4}|\\d{3}55\\d{4}[AB])$"
+          pattern: "^(?:\\d{3}(?:25|27)\\d{4}|\\d{3}55\\d{4}[AB]|CO\\d{5})$"
           type: string
           description: Identifier of the device at the Controller
         link-id:
@@ -34854,7 +34855,7 @@ components:
       type: object
       properties:
         mount-name:
-          pattern: "^(?:\\d{3}(?:25|27)\\d{4}|\\d{3}55\\d{4}[AB])$"
+          pattern: "^(?:\\d{3}(?:25|27)\\d{4}|\\d{3}55\\d{4}[AB]|CO\\d{5})$"
           type: string
           description: Identifier of the device at the Controller
       example:

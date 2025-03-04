@@ -460,7 +460,7 @@ paths:
               properties:
                 mount-name:
                   type: string
-                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$
+                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]|CO\d{5})$
                   description: 'Identifier of the device at the Controller'
                 link-id:
                   type: string
@@ -4198,7 +4198,7 @@ paths:
               properties:
                 mount-name:
                   type: string
-                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$
+                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]|CO\d{5})$
                   description: 'Identifier of the device at the Controller'
                 time-stamp:
                   type: string
@@ -6015,7 +6015,7 @@ paths:
               properties:
                 mount-name:
                   type: string
-                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$
+                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]|CO\d{5})$
                   description: 'Identifier of the device at the Controller'
               example:
                 mount-name: '513250010'
@@ -6088,7 +6088,7 @@ paths:
               properties:
                 mount-name:
                   type: string
-                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$
+                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]|CO\d{5})$
                   description: 'Identifier of the device at the Controller'
                 link-id:
                   type: string
@@ -6843,7 +6843,7 @@ paths:
               properties:
                 mount-name:
                   type: string
-                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$
+                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]|CO\d{5})$
                   description: 'Identifier of the device at the Controller'
                 link-id:
                   type: string
@@ -7406,7 +7406,7 @@ paths:
               properties:
                 mount-name:
                   type: string
-                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$
+                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]|CO\d{5})$
                   description: 'Identifier of the device at the Controller'
                 link-id:
                   type: string
@@ -7973,7 +7973,7 @@ paths:
               properties:
                 mount-name:
                   type: string
-                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$
+                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]|CO\d{5})$
                   description: 'Identifier of the device at the Controller'
               example:
                 mount-name: '513250010'
