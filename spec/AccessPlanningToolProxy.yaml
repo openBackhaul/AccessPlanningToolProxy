@@ -4193,7 +4193,7 @@ paths:
             schema:
               type: array
               items:
-                type: object          
+                type: object
                 required:
                   - mount-name
                   - time-stamp
@@ -5684,10 +5684,10 @@ paths:
                                       mount-name:
                                         type: string
                                       code:
-                                          type: integer
-                                          minimum: 400
-                                          maximum: 400
-                                          format: int32
+                                        type: integer
+                                        minimum: 400
+                                        maximum: 400
+                                        format: int32
                                       message:
                                           type: string
                                           enum:
@@ -5707,9 +5707,9 @@ paths:
                                           maximum: 460
                                           format: int32
                                       message:
-                                          type: string
-                                          enum:
-                                            - 'Not connected. Requested device is currently not in connected state at the controller'
+                                        type: string
+                                        enum:
+                                          - 'Not connected. Requested device is currently not in connected state at the controller'
                           example:
                             air-interface-list:
                               - air-interface-identifiers:
@@ -6005,7 +6005,7 @@ paths:
                                 message: "Invalid syntax"
                               - mount-name: 543278719
                                 code: 460
-                                message: "Not connected. Requested device is currently not in connected state at the controller"                               
+                                message: "Not connected. Requested device is currently not in connected state at the controller"
                         - description: 'Bad Gateway. Mwdi is unavailable'
                           type: object
                           required:
