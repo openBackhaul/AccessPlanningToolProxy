@@ -5238,6 +5238,9 @@ paths:
                                   air-interface-identifiers:
                                     type: object
                                     properties:
+                                      mount-name:
+                                        type: string
+                                        description: 'Identifier of the device at the controller and in the Telefónica planning tools'
                                       link-endpoint-id:
                                         type: string
                                         description: >
@@ -5524,6 +5527,9 @@ paths:
                                   ethernet-container-identifiers:
                                     type: object
                                     properties:
+                                      mount-name:
+                                        type: string
+                                        description: 'Identifier of the device at the controller and in the Telefónica planning tools'
                                       interface-name:
                                         type: string
                                         description: >
@@ -5664,9 +5670,50 @@ paths:
                                           description: >
                                             'Total number of received frames that were transporting an unknown protocol
                                             from {$RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache.EthernetContainerHistoricalPmFromCache.response.body#ethernet-container-2-0:ethernet-container-historical-performance/historical-performance-data-list/unknown-protocol-frames-input}'
+                            mount-name-list-with-errors:
+                              type: array
+                              items:
+                                oneOf:
+                                  - description: 'The entered mountName is invalid'
+                                    type: object
+                                    required:
+                                      - mount-name
+                                      - code
+                                      - message
+                                    properties:
+                                      mount-name:
+                                        type: string
+                                      code:
+                                          type: integer
+                                          minimum: 400
+                                          maximum: 400
+                                          format: int32
+                                      message:
+                                          type: string
+                                          enum:
+                                            - 'Invalid syntax'
+                                  - description: 'The requested device is not in the list of connected devices'
+                                    type: object
+                                    required:
+                                      - mount-name
+                                      - code
+                                      - message
+                                    properties:
+                                      mount-name:
+                                        type: string
+                                      code:
+                                          type: integer
+                                          minimum: 460
+                                          maximum: 460
+                                          format: int32
+                                      message:
+                                          type: string
+                                          enum:
+                                            - 'Not connected. Requested device is currently not in connected state at the controller'
                           example:
                             air-interface-list:
                               - air-interface-identifiers:
+                                  mount-name: 123273221
                                   link-endpoint-id: "325557888A"
                                   link-id: "325557888"
                                   logical-termination-point-id: "RF-2146697744"
@@ -5756,6 +5803,7 @@ paths:
                                     code-rate: 94
                                     symbol-rate-reduction-factor: 1
                               - air-interface-identifiers:
+                                  mount-name: 423253228
                                   link-endpoint-id: "101551121B"
                                   link-id: "101551121"
                                   logical-termination-point-id: "RF-2146438849"
@@ -5843,6 +5891,7 @@ paths:
                                     symbol-rate-reduction-factor: 1
                             ethernet-container-list:
                               - ethernet-container-identifiers:
+                                  mount-name: 123273221
                                   interface-name: "WAN 1/1/1"
                                   logical-termination-point-id: "ETH-2134646913"
                                 ethernet-container-performance-measurements-list:
@@ -5895,6 +5944,7 @@ paths:
                                     jabber-frames-ingress: "-1"
                                     unknown-protocol-frames-input: "-1"
                               - ethernet-container-identifiers:
+                                  mount-name: 173253221
                                   interface-name: "WAN 1/1/2"
                                   logical-termination-point-id: "ETH-2134646914"
                                 ethernet-container-performance-measurements-list:
@@ -5946,6 +5996,16 @@ paths:
                                     undersized-frames-ingress: "-1"
                                     jabber-frames-ingress: "-1"
                                     unknown-protocol-frames-input: "-1"
+                            mount-name-list-with-errors:
+                              - mount-name: 513278899
+                                code: 460
+                                message: "Not connected. Requested device is currently not in connected state at the controller"
+                              - mount-name: 323258899
+                                code: 400
+                                message: "Invalid syntax"
+                              - mount-name: 543278719
+                                code: 460
+                                message: "Not connected. Requested device is currently not in connected state at the controller"                               
                         - description: 'Bad Gateway. Mwdi is unavailable'
                           type: object
                           required:
