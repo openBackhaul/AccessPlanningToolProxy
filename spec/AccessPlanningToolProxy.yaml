@@ -4210,7 +4210,7 @@ paths:
                   - mount-name: '513250010'
                     time-stamp: '2024-02-12T10:55:00+01:00'
                   - mount-name: '513250332'
-                    time-stamp: '2025-03-11T12:55:00+01:00'                  
+                    time-stamp: '2025-03-11T12:55:00+01:00'
       responses:
         '202':
           description: 'Request for providing historical performance data of device received and accepted'
@@ -5689,9 +5689,9 @@ paths:
                                         maximum: 400
                                         format: int32
                                       message:
-                                          type: string
-                                          enum:
-                                            - 'Invalid syntax'
+                                        type: string
+                                        enum:
+                                          - 'Invalid syntax'
                                   - description: 'The requested device is not in the list of connected devices'
                                     type: object
                                     required:
@@ -5702,10 +5702,10 @@ paths:
                                       mount-name:
                                         type: string
                                       code:
-                                          type: integer
-                                          minimum: 460
-                                          maximum: 460
-                                          format: int32
+                                        type: integer
+                                        minimum: 460
+                                        maximum: 460
+                                        format: int32
                                       message:
                                         type: string
                                         enum:
