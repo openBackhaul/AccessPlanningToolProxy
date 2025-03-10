@@ -368,3 +368,12 @@ async function fetchServingEthernetContainerStatus(mountName, requestHeaders, tr
   ethernetContainerStatusResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
   return ethernetContainerStatusResponse;
 }
+
+if (global.testPrivateFuntions === 1)  {
+  console.log("GLobal Test Env");
+  module.exports.readVlanInterfaceData_private = {
+    RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole,
+    fetchVlanInterfaceKind,
+    fetchServingEthernetContainerStatus,
+  };
+}
