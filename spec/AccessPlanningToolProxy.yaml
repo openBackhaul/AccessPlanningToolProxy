@@ -4200,7 +4200,6 @@ paths:
                 properties:
                   mount-name:
                     type: string
-                    pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]|CO\d{5})$
                     description: 'Identifier of the device at the Controller'
                   time-stamp:
                     type: string
@@ -5674,24 +5673,6 @@ paths:
                               type: array
                               items:
                                 oneOf:
-                                  - description: 'The entered mountName is invalid'
-                                    type: object
-                                    required:
-                                      - mount-name
-                                      - code
-                                      - message
-                                    properties:
-                                      mount-name:
-                                        type: string
-                                      code:
-                                        type: integer
-                                        minimum: 400
-                                        maximum: 400
-                                        format: int32
-                                      message:
-                                        type: string
-                                        enum:
-                                          - 'Invalid syntax'
                                   - description: 'The requested device is not in the list of connected devices'
                                     type: object
                                     required:
@@ -5710,6 +5691,24 @@ paths:
                                         type: string
                                         enum:
                                           - 'Not connected. Requested device is currently not in connected state at the controller'
+                                  - description: 'The entry could not be processed due to some internal error'
+                                    type: object
+                                    required:
+                                      - mount-name
+                                      - code
+                                      - message
+                                    properties:
+                                      mount-name:
+                                        type: string
+                                      code:
+                                        type: integer
+                                        minimum: 500
+                                        maximum: 500
+                                        format: int32
+                                      message:
+                                        type: string
+                                        enum:
+                                          - 'Internal server error'
                           example:
                             air-interface-list:
                               - air-interface-identifiers:
