@@ -1260,7 +1260,7 @@ describe("RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetCont
 });
  
 
-describe("RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData", () => {
+describe("formulateHistoricalPmData", () => {
   let mountName, mockLtpStructure, mockAirAndEthernetInterfacesResponse, mockPhysicalLinkAggregations;
   let mockAirInterfaceConfiguration, mockAirInterfaceCapabilities, mockAirInterfacePerformance, mockEthernetPerformance;
  
@@ -1688,7 +1688,7 @@ describe("RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData", (
   });
  
   it("should return aggregated PM data successfully", async () => {
-      const result = await readHistoricalData.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData(
+      const result = await readHistoricalData.formulateHistoricalPmData(
         mountName,
         mockLtpStructure,
         mockAirAndEthernetInterfacesResponse,
@@ -1736,7 +1736,7 @@ describe("RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData", (
   //       ]
   //   };
  
-  //   const result = await readHistoricalData.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData(
+  //   const result = await readHistoricalData.formulateHistoricalPmData(
   //       mountName,
   //       emptyLtpStructure,
   //       mockAirAndEthernetInterfacesResponse,
@@ -1752,7 +1752,7 @@ describe("RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData", (
   // });
  
   // it("should handle corrupted Air and Ethernet Interface Data", async () => {
-  //   const result = await readHistoricalData.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData(
+  //   const result = await readHistoricalData.formulateHistoricalPmData(
   //       mountName,
   //       mockLtpStructure,
   //       null, // Corrupted Air & Ethernet Interfaces Response
@@ -1906,7 +1906,7 @@ describe('ReadHistoricalData', () => {
               traceIndicatorIncrementer: 7
           });
  
-      jest.spyOn(readHistoricalData, 'RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData')
+      jest.spyOn(readHistoricalData, 'formulateHistoricalPmData')
           .mockResolvedValue({
               historicalData: 'finalAggregatedData'
           });
@@ -1933,7 +1933,7 @@ describe('ReadHistoricalData', () => {
       expect(readHistoricalData.RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache)
           .toHaveBeenCalledWith(mockLtpStructure, mountName, timeStamp, mockRequestHeaders, expect.any(Number));
  
-      expect(readHistoricalData.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData)
+      expect(readHistoricalData.formulateHistoricalPmData)
           .toHaveBeenCalledWith(
               mountName, mockLtpStructure,
               expect.any(Object), expect.any(Object),
