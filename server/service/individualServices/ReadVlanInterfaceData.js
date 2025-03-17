@@ -370,10 +370,11 @@ async function fetchServingEthernetContainerStatus(mountName, requestHeaders, tr
 }
 
 if (global.testPrivateFuntions === 1)  {
-  console.log("GLobal Test Env");
   module.exports.readVlanInterfaceData_private = {
     RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole,
+    RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole,
+    fetchOriginalLtpNameOfEthernetContainer,
     fetchVlanInterfaceKind,
-    fetchServingEthernetContainerStatus,
+    fetchServingEthernetContainerStatus
   };
 }
