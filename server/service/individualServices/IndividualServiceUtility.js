@@ -180,3 +180,8 @@ exports.generateRequestIdForHistoricalPMDataAPI = async function () {
   // Combine timestamp and random number to form the request ID
   return `${timestamp}${randomNumber}`;
 }
+
+exports.generateRequestId = async function (mountName,linkId){
+  const timestamp = Date.now(); // Get current timestamp
+  return mountName + "-" + linkId + "-" + `${timestamp}`;
+}
