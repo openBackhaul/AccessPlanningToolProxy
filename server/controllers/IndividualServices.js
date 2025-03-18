@@ -99,6 +99,7 @@ module.exports.provideAcceptanceDataOfLinkEndpoint = async function provideAccep
   await IndividualServices.provideAcceptanceDataOfLinkEndpoint(body, user, originator, xCorrelator, traceIndicator, customerJourney)
     .then(async function (responseBody) {
       responseBodyToDocument = responseBody;
+      responseCode = 202;
       restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
     })
     .catch(async function (responseBody) {

@@ -9,8 +9,8 @@ var serverPort = 4009;
 
 // uncomment if you do not want to validate security e.g. operation-key, basic auth, etc
 // TODO: check if is working fine
-//appCommons.openApiValidatorOptions.validateSecurity = false;
-//appCommons.openApiValidatorOptions.validateRequests = false;
+appCommons.openApiValidatorOptions.validateSecurity = false;
+appCommons.openApiValidatorOptions.validateRequests = false;
 
 // swaggerRouter configuration
 var options = {
@@ -38,6 +38,7 @@ global.counterStatus = 0;
 global.counterAlarms = 0;
 global.counterTime   = 0;
 global.counterStatusHistoricalPMDataCall = 0;
+global.counterStatusAcceptanceDataOfLinkEndpointCall = 0;
 //creating connected device list obj
 global.connectedDeviceList = "";
 appCommons.performApplicationRegistration();

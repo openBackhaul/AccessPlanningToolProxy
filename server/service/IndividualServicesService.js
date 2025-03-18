@@ -1,9 +1,6 @@
 'use strict';
-const ReadAirInterfaceData = require('./individualServices/ReadAirInterfaceData');
+
 const ReadLtpStructure = require('./individualServices/ReadLtpStructure');
-const ReadVlanInterfaceData = require('./individualServices/ReadVlanInterfaceData');
-const ReadInventoryData = require('./individualServices/ReadInventoryData');
-const ReadAlarmsData = require('./individualServices/ReadAlarmsData');
 const ReadLiveAlarmsData = require('./individualServices/ReadLiveAlarmsData');
 const ReadLiveEquipmentData = require('./individualServices/ReadLiveEquipmentData');
 const ReadLiveStatusData = require('./individualServices/ReadLiveStatusData');
@@ -18,6 +15,7 @@ const HttpServerInterface = require('onf-core-model-ap/applicationPattern/onfMod
 const LogicalTerminationPointC = require('./individualServices/custom/LogicalTerminationPointC');
 const fileOperation = require('onf-core-model-ap/applicationPattern/databaseDriver/JSONDriver');
 const onfPaths = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfPaths');
+const ReadAcceptanceData = require('./individualServices/ReadAcceptanceData');
 /**
  * Initiates process of embedding a new release
  *
@@ -103,7 +101,6 @@ exports.provideAcceptanceDataOfLinkEndpoint = function (body, user, originator, 
   return new Promise(async function (resolve, reject) {
     try {
 
-      let acceptanceDataOfLinkEndPoint = {};
       let traceIndicatorIncrementer = 1;
 
       /****************************************************************************************
@@ -123,77 +120,25 @@ exports.provideAcceptanceDataOfLinkEndpoint = function (body, user, originator, 
         customerJourney: customerJourney
       };
 
-      /****************************************************************************************
-       * Collect complete ltp structure of mount-name in request bodys
-       ****************************************************************************************/
-      let ltpStructure = {};
-      try {
-        let ltpStructureResult = await ReadLtpStructure.readLtpStructure(mountName, requestHeaders, traceIndicatorIncrementer)
-        ltpStructure = ltpStructureResult.ltpStructure;
-        traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
-      } catch (err) {
-        throw new createHttpError.InternalServerError(`${err}`)
+      const forwardingName = "RequestForProvidingConfigurationForLivenetviewCausesReadingLtpStructure";
+      const forwardingConstruct = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+      let prefix = forwardingConstruct.uuid.split('op')[0];
+      let maxNumberOfParallelOperations = await IndividualServiceUtility.extractProfileConfiguration(prefix + "integer-p-000");
+      counterStatusAcceptanceDataOfLinkEndpointCall = counterStatusAcceptanceDataOfLinkEndpointCall + 1;
+      if (counterStatusAcceptanceDataOfLinkEndpointCall > maxNumberOfParallelOperations) {
+        throw new createHttpError.TooManyRequests("Too many requests");
+      }
+      let request_id =  await IndividualServiceUtility.generateRequestId(mountName,linkId);
+      let response = {
+        'request-id': request_id
       };
-
-
-      /****************************************************************************************
-       * Collect air-interface data
-       ****************************************************************************************/
-      let airInterfaceResult = await ReadAirInterfaceData.readAirInterfaceData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer)
-        .catch(err => console.log(` ${err}`));
-
-      let uuidUnderTest = "";
-      if (airInterfaceResult) {
-        if (airInterfaceResult.uuidUnderTest) {
-          uuidUnderTest = airInterfaceResult.uuidUnderTest;
-        }
-        if (Object.keys(airInterfaceResult.airInterface).length != 0) {
-          acceptanceDataOfLinkEndPoint.airInterface = airInterfaceResult.airInterface;
-        }
-        traceIndicatorIncrementer = airInterfaceResult.traceIndicatorIncrementer;
-      }
-
-      /****************************************************************************************
-       * Collect vlan-interface data
-       ****************************************************************************************/
-      let vlanInterfaceResult = await ReadVlanInterfaceData.readVlanInterfaceData(mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer)
-        .catch(err => console.log(` ${err}`));
-
-      if (Object.keys(vlanInterfaceResult.vlanInterface).length != 0) {
-        acceptanceDataOfLinkEndPoint.vlanInterface = vlanInterfaceResult.vlanInterface;
-      }
-      traceIndicatorIncrementer = vlanInterfaceResult.traceIndicatorIncrementer;
-
-      /****************************************************************************************
-       * Collect inventory data
-       ****************************************************************************************/
-      let inventoryResult = await ReadInventoryData.readInventoryData(mountName, ltpStructure, uuidUnderTest, requestHeaders, traceIndicatorIncrementer)
-        .catch(err => console.log(` ${err}`));
-
-      if (Object.keys(inventoryResult.inventory).length != 0) {
-        acceptanceDataOfLinkEndPoint.inventory = inventoryResult.inventory;
-      }
-      traceIndicatorIncrementer = inventoryResult.traceIndicatorIncrementer;
-
-      /****************************************************************************************
-       * Collect alarms data
-       ****************************************************************************************/
-      let alarmsResult = await ReadAlarmsData.readAlarmsData(mountName, requestHeaders, traceIndicatorIncrementer)
-        .catch(err => console.log(` ${err}`));
-      if (alarmsResult) {
-        if (Object.keys(alarmsResult.alarms).length != 0) {
-          if (alarmsResult.alarms) {
-            acceptanceDataOfLinkEndPoint.alarms = alarmsResult.alarms;
-          }
-        }
-        traceIndicatorIncrementer = alarmsResult.traceIndicatorIncrementer;
-      }
-
-      acceptanceDataOfLinkEndPoint = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(acceptanceDataOfLinkEndPoint);
-      resolve(acceptanceDataOfLinkEndPoint);
+      
+      ReadAcceptanceData.processAcceptanceDataRequest(mountName,linkId,request_id,requestHeaders,traceIndicatorIncrementer);
+      resolve(response);
 
     } catch (error) {
-      console.log(error)
+      console.log(error);
+      counterStatusAcceptanceDataOfLinkEndpointCall--;
       reject(error);
     }
 
