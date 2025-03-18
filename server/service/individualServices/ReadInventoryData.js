@@ -4,6 +4,7 @@ const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/con
 const IndividualServiceUtility = require('./IndividualServiceUtility');
 const LtpStructureUtility = require('./LtpStructureUtility');
 const ReadAirInterfaceData = require('./ReadAirInterfaceData');
+const logger = require('../LoggingService').getLogger();
 
 const FIRMWARE = {
   MODULE: "firmware-1-0:",
@@ -234,7 +235,7 @@ exports.readInventoryData = function (mountName, ltpStructure, uuidUnderTest, re
       };
       resolve(inventoryResult);
     } catch (error) {
-      console.log(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -294,7 +295,7 @@ async function RequestForProvidingAcceptanceDataCausesReadingFirmwareList(mountN
       }
     }
   } catch (error) {
-    console.log(`${fcNameForReadingFirmwareList} is not success with ${error}`);
+    logger.error(`${fcNameForReadingFirmwareList} is not success with ${error}`);
   }
   installedFirmwareResponse = {
     installedFirmware: installedFirmwareList,
@@ -332,7 +333,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositio
     let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
     let ltpAugmentResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
     if (Object.keys(ltpAugmentResponse).length === 0) {
-      console.log(`${forwardingName} is not success`);
+      logger.error(`${forwardingName} is not success`);
     } else {
       let ltpAugmentPac = ltpAugmentResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC];
       if (ltpAugmentPac && ltpAugmentPac.hasOwnProperty(LTP_AUGMENT.EQUIPMENT)) {
@@ -340,7 +341,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositio
       }
     }
   } catch (error) {
-    console.log(`${forwardingName} is not success with ${error}`);
+    logger.error(`${forwardingName} is not success with ${error}`);
   }
   equipmentUuidResponse.equipmentUuidList = equipmentUuidList;
   equipmentUuidResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
@@ -378,7 +379,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositio
       let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
       let equipmentCategoryResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
       if (Object.keys(equipmentCategoryResponse).length === 0) {
-        console.log(`${forwardingName} is not success`);
+        logger.error(`${forwardingName} is not success`);
       } else {
         if ((await isEquipmentCategoryModem(equipmentCategoryResponse))) {
           equipmentUuidOfModemCategory = equipmentUuid;
@@ -393,7 +394,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositio
       equipmentCategoryResponse.equipmentUuidOfRadioCategory = equipmentUuidOfRadioCategory;
     }
   } catch (error) {
-    console.log(`${forwardingName} is not success with ${error}`);
+    logger.error(`${forwardingName} is not success with ${error}`);
   }
   equipmentCategoryResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
   return equipmentCategoryResponse;
@@ -431,7 +432,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositio
     let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
     let equipmentHolderLabelResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
     if (Object.keys(equipmentHolderLabelResponse).length === 0) {
-      console.log(`${forwardingName} is not success`);
+      logger.error(`${forwardingName} is not success`);
     } else {
 
       /************************************************************************************************************
@@ -440,7 +441,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositio
       positionOfModemBoard = await formulatePositionofModemBoard(equipmentHolderLabelResponse, equipmentUuidOfModemCategory, equipmentUuidOfRadioCategory);
     }
   } catch (error) {
-    console.log(`${forwardingName} is not success with ${error}`);
+    logger.error(`${forwardingName} is not success with ${error}`);
   }
   positionOfModemBoardResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
   positionOfModemBoardResponse.positionOfModemBoard = positionOfModemBoard;
@@ -481,13 +482,13 @@ async function RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentId
       let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
       let equipmentInfoResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
       if (!equipmentInfoResponse || Object.keys(equipmentInfoResponse).length === 0) {
-        console.log(`${forwardingName} is not success`);
+        logger.error(`${forwardingName} is not success`);
       } else {
         equipmentInfoList.push(equipmentInfoResponse);
       }
     }
   } catch (error) {
-    console.log(`${forwardingName} is not success with ${error}`);
+    logger.error(`${forwardingName} is not success with ${error}`);
   }
 
   /****************************************************************************************************
@@ -555,7 +556,7 @@ async function FetchConfiguredGroupOfAirInterfaces(mountName, ltpStructure, uuid
       }
     }
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
   configuredGroupOfAirInterfacesResponse = {
     configuredGroupOfAirInterfaceList: configuredGroupOfAirInterfaceList,
@@ -586,7 +587,7 @@ async function getServingPhysicLtpList(clientContainerLtp, ltpStructure) {
       }
     }
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
   return servingPhysicLtpList;
 }
@@ -615,12 +616,12 @@ async function getLtpDesignation(mountName, ltp, requestHeaders, traceIndicatorI
     let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName);
     let ltpAugmentResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParamList, requestHeaders, traceIndicatorIncrementer++);
     if (Object.keys(ltpAugmentResponse).length == 0) {
-      console.log(`${forwardingName} is not success`);
+      logger.error(`${forwardingName} is not success`);
     } else {
       ltpDesignationResponse.ltpDesignation = ltpAugmentResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC];
     }
   } catch (error) {
-    console.log(`${forwardingName} is not success with ${error}`);
+    logger.error(`${forwardingName} is not success with ${error}`);
   }
   ltpDesignationResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
   return ltpDesignationResponse;
@@ -693,7 +694,7 @@ async function FetchPluggedSfpPmdList(mountName, ltpStructure, requestHeaders, t
       pluggedSfpPmdList.push(supportedSfpPmd);
     }
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
   pluggedSfpPmdListResponse = {
     pluggedSfpPmdList: pluggedSfpPmdList,
@@ -730,7 +731,7 @@ async function getListOfPluggableSfpLtp(mountName, ltpStructure, requestHeaders,
        *****************************************************************************************************/
       let equipmentUuidResponse = await IndividualServiceUtility.forwardRequest(clientAndFieldParamsForEquipmentUuid, pathParamList, requestHeaders, traceIndicatorIncrementer++);
       if (Object.keys(equipmentUuidResponse).length == 0) {
-        console.log(`${equipmentUuidCallback} is not success`);
+        logger.error(`${equipmentUuidCallback} is not success`);
       } else {
         let ltpAugmentPac = equipmentUuidResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC];
         let equipmentUuidList = [];
@@ -750,7 +751,7 @@ async function getListOfPluggableSfpLtp(mountName, ltpStructure, requestHeaders,
                *****************************************************************************************************/
               let equipmentCategoryResponse = await IndividualServiceUtility.forwardRequest(clientAndFieldParamsForEquipmentCategory, pathParamList, requestHeaders, traceIndicatorIncrementer++);
               if (Object.keys(equipmentCategoryResponse).length == 0) {
-                console.log(`${equipmentCategoryCallback} is not success`);
+                logger.error(`${equipmentCategoryCallback} is not success`);
               } else {
                 let actualEquipmentStructure = equipmentCategoryResponse[CORE.MODULE + EQUIPMENT.EQUIPMENT.ACTUAL_EQUIPMENT][EQUIPMENT.ACTUAL_EQUIPMENT.STRUCTURE];
                 if (actualEquipmentStructure && actualEquipmentStructure.hasOwnProperty(EQUIPMENT.ACTUAL_EQUIPMENT.CATEGORY)) {
@@ -771,7 +772,7 @@ async function getListOfPluggableSfpLtp(mountName, ltpStructure, requestHeaders,
       }
     }
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
   pluggableSfpListResponse.pluggableSfpList = pluggableSfpList;
   pluggableSfpListResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
@@ -800,7 +801,7 @@ async function getWireInterfaceNameForRetrievingSfpInformation(mountName, wireIn
      *****************************************************************************************************/
     let response = await IndividualServiceUtility.forwardRequest(clientAndFieldParamsForWireInterfaceName, pathParamList, requestHeaders, traceIndicatorIncrementer++);
     if (Object.keys(response).length == 0) {
-      console.log(`${wireInterfaceNameCallback} is not success`);
+      logger.error(`${wireInterfaceNameCallback} is not success`);
     } else {
       let ltpAugmentPac = response[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC];
       if (ltpAugmentPac && ltpAugmentPac.hasOwnProperty(LTP_AUGMENT.ORIGINAL_LTP_NAME)) {
@@ -808,7 +809,7 @@ async function getWireInterfaceNameForRetrievingSfpInformation(mountName, wireIn
       }
     }
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
   wireInterfaceNameResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
   return wireInterfaceNameResponse;
@@ -838,7 +839,7 @@ async function getSupportedPmdListForRetrievingSfpInformation(mountName, wireInt
      *****************************************************************************************************/
     let response = await IndividualServiceUtility.forwardRequest(clientAndFieldParamsForSupportedPmds, pathParamList, requestHeaders, traceIndicatorIncrementer++);
     if (Object.keys(response).length == 0) {
-      console.log(`${supportedPmdsCallback} is not success`);
+      logger.error(`${supportedPmdsCallback} is not success`);
     } else {
       let supportedPmdKindList = response[WIRE_INTERFACE.MODULE + WIRE_INTERFACE.CAPABILITY][WIRE_INTERFACE.SUPPORTED_PMD_LIST];
       let supportedPmdList = [];
@@ -851,7 +852,7 @@ async function getSupportedPmdListForRetrievingSfpInformation(mountName, wireInt
       supportedPmdListResponse.supportedPmdList = supportedPmdList;
     }
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
   supportedPmdListResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
   return supportedPmdListResponse;
@@ -881,12 +882,12 @@ async function getCurrentlyOperatedPmdForRetrievingSfpInformation(mountName, wir
      *****************************************************************************************************/
     let response = await IndividualServiceUtility.forwardRequest(clientAndFieldParamsForOperatedPmd, pathParamList, requestHeaders, traceIndicatorIncrementer++);
     if (Object.keys(response).length == 0) {
-      console.log(`${operatedPmdCallback} is not success`);
+      logger.error(`${operatedPmdCallback} is not success`);
     } else {
       operatedPmdResponse.currentlyOperatedPmd = response[WIRE_INTERFACE.MODULE + WIRE_INTERFACE.STATUS][WIRE_INTERFACE.PMD_KIND_CUR];
     }
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
   operatedPmdResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
   return operatedPmdResponse;
@@ -919,7 +920,7 @@ async function FetchConnectorPluggingTheOutdoorUnit(mountName, uuidUnderTest, re
      *****************************************************************************************************/
     let connectorIdResponse = await IndividualServiceUtility.forwardRequest(clientAndFieldParamsForConnectorId, pathParamList, requestHeaders, traceIndicatorIncrementer++);
     if (Object.keys(connectorIdResponse).length == 0) {
-      console.log(`${connectorIdCallback} is not success`);
+      logger.error(`${connectorIdCallback} is not success`);
     } else {
       let equipmentList = connectorIdResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.EQUIPMENT];
       let connector = connectorIdResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.CONNECTOR];
@@ -947,7 +948,7 @@ async function FetchConnectorPluggingTheOutdoorUnit(mountName, uuidUnderTest, re
       }
     }
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
   connectorPluggingTheOutdoorUnitResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
   return connectorPluggingTheOutdoorUnitResponse;
