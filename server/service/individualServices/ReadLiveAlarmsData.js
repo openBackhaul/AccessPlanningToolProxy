@@ -2,6 +2,7 @@
 
 const IndividualServiceUtility = require('./IndividualServiceUtility');
 const createHttpError = require('http-errors');
+const logger = require('../LoggingService').getLogger();
 
 let ALARMS = {
   MODULE: "alarms-1-0",
@@ -44,7 +45,7 @@ exports.readLiveAlarmsData = async function (mountName, requestHeaders, traceInd
     return alarmsData;
 
   } catch (error) {
-    console.log(`readLiveAlarmsData fails with the error: ${error}`);
+    logger.error(`readLiveAlarmsData fails with the error: ${error}`);
   }
 }
 
@@ -75,15 +76,15 @@ async function RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarms
     let alarmsFromLiveResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
     if (alarmsFromLiveResponse) {
       if (Object.keys(alarmsFromLiveResponse).length === 0) {
-        console.log(`${forwardingName} is not success`);
+        logger,error(`${forwardingName} is not success`);
       } else {
         alarms = alarmsFromLiveResponse;
       }
     } else {
-      console.log(`${forwardingName} is not success`);
+      logger.error(`${forwardingName} is not success`);
     }
   } catch (error) {
-    console.log(`${forwardingName} is not success with ${error}`);
+    logger.error(`${forwardingName} is not success with ${error}`);
   }
   alarmsFromLive.traceIndicatorIncrementer = traceIndicatorIncrementer;
   alarmsFromLive.alarmsFromLive = alarms;
