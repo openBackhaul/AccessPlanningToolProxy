@@ -8,7 +8,11 @@ const IndividualServiceUtility = require('./IndividualServiceUtility');
 const ltpStructureUtility = require('./LtpStructureUtility');
 const createHttpError = require('http-errors');
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
-
+const ReadLtpStructure = require('./ReadLtpStructure');
+const tcpClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/TcpClientInterface');
+const eventDispatcher = require('./EventDispatcherWithResponse');
+const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
+const FcPort = require('onf-core-model-ap/applicationPattern/onfModel/models/FcPort');
 const AIR_INTERFACE = {
   MODULE: "air-interface-2-0",
   LAYER_PROTOCOL_NAME: "LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER",
@@ -48,6 +52,162 @@ const LTP_AUGMENT = {
   EXTERNAL_LABEL: "external-label",
   ORIGINAL_LTP_NAME: "original-ltp-name"
 };
+
+/**
+ * @description This function automates the forwarding construct by calling the appropriate call back operations based on the fcPort input and output directions.
+ * @param {String} forwardingKindName forwarding Name
+ * @param {list}   attributeList list of attributes required during forwarding construct automation(to send in the request body)
+ * @param {String} user user who initiates this request
+ * @param {string} originator originator of the request
+ * @param {string} xCorrelator flow id of this request
+ * @param {string} traceIndicator trace indicator of the request
+ * @param {string} customerJourney customer journey of the request
+ **/
+async function forwardRequest(forwardingKindName, attributeList, user, xCorrelator, traceIndicator, customerJourney) {
+  let forwardingConstructInstance = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingKindName);
+  let operationClientUuid = (getFcPortOutputLogicalTerminationPointList(forwardingConstructInstance))[0];
+  let result = await eventDispatcher.dispatchEvent(
+    operationClientUuid,
+    attributeList,
+    user,
+    xCorrelator,
+    traceIndicator,
+    customerJourney,
+    "POST"
+  );
+  return result;
+}
+
+function getFcPortOutputLogicalTerminationPointList(forwardingConstructInstance) {
+  let fcPortOutputLogicalTerminationPointList = [];
+  let fcPortList = forwardingConstructInstance[
+    onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
+  for (let i = 0; i < fcPortList.length; i++) {
+    let fcPort = fcPortList[i];
+    let fcPortPortDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
+    if (fcPortPortDirection === FcPort.portDirectionEnum.OUTPUT) {
+      let fclogicalTerminationPoint = fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT];
+      fcPortOutputLogicalTerminationPointList.push(fclogicalTerminationPoint);
+    }
+  }
+  return fcPortOutputLogicalTerminationPointList;
+}
+
+exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = async function (request_id, requestHeaders,historicalPmDataOfDevice,traceIndicatorIncrementer) {
+  
+  const forwardingName = "RequestForProvidingHistoricalPmDataCausesDeliveringRequestedHistoricalPmData";
+  let response;
+
+  try {
+      let requestBody = {
+          "request-id": request_id,
+          "air-interface-list": historicalPmDataOfDevice["air-interface-list"],
+          "ethernet-container-list": historicalPmDataOfDevice["ethernet-container-list"],
+          "mount-name-list-with-errors":historicalPmDataOfDevice["mount-name-list-with-errors"]
+      };
+
+      
+      /****************************************************************************************************
+       *   RequestForProvidingHistoricalPmDataCausesDeliveringRequestedHistoricalPmData
+       *  
+       *****************************************************************************************************/
+      response = await forwardRequest(
+        forwardingName,
+        requestBody,
+        requestHeaders.user,
+        requestHeaders.xCorrelator,
+        requestHeaders.traceIndicator + "." + traceIndicatorIncrementer,
+        requestHeaders.customerJourney
+      );
+      
+      return response;
+  } catch (error) {
+      console.log(error);
+      return (new createHttpError.InternalServerError(`${error}`));
+  }
+
+}
+exports.processHistoricalDataRequest = async function(body,request_id,requestHeaders,traceIndicatorIncrementer) {
+  
+  try{
+      let historicalPmDataOfDevice = {
+        "air-interface-list": [],
+        "ethernet-container-list": [],
+        "mount-name-list-with-errors":[]
+      };
+
+      let mountNameWithError = [];
+
+      for(let i=0; i<body.length; i++){
+
+          let mountName = body[i]["mount-name"]; 
+          let timeStamp = body[i]["time-stamp"];
+          let mountWithError = {
+            "mount-name":mountName,
+            "code":"",
+            "message":""
+          };
+
+          if (undefined === global.connectedDeviceList["mount-name-list"] || !global.connectedDeviceList["mount-name-list"].includes(mountName)) {
+            mountWithError["code"] = 460;
+            mountWithError["message"] = "Not connected. Requested device is currently not in connected state at the controller";
+            mountNameWithError.push(mountWithError);
+            continue;
+          }      
+
+          /****************************************************************************************
+           * Collect complete ltp structure of mount-name in request bodys
+           ****************************************************************************************/
+          let ltpStructure = {};
+          try {
+            let ltpStructureResult = await ReadLtpStructure.readLtpStructure(mountName, requestHeaders, traceIndicatorIncrementer)
+            ltpStructure = ltpStructureResult.ltpStructure;
+            traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
+          } catch (err) {
+            mountWithError["code"] = 500;
+            mountWithError["message"] = "Internal server error";
+            mountNameWithError.push(mountWithError);
+            continue;
+          };
+          
+          /****************************************************************************************
+           * Collect history data
+           ****************************************************************************************/
+          
+          let historicalDataResult = await exports.readHistoricalData(mountName, timeStamp, ltpStructure, requestHeaders, traceIndicatorIncrementer)
+            .catch(err => console.log(` ${err}`));
+
+            let dataPresent = false;
+              if(historicalDataResult["air-interface-list"].length > 0){
+                historicalPmDataOfDevice["air-interface-list"].push(...historicalDataResult["air-interface-list"]);
+                dataPresent = true;
+              }
+              if(historicalDataResult["ethernet-container-list"].length > 0){
+                historicalPmDataOfDevice["ethernet-container-list"].push(...historicalDataResult["ethernet-container-list"]);
+                dataPresent = true;
+              }
+            
+            if(!dataPresent){
+              mountWithError["code"] = 500;
+              mountWithError["message"] = "Internal server error";
+              mountNameWithError.push(mountWithError);
+            }
+      }
+      historicalPmDataOfDevice["mount-name-list-with-errors"] = mountNameWithError;
+
+     await exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData(
+        request_id, requestHeaders,historicalPmDataOfDevice,traceIndicatorIncrementer); 
+      }
+      catch (error) {
+        console.error(`readAirInterfaceData is not success with ${error}`);
+      }
+      finally {
+      global.counterStatusHistoricalPMDataCall--;
+    }
+
+
+}
+
 
 /**
  * This method performs the set of procedure to gather the airInterface data
@@ -132,7 +292,7 @@ exports.readHistoricalData = async function (mountName, timeStamp, ltpStructure,
     *  Air Interface Configuration, Capabilities, Historical Performance, 
     *  and Ethernet Container Performance into a single response.
     ******************************************************************************************/
-    let historicalData = await exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData(mountName, ltpStructure, airAndEthernetInterfacesResponse, physicalLinkAggregations, airInterfaceConfiguration,
+    let historicalData = await exports.formulateHistoricalPmData(mountName, ltpStructure, airAndEthernetInterfacesResponse, physicalLinkAggregations, airInterfaceConfiguration,
       airInterfaceCapabilities, airInterfacePerformance, ethernetPerformance);
 
 
@@ -643,7 +803,7 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContai
  * @param {Array} ethernetPerformance - The retrieved historical performance of Ethernet interfaces.
  * @returns {Object} Response status of the PM data delivery.
  */
-exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = async function (mountName, ltpStructure, airAndEthernetInterfacesResponse, physicalLinkAggregations, airInterfaceConfiguration,
+exports.formulateHistoricalPmData = async function (mountName, ltpStructure, airAndEthernetInterfacesResponse, physicalLinkAggregations, airInterfaceConfiguration,
   airInterfaceCapabilities, airInterfacePerformance, ethernetPerformance) {
   let result = {
     "air-interface-list": [],

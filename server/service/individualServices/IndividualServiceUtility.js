@@ -172,3 +172,11 @@ function writeToFile(coreModelJsonObject) {
 }
 
 }
+
+exports.generateRequestIdForHistoricalPMDataAPI = async function () {
+  const timestamp = Date.now(); // Get current timestamp
+  const randomNumber = Math.floor(Math.random() * 100); // Generate a random number up to 100 
+
+  // Combine timestamp and random number to form the request ID
+  return `${timestamp}${randomNumber}`;
+}

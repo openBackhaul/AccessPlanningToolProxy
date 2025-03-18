@@ -324,12 +324,6 @@ exports.provideEquipmentInfoForLiveNetView = function (body, user, originator, x
 exports.provideHistoricalPmDataOfDevice = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
     try {
-      let historicalPmDataOfDevice = {
-        "air-interface-list": [],
-        "ethernet-container-list": [],
-        "mount-name-list-with-errors":[]
-      };  
-      let mountNameWithError = [];
       let traceIndicatorIncrementer = 1;
 
       /****************************************************************************************
@@ -352,54 +346,21 @@ exports.provideHistoricalPmDataOfDevice = function (body, user, originator, xCor
         throw new createHttpError.TooManyRequests("Too many requests");
       }
 
+      let request_id =  await IndividualServiceUtility.generateRequestIdForHistoricalPMDataAPI();
       /****************************************************************************************
        * Loop through each request in the body array
        ****************************************************************************************/
-      for(let i=0; i<body.length; i++){
-              let mountName = body[i]["mount-name"]; 
-              let timeStamp = body[i]["time-stamp"];
-
-          /****************************************************************************************
-           * Collect complete ltp structure of mount-name in request bodys
-           ****************************************************************************************/
-          let ltpStructure = {};
-          try {
-            let ltpStructureResult = await ReadLtpStructure.readLtpStructure(mountName, requestHeaders, traceIndicatorIncrementer)
-            ltpStructure = ltpStructureResult.ltpStructure;
-            traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
-          } catch (err) {
-            mountNameWithError.push(mountName);
-            continue;
-          };
-          
-          /****************************************************************************************
-           * Collect history data
-           ****************************************************************************************/
-          
-          let historicalDataResult = await ReadHistoricalData.readHistoricalData(mountName, timeStamp, ltpStructure, requestHeaders, traceIndicatorIncrementer)
-            .catch(err => console.log(` ${err}`));
-
-            if (Object.keys(historicalDataResult).length !== 0){
-              if(historicalDataResult.hasOwnProperty("air-interface-list"))historicalPmDataOfDevice["air-interface-list"].push(...historicalDataResult["air-interface-list"]);
-              if(historicalDataResult.hasOwnProperty("ethernet-container-list"))historicalPmDataOfDevice["ethernet-container-list"].push(...historicalDataResult["ethernet-container-list"]);
-            }
-            else{
-              mountNameWithError.push(mountName);
-            }
-      }
-      historicalPmDataOfDevice["mount-name-list-with-errors"] = mountNameWithError;
+      let response = {
+        'request-id': request_id
+      };
+      //setImmediate(() => ReadHistoricalData.processHistoricalDataRequest(body,request_id,requestHeaders,traceIndicatorIncrementer));
+      ReadHistoricalData.processHistoricalDataRequest(body,request_id,requestHeaders,traceIndicatorIncrementer);
+      resolve(response);
       
-      if (Object.keys(historicalPmDataOfDevice["air-interface-list"]).length == 0 &&
-      Object.keys(historicalPmDataOfDevice["ethernet-container-list"]).length == 0 ) {
-        throw new createHttpError.NotFound("Empty : data not found");
-      } else {
-        resolve(historicalPmDataOfDevice);
-      }
     } catch (error) {
-      console.log(error)
-      reject(error);
-    }finally {
+      console.log(error);
       counterStatusHistoricalPMDataCall--;
+      reject(error);
     }
   });
 }
