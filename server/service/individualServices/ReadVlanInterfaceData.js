@@ -368,3 +368,13 @@ async function fetchServingEthernetContainerStatus(mountName, requestHeaders, tr
   ethernetContainerStatusResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
   return ethernetContainerStatusResponse;
 }
+
+if (global.testPrivateFuntions === 1)  {
+  module.exports.readVlanInterfaceData_private = {
+    RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole,
+    RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole,
+    fetchOriginalLtpNameOfEthernetContainer,
+    fetchVlanInterfaceKind,
+    fetchServingEthernetContainerStatus
+  };
+}

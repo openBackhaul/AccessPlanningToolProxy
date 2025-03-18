@@ -41,5 +41,5 @@ global.counterStatusHistoricalPMDataCall = 0;
 global.counterStatusAcceptanceDataOfLinkEndpointCall = 0;
 //creating connected device list obj
 global.connectedDeviceList = "";
+global.testPrivateFuntions = 0;
 appCommons.performApplicationRegistration();
-
