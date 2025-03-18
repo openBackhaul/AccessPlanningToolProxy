@@ -8,6 +8,7 @@ const IndividualServiceUtility = require('./IndividualServiceUtility');
 const ltpStructureUtility = require('./LtpStructureUtility');
 const createHttpError = require('http-errors');
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
+const logger = require('../LoggingService').getLogger();
 
 const AIR_INTERFACE = {
   MODULE: "air-interface-2-0",
@@ -73,7 +74,7 @@ exports.readLiveEquipmentData = async function (mountName, linkId, ltpStructure,
 
     }
   } catch (error) {
-    console.log(`readAirInterfaceData is not success with ${error}`);
+    logger.error(`readAirInterfaceData is not success with ${error}`);
   }
 }
 
@@ -120,7 +121,7 @@ async function RequestForProvidingEquipmentForLivenetviewCausesDeterminingAirInt
 
       let externalLabelResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParamList, requestHeaders, _traceIndicatorIncrementer);
       if (Object.keys(externalLabelResponse).length === 0) {
-        console.log(createHttpError.InternalServerError(`${forwardingName} is not success`));
+        logger.error(createHttpError.InternalServerError(`${forwardingName} is not success`));
       } else {
         externalLabelResponse = externalLabelResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.EXTERNAL_LABEL];
         let linkIdFromExternalLabel = externalLabelResponse.substring(0, 9);
@@ -133,7 +134,7 @@ async function RequestForProvidingEquipmentForLivenetviewCausesDeterminingAirInt
       }
     }
   } catch (error) {
-    console.log(`${forwardingName} is not success with ${error}`);
+    logger.error(`${forwardingName} is not success with ${error}`);
   }
   uuidUnderTestResponse.uuidUnderTest = uuidUnderTest;
   uuidUnderTestResponse.pathParams = pathParams;
@@ -183,7 +184,7 @@ exports.RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfo
     let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
     let equipmentUuidListResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
     if (Object.keys(equipmentUuidListResponse).length === 0) {
-      console.log(`${forwardingName} is not success`);
+      logger.error(`${forwardingName} is not success`);
     }
     const forwardingName1 = "RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo";
     const stringName1 = "RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo";
@@ -196,14 +197,14 @@ exports.RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfo
       let equipmentCategoryResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
       equipmentCategoryResponse = equipmentCategoryResponse["core-model-1-4:actual-equipment"]
       if (Object.keys(equipmentUuidListResponse).length === 0) {
-        console.log(`${forwardingName} is not success`);
+        logger.error(`${forwardingName} is not success`);
       } else {
         addToStructure(equipmentCategoryResponse, newStructure);
       }
 
     }
   } catch (error) {
-    console.log(`${forwardingName} is not success with ${error}`);
+    logger.error(`${forwardingName} is not success with ${error}`);
   }
   
   return newStructure;
