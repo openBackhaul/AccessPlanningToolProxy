@@ -42,7 +42,7 @@ class LogicalTerminationPointC extends LogicalTerminationPoint {
     static async setLayerProtolLtpAsync(ltpUuid, layerProtolUuid) {
         let isUpdated = false;
         let layerProtolPath = onfPaths.LAYER_PROTOCOL.replace("{uuid}", ltpUuid);
-        await fileOperation.deletefromDatabaseAsync(layerProtolPath);
+       // await fileOperation.deletefromDatabaseAsync(layerProtolPath);
         
         isUpdated = await fileOperation.writeToDatabaseAsync(
                 layerProtolPath,
@@ -62,7 +62,7 @@ class LogicalTerminationPointC extends LogicalTerminationPoint {
     static async setLayerProtolRemoteProtocolLtpAsync(ltpUuid, remoteAddress) {
         let isUpdated = false;
         let layerProtolPath = onfPaths.TCP_CLIENT_REMOTE_PROTOCOL.replace("{uuid}", ltpUuid);
-        await fileOperation.deletefromDatabaseAsync(layerProtolPath);
+        //await fileOperation.deletefromDatabaseAsync(layerProtolPath);
             isUpdated = await fileOperation.writeToDatabaseAsync(
                 layerProtolPath,
                 remoteAddress,
@@ -81,7 +81,7 @@ class LogicalTerminationPointC extends LogicalTerminationPoint {
     static async setLayerProtolRemotePortLtpAsync(ltpUuid, remotePort) {
         let isUpdated = false;
         let layerProtolPath = onfPaths.TCP_CLIENT_REMOTE_PORT.replace("{uuid}", ltpUuid);
-        await fileOperation.deletefromDatabaseAsync(layerProtolPath);
+        //await fileOperation.deletefromDatabaseAsync(layerProtolPath);
             isUpdated = await fileOperation.writeToDatabaseAsync(
                 layerProtolPath,
                 remotePort,
@@ -100,7 +100,7 @@ class LogicalTerminationPointC extends LogicalTerminationPoint {
     static async setLayerProtolReleaseNumberLtpAsync(ltpUuid, releaseNumber) {
         let isUpdated = false;
         let layerProtolPath = onfPaths.HTTP_CLIENT_RELEASE_NUMBER.replace("{uuid}", ltpUuid);
-        await fileOperation.deletefromDatabaseAsync(layerProtolPath);
+        //await fileOperation.deletefromDatabaseAsync(layerProtolPath);
             isUpdated = await fileOperation.writeToDatabaseAsync(
                 layerProtolPath,
                 releaseNumber,
@@ -119,7 +119,7 @@ class LogicalTerminationPointC extends LogicalTerminationPoint {
     static async setLayerProtolOperationNameLtpAsync(ltpUuid, operationName) {
         let isUpdated = false;
         let layerProtolPath = onfPaths.OPERATION_CLIENT_OPERATION_NAME.replace("{uuid}", ltpUuid);
-        await fileOperation.deletefromDatabaseAsync(layerProtolPath);
+        //await fileOperation.deletefromDatabaseAsync(layerProtolPath);
             isUpdated = await fileOperation.writeToDatabaseAsync(
                 layerProtolPath,
                 operationName,
@@ -138,7 +138,7 @@ class LogicalTerminationPointC extends LogicalTerminationPoint {
     static async setLayerProtolRemoteAddressLtpAsync(ltpUuid, remoteAddress) {
         let isUpdated = false;
         let layerProtolPath = onfPaths.TCP_CLIENT_ADDRESS.replace("{uuid}", ltpUuid);
-        await fileOperation.deletefromDatabaseAsync(layerProtolPath);
+        //await fileOperation.deletefromDatabaseAsync(layerProtolPath);
         
         isUpdated = await fileOperation.writeToDatabaseAsync(
                 layerProtolPath,

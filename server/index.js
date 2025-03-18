@@ -38,6 +38,7 @@ global.counterStatus = 0;
 global.counterAlarms = 0;
 global.counterTime   = 0;
 global.counterStatusHistoricalPMDataCall = 0;
+global.counterStatusAcceptanceDataOfLinkEndpointCall = 0;
 //creating connected device list obj
 global.connectedDeviceList = "";
 global.testPrivateFuntions = 0;

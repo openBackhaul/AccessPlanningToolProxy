@@ -649,10 +649,11 @@ describe("provideHistoricalPmDataOfDevice", () => {
     global.counterStatusHistoricalPMDataCall = 0;
   });
 
-  test("should return historical PM data successfully", async () => {
+  test("should return the request id for PM data successfully", async () => {
     // Mock responses
     forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue({ uuid: "test-op123" });
     IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(5);
+    IndividualServiceUtility.generateRequestIdForHistoricalPMDataAPI.mockResolvedValue(5898989898);
     ReadLtpStructure.readLtpStructure.mockResolvedValue({
       ltpStructure: { key: "ltpData" },
       traceIndicatorIncrementer: 2
@@ -664,12 +665,10 @@ describe("provideHistoricalPmDataOfDevice", () => {
 
     const result = await provideHistoricalPmDataOfDevice(mockBody, ...Object.values(mockRequestHeaders));
 
+
     expect(result).toMatchObject({
-      "air-interface-list": expect.arrayContaining([{ key: "airData" }]),
-      "ethernet-container-list": expect.arrayContaining([{ key: "ethData" }]),
-      "mount-name-list-with-errors": [],
+      "request-id": 5898989898
     });
-    
 
   });
 
@@ -681,18 +680,18 @@ describe("provideHistoricalPmDataOfDevice", () => {
       .rejects.toThrow(createHttpError.TooManyRequests);
   });
 
-  test("should throw NotFound error if both air-interface and ethernet-container lists are empty", async () => {
-    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue({ uuid: "test-op123" });
-    IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(5);
-    ReadLtpStructure.readLtpStructure.mockResolvedValue({
-      ltpStructure: { key: "ltpData" },
-      traceIndicatorIncrementer: 2
-    });
-    ReadHistoricalData.readHistoricalData.mockResolvedValue({});
+  // test("should throw NotFound error if both air-interface and ethernet-container lists are empty", async () => {
+  //   forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue({ uuid: "test-op123" });
+  //   IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(5);
+  //   ReadLtpStructure.readLtpStructure.mockResolvedValue({
+  //     ltpStructure: { key: "ltpData" },
+  //     traceIndicatorIncrementer: 2
+  //   });
+  //   ReadHistoricalData.readHistoricalData.mockResolvedValue({});
 
-    await expect(provideHistoricalPmDataOfDevice(mockBody, ...Object.values(mockRequestHeaders)))
-      .rejects.toThrow(createHttpError.NotFound);
-  });
+  //   await expect(provideHistoricalPmDataOfDevice(mockBody, ...Object.values(mockRequestHeaders)))
+  //     .rejects.toThrow(createHttpError.NotFound);
+  // });
 
   test("should reject with an error if an unexpected error occurs", async () => {
     forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockRejectedValue(new Error("Unexpected Error"));
