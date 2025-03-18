@@ -9,8 +9,8 @@ var serverPort = 4009;
 
 // uncomment if you do not want to validate security e.g. operation-key, basic auth, etc
 // TODO: check if is working fine
-appCommons.openApiValidatorOptions.validateSecurity = false;
-appCommons.openApiValidatorOptions.validateRequests = false;
+//appCommons.openApiValidatorOptions.validateSecurity = false;
+//appCommons.openApiValidatorOptions.validateRequests = false;
 
 // swaggerRouter configuration
 var options = {
