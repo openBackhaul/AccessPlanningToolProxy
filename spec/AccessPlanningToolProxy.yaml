@@ -6859,10 +6859,6 @@ paths:
             application/json:
               schema:
                 type: object
-                required:
-                  - radio
-                  - modem
-                  - device
                 properties:
                   radio:
                     type: object
