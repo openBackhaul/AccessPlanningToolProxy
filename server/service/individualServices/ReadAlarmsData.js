@@ -1,6 +1,7 @@
 'use strict';
 
 const IndividualServiceUtility = require('./IndividualServiceUtility');
+const logger = require('../LoggingService').getLogger();
 const createHttpError = require('http-errors');
 
 let ALARMS = {
@@ -44,7 +45,7 @@ exports.readAlarmsData = async function (mountName, requestHeaders, traceIndicat
     return alarmsData;
 
   } catch (error) {
-    console.log(`readAlarmsData is not success with ${error}`);
+    logger.error(`readAlarmsData is not success with ${error}`);
   }
 }
 
@@ -75,15 +76,15 @@ async function RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLi
     let alarmsFromLiveResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
     if (alarmsFromLiveResponse) {
       if (Object.keys(alarmsFromLiveResponse).length === 0) {
-        console.log(`${forwardingName} is not success`);
+        logger.error(`${forwardingName} is not success`);
       } else {
         alarms = alarmsFromLiveResponse;
       }
     } else {
-      console.log(`${forwardingName} is not success`);
+      logger.error(`${forwardingName} is not success`);
     }
   } catch (error) {
-    console.log(`${forwardingName} is not success with ${error}`);
+    logger.error(`${forwardingName} is not success with ${error}`);
   }
   alarmsFromLive.traceIndicatorIncrementer = traceIndicatorIncrementer;
   alarmsFromLive.alarmsFromLive = alarms;

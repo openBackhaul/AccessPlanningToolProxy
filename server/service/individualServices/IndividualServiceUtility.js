@@ -14,7 +14,9 @@ const createHttpError = require('http-errors');
 const fileSystem = require('fs');
 const AsyncLock = require('async-lock');
 const lock = new AsyncLock();
-  
+
+const logger = require('../LoggingService').getLogger();
+
 /**
  * This function fetches the string value from the string profile based on the expected string name.
  * @param {String} expectedStringName string name of the string profile.
@@ -40,7 +42,7 @@ exports.getStringProfileInstanceValue = async function (expectedStringName) {
     return stringValue;
 
   } catch (error) {
-    console.log(`getStringProfileInstanceValue is not success with ${error}`);
+    logger.error(`getStringProfileInstanceValue is not success with ${error}`);
     return new createHttpError.InternalServerError(`${error}`);  
   }
 }
@@ -74,7 +76,7 @@ exports.getQueryAndPathParameter = async function (operationName, pathParamList,
     return params;
 
   } catch (error) {
-    console.log(`getQueryAndPathParameter is not success with ${error}`);
+    logger.error(`getQueryAndPathParameter is not success with ${error}`);
     return new createHttpError.InternalServerError(`${error}`);    }
 }
 
@@ -94,7 +96,7 @@ exports.getConsequentOperationClientAndFieldParams = async function(forwardingCo
     consequentOperationClientAndFieldParams.operationName = await OperationClientInterface.getOperationNameAsync(consequentOperationClientAndFieldParams.operationClientUuid);
     consequentOperationClientAndFieldParams.fields = await IndividualServiceUtility.getStringProfileInstanceValue(stringName);
   } catch(error) {
-    console.log(`getConsequentOperationClientAndFieldParams is not success with ${error}`);
+    logger.error(`getConsequentOperationClientAndFieldParams is not success with ${error}`);
     return new createHttpError.InternalServerError(`${error}`);
   }
   return consequentOperationClientAndFieldParams;
@@ -125,7 +127,7 @@ exports.forwardRequest = async function (operationClientAndFieldParams, pathPara
     );
     return responseData;
   } catch (error) {
-    console.log(`forwardRequest is not success with ${error}`);
+    logger.error(`forwardRequest is not success with ${error}`);
     return new createHttpError.InternalServerError(`${error}`);
   }
 }
@@ -154,7 +156,7 @@ exports.resetCompleteFile = async function (coreModelJsonObject) {
     let result = writeToFile(coreModelJsonObject);
     return result;
 });
-        
+
 
 /** 
  * Write to the filesystem.<br>
@@ -166,7 +168,7 @@ function writeToFile(coreModelJsonObject) {
       fileSystem.writeFileSync(global.databasePath, JSON.stringify(coreModelJsonObject));
       return true;
   } catch (error) {
-      console.log('write failed:', error)
+      logger.error('write failed:', error)
       return false;
   }
 }

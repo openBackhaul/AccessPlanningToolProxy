@@ -13,6 +13,7 @@ const tcpClientInterface = require('onf-core-model-ap/applicationPattern/onfMode
 const eventDispatcher = require('./EventDispatcherWithResponse');
 const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
 const FcPort = require('onf-core-model-ap/applicationPattern/onfModel/models/FcPort');
+const logger = require('../LoggingService').getLogger();
 const AIR_INTERFACE = {
   MODULE: "air-interface-2-0",
   LAYER_PROTOCOL_NAME: "LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER",
@@ -122,7 +123,7 @@ exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = asy
       
       return response;
   } catch (error) {
-      console.log(error);
+      logger.error(error);
       return (new createHttpError.InternalServerError(`${error}`));
   }
 
@@ -175,7 +176,7 @@ exports.processHistoricalDataRequest = async function(body,request_id,requestHea
            ****************************************************************************************/
           
           let historicalDataResult = await exports.readHistoricalData(mountName, timeStamp, ltpStructure, requestHeaders, traceIndicatorIncrementer)
-            .catch(err => console.log(` ${err}`));
+            .catch(err => logger.error(` ${err}`));
 
             let dataPresent = false;
               if(historicalDataResult["air-interface-list"].length > 0){
@@ -199,7 +200,7 @@ exports.processHistoricalDataRequest = async function(body,request_id,requestHea
         request_id, requestHeaders,historicalPmDataOfDevice,traceIndicatorIncrementer); 
       }
       catch (error) {
-        console.error(`readAirInterfaceData is not success with ${error}`);
+        logger.error(`readAirInterfaceData is not success with ${error}`);
       }
       finally {
       global.counterStatusHistoricalPMDataCall--;
@@ -299,7 +300,7 @@ exports.readHistoricalData = async function (mountName, timeStamp, ltpStructure,
     // Returning the final structured historical PM data response.
     return historicalData;
   } catch (error) {
-    console.error(`readAirInterfaceData is not success with ${error}`);
+    logger.error(`readAirInterfaceData is not success with ${error}`);
     throw error;
   }
 }
@@ -355,7 +356,7 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInte
       let externalLabelResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
 
       if (Object.keys(externalLabelResponse).length === 0) {
-        console.log(createHttpError.InternalServerError(`${forwardingName} is not success`));
+        logger.error(createHttpError.InternalServerError(`${forwardingName} is not success`));
       }
 
       // Extract the response fields
@@ -379,7 +380,7 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInte
       processedLtpResponses.push(responseObject);
     }
   } catch (error) {
-    console.log(`${forwardingName} is not success with ${error}`);
+    logger.error(`${forwardingName} is not success with ${error}`);
   }
   processedLtpResponse = {
     processedLtpResponses: processedLtpResponses,
@@ -430,7 +431,7 @@ exports.RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregat
 
         // ✅ Ensure CLIENT_LTP exists
         if (!clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP]) {
-          console.warn("CLIENT_LTP is missing. Assigning empty array.");
+          logger.warn("CLIENT_LTP is missing. Assigning empty array.");
           clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP] = [];
         }
 
@@ -503,7 +504,7 @@ exports.RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregat
   }
     }
   } catch (error) {
-    console.error(`${forwardingName} is not success with ${error}`);
+    logger.error(`${forwardingName} is not success with ${error}`);
   }
 
   aggregatedResultsResponse = {
@@ -554,14 +555,14 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfiguratio
       };
 
       if (Object.keys(airInterfaceConfigurationResponse).length === 0) {
-        console.log(`${forwardingName} is not success`);
+        logger.error(`${forwardingName} is not success`);
       } else {
         response["airInterfaceConfiguration"] = airInterfaceConfigurationResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.CONFIGURATION];
         airInterfaceConfigurations.push(response);
       }
     }
   } catch (error) {
-    console.log(`${forwardingName} is not success with ${error}`);
+    logger.error(`${forwardingName} is not success with ${error}`);
   }
   airInterfaceConfigurationsResponse = {
     airInterfaceConfigurations: airInterfaceConfigurations,
@@ -609,14 +610,14 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceCapabilities
       };
 
       if (Object.keys(airInterfaceCapabilitiesResponse).length === 0) {
-        console.log(`${forwardingName} is not success`);
+        logger.error(`${forwardingName} is not success`);
       } else {
         response["airInterfaceCapabilities"] = airInterfaceCapabilitiesResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.CAPABILITY];
         airInterfaceCapabilities.push(response);
       }
     }
   } catch (error) {
-    console.log(`${forwardingName} is not success with ${error}`);
+    logger.error(`${forwardingName} is not success with ${error}`);
   }
   airInterfaceCapabilitiesResponse = {
     airInterfaceCapabilities: airInterfaceCapabilities,
@@ -672,7 +673,7 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePe
       let airInterfaceHistoricalPerformance = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
 
       if (Object.keys(airInterfaceHistoricalPerformance).length === 0) {
-        console.log(createHttpError.InternalServerError(`${forwardingName} is not success`));
+        logger.error(createHttpError.InternalServerError(`${forwardingName} is not success`));
       }
       else {
         let hpdListFiltered = [];
@@ -695,7 +696,7 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePe
       }
     }
   } catch (error) {
-    console.log(`${forwardingName} is not success with ${error}`);
+    logger.error(`${forwardingName} is not success with ${error}`);
   }
   processedResponsesResponse = {
     processedResponses: processedResponses,
@@ -750,7 +751,7 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContai
         _traceIndicatorIncrementer
       );
       if (Object.keys(ethernetInterfacePerformanceResponse).length === 0) {
-        console.log(`${forwardingName} is not success for UUID: ${uuid}`);
+        logger.error(`${forwardingName} is not success for UUID: ${uuid}`);
       }
       else {
 
@@ -782,7 +783,7 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContai
       }
     }
   } catch (error) {
-    console.log(`${forwardingName} is not success with ${error}`);
+    logger.error(`${forwardingName} is not success with ${error}`);
   }
   processedResponsesResponse = {
     processedResponses: processedResponses,
@@ -1045,7 +1046,7 @@ exports.formulateHistoricalPmData = async function (mountName, ltpStructure, air
 
     }
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
 
   // if (Object.keys(air_interface_list).length !== 0) { result["air-interface-list"] = air_interface_list; }

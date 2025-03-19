@@ -9,6 +9,7 @@ const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfM
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 const FcPort = require('onf-core-model-ap/applicationPattern/onfModel/models/FcPort');
 const eventDispatcher = require('onf-core-model-ap/applicationPattern/rest/client/eventDispatcher');
+const logger = require('../LoggingService').getLogger();
 var traceIncrementer = 1;
 
 /**
@@ -57,8 +58,6 @@ async function promptForBequeathingDataCausesRequestForBroadcastingInfoAboutServ
        * Preparing requestBody 
        ************************************************************************************/
       try {
-
-
         let currentApplicationName = await httpServerInterface.getApplicationNameAsync();
         let currentReleaseNumber = await httpServerInterface.getReleaseNumberAsync();
         let newApplicationName = newApplicationDetails["new-application-name"];
@@ -93,7 +92,7 @@ async function promptForBequeathingDataCausesRequestForBroadcastingInfoAboutServ
         }
 
       } catch (error) {
-        console.log(error);
+        logger.error(error);
         throw "operation is not success";
       }
 
@@ -122,7 +121,6 @@ async function promptForBequeathingDataCausesRequestForDeregisteringOfOldRelease
        * Preparing requestBody 
        ************************************************************************************/
       try {
-
         let oldApplicationName = await httpServerInterface.getApplicationNameAsync();
         let oldReleaseNumber = await httpServerInterface.getReleaseNumberAsync();
         let newReleaseNumber = newApplicationDetails["new-release-number"];
@@ -148,7 +146,7 @@ async function promptForBequeathingDataCausesRequestForDeregisteringOfOldRelease
           }
         }
       } catch (error) {
-        console.log(error);
+        logger.error(error);
         throw "operation is not success";
       }
 
