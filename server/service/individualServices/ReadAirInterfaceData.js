@@ -371,7 +371,6 @@ async function getConfiguredModulation(airInterfaceCapability, transmissioModeTy
 }
 
 if (global.testPrivateFuntions === 1)  {
-  console.log("GLobal Test Env");
   module.exports.readAirInterfaceData_private = {
     RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest,
     RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache,
