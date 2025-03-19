@@ -1051,3 +1051,15 @@ async function formulatePositionofModemBoard(equipmentHolderLabelResponse, equip
   }
   return vendorLabel;
 }
+
+
+
+if (global.testPrivateFuntions === 1)  {
+  module.exports.ReadInventoryData_Private= {
+    FetchConnectorPluggingTheOutdoorUnit,
+    formulateEquipmentInfo,
+    isEquipmentCategoryModem,
+    isEquipmentCategoryRadio,
+    formulatePositionofModemBoard
+  };
+}
