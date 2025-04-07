@@ -1426,6 +1426,235 @@ describe("RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositionEqui
   });
 });
 
+describe("RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositionHolderLabel", () => {
+  const mountName = "513250007";
+  const requestHeaders ={
+    user: undefined,
+    originator: "AccessPlanningToolProxy",
+    xCorrelator: "a3Bb05ed-BDfC-3243-df7b-b8dDC60Cd85D",
+    traceIndicator: "1",
+    customerJourney: "unknown",
+  };
+   const equipmentCategoryResponse = {"equipmentUuidOfModemCategory": "HUAWEI-EQUIPMENT-1", 
+    "equipmentUuidOfRadioCategory": "WIRE-EQUIPMENT-6",
+     "traceIndicatorIncrementer": 40}
+  
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test("should return a valid position when forwardRequest provides holder label response", async () => {
+    const mockEquipmentHolderLabelResponse = {
+        "core-model-1-4:control-construct": [
+          {
+            "uuid": "NE(99-49037) - CO-13619",
+            "equipment": [
+              {
+                "uuid": "HUAWEI-EQUIPMENT-1",
+                "contained-holder": [
+                  {
+                    "local-id": "WIRE-EQUIPMENT-6",
+                    "equipment-augment-1-0:holder-pac": {
+                      "vendor-label": "OptiXRTN950N"
+                    },
+                    "occupying-fru": "WIRE-EQUIPMENT-6"
+                  },
+                  {
+                    "local-id": "AIR-EQUIPMENT-5",
+                    "equipment-augment-1-0:holder-pac": {
+                      "vendor-label": "OptiXRTN950N"
+                    },
+                    "occupying-fru": "AIR-EQUIPMENT-5"
+                  },
+                  {
+                    "local-id": "WIRE-EQUIPMENT-4",
+                    "equipment-augment-1-0:holder-pac": {
+                      "vendor-label": "OptiXRTN950N"
+                    },
+                    "occupying-fru": "WIRE-EQUIPMENT-4"
+                  }
+                ]
+              },
+              {
+                "uuid": "WIRE-EQUIPMENT-4-2"
+              },
+              {
+                "uuid": "WIRE-EQUIPMENT-4-1"
+              },
+              {
+                "uuid": "WIRE-EQUIPMENT-4-4"
+              },
+              {
+                "uuid": "WIRE-EQUIPMENT-6-2"
+              },
+              {
+                "uuid": "WIRE-EQUIPMENT-4-3"
+              },
+              {
+                "uuid": "WIRE-EQUIPMENT-6-1"
+              },
+              {
+                "uuid": "AIR-EQUIPMENT-5",
+                "contained-holder": [
+                  {
+                    "local-id": "AIR-EQUIPMENT-5-1",
+                    "equipment-augment-1-0:holder-pac": {
+                      "vendor-label": "SL91ISM6"
+                    },
+                    "occupying-fru": "AIR-EQUIPMENT-5-1"
+                  },
+                  {
+                    "local-id": "AIR-EQUIPMENT-5-2",
+                    "equipment-augment-1-0:holder-pac": {
+                      "vendor-label": "SL91ISM6"
+                    },
+                    "occupying-fru": "AIR-EQUIPMENT-5-2"
+                  }
+                ]
+              },
+              {
+                "uuid": "WIRE-EQUIPMENT-6-4"
+              },
+              {
+                "uuid": "WIRE-EQUIPMENT-6-3"
+              },
+              {
+                "uuid": "AIR-EQUIPMENT-5-1"
+              },
+              {
+                "uuid": "AIR-EQUIPMENT-5-2"
+              },
+              {
+                "uuid": "WIRE-EQUIPMENT-6",
+                "contained-holder": [
+                  {
+                    "local-id": "WIRE-EQUIPMENT-6-2",
+                    "equipment-augment-1-0:holder-pac": {
+                      "vendor-label": "SL91EG4"
+                    },
+                    "occupying-fru": "WIRE-EQUIPMENT-6-2"
+                  },
+                  {
+                    "local-id": "WIRE-EQUIPMENT-6-1",
+                    "equipment-augment-1-0:holder-pac": {
+                      "vendor-label": "SL91EG4"
+                    },
+                    "occupying-fru": "WIRE-EQUIPMENT-6-1"
+                  },
+                  {
+                    "local-id": "WIRE-EQUIPMENT-6-4",
+                    "equipment-augment-1-0:holder-pac": {
+                      "vendor-label": "SL91EG4"
+                    },
+                    "occupying-fru": "WIRE-EQUIPMENT-6-4"
+                  },
+                  {
+                    "local-id": "WIRE-EQUIPMENT-6-3",
+                    "equipment-augment-1-0:holder-pac": {
+                      "vendor-label": "SL91EG4"
+                    },
+                    "occupying-fru": "WIRE-EQUIPMENT-6-3"
+                  }
+                ]
+              },
+              {
+                "uuid": "WIRE-EQUIPMENT-4",
+                "contained-holder": [
+                  {
+                    "local-id": "WIRE-EQUIPMENT-4-4",
+                    "equipment-augment-1-0:holder-pac": {
+                      "vendor-label": "SL91EG4"
+                    },
+                    "occupying-fru": "WIRE-EQUIPMENT-4-4"
+                  },
+                  {
+                    "local-id": "WIRE-EQUIPMENT-4-3",
+                    "equipment-augment-1-0:holder-pac": {
+                      "vendor-label": "SL91EG4"
+                    },
+                    "occupying-fru": "WIRE-EQUIPMENT-4-3"
+                  },
+                  {
+                    "local-id": "WIRE-EQUIPMENT-4-2",
+                    "equipment-augment-1-0:holder-pac": {
+                      "vendor-label": "SL91EG4"
+                    },
+                    "occupying-fru": "WIRE-EQUIPMENT-4-2"
+                  },
+                  {
+                    "local-id": "WIRE-EQUIPMENT-4-1",
+                    "equipment-augment-1-0:holder-pac": {
+                      "vendor-label": "SL91EG4"
+                    },
+                    "occupying-fru": "WIRE-EQUIPMENT-4-1"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      };
+    IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValue({});
+    IndividualServiceUtility.forwardRequest.mockResolvedValue(mockEquipmentHolderLabelResponse);
+
+    const response = await ReadInventoryData_Private.RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositionHolderLabel(
+      mountName,
+      equipmentCategoryResponse,
+      requestHeaders
+    );
+
+    expect(response).toEqual({
+        traceIndicatorIncrementer: 41,
+        positionOfModemBoard: "OptiXRTN950N",
+      });
+    
+    expect(IndividualServiceUtility.getConsequentOperationClientAndFieldParams).toHaveBeenCalledTimes(1);
+    expect(IndividualServiceUtility.forwardRequest).toHaveBeenCalledTimes(1);
+  });
+
+  test("should return an empty position when forwardRequest gives an empty response", async () => {
+    IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValue({});
+    IndividualServiceUtility.forwardRequest.mockResolvedValue({});
+
+    const response = await ReadInventoryData_Private.RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositionHolderLabel(
+      mountName,
+      equipmentCategoryResponse,
+      requestHeaders
+    );
+
+    expect(response).toEqual({
+      traceIndicatorIncrementer: 41,
+      positionOfModemBoard: "",
+    });
+
+    expect(IndividualServiceUtility.getConsequentOperationClientAndFieldParams).toHaveBeenCalledTimes(1);
+    expect(IndividualServiceUtility.forwardRequest).toHaveBeenCalledTimes(1);
+  });
+
+  test("should handle errors gracefully", async () => {
+    IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockRejectedValue(new Error("Mocked error"));
+
+    const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+
+    const response = await ReadInventoryData_Private.RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositionHolderLabel(
+      mountName,
+      equipmentCategoryResponse,
+      requestHeaders
+    );
+
+    expect(response).toEqual({
+      traceIndicatorIncrementer: 40,
+      positionOfModemBoard: "",
+    });
+
+    expect(consoleSpy).toHaveBeenCalledWith(
+      expect.stringContaining("RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.HolderLabel is not success with Error: Mocked error")
+    );
+
+    consoleSpy.mockRestore();
+  });
+});
+
 describe("RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers", () => {
   const mountName = "513250007";
   const requestHeaders = {
