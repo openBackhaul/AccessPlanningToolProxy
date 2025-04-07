@@ -2967,8 +2967,551 @@ describe("getServingPhysicLtpList", () => {
   });
 });
 
+//----------------------------------------------------------------
+describe("getLtpDesignation", () => {
+  let mountName, ltp, requestHeaders, traceIndicatorIncrementer;
 
-//---------------------------------------------------------------
+  beforeEach(() => {
+    mountName = "513250007";
+    ltp = {
+        uuid: "LTP-MWPS-TTP-ODU-A",
+        "client-ltp": [
+          "LTP-MWS-ODU-A",
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "LP-MWPS-TTP-ODU-A",
+            "layer-protocol-name": "air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER",
+          },
+        ],
+      };
+    requestHeaders = {
+        user: "admin",
+        originator: "AccessPlanningToolProxy",
+        xCorrelator: "42EFeA3f-bc39-a5D9-AA14-FFDA2dB732ec",
+        traceIndicator: "1",
+        customerJourney: "unknown",
+      };
+    traceIndicatorIncrementer = 39;
+    jest.clearAllMocks();
+  });
+
+  it("should return the LTP designation when the response is successful", async () => {
+    const ltpAugmentResponseMock = {
+      "ltp-augment-1-0:ltp-augment-pac": { "original-ltp-name": "test-ltp", "external-label": "test-label" }
+    };
+    
+    const consequentOperationClientAndFieldParams={
+        operationClientUuid: "aptp-1-1-0-op-c-is-mwdi-1-1-2-201",
+        operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac",
+        fields: "original-ltp-name%3Bexternal-label",
+      };
+    const ltpAugmentResponse={
+        "ltp-augment-1-0:ltp-augment-pac": {
+          "external-label": "513559992B",
+          "original-ltp-name": "ODU A",
+        },
+      };
+
+    IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValueOnce(consequentOperationClientAndFieldParams);
+    IndividualServiceUtility.forwardRequest.mockResolvedValueOnce(ltpAugmentResponse);
+
+    const result = await ReadInventoryData_Private.getLtpDesignation(
+      mountName,
+      ltp,
+      requestHeaders,
+      traceIndicatorIncrementer
+    );
+
+    expect(result).toEqual(
+        {
+            ltpDesignation: {
+              "external-label": "513559992B",
+              "original-ltp-name": "ODU A",
+            },
+            traceIndicatorIncrementer: 40,
+          }
+    );
+  });
+
+  it("should return an empty response if no LTP designation is found", async () => {
+    IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValueOnce({});
+    IndividualServiceUtility.forwardRequest.mockResolvedValueOnce({});
+
+    const result = await ReadInventoryData_Private.getLtpDesignation(
+      mountName,
+      ltp,
+      requestHeaders,
+      traceIndicatorIncrementer
+    );
+
+    expect(result).toEqual({
+      ltpDesignation: undefined,
+      traceIndicatorIncrementer: traceIndicatorIncrementer + 1,
+    });
+  });
+
+  it("should handle errors and return only the traceIndicatorIncrementer", async () => {
+    IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockRejectedValueOnce(new Error("Test error"));
+
+    const result = await ReadInventoryData_Private.getLtpDesignation(
+      mountName,
+      ltp,
+      requestHeaders,
+      traceIndicatorIncrementer
+    );
+
+    expect(result).toEqual({
+      ltpDesignation: undefined,
+      traceIndicatorIncrementer: traceIndicatorIncrementer,
+    });
+  });
+});
+
+describe("getWireInterfaceNameForRetrievingSfpInformation", () => {
+  let mountName, wireInterfaceUuid, requestHeaders, traceIndicatorIncrementer;
+
+  beforeEach(() => {
+    mountName = "513250007";
+    wireInterfaceUuid = "LTP-ETY-TTP-LAN-2-SFP";
+    requestHeaders = {
+      user: undefined,
+      originator: "AccessPlanningToolProxy",
+      xCorrelator: "C64adA6a-B2e3-6bed-a1fD-3A3dafef9426",
+      traceIndicator: "1",
+      customerJourney: "unknown",
+    };
+    traceIndicatorIncrementer = 58;
+    jest.clearAllMocks();
+  });
+
+  it("should return the wire interface name when the response is successful", async () => {
+    const responseMock = {
+      "ltp-augment-1-0:ltp-augment-pac": {
+        "original-ltp-name": "LAN-2-SFP",
+      },
+    };
+
+    IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValueOnce({
+      operationClientUuid: "aptp-1-1-0-op-c-is-mwdi-1-1-2-201",
+      operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac",
+      fields: "original-ltp-name",
+    });
+    IndividualServiceUtility.forwardRequest.mockResolvedValueOnce(responseMock);
+
+    const result = await ReadInventoryData_Private.getWireInterfaceNameForRetrievingSfpInformation(
+      mountName,
+      wireInterfaceUuid,
+      requestHeaders,
+      traceIndicatorIncrementer
+    );
+
+    expect(result).toEqual({
+      wireInterfaceName: "LAN-2-SFP",
+      traceIndicatorIncrementer: 59,
+    });
+  });
+
+  it("should return an empty response if the API response is empty", async () => {
+    IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValueOnce({
+      operationClientUuid: "aptp-1-1-0-op-c-is-mwdi-1-1-2-201",
+      operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac",
+      fields: "original-ltp-name",
+    });
+    IndividualServiceUtility.forwardRequest.mockResolvedValueOnce({});
+
+    const result = await ReadInventoryData_Private.getWireInterfaceNameForRetrievingSfpInformation(
+      mountName,
+      wireInterfaceUuid,
+      requestHeaders,
+      traceIndicatorIncrementer
+    );
+
+    expect(result).toEqual({ traceIndicatorIncrementer: traceIndicatorIncrementer + 1 });
+  });
+
+  it("should handle errors and return only the traceIndicatorIncrementer", async () => {
+    IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockRejectedValueOnce(new Error("Test error"));
+
+    const result = await ReadInventoryData_Private.getWireInterfaceNameForRetrievingSfpInformation(
+      mountName,
+      wireInterfaceUuid,
+      requestHeaders,
+      traceIndicatorIncrementer
+    );
+
+    expect(result).toEqual({ traceIndicatorIncrementer: traceIndicatorIncrementer });
+  });
+});
+
+describe("getSupportedPmdListForRetrievingSfpInformation", () => {
+  let mountName, wireInterfaceUuid, wireInterfaceLocalId, requestHeaders, traceIndicatorIncrementer;
+
+  beforeEach(() => {
+    mountName = "513250007";
+    wireInterfaceUuid = "LTP-ETY-TTP-LAN-2-SFP";
+    wireInterfaceLocalId = "LP-ETY-TTP-LAN-2-SFP";
+    requestHeaders = {
+      user: undefined,
+      originator: "AccessPlanningToolProxy",
+      xCorrelator: "C64adA6a-B2e3-6bed-a1fD-3A3dafef9426",
+      traceIndicator: "1",
+      customerJourney: "unknown",
+    };
+    traceIndicatorIncrementer = 59;
+    jest.clearAllMocks();
+  });
+
+  it("should return the supported PMD list when the response is successful", async () => {
+    const responseMock = {
+      "wire-interface-2-0:wire-interface-capability": {
+        "supported-pmd-kind-list": [
+          {
+            "pmd-name": "1000BASE-LX_FD",
+          },
+          {
+            "pmd-name": "10GBASE-LR_FD",
+          },
+        ],
+      },
+    };
+
+    IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValueOnce({
+  operationClientUuid: "aptp-1-1-0-op-c-is-mwdi-1-1-2-270",
+  operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-capability",
+  fields: "supported-pmd-kind-list%28pmd-name%29",
+});
+    IndividualServiceUtility.forwardRequest.mockResolvedValueOnce(responseMock);
+
+    const result = await ReadInventoryData_Private.getSupportedPmdListForRetrievingSfpInformation(
+      mountName,
+      wireInterfaceUuid,
+      wireInterfaceLocalId,
+      requestHeaders,
+      traceIndicatorIncrementer
+    );
+
+    expect(result).toEqual({
+      supportedPmdList: [
+        "1000BASE-LX_FD",
+        "10GBASE-LR_FD",
+      ],
+      traceIndicatorIncrementer: 60,
+    });
+  });
+
+  it("should return an empty response if the API response is empty", async () => {
+    IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValueOnce({});
+    IndividualServiceUtility.forwardRequest.mockResolvedValueOnce({});
+
+    const result = await ReadInventoryData_Private.getSupportedPmdListForRetrievingSfpInformation(
+      mountName,
+      wireInterfaceUuid,
+      wireInterfaceLocalId,
+      requestHeaders,
+      traceIndicatorIncrementer
+    );
+
+    expect(result).toEqual({ traceIndicatorIncrementer: traceIndicatorIncrementer + 1 });
+  });
+
+  it("should handle errors and return only the traceIndicatorIncrementer", async () => {
+    IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockRejectedValueOnce(new Error("Test error"));
+
+    const result = await ReadInventoryData_Private.getSupportedPmdListForRetrievingSfpInformation(
+      mountName,
+      wireInterfaceUuid,
+      wireInterfaceLocalId,
+      requestHeaders,
+      traceIndicatorIncrementer
+    );
+
+    expect(result).toEqual({ traceIndicatorIncrementer: traceIndicatorIncrementer });
+  });
+  it("should return multiple PMD types when more than two are present", async () => {
+    const responseMock = {
+      "wire-interface-2-0:wire-interface-capability": {
+        "supported-pmd-kind-list": [
+          { "pmd-name": "100G-LR4" },
+          { "pmd-name": "10G-SR" },
+          { "pmd-name": "40G-CR4" },
+          { "pmd-name": "25G-SR" }
+        ]
+      }
+    };
+
+    IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValueOnce("clientParamsSupportedPmds");
+    IndividualServiceUtility.forwardRequest.mockResolvedValueOnce(responseMock);
+
+    const result = await ReadInventoryData_Private.getSupportedPmdListForRetrievingSfpInformation(
+      mountName,
+      wireInterfaceUuid,
+      wireInterfaceLocalId,
+      requestHeaders,
+      traceIndicatorIncrementer
+    );
+
+    expect(result).toEqual({
+      supportedPmdList: ["100G-LR4", "10G-SR", "40G-CR4", "25G-SR"],
+      traceIndicatorIncrementer: traceIndicatorIncrementer + 1
+    });
+  });
+});
+
+describe("getCurrentlyOperatedPmdForRetrievingSfpInformation", () => {
+  let mountName, wireInterfaceUuid, wireInterfaceLocalId, requestHeaders, traceIndicatorIncrementer;
+
+  beforeEach(() => {
+    mountName = "513250007";
+    wireInterfaceUuid = "LTP-ETY-TTP-LAN-1-SFP";
+    wireInterfaceLocalId = "LP-ETY-TTP-LAN-1-SFP";
+    requestHeaders = {
+      user: undefined,
+      originator: "AccessPlanningToolProxy",
+      xCorrelator: "C64adA6a-B2e3-6bed-a1fD-3A3dafef9426",
+      traceIndicator: "1",
+      customerJourney: "unknown",
+    };
+    traceIndicatorIncrementer = 42;
+    jest.clearAllMocks();
+  });
+
+  it("should return the currently operated PMD when the response is successful", async () => {
+    const responseMock = {
+      "wire-interface-2-0:wire-interface-status": {
+        "pmd-kind-cur": "1000BASE-LX_FD",
+      },
+    };
+
+    IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValueOnce({
+      operationClientUuid: "aptp-1-1-0-op-c-is-mwdi-1-1-2-272",
+      operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status",
+      fields: "pmd-kind-cur",
+    });
+    IndividualServiceUtility.forwardRequest.mockResolvedValueOnce(responseMock);
+
+    const result = await ReadInventoryData_Private.getCurrentlyOperatedPmdForRetrievingSfpInformation(
+      mountName,
+      wireInterfaceUuid,
+      wireInterfaceLocalId,
+      requestHeaders,
+      traceIndicatorIncrementer
+    );
+
+    expect(result).toEqual({
+      currentlyOperatedPmd: "1000BASE-LX_FD",
+      traceIndicatorIncrementer: 43,
+    });
+  });
+
+  it("should return an empty response if the API response is empty", async () => {
+    IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValueOnce("clientParamsOperatedPmd");
+    IndividualServiceUtility.forwardRequest.mockResolvedValueOnce({});
+
+    const result = await ReadInventoryData_Private.getCurrentlyOperatedPmdForRetrievingSfpInformation(
+      mountName,
+      wireInterfaceUuid,
+      wireInterfaceLocalId,
+      requestHeaders,
+      traceIndicatorIncrementer
+    );
+
+    expect(result).toEqual({ traceIndicatorIncrementer: traceIndicatorIncrementer + 1 });
+  });
+
+  it("should handle errors and return only the traceIndicatorIncrementer", async () => {
+    IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockRejectedValueOnce(new Error("Test error"));
+
+    const result = await ReadInventoryData_Private.getCurrentlyOperatedPmdForRetrievingSfpInformation(
+      mountName,
+      wireInterfaceUuid,
+      wireInterfaceLocalId,
+      requestHeaders,
+      traceIndicatorIncrementer
+    );
+
+    expect(result).toEqual({ traceIndicatorIncrementer: traceIndicatorIncrementer });
+  });
+
+  it("should return no currently operated PMD if 'pmd-kind-cur' is missing", async () => {
+    const responseMock = {
+      "wire-interface-2-0:wire-interface-status": {}
+    };
+
+    IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValueOnce("clientParamsOperatedPmd");
+    IndividualServiceUtility.forwardRequest.mockResolvedValueOnce(responseMock);
+
+    const result = await ReadInventoryData_Private.getCurrentlyOperatedPmdForRetrievingSfpInformation(
+      mountName,
+      wireInterfaceUuid,
+      wireInterfaceLocalId,
+      requestHeaders,
+      traceIndicatorIncrementer
+    );
+
+    expect(result).toEqual({ traceIndicatorIncrementer: traceIndicatorIncrementer + 1 });
+  });
+});
+
+describe("FetchConnectorPluggingTheOutdoorUnit", () => {
+  let mountName, uuidUnderTest, requestHeaders, traceIndicatorIncrementer;
+ 
+  beforeEach(() => {
+    mountName = "513250007";
+    uuidUnderTest = "LTP-MWPS-TTP-ODU-B";
+    requestHeaders = {
+      user: undefined,
+      originator: "AccessPlanningToolProxy",
+      xCorrelator: "C64adA6a-B2e3-6bed-a1fD-3A3dafef9426",
+      traceIndicator: "1",
+      customerJourney: "unknown",
+    };
+    traceIndicatorIncrementer = 67; 
+    jest.clearAllMocks();
+  });
+ 
+  it("should return the correct sequence ID when all responses are successful", async () => {
+    const connectorIdResponseMock = {
+      "ltp-augment-1-0:ltp-augment-pac": {
+        connector: "ANTENNA-ODU-B-Connector",
+        equipment: [
+          "ODU-B",
+          "AGS-20 IDU",
+        ],
+      },
+    };
+    const connectorNumberResponseMock = {
+      "core-model-1-4:connector": [
+        {
+          "equipment-augment-1-0:connector-pac": {
+            "sequence-id": 1,
+          },
+        },
+      ],
+    };
+ 
+    IndividualServiceUtility.getConsequentOperationClientAndFieldParams
+      .mockResolvedValueOnce({
+        operationClientUuid: "aptp-1-1-0-op-c-is-mwdi-1-1-2-201",
+        operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac",
+        fields: "equipment%3Bconnector",
+      })
+      .mockResolvedValueOnce({
+        operationClientUuid: "aptp-1-1-0-op-c-is-mwdi-1-1-2-111",
+        operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/connector={local-id}",
+        fields: "equipment-augment-1-0%3Aconnector-pac%28sequence-id%29",
+      });
+    IndividualServiceUtility.forwardRequest
+      .mockResolvedValueOnce(connectorIdResponseMock)
+      .mockResolvedValueOnce(connectorNumberResponseMock);
+ 
+    const result = await ReadInventoryData_Private.FetchConnectorPluggingTheOutdoorUnit(
+      mountName,
+      uuidUnderTest,
+      requestHeaders,
+      traceIndicatorIncrementer
+    );
+    expect(result).toEqual({
+      connectorPluggingTheOutdoorUnit: 1,
+      traceIndicatorIncrementer: 69
+    });
+  });
+ 
+  it("should return an empty response if connectorIdResponse is empty", async () => {
+    IndividualServiceUtility.getConsequentOperationClientAndFieldParams
+    .mockResolvedValueOnce({
+      operationClientUuid: "aptp-1-1-0-op-c-is-mwdi-1-1-2-201",
+      operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac",
+      fields: "equipment%3Bconnector",
+    })
+    .mockResolvedValueOnce({
+      operationClientUuid: "aptp-1-1-0-op-c-is-mwdi-1-1-2-111",
+      operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/connector={local-id}",
+      fields: "equipment-augment-1-0%3Aconnector-pac%28sequence-id%29",
+    });
+    IndividualServiceUtility.forwardRequest.mockResolvedValueOnce({});
+ 
+    const result = await ReadInventoryData_Private.FetchConnectorPluggingTheOutdoorUnit(mountName, uuidUnderTest, requestHeaders, traceIndicatorIncrementer);
+ 
+    expect(result).toEqual({ traceIndicatorIncrementer: traceIndicatorIncrementer + 1 });
+  });
+ 
+  it("should handle errors and return only the traceIndicatorIncrementer", async () => {
+    IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockRejectedValueOnce(new Error("Test error"));
+ 
+    const result = await ReadInventoryData_Private.FetchConnectorPluggingTheOutdoorUnit(mountName, uuidUnderTest, requestHeaders, traceIndicatorIncrementer);
+ 
+    expect(result).toEqual({ traceIndicatorIncrementer: traceIndicatorIncrementer });
+  });
+ 
+  it("should handle missing or empty equipmentList", async () => {
+    const connectorIdResponseMock = {
+      "ltp-augment-1-0:ltp-augment-pac": {
+        connector: "connector-id" // No equipment key
+      }
+    };
+ 
+    IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValueOnce("clientParamsId");
+    IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValueOnce("clientParamsNumber");
+    IndividualServiceUtility.forwardRequest.mockResolvedValueOnce(connectorIdResponseMock);
+ 
+    const result = await ReadInventoryData_Private.FetchConnectorPluggingTheOutdoorUnit(mountName, uuidUnderTest, requestHeaders, traceIndicatorIncrementer);
+ 
+    expect(result).toEqual({ traceIndicatorIncrementer: traceIndicatorIncrementer + 1 });
+  });
+ 
+  it("should return no sequence ID if connectorPac or sequence-id is missing", async () => {
+    const connectorIdResponseMock = {
+      "ltp-augment-1-0:ltp-augment-pac": {
+        equipment: ["equipment-uuid"],
+        connector: "connector-id"
+      }
+    };
+    const connectorNumberResponseMock = {
+      "core-model-1-4:equipment-connector": [
+        {
+          "equipment-augment-1-0:connector-pac": {} // No sequence-id
+        }
+      ]
+    };
+ 
+    IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValueOnce("clientParamsId");
+    IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValueOnce("clientParamsNumber");
+    IndividualServiceUtility.forwardRequest.mockResolvedValueOnce(connectorIdResponseMock);
+    IndividualServiceUtility.forwardRequest.mockResolvedValueOnce(connectorNumberResponseMock);
+ 
+    const result = await ReadInventoryData_Private.FetchConnectorPluggingTheOutdoorUnit(mountName, uuidUnderTest, requestHeaders, traceIndicatorIncrementer);
+ 
+    expect(result).toEqual({ traceIndicatorIncrementer: traceIndicatorIncrementer + 2 });
+  });
+ 
+  it("should handle failure of second API call", async () => {
+    const connectorIdResponseMock = {
+      "ltp-augment-1-0:ltp-augment-pac": {
+        equipment: ["equipment-uuid"],
+        connector: "connector-id"
+      }
+    };
+ 
+    IndividualServiceUtility.getConsequentOperationClientAndFieldParams
+      .mockResolvedValueOnce({
+        operationClientUuid: "aptp-1-1-0-op-c-is-mwdi-1-1-2-201",
+        operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac",
+        fields: "equipment%3Bconnector",
+      })
+      .mockResolvedValueOnce({
+        operationClientUuid: "aptp-1-1-0-op-c-is-mwdi-1-1-2-111",
+        operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/connector={local-id}",
+        fields: "equipment-augment-1-0%3Aconnector-pac%28sequence-id%29",
+      });
+    IndividualServiceUtility.forwardRequest.mockResolvedValueOnce(connectorIdResponseMock);
+    IndividualServiceUtility.forwardRequest.mockResolvedValueOnce({});
+ 
+    const result = await ReadInventoryData_Private.FetchConnectorPluggingTheOutdoorUnit(mountName, uuidUnderTest, requestHeaders, traceIndicatorIncrementer);
+ 
+    expect(result).toEqual({ traceIndicatorIncrementer: traceIndicatorIncrementer + 2 });
+  });
+});
 
 describe("formulateEquipmentInfo", () => {
     beforeEach(() => {
