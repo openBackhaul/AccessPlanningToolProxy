@@ -233,3 +233,9 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
   }
 
 }
+
+if (global.testPrivateFuntions === 1)  {
+  module.exports.ReadAcceptanceData_Private= {
+    getFcPortOutputLogicalTerminationPointList
+  }
+};
