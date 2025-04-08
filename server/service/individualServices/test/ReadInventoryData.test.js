@@ -3297,6 +3297,2162 @@ describe("getLtpDesignation", () => {
   });
 });
 
+describe('FetchPluggedSfpPmdList1', () => {
+
+  const rewire = require('rewire');
+  const moduleUnderTest = rewire('../ReadInventoryData'); // update this path accordingly
+  
+  const FetchPluggedSfpPmdList = moduleUnderTest.__get__('FetchPluggedSfpPmdList');
+  
+  // Mocking onfAttributes module
+  jest.mock('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
+  
+  
+  describe('FetchPluggedSfpPmdList', () => {
+  
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+  
+    it('should return a populated pluggedSfpPmdListResponse', async () => {
+      const mockMountName = '513250007';
+      const mockLtpStructure = {
+        "core-model-1-4:control-construct": [
+          {
+            "logical-termination-point": [
+              {
+                uuid: "LTP-ETC-TTP-LAN-1-XG-SFP",
+                "client-ltp": [
+                  "LTP-MAC-TTP-LAN-1-XG-SFP",
+                ],
+                "server-ltp": [
+                  "LTP-MWS-LAN-1-XG-SFP",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-ETC-TTP-LAN-1-XG-SFP",
+                    "layer-protocol-name": "ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-ETC-TTP-LAN-2-XG-SFP",
+                "client-ltp": [
+                  "LTP-MAC-TTP-LAN-2-XG-SFP",
+                ],
+                "server-ltp": [
+                  "LTP-MWS-LAN-2-XG-SFP",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-ETC-TTP-LAN-2-XG-SFP",
+                    "layer-protocol-name": "ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-MWPS-TTP-ODU-B",
+                "client-ltp": [
+                  "LTP-MWS-ODU-B",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-MWPS-TTP-ODU-B",
+                    "layer-protocol-name": "air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-MWPS-TTP-ODU-A",
+                "client-ltp": [
+                  "LTP-MWS-ODU-A",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-MWPS-TTP-ODU-A",
+                    "layer-protocol-name": "air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-ETC-TTP-LAN-1-COMBO",
+                "client-ltp": [
+                  "LTP-MAC-TTP-LAN-1-COMBO",
+                ],
+                "server-ltp": [
+                  "LTP-MWS-LAN-1-COMBO",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-ETC-TTP-LAN-1-COMBO",
+                    "layer-protocol-name": "ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-MAC-TTP-LAN-1-COMBO",
+                "client-ltp": [
+                  "LTP-VLAN-TTP-LAN-1-COMBO",
+                ],
+                "server-ltp": [
+                  "LTP-ETC-TTP-LAN-1-COMBO",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-MAC-TTP-LAN-1-COMBO",
+                    "layer-protocol-name": "mac-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_MAC_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-MAC-TTP-LAN-1-XG-SFP",
+                "client-ltp": [
+                  "LTP-VLAN-TTP-LAN-1-XG-SFP",
+                ],
+                "server-ltp": [
+                  "LTP-ETC-TTP-LAN-1-XG-SFP",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-MAC-TTP-LAN-1-XG-SFP",
+                    "layer-protocol-name": "mac-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_MAC_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-MAC-TTP-LAN-2-XG-SFP",
+                "client-ltp": [
+                  "LTP-VLAN-TTP-LAN-2-XG-SFP",
+                ],
+                "server-ltp": [
+                  "LTP-ETC-TTP-LAN-2-XG-SFP",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-MAC-TTP-LAN-2-XG-SFP",
+                    "layer-protocol-name": "mac-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_MAC_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-MWS-LAN-1-XG-SFP",
+                "client-ltp": [
+                  "LTP-ETC-TTP-LAN-1-XG-SFP",
+                ],
+                "server-ltp": [
+                  "LTP-ETY-TTP-LAN-1-XG-SFP",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-MWS-LAN-1-XG-SFP",
+                    "layer-protocol-name": "pure-ethernet-structure-2-0:LAYER_PROTOCOL_NAME_TYPE_PURE_ETHERNET_STRUCTURE_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-ETY-TTP-LAN-2-RJ45",
+                "client-ltp": [
+                  "LTP-MWS-LAN-2-COMBO",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-ETY-TTP-LAN-2-RJ45",
+                    "layer-protocol-name": "wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-MWS-LAN-2-XG-SFP",
+                "client-ltp": [
+                  "LTP-ETC-TTP-LAN-2-XG-SFP",
+                ],
+                "server-ltp": [
+                  "LTP-ETY-TTP-LAN-2-XG-SFP",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-MWS-LAN-2-XG-SFP",
+                    "layer-protocol-name": "pure-ethernet-structure-2-0:LAYER_PROTOCOL_NAME_TYPE_PURE_ETHERNET_STRUCTURE_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-ETY-TTP-LAN-1-SFP",
+                "client-ltp": [
+                  "LTP-MWS-LAN-1-COMBO",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-ETY-TTP-LAN-1-SFP",
+                    "layer-protocol-name": "wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-MAC-TTP-LAN-2-COMBO",
+                "client-ltp": [
+                  "LTP-VLAN-TTP-LAN-2-COMBO",
+                ],
+                "server-ltp": [
+                  "LTP-ETC-TTP-LAN-2-COMBO",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-MAC-TTP-LAN-2-COMBO",
+                    "layer-protocol-name": "mac-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_MAC_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-MAC-TTP-LAN-4-RJ45",
+                "client-ltp": [
+                  "LTP-VLAN-TTP-LAN-4-RJ45",
+                ],
+                "server-ltp": [
+                  "LTP-ETC-TTP-LAN-4-RJ45",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-MAC-TTP-LAN-4-RJ45",
+                    "layer-protocol-name": "mac-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_MAC_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-VLAN-TTP-ODU-A",
+                "server-ltp": [
+                  "LTP-MAC-TTP-ODU-A",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-VLAN-TTP-ODU-A",
+                    "layer-protocol-name": "vlan-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_VLAN_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-VLAN-TTP-LAN-1-COMBO",
+                "server-ltp": [
+                  "LTP-MAC-TTP-LAN-1-COMBO",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-VLAN-TTP-LAN-1-COMBO",
+                    "layer-protocol-name": "vlan-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_VLAN_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-MWS-LAN-4-RJ45",
+                "client-ltp": [
+                  "LTP-ETC-TTP-LAN-4-RJ45",
+                ],
+                "server-ltp": [
+                  "LTP-ETY-TTP-LAN-4-RJ45",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-MWS-LAN-4-RJ45",
+                    "layer-protocol-name": "pure-ethernet-structure-2-0:LAYER_PROTOCOL_NAME_TYPE_PURE_ETHERNET_STRUCTURE_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-MWS-LAN-2-COMBO",
+                "client-ltp": [
+                  "LTP-ETC-TTP-LAN-2-COMBO",
+                ],
+                "server-ltp": [
+                  "LTP-ETY-TTP-LAN-2-SFP",
+                  "LTP-ETY-TTP-LAN-2-RJ45",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-MWS-LAN-2-COMBO",
+                    "layer-protocol-name": "pure-ethernet-structure-2-0:LAYER_PROTOCOL_NAME_TYPE_PURE_ETHERNET_STRUCTURE_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-MAC-TTP-ODU-A",
+                "client-ltp": [
+                  "LTP-VLAN-TTP-ODU-A",
+                ],
+                "server-ltp": [
+                  "LTP-ETC-TTP-ODU-A",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-MAC-TTP-ODU-A",
+                    "layer-protocol-name": "mac-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_MAC_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-ETC-TTP-LAN-2-COMBO",
+                "client-ltp": [
+                  "LTP-MAC-TTP-LAN-2-COMBO",
+                ],
+                "server-ltp": [
+                  "LTP-MWS-LAN-2-COMBO",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-ETC-TTP-LAN-2-COMBO",
+                    "layer-protocol-name": "ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-ETY-TTP-LAN-2-SFP",
+                "client-ltp": [
+                  "LTP-MWS-LAN-2-COMBO",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-ETY-TTP-LAN-2-SFP",
+                    "layer-protocol-name": "wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-ETY-TTP-LAN-1-XG-SFP",
+                "client-ltp": [
+                  "LTP-MWS-LAN-1-XG-SFP",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-ETY-TTP-LAN-1-XG-SFP",
+                    "layer-protocol-name": "wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-MWS-LAN-1-COMBO",
+                "client-ltp": [
+                  "LTP-ETC-TTP-LAN-1-COMBO",
+                ],
+                "server-ltp": [
+                  "LTP-ETY-TTP-LAN-1-SFP",
+                  "LTP-ETY-TTP-LAN-1-RJ45",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-MWS-LAN-1-COMBO",
+                    "layer-protocol-name": "pure-ethernet-structure-2-0:LAYER_PROTOCOL_NAME_TYPE_PURE_ETHERNET_STRUCTURE_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-ETY-TTP-LAN-2-XG-SFP",
+                "client-ltp": [
+                  "LTP-MWS-LAN-2-XG-SFP",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-ETY-TTP-LAN-2-XG-SFP",
+                    "layer-protocol-name": "wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-VLAN-TTP-LAN-2-COMBO",
+                "server-ltp": [
+                  "LTP-MAC-TTP-LAN-2-COMBO",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-VLAN-TTP-LAN-2-COMBO",
+                    "layer-protocol-name": "vlan-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_VLAN_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-VLAN-TTP-LAN-4-RJ45",
+                "server-ltp": [
+                  "LTP-MAC-TTP-LAN-4-RJ45",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-VLAN-TTP-LAN-4-RJ45",
+                    "layer-protocol-name": "vlan-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_VLAN_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-VLAN-TTP-LAN-1-XG-SFP",
+                "server-ltp": [
+                  "LTP-MAC-TTP-LAN-1-XG-SFP",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-VLAN-TTP-LAN-1-XG-SFP",
+                    "layer-protocol-name": "vlan-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_VLAN_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-ETC-TTP-LAN-4-RJ45",
+                "client-ltp": [
+                  "LTP-MAC-TTP-LAN-4-RJ45",
+                ],
+                "server-ltp": [
+                  "LTP-MWS-LAN-4-RJ45",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-ETC-TTP-LAN-4-RJ45",
+                    "layer-protocol-name": "ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-VLAN-TTP-LAN-2-XG-SFP",
+                "server-ltp": [
+                  "LTP-MAC-TTP-LAN-2-XG-SFP",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-VLAN-TTP-LAN-2-XG-SFP",
+                    "layer-protocol-name": "vlan-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_VLAN_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-TDM-CTP-ODU-A-1",
+                "server-ltp": [
+                  "LTP-MWS-ODU-A",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-TDM-CTP-ODU-A-1",
+                    "layer-protocol-name": "tdm-container-2-0:LAYER_PROTOCOL_NAME_TYPE_TDM_CONTAINER_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-TDM-CTP-ODU-A-2",
+                "server-ltp": [
+                  "LTP-MWS-ODU-A",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-TDM-CTP-ODU-A-2",
+                    "layer-protocol-name": "tdm-container-2-0:LAYER_PROTOCOL_NAME_TYPE_TDM_CONTAINER_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-TDM-CTP-ODU-A-3",
+                "server-ltp": [
+                  "LTP-MWS-ODU-A",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-TDM-CTP-ODU-A-3",
+                    "layer-protocol-name": "tdm-container-2-0:LAYER_PROTOCOL_NAME_TYPE_TDM_CONTAINER_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-TDM-CTP-ODU-A-4",
+                "server-ltp": [
+                  "LTP-MWS-ODU-A",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-TDM-CTP-ODU-A-4",
+                    "layer-protocol-name": "tdm-container-2-0:LAYER_PROTOCOL_NAME_TYPE_TDM_CONTAINER_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-TDM-CTP-ODU-A-5",
+                "server-ltp": [
+                  "LTP-MWS-ODU-A",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-TDM-CTP-ODU-A-5",
+                    "layer-protocol-name": "tdm-container-2-0:LAYER_PROTOCOL_NAME_TYPE_TDM_CONTAINER_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-ETC-TTP-ODU-A",
+                "client-ltp": [
+                  "LTP-MAC-TTP-ODU-A",
+                ],
+                "server-ltp": [
+                  "LTP-MWS-ODU-A",
+                  "LTP-MWS-ODU-B",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-ETC-TTP-ODU-A",
+                    "layer-protocol-name": "ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-ETY-TTP-LAN-1-RJ45",
+                "client-ltp": [
+                  "LTP-MWS-LAN-1-COMBO",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-ETY-TTP-LAN-1-RJ45",
+                    "layer-protocol-name": "wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-MWS-ODU-A",
+                "client-ltp": [
+                  "LTP-TDM-CTP-ODU-A-5",
+                  "LTP-ETC-TTP-ODU-A",
+                  "LTP-TDM-CTP-ODU-A-1",
+                  "LTP-TDM-CTP-ODU-A-2",
+                  "LTP-TDM-CTP-ODU-A-3",
+                  "LTP-TDM-CTP-ODU-A-4",
+                ],
+                "server-ltp": [
+                  "LTP-MWPS-TTP-ODU-A",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-MWS-ODU-A",
+                    "layer-protocol-name": "hybrid-mw-structure-2-0:LAYER_PROTOCOL_NAME_TYPE_HYBRID_MW_STRUCTURE_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-MWS-ODU-B",
+                "client-ltp": [
+                  "LTP-ETC-TTP-ODU-A",
+                ],
+                "server-ltp": [
+                  "LTP-MWPS-TTP-ODU-B",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-MWS-ODU-B",
+                    "layer-protocol-name": "hybrid-mw-structure-2-0:LAYER_PROTOCOL_NAME_TYPE_HYBRID_MW_STRUCTURE_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-ETY-TTP-LAN-4-RJ45",
+                "client-ltp": [
+                  "LTP-MWS-LAN-4-RJ45",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-ETY-TTP-LAN-4-RJ45",
+                    "layer-protocol-name": "wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      };
+      const mockRequestHeaders = {
+        user: "admin",
+        originator: "AccessPlanningToolProxy",
+        xCorrelator: "9C3d4bAc-67b4-aA6c-957b-FDaE6E12cEB4",
+        traceIndicator: "1",
+        customerJourney: "unknown",
+      };
+      let traceIndicatorIncrementer = 41;
+  
+      const mockPluggableSfpList = [
+        {
+          'uuid': 'uuid-1',
+          'layer-protocol': [
+            {
+              'local-id': 'local-1'
+            }
+          ]
+        }
+      ];
+  
+      const mockPluggableSfpListResponse={
+        pluggableSfpList: [
+          {
+            uuid: "LTP-ETY-TTP-LAN-1-SFP",
+            "client-ltp": [
+              "LTP-MWS-LAN-1-COMBO",
+            ],
+            "layer-protocol": [
+              {
+                "local-id": "LP-ETY-TTP-LAN-1-SFP",
+                "layer-protocol-name": "wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
+              },
+            ],
+          },
+          {
+            uuid: "LTP-ETY-TTP-LAN-2-SFP",
+            "client-ltp": [
+              "LTP-MWS-LAN-2-COMBO",
+            ],
+            "layer-protocol": [
+              {
+                "local-id": "LP-ETY-TTP-LAN-2-SFP",
+                "layer-protocol-name": "wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
+              },
+            ],
+          },
+          {
+            uuid: "LTP-ETY-TTP-LAN-1-XG-SFP",
+            "client-ltp": [
+              "LTP-MWS-LAN-1-XG-SFP",
+            ],
+            "layer-protocol": [
+              {
+                "local-id": "LP-ETY-TTP-LAN-1-XG-SFP",
+                "layer-protocol-name": "wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
+              },
+            ],
+          },
+          {
+            uuid: "LTP-ETY-TTP-LAN-2-XG-SFP",
+            "client-ltp": [
+              "LTP-MWS-LAN-2-XG-SFP",
+            ],
+            "layer-protocol": [
+              {
+                "local-id": "LP-ETY-TTP-LAN-2-XG-SFP",
+                "layer-protocol-name": "wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
+              },
+            ],
+          },
+        ],
+        traceIndicatorIncrementer: 55,
+      };
+  
+      const wireInterfaceNameResponse1={
+        wireInterfaceName: "LAN-1-SFP",
+        traceIndicatorIncrementer: 56,
+      };
+  
+      const supportedPmdListResponse1={
+        supportedPmdList: [
+          "1000BASE-LX_FD",
+          "10GBASE-LR_FD",
+        ],
+        traceIndicatorIncrementer: 57,
+      };
+  
+      const operatedPmdResponse1={
+        currentlyOperatedPmd: "1000BASE-LX_FD",
+        traceIndicatorIncrementer: 58,
+      };
+  
+      const wireInterfaceNameResponse2={
+        wireInterfaceName: "LAN-2-SFP",
+        traceIndicatorIncrementer: 59,
+      };
+      const supportedPmdListResponse2={
+        supportedPmdList: [
+          "1000BASE-LX_FD",
+          "10GBASE-LR_FD",
+        ],
+        traceIndicatorIncrementer: 60,
+      };
+      const operatedPmdResponse2={
+        currentlyOperatedPmd: "1000BASE-T_HD",
+        traceIndicatorIncrementer: 61,
+      };
+      const wireInterfaceNameResponse3={
+        wireInterfaceName: "LAN-1-XG-SFP",
+        traceIndicatorIncrementer: 62,
+      };
+      const supportedPmdListResponse3={
+        supportedPmdList: [
+          "1000BASE-LX_FD",
+        ],
+        traceIndicatorIncrementer: 63,
+      };
+      const operatedPmdResponse3={
+        currentlyOperatedPmd: "1000BASE-LX_FD",
+        traceIndicatorIncrementer: 64,
+      };
+      const wireInterfaceNameResponse4={
+        wireInterfaceName: "LAN-2-XG-SFP",
+        traceIndicatorIncrementer: 65,
+      };
+      const supportedPmdListResponse4={
+        supportedPmdList: [
+          "1000BASE-LX_FD",
+          "10GBASE-LR_FD",
+        ],
+        traceIndicatorIncrementer: 66,
+      };
+      const operatedPmdResponse4={
+        currentlyOperatedPmd: "1000BASE-LX_FD",
+        traceIndicatorIncrementer: 67,
+      };
+  
+  
+      // Mocked responses for all async functions
+      moduleUnderTest.__set__('getListOfPluggableSfpLtp', jest.fn().mockResolvedValueOnce(mockPluggableSfpListResponse));
+  
+      moduleUnderTest.__set__('getWireInterfaceNameForRetrievingSfpInformation', jest.fn().mockResolvedValueOnce(wireInterfaceNameResponse1).mockResolvedValueOnce(wireInterfaceNameResponse2).mockResolvedValueOnce(wireInterfaceNameResponse3).mockResolvedValueOnce(wireInterfaceNameResponse4));
+  
+      moduleUnderTest.__set__('getSupportedPmdListForRetrievingSfpInformation', jest.fn().mockResolvedValueOnce(supportedPmdListResponse1).mockResolvedValueOnce(supportedPmdListResponse2).mockResolvedValueOnce(supportedPmdListResponse3).mockResolvedValueOnce(supportedPmdListResponse4));
+  
+      moduleUnderTest.__set__('getCurrentlyOperatedPmdForRetrievingSfpInformation', jest.fn().mockResolvedValueOnce(operatedPmdResponse1).mockResolvedValueOnce(operatedPmdResponse2).mockResolvedValueOnce(operatedPmdResponse3).mockResolvedValueOnce(operatedPmdResponse4));
+  
+      const result = await FetchPluggedSfpPmdList(
+        mockMountName,
+        mockLtpStructure,
+        mockRequestHeaders,
+        traceIndicatorIncrementer
+      );
+  
+      expect(result).toEqual({
+        pluggedSfpPmdList: [
+          {
+            interfaceName: "LAN-1-SFP",
+            supportedPmdList: [
+              "1000BASE-LX_FD",
+              "10GBASE-LR_FD",
+            ],
+            currentlyOperatedPmd: "1000BASE-LX_FD",
+          },
+          {
+            interfaceName: "LAN-2-SFP",
+            supportedPmdList: [
+              "1000BASE-LX_FD",
+              "10GBASE-LR_FD",
+            ],
+            currentlyOperatedPmd: "1000BASE-T_HD",
+          },
+          {
+            interfaceName: "LAN-1-XG-SFP",
+            supportedPmdList: [
+              "1000BASE-LX_FD",
+            ],
+            currentlyOperatedPmd: "1000BASE-LX_FD",
+          },
+          {
+            interfaceName: "LAN-2-XG-SFP",
+            supportedPmdList: [
+              "1000BASE-LX_FD",
+              "10GBASE-LR_FD",
+            ],
+            currentlyOperatedPmd: "1000BASE-LX_FD",
+          },
+        ],
+        traceIndicatorIncrementer: 67,
+      });
+    });
+  
+  
+  
+    it('should handle empty pluggable SFP list', async () => {
+      moduleUnderTest.__set__('getListOfPluggableSfpLtp', jest.fn().mockResolvedValue({
+        pluggableSfpList: [],
+        traceIndicatorIncrementer: 5
+      }));
+  
+      const result = await FetchPluggedSfpPmdList('mount', {}, {}, 1);
+      expect(result).toEqual({
+        pluggedSfpPmdList: [],
+        traceIndicatorIncrementer: 5
+      });
+    });
+  
+    it('should catch and log errors gracefully', async () => {
+      const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+  
+      moduleUnderTest.__set__('getListOfPluggableSfpLtp', jest.fn().mockRejectedValue(new Error('Some error')));
+  
+      const result = await FetchPluggedSfpPmdList('mount', {}, {}, 1);
+  
+      // expect(consoleSpy).toHaveBeenCalledWith(expect.any(Error));
+      expect(result).toEqual({
+        pluggedSfpPmdList: [],
+        traceIndicatorIncrementer: 1
+      });
+  
+      consoleSpy.mockRestore();
+    });
+  
+  });
+  });
+  
+
+describe("getListOfPluggableSfpLtp", () => {
+    let mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer;
+  
+    beforeEach(() => {
+      mountName = "513250007";
+      ltpStructure = {
+        "core-model-1-4:control-construct": [
+          {
+            "logical-termination-point": [
+              {
+                uuid: "LTP-ETC-TTP-LAN-1-XG-SFP",
+                "client-ltp": [
+                  "LTP-MAC-TTP-LAN-1-XG-SFP",
+                ],
+                "server-ltp": [
+                  "LTP-MWS-LAN-1-XG-SFP",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-ETC-TTP-LAN-1-XG-SFP",
+                    "layer-protocol-name": "ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-ETC-TTP-LAN-2-XG-SFP",
+                "client-ltp": [
+                  "LTP-MAC-TTP-LAN-2-XG-SFP",
+                ],
+                "server-ltp": [
+                  "LTP-MWS-LAN-2-XG-SFP",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-ETC-TTP-LAN-2-XG-SFP",
+                    "layer-protocol-name": "ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-MWPS-TTP-ODU-B",
+                "client-ltp": [
+                  "LTP-MWS-ODU-B",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-MWPS-TTP-ODU-B",
+                    "layer-protocol-name": "air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-MWPS-TTP-ODU-A",
+                "client-ltp": [
+                  "LTP-MWS-ODU-A",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-MWPS-TTP-ODU-A",
+                    "layer-protocol-name": "air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-ETC-TTP-LAN-1-COMBO",
+                "client-ltp": [
+                  "LTP-MAC-TTP-LAN-1-COMBO",
+                ],
+                "server-ltp": [
+                  "LTP-MWS-LAN-1-COMBO",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-ETC-TTP-LAN-1-COMBO",
+                    "layer-protocol-name": "ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-MAC-TTP-LAN-1-COMBO",
+                "client-ltp": [
+                  "LTP-VLAN-TTP-LAN-1-COMBO",
+                ],
+                "server-ltp": [
+                  "LTP-ETC-TTP-LAN-1-COMBO",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-MAC-TTP-LAN-1-COMBO",
+                    "layer-protocol-name": "mac-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_MAC_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-MAC-TTP-LAN-1-XG-SFP",
+                "client-ltp": [
+                  "LTP-VLAN-TTP-LAN-1-XG-SFP",
+                ],
+                "server-ltp": [
+                  "LTP-ETC-TTP-LAN-1-XG-SFP",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-MAC-TTP-LAN-1-XG-SFP",
+                    "layer-protocol-name": "mac-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_MAC_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-MAC-TTP-LAN-2-XG-SFP",
+                "client-ltp": [
+                  "LTP-VLAN-TTP-LAN-2-XG-SFP",
+                ],
+                "server-ltp": [
+                  "LTP-ETC-TTP-LAN-2-XG-SFP",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-MAC-TTP-LAN-2-XG-SFP",
+                    "layer-protocol-name": "mac-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_MAC_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-MWS-LAN-1-XG-SFP",
+                "client-ltp": [
+                  "LTP-ETC-TTP-LAN-1-XG-SFP",
+                ],
+                "server-ltp": [
+                  "LTP-ETY-TTP-LAN-1-XG-SFP",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-MWS-LAN-1-XG-SFP",
+                    "layer-protocol-name": "pure-ethernet-structure-2-0:LAYER_PROTOCOL_NAME_TYPE_PURE_ETHERNET_STRUCTURE_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-ETY-TTP-LAN-2-RJ45",
+                "client-ltp": [
+                  "LTP-MWS-LAN-2-COMBO",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-ETY-TTP-LAN-2-RJ45",
+                    "layer-protocol-name": "wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-MWS-LAN-2-XG-SFP",
+                "client-ltp": [
+                  "LTP-ETC-TTP-LAN-2-XG-SFP",
+                ],
+                "server-ltp": [
+                  "LTP-ETY-TTP-LAN-2-XG-SFP",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-MWS-LAN-2-XG-SFP",
+                    "layer-protocol-name": "pure-ethernet-structure-2-0:LAYER_PROTOCOL_NAME_TYPE_PURE_ETHERNET_STRUCTURE_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-ETY-TTP-LAN-1-SFP",
+                "client-ltp": [
+                  "LTP-MWS-LAN-1-COMBO",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-ETY-TTP-LAN-1-SFP",
+                    "layer-protocol-name": "wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-MAC-TTP-LAN-2-COMBO",
+                "client-ltp": [
+                  "LTP-VLAN-TTP-LAN-2-COMBO",
+                ],
+                "server-ltp": [
+                  "LTP-ETC-TTP-LAN-2-COMBO",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-MAC-TTP-LAN-2-COMBO",
+                    "layer-protocol-name": "mac-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_MAC_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-MAC-TTP-LAN-4-RJ45",
+                "client-ltp": [
+                  "LTP-VLAN-TTP-LAN-4-RJ45",
+                ],
+                "server-ltp": [
+                  "LTP-ETC-TTP-LAN-4-RJ45",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-MAC-TTP-LAN-4-RJ45",
+                    "layer-protocol-name": "mac-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_MAC_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-VLAN-TTP-ODU-A",
+                "server-ltp": [
+                  "LTP-MAC-TTP-ODU-A",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-VLAN-TTP-ODU-A",
+                    "layer-protocol-name": "vlan-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_VLAN_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-VLAN-TTP-LAN-1-COMBO",
+                "server-ltp": [
+                  "LTP-MAC-TTP-LAN-1-COMBO",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-VLAN-TTP-LAN-1-COMBO",
+                    "layer-protocol-name": "vlan-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_VLAN_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-MWS-LAN-4-RJ45",
+                "client-ltp": [
+                  "LTP-ETC-TTP-LAN-4-RJ45",
+                ],
+                "server-ltp": [
+                  "LTP-ETY-TTP-LAN-4-RJ45",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-MWS-LAN-4-RJ45",
+                    "layer-protocol-name": "pure-ethernet-structure-2-0:LAYER_PROTOCOL_NAME_TYPE_PURE_ETHERNET_STRUCTURE_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-MWS-LAN-2-COMBO",
+                "client-ltp": [
+                  "LTP-ETC-TTP-LAN-2-COMBO",
+                ],
+                "server-ltp": [
+                  "LTP-ETY-TTP-LAN-2-SFP",
+                  "LTP-ETY-TTP-LAN-2-RJ45",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-MWS-LAN-2-COMBO",
+                    "layer-protocol-name": "pure-ethernet-structure-2-0:LAYER_PROTOCOL_NAME_TYPE_PURE_ETHERNET_STRUCTURE_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-MAC-TTP-ODU-A",
+                "client-ltp": [
+                  "LTP-VLAN-TTP-ODU-A",
+                ],
+                "server-ltp": [
+                  "LTP-ETC-TTP-ODU-A",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-MAC-TTP-ODU-A",
+                    "layer-protocol-name": "mac-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_MAC_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-ETC-TTP-LAN-2-COMBO",
+                "client-ltp": [
+                  "LTP-MAC-TTP-LAN-2-COMBO",
+                ],
+                "server-ltp": [
+                  "LTP-MWS-LAN-2-COMBO",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-ETC-TTP-LAN-2-COMBO",
+                    "layer-protocol-name": "ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-ETY-TTP-LAN-2-SFP",
+                "client-ltp": [
+                  "LTP-MWS-LAN-2-COMBO",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-ETY-TTP-LAN-2-SFP",
+                    "layer-protocol-name": "wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-ETY-TTP-LAN-1-XG-SFP",
+                "client-ltp": [
+                  "LTP-MWS-LAN-1-XG-SFP",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-ETY-TTP-LAN-1-XG-SFP",
+                    "layer-protocol-name": "wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-MWS-LAN-1-COMBO",
+                "client-ltp": [
+                  "LTP-ETC-TTP-LAN-1-COMBO",
+                ],
+                "server-ltp": [
+                  "LTP-ETY-TTP-LAN-1-SFP",
+                  "LTP-ETY-TTP-LAN-1-RJ45",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-MWS-LAN-1-COMBO",
+                    "layer-protocol-name": "pure-ethernet-structure-2-0:LAYER_PROTOCOL_NAME_TYPE_PURE_ETHERNET_STRUCTURE_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-ETY-TTP-LAN-2-XG-SFP",
+                "client-ltp": [
+                  "LTP-MWS-LAN-2-XG-SFP",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-ETY-TTP-LAN-2-XG-SFP",
+                    "layer-protocol-name": "wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-VLAN-TTP-LAN-2-COMBO",
+                "server-ltp": [
+                  "LTP-MAC-TTP-LAN-2-COMBO",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-VLAN-TTP-LAN-2-COMBO",
+                    "layer-protocol-name": "vlan-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_VLAN_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-VLAN-TTP-LAN-4-RJ45",
+                "server-ltp": [
+                  "LTP-MAC-TTP-LAN-4-RJ45",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-VLAN-TTP-LAN-4-RJ45",
+                    "layer-protocol-name": "vlan-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_VLAN_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-VLAN-TTP-LAN-1-XG-SFP",
+                "server-ltp": [
+                  "LTP-MAC-TTP-LAN-1-XG-SFP",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-VLAN-TTP-LAN-1-XG-SFP",
+                    "layer-protocol-name": "vlan-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_VLAN_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-ETC-TTP-LAN-4-RJ45",
+                "client-ltp": [
+                  "LTP-MAC-TTP-LAN-4-RJ45",
+                ],
+                "server-ltp": [
+                  "LTP-MWS-LAN-4-RJ45",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-ETC-TTP-LAN-4-RJ45",
+                    "layer-protocol-name": "ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-VLAN-TTP-LAN-2-XG-SFP",
+                "server-ltp": [
+                  "LTP-MAC-TTP-LAN-2-XG-SFP",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-VLAN-TTP-LAN-2-XG-SFP",
+                    "layer-protocol-name": "vlan-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_VLAN_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-TDM-CTP-ODU-A-1",
+                "server-ltp": [
+                  "LTP-MWS-ODU-A",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-TDM-CTP-ODU-A-1",
+                    "layer-protocol-name": "tdm-container-2-0:LAYER_PROTOCOL_NAME_TYPE_TDM_CONTAINER_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-TDM-CTP-ODU-A-2",
+                "server-ltp": [
+                  "LTP-MWS-ODU-A",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-TDM-CTP-ODU-A-2",
+                    "layer-protocol-name": "tdm-container-2-0:LAYER_PROTOCOL_NAME_TYPE_TDM_CONTAINER_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-TDM-CTP-ODU-A-3",
+                "server-ltp": [
+                  "LTP-MWS-ODU-A",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-TDM-CTP-ODU-A-3",
+                    "layer-protocol-name": "tdm-container-2-0:LAYER_PROTOCOL_NAME_TYPE_TDM_CONTAINER_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-TDM-CTP-ODU-A-4",
+                "server-ltp": [
+                  "LTP-MWS-ODU-A",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-TDM-CTP-ODU-A-4",
+                    "layer-protocol-name": "tdm-container-2-0:LAYER_PROTOCOL_NAME_TYPE_TDM_CONTAINER_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-TDM-CTP-ODU-A-5",
+                "server-ltp": [
+                  "LTP-MWS-ODU-A",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-TDM-CTP-ODU-A-5",
+                    "layer-protocol-name": "tdm-container-2-0:LAYER_PROTOCOL_NAME_TYPE_TDM_CONTAINER_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-ETC-TTP-ODU-A",
+                "client-ltp": [
+                  "LTP-MAC-TTP-ODU-A",
+                ],
+                "server-ltp": [
+                  "LTP-MWS-ODU-A",
+                  "LTP-MWS-ODU-B",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-ETC-TTP-ODU-A",
+                    "layer-protocol-name": "ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-ETY-TTP-LAN-1-RJ45",
+                "client-ltp": [
+                  "LTP-MWS-LAN-1-COMBO",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-ETY-TTP-LAN-1-RJ45",
+                    "layer-protocol-name": "wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-MWS-ODU-A",
+                "client-ltp": [
+                  "LTP-TDM-CTP-ODU-A-5",
+                  "LTP-ETC-TTP-ODU-A",
+                  "LTP-TDM-CTP-ODU-A-1",
+                  "LTP-TDM-CTP-ODU-A-2",
+                  "LTP-TDM-CTP-ODU-A-3",
+                  "LTP-TDM-CTP-ODU-A-4",
+                ],
+                "server-ltp": [
+                  "LTP-MWPS-TTP-ODU-A",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-MWS-ODU-A",
+                    "layer-protocol-name": "hybrid-mw-structure-2-0:LAYER_PROTOCOL_NAME_TYPE_HYBRID_MW_STRUCTURE_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-MWS-ODU-B",
+                "client-ltp": [
+                  "LTP-ETC-TTP-ODU-A",
+                ],
+                "server-ltp": [
+                  "LTP-MWPS-TTP-ODU-B",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-MWS-ODU-B",
+                    "layer-protocol-name": "hybrid-mw-structure-2-0:LAYER_PROTOCOL_NAME_TYPE_HYBRID_MW_STRUCTURE_LAYER",
+                  },
+                ],
+              },
+              {
+                uuid: "LTP-ETY-TTP-LAN-4-RJ45",
+                "client-ltp": [
+                  "LTP-MWS-LAN-4-RJ45",
+                ],
+                "layer-protocol": [
+                  {
+                    "local-id": "LP-ETY-TTP-LAN-4-RJ45",
+                    "layer-protocol-name": "wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      };
+      requestHeaders = {
+        user: "admin",
+        originator: "AccessPlanningToolProxy",
+        xCorrelator: "9BDADb6C-cd5d-Fa4d-6846-A2dF0208081c",
+        traceIndicator: "1",
+        customerJourney: "unknown",
+      };
+      traceIndicatorIncrementer = 41;
+      jest.clearAllMocks();
+    });
+  
+    it("should return the list of pluggable SFP LTPs when the response is successful", async () => {
+      const wireInterfaceLtpList = [{ uuid: "wire-uuid-1" }, { uuid: "wire-uuid-2" }];
+      const equipmentUuidResponseMock = {
+        "ltp-augment-1-0:ltp-augment-pac": { equipment: ["equip-uuid-1"] },
+      };
+      const equipmentCategoryResponseMock = {
+        "equipment-augment-1-0:actual-equipment": { category: "EQUIPMENT_CATEGORY_SMALL_FORMFACTOR_PLUGGABLE" },
+      };
+      const clientAndFieldParamsForEquipmentUuid1={
+        operationClientUuid: "aptp-1-1-0-op-c-is-mwdi-1-1-2-201",
+        operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac",
+        fields: "equipment",
+      };
+      const clientAndFieldParamsForEquipmentCategory1={
+        operationClientUuid: "aptp-1-1-0-op-c-is-mwdi-1-1-2-114",
+        operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment",
+        fields: "",
+      };
+      const wireInterfaceLtpList1=[
+        {
+          uuid: "LTP-ETY-TTP-LAN-2-RJ45",
+          "client-ltp": [
+            "LTP-MWS-LAN-2-COMBO",
+          ],
+          "layer-protocol": [
+            {
+              "local-id": "LP-ETY-TTP-LAN-2-RJ45",
+              "layer-protocol-name": "wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
+            },
+          ],
+        },
+        {
+          uuid: "LTP-ETY-TTP-LAN-1-SFP",
+          "client-ltp": [
+            "LTP-MWS-LAN-1-COMBO",
+          ],
+          "layer-protocol": [
+            {
+              "local-id": "LP-ETY-TTP-LAN-1-SFP",
+              "layer-protocol-name": "wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
+            },
+          ],
+        },
+        {
+          uuid: "LTP-ETY-TTP-LAN-2-SFP",
+          "client-ltp": [
+            "LTP-MWS-LAN-2-COMBO",
+          ],
+          "layer-protocol": [
+            {
+              "local-id": "LP-ETY-TTP-LAN-2-SFP",
+              "layer-protocol-name": "wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
+            },
+          ],
+        },
+        {
+          uuid: "LTP-ETY-TTP-LAN-1-XG-SFP",
+          "client-ltp": [
+            "LTP-MWS-LAN-1-XG-SFP",
+          ],
+          "layer-protocol": [
+            {
+              "local-id": "LP-ETY-TTP-LAN-1-XG-SFP",
+              "layer-protocol-name": "wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
+            },
+          ],
+        },
+        {
+          uuid: "LTP-ETY-TTP-LAN-2-XG-SFP",
+          "client-ltp": [
+            "LTP-MWS-LAN-2-XG-SFP",
+          ],
+          "layer-protocol": [
+            {
+              "local-id": "LP-ETY-TTP-LAN-2-XG-SFP",
+              "layer-protocol-name": "wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
+            },
+          ],
+        },
+        {
+          uuid: "LTP-ETY-TTP-LAN-1-RJ45",
+          "client-ltp": [
+            "LTP-MWS-LAN-1-COMBO",
+          ],
+          "layer-protocol": [
+            {
+              "local-id": "LP-ETY-TTP-LAN-1-RJ45",
+              "layer-protocol-name": "wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
+            },
+          ],
+        },
+        {
+          uuid: "LTP-ETY-TTP-LAN-4-RJ45",
+          "client-ltp": [
+            "LTP-MWS-LAN-4-RJ45",
+          ],
+          "layer-protocol": [
+            {
+              "local-id": "LP-ETY-TTP-LAN-4-RJ45",
+              "layer-protocol-name": "wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
+            },
+          ],
+        },
+      ];
+      const equipmentUuidResponse1={
+        "ltp-augment-1-0:ltp-augment-pac": {
+          equipment: [
+            "AGS-20 IDU",
+          ],
+        },
+      };
+      const equipmentCategoryResponse1={
+        "core-model-1-4:actual-equipment": {
+          "local-id": "",
+          "lifecycle-state": "core-model-1-4:LIFECYCLE_STATE_INSTALLED",
+          "operational-state": "core-model-1-4:OPERATIONAL_STATE_ENABLED",
+          "physical-properties": {
+            temperature: "30",
+          },
+          "physical-characteristics": {
+            "fire-characteristics": "",
+            materials: "",
+            "weight-characeristics": "",
+          },
+          "manufactured-thing": {
+            "operator-augmented-equipment-type": {
+              "asset-type-identifier": "",
+            },
+            "equipment-type": {
+              version: "003",
+              "equipment-augment-1-0:equipment-type-pac": {
+                "lct-label": "",
+                "outside-label": "",
+              },
+              description: "INDOOR UNIT AGS-20",
+              "model-identifier": "AGS-20 Quad-IF Enhanced 16xE1 XG",
+              "part-type-identifier": "GAI0234-3",
+              "type-name": "AGS-20",
+            },
+            "operator-augmented-equipment-instance": {
+              "asset-instance-identifier": "",
+            },
+            "manufacturer-properties": {
+              "manufacturer-name": "SIAE Microelettronica SpA",
+              "manufacturer-identifier": "",
+            },
+            "equipment-instance": {
+              "manufacture-date": "0000-00-00",
+              "serial-number": "10182245100011A",
+              "asset-instance-identifier": "",
+            },
+          },
+          "spatial-properties-of-type": {
+            width: "",
+            length: "",
+            height: "",
+          },
+          structure: {
+            category: "core-model-1-4:EQUIPMENT_CATEGORY_SUBRACK",
+          },
+          "mechanical-functions": {
+            "rotation-speed": "",
+          },
+          "environmental-rating": {
+            "thermal-rating": {
+              "minimum-temperature": "-255.0",
+              "thermal-rating-name": "",
+              "maximum-temperature": "99.0",
+            },
+            "humidity-rating": "",
+            "power-rating": {
+              "power-rating-name": "",
+              "power-rating-value": "",
+            },
+          },
+          location: {
+            "equipment-location": "",
+            "geographical-location": "",
+          },
+          "administrative-state": "core-model-1-4:ADMINISTRATIVE_STATE_UNLOCKED",
+          swappability: {
+            "is-hot-swappable": false,
+          },
+          "function-enablers": {
+            "power-state": "",
+          },
+          "administrative-control": "core-model-1-4:ADMINISTRATIVE_CONTROL_UNLOCK",
+        },
+      };
+      const equipmentUuidResponse2={
+        "ltp-augment-1-0:ltp-augment-pac": {
+          equipment: [
+            "LAN-1 SFP",
+          ],
+        },
+      };
+      const equipmentCategoryResponse2={
+        "core-model-1-4:actual-equipment": {
+          "local-id": "",
+          "lifecycle-state": "core-model-1-4:LIFECYCLE_STATE_INSTALLED",
+          "operational-state": "core-model-1-4:OPERATIONAL_STATE_ENABLED",
+          "physical-properties": {
+            temperature: "33",
+          },
+          "physical-characteristics": {
+            "fire-characteristics": "",
+            materials: "",
+            "weight-characeristics": "",
+          },
+          "manufactured-thing": {
+            "operator-augmented-equipment-type": {
+              "asset-type-identifier": "",
+            },
+            "equipment-type": {
+              version: "G2.1",
+              "equipment-augment-1-0:equipment-type-pac": {
+                "lct-label": "LAN-1",
+                "outside-label": "",
+              },
+              description: "SFP module in LAN-1 SFP connector",
+              "model-identifier": "Generic",
+              "part-type-identifier": "AFCT-739ISMZ",
+              "type-name": "SFP module",
+            },
+            "operator-augmented-equipment-instance": {
+              "asset-instance-identifier": "",
+            },
+            "manufacturer-properties": {
+              "manufacturer-name": "AVAGO",
+              "manufacturer-identifier": "",
+            },
+            "equipment-instance": {
+              "manufacture-date": "2019-05-07",
+              "serial-number": "AD1919500D5",
+              "asset-instance-identifier": "",
+            },
+          },
+          "spatial-properties-of-type": {
+            width: "",
+            length: "",
+            height: "",
+          },
+          structure: {
+            category: "core-model-1-4:EQUIPMENT_CATEGORY_SMALL_FORMFACTOR_PLUGGABLE",
+          },
+          "mechanical-functions": {
+            "rotation-speed": "",
+          },
+          "environmental-rating": {
+            "thermal-rating": {
+              "minimum-temperature": "-255.0",
+              "thermal-rating-name": "",
+              "maximum-temperature": "99.0",
+            },
+            "humidity-rating": "",
+            "power-rating": {
+              "power-rating-name": "",
+              "power-rating-value": "",
+            },
+          },
+          location: {
+            "equipment-location": "",
+            "geographical-location": "",
+          },
+          "administrative-state": "core-model-1-4:ADMINISTRATIVE_STATE_UNLOCKED",
+          swappability: {
+            "is-hot-swappable": true,
+          },
+          "function-enablers": {
+            "power-state": "",
+          },
+          "administrative-control": "core-model-1-4:ADMINISTRATIVE_CONTROL_UNLOCK",
+        },
+      };
+      const equipmentUuidResponse3={
+        "ltp-augment-1-0:ltp-augment-pac": {
+          equipment: [
+            "LAN-2 SFP",
+          ],
+        },
+      };
+      const equipmentCategoryResponse3={
+        "core-model-1-4:actual-equipment": {
+          "local-id": "",
+          "lifecycle-state": "core-model-1-4:LIFECYCLE_STATE_INSTALLED",
+          "operational-state": "core-model-1-4:OPERATIONAL_STATE_ENABLED",
+          "physical-properties": {
+            temperature: "34",
+          },
+          "physical-characteristics": {
+            "fire-characteristics": "",
+            materials: "",
+            "weight-characeristics": "",
+          },
+          "manufactured-thing": {
+            "operator-augmented-equipment-type": {
+              "asset-type-identifier": "",
+            },
+            "equipment-type": {
+              version: "G2.1",
+              "equipment-augment-1-0:equipment-type-pac": {
+                "lct-label": "LAN-2",
+                "outside-label": "",
+              },
+              description: "SFP module in LAN-2 SFP connector",
+              "model-identifier": "Generic",
+              "part-type-identifier": "AFCT-739ISMZ",
+              "type-name": "SFP module",
+            },
+            "operator-augmented-equipment-instance": {
+              "asset-instance-identifier": "",
+            },
+            "manufacturer-properties": {
+              "manufacturer-name": "AVAGO",
+              "manufacturer-identifier": "",
+            },
+            "equipment-instance": {
+              "manufacture-date": "2019-05-07",
+              "serial-number": "AD1919500DK",
+              "asset-instance-identifier": "",
+            },
+          },
+          "spatial-properties-of-type": {
+            width: "",
+            length: "",
+            height: "",
+          },
+          structure: {
+            category: "core-model-1-4:EQUIPMENT_CATEGORY_SMALL_FORMFACTOR_PLUGGABLE",
+          },
+          "mechanical-functions": {
+            "rotation-speed": "",
+          },
+          "environmental-rating": {
+            "thermal-rating": {
+              "minimum-temperature": "-255.0",
+              "thermal-rating-name": "",
+              "maximum-temperature": "99.0",
+            },
+            "humidity-rating": "",
+            "power-rating": {
+              "power-rating-name": "",
+              "power-rating-value": "",
+            },
+          },
+          location: {
+            "equipment-location": "",
+            "geographical-location": "",
+          },
+          "administrative-state": "core-model-1-4:ADMINISTRATIVE_STATE_UNLOCKED",
+          swappability: {
+            "is-hot-swappable": true,
+          },
+          "function-enablers": {
+            "power-state": "",
+          },
+          "administrative-control": "core-model-1-4:ADMINISTRATIVE_CONTROL_UNLOCK",
+        },
+      };
+      const equipmentUuidResponse4={
+        "ltp-augment-1-0:ltp-augment-pac": {
+          equipment: [
+            "XGLAN-1 SFP",
+          ],
+        },
+      };
+      const equipmentCategoryResponse4={
+        "core-model-1-4:actual-equipment": {
+          "local-id": "",
+          "lifecycle-state": "core-model-1-4:LIFECYCLE_STATE_INSTALLED",
+          "operational-state": "core-model-1-4:OPERATIONAL_STATE_ENABLED",
+          "physical-properties": {
+            temperature: "38",
+          },
+          "physical-characteristics": {
+            "fire-characteristics": "",
+            materials: "",
+            "weight-characeristics": "",
+          },
+          "manufactured-thing": {
+            "operator-augmented-equipment-type": {
+              "asset-type-identifier": "",
+            },
+            "equipment-type": {
+              version: "V2.0",
+              "equipment-augment-1-0:equipment-type-pac": {
+                "lct-label": "XGLAN-1",
+                "outside-label": "",
+              },
+              description: "SFP module in XGLAN-1 SFP connector",
+              "model-identifier": "Generic",
+              "part-type-identifier": "AXGD-1354-0533",
+              "type-name": "SFP module",
+            },
+            "operator-augmented-equipment-instance": {
+              "asset-instance-identifier": "",
+            },
+            "manufacturer-properties": {
+              "manufacturer-name": "Axcen Photonics",
+              "manufacturer-identifier": "",
+            },
+            "equipment-instance": {
+              "manufacture-date": "2017-05-19",
+              "serial-number": "AX17200011164",
+              "asset-instance-identifier": "",
+            },
+          },
+          "spatial-properties-of-type": {
+            width: "",
+            length: "",
+            height: "",
+          },
+          structure: {
+            category: "core-model-1-4:EQUIPMENT_CATEGORY_SMALL_FORMFACTOR_PLUGGABLE",
+          },
+          "mechanical-functions": {
+            "rotation-speed": "",
+          },
+          "environmental-rating": {
+            "thermal-rating": {
+              "minimum-temperature": "-255.0",
+              "thermal-rating-name": "",
+              "maximum-temperature": "99.0",
+            },
+            "humidity-rating": "",
+            "power-rating": {
+              "power-rating-name": "",
+              "power-rating-value": "",
+            },
+          },
+          location: {
+            "equipment-location": "",
+            "geographical-location": "",
+          },
+          "administrative-state": "core-model-1-4:ADMINISTRATIVE_STATE_UNLOCKED",
+          swappability: {
+            "is-hot-swappable": true,
+          },
+          "function-enablers": {
+            "power-state": "",
+          },
+          "administrative-control": "core-model-1-4:ADMINISTRATIVE_CONTROL_UNLOCK",
+        },
+      };
+      const equipmentUuidResponse5={
+        "ltp-augment-1-0:ltp-augment-pac": {
+          equipment: [
+            "XGLAN-2 SFP",
+          ],
+        },
+      };
+      const equipmentCategoryResponse5={
+        "core-model-1-4:actual-equipment": {
+          "local-id": "",
+          "lifecycle-state": "core-model-1-4:LIFECYCLE_STATE_INSTALLED",
+          "operational-state": "core-model-1-4:OPERATIONAL_STATE_ENABLED",
+          "physical-properties": {
+            temperature: "35",
+          },
+          "physical-characteristics": {
+            "fire-characteristics": "",
+            materials: "",
+            "weight-characeristics": "",
+          },
+          "manufactured-thing": {
+            "operator-augmented-equipment-type": {
+              "asset-type-identifier": "",
+            },
+            "equipment-type": {
+              version: "G2.1",
+              "equipment-augment-1-0:equipment-type-pac": {
+                "lct-label": "XGLAN-2",
+                "outside-label": "",
+              },
+              description: "SFP module in XGLAN-2 SFP connector",
+              "model-identifier": "Generic",
+              "part-type-identifier": "AFCT-739ISMZ",
+              "type-name": "SFP module",
+            },
+            "operator-augmented-equipment-instance": {
+              "asset-instance-identifier": "",
+            },
+            "manufacturer-properties": {
+              "manufacturer-name": "AVAGO",
+              "manufacturer-identifier": "",
+            },
+            "equipment-instance": {
+              "manufacture-date": "2019-05-07",
+              "serial-number": "AD1919500DT",
+              "asset-instance-identifier": "",
+            },
+          },
+          "spatial-properties-of-type": {
+            width: "",
+            length: "",
+            height: "",
+          },
+          structure: {
+            category: "core-model-1-4:EQUIPMENT_CATEGORY_SMALL_FORMFACTOR_PLUGGABLE",
+          },
+          "mechanical-functions": {
+            "rotation-speed": "",
+          },
+          "environmental-rating": {
+            "thermal-rating": {
+              "minimum-temperature": "-255.0",
+              "thermal-rating-name": "",
+              "maximum-temperature": "99.0",
+            },
+            "humidity-rating": "",
+            "power-rating": {
+              "power-rating-name": "",
+              "power-rating-value": "",
+            },
+          },
+          location: {
+            "equipment-location": "",
+            "geographical-location": "",
+          },
+          "administrative-state": "core-model-1-4:ADMINISTRATIVE_STATE_UNLOCKED",
+          swappability: {
+            "is-hot-swappable": true,
+          },
+          "function-enablers": {
+            "power-state": "",
+          },
+          "administrative-control": "core-model-1-4:ADMINISTRATIVE_CONTROL_UNLOCK",
+        },
+      };
+      const equipmentUuidResponse6={
+        "ltp-augment-1-0:ltp-augment-pac": {
+          equipment: [
+            "AGS-20 IDU",
+          ],
+        },
+      };
+      const equipmentCategoryResponse6={
+        "core-model-1-4:actual-equipment": {
+          "local-id": "",
+          "lifecycle-state": "core-model-1-4:LIFECYCLE_STATE_INSTALLED",
+          "operational-state": "core-model-1-4:OPERATIONAL_STATE_ENABLED",
+          "physical-properties": {
+            temperature: "30",
+          },
+          "physical-characteristics": {
+            "fire-characteristics": "",
+            materials: "",
+            "weight-characeristics": "",
+          },
+          "manufactured-thing": {
+            "operator-augmented-equipment-type": {
+              "asset-type-identifier": "",
+            },
+            "equipment-type": {
+              version: "003",
+              "equipment-augment-1-0:equipment-type-pac": {
+                "lct-label": "",
+                "outside-label": "",
+              },
+              description: "INDOOR UNIT AGS-20",
+              "model-identifier": "AGS-20 Quad-IF Enhanced 16xE1 XG",
+              "part-type-identifier": "GAI0234-3",
+              "type-name": "AGS-20",
+            },
+            "operator-augmented-equipment-instance": {
+              "asset-instance-identifier": "",
+            },
+            "manufacturer-properties": {
+              "manufacturer-name": "SIAE Microelettronica SpA",
+              "manufacturer-identifier": "",
+            },
+            "equipment-instance": {
+              "manufacture-date": "0000-00-00",
+              "serial-number": "10182245100011A",
+              "asset-instance-identifier": "",
+            },
+          },
+          "spatial-properties-of-type": {
+            width: "",
+            length: "",
+            height: "",
+          },
+          structure: {
+            category: "core-model-1-4:EQUIPMENT_CATEGORY_SUBRACK",
+          },
+          "mechanical-functions": {
+            "rotation-speed": "",
+          },
+          "environmental-rating": {
+            "thermal-rating": {
+              "minimum-temperature": "-255.0",
+              "thermal-rating-name": "",
+              "maximum-temperature": "99.0",
+            },
+            "humidity-rating": "",
+            "power-rating": {
+              "power-rating-name": "",
+              "power-rating-value": "",
+            },
+          },
+          location: {
+            "equipment-location": "",
+            "geographical-location": "",
+          },
+          "administrative-state": "core-model-1-4:ADMINISTRATIVE_STATE_UNLOCKED",
+          swappability: {
+            "is-hot-swappable": false,
+          },
+          "function-enablers": {
+            "power-state": "",
+          },
+          "administrative-control": "core-model-1-4:ADMINISTRATIVE_CONTROL_UNLOCK",
+        },
+      };
+      const equipmentUuidResponse7={
+        "ltp-augment-1-0:ltp-augment-pac": {
+          equipment: [
+            "AGS-20 IDU",
+          ],
+        },
+      };
+      const equipmentCategoryResponse7={
+        "core-model-1-4:actual-equipment": {
+          "local-id": "",
+          "lifecycle-state": "core-model-1-4:LIFECYCLE_STATE_INSTALLED",
+          "operational-state": "core-model-1-4:OPERATIONAL_STATE_ENABLED",
+          "physical-properties": {
+            temperature: "30",
+          },
+          "physical-characteristics": {
+            "fire-characteristics": "",
+            materials: "",
+            "weight-characeristics": "",
+          },
+          "manufactured-thing": {
+            "operator-augmented-equipment-type": {
+              "asset-type-identifier": "",
+            },
+            "equipment-type": {
+              version: "003",
+              "equipment-augment-1-0:equipment-type-pac": {
+                "lct-label": "",
+                "outside-label": "",
+              },
+              description: "INDOOR UNIT AGS-20",
+              "model-identifier": "AGS-20 Quad-IF Enhanced 16xE1 XG",
+              "part-type-identifier": "GAI0234-3",
+              "type-name": "AGS-20",
+            },
+            "operator-augmented-equipment-instance": {
+              "asset-instance-identifier": "",
+            },
+            "manufacturer-properties": {
+              "manufacturer-name": "SIAE Microelettronica SpA",
+              "manufacturer-identifier": "",
+            },
+            "equipment-instance": {
+              "manufacture-date": "0000-00-00",
+              "serial-number": "10182245100011A",
+              "asset-instance-identifier": "",
+            },
+          },
+          "spatial-properties-of-type": {
+            width: "",
+            length: "",
+            height: "",
+          },
+          structure: {
+            category: "core-model-1-4:EQUIPMENT_CATEGORY_SUBRACK",
+          },
+          "mechanical-functions": {
+            "rotation-speed": "",
+          },
+          "environmental-rating": {
+            "thermal-rating": {
+              "minimum-temperature": "-255.0",
+              "thermal-rating-name": "",
+              "maximum-temperature": "99.0",
+            },
+            "humidity-rating": "",
+            "power-rating": {
+              "power-rating-name": "",
+              "power-rating-value": "",
+            },
+          },
+          location: {
+            "equipment-location": "",
+            "geographical-location": "",
+          },
+          "administrative-state": "core-model-1-4:ADMINISTRATIVE_STATE_UNLOCKED",
+          swappability: {
+            "is-hot-swappable": false,
+          },
+          "function-enablers": {
+            "power-state": "",
+          },
+          "administrative-control": "core-model-1-4:ADMINISTRATIVE_CONTROL_UNLOCK",
+        },
+      };
+  
+      IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValueOnce(clientAndFieldParamsForEquipmentUuid1)   
+         .mockResolvedValueOnce(clientAndFieldParamsForEquipmentCategory1);
+      LtpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockResolvedValueOnce(wireInterfaceLtpList1);
+      
+      IndividualServiceUtility.forwardRequest
+        .mockResolvedValueOnce(equipmentUuidResponse1).mockResolvedValueOnce(equipmentCategoryResponse1)
+        .mockResolvedValueOnce(equipmentUuidResponse2).mockResolvedValueOnce(equipmentCategoryResponse2)
+        .mockResolvedValueOnce(equipmentUuidResponse3).mockResolvedValueOnce(equipmentCategoryResponse3)
+        .mockResolvedValueOnce(equipmentUuidResponse4).mockResolvedValueOnce(equipmentCategoryResponse4)
+        .mockResolvedValueOnce(equipmentUuidResponse5).mockResolvedValueOnce(equipmentCategoryResponse5)
+        .mockResolvedValueOnce(equipmentUuidResponse6).mockResolvedValueOnce(equipmentCategoryResponse6)
+        .mockResolvedValueOnce(equipmentUuidResponse7).mockResolvedValueOnce(equipmentCategoryResponse7);
+  
+      // Spy on the function to capture intermediate values
+      // const spyGetListOfPluggableSfpLtp = jest.spyOn(ReadInventoryData_Private, "getListOfPluggableSfpLtp");
+  
+      const result = await ReadInventoryData_Private.getListOfPluggableSfpLtp(
+        mountName,
+        ltpStructure,
+        requestHeaders,
+        traceIndicatorIncrementer
+      );
+  
+      
+      expect(result).toEqual({
+        pluggableSfpList: [
+          {
+            uuid: "LTP-ETY-TTP-LAN-1-SFP",
+            "client-ltp": [
+              "LTP-MWS-LAN-1-COMBO",
+            ],
+            "layer-protocol": [
+              {
+                "local-id": "LP-ETY-TTP-LAN-1-SFP",
+                "layer-protocol-name": "wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
+              },
+            ],
+          },
+          {
+            uuid: "LTP-ETY-TTP-LAN-2-SFP",
+            "client-ltp": [
+              "LTP-MWS-LAN-2-COMBO",
+            ],
+            "layer-protocol": [
+              {
+                "local-id": "LP-ETY-TTP-LAN-2-SFP",
+                "layer-protocol-name": "wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
+              },
+            ],
+          },
+          {
+            uuid: "LTP-ETY-TTP-LAN-1-XG-SFP",
+            "client-ltp": [
+              "LTP-MWS-LAN-1-XG-SFP",
+            ],
+            "layer-protocol": [
+              {
+                "local-id": "LP-ETY-TTP-LAN-1-XG-SFP",
+                "layer-protocol-name": "wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
+              },
+            ],
+          },
+          {
+            uuid: "LTP-ETY-TTP-LAN-2-XG-SFP",
+            "client-ltp": [
+              "LTP-MWS-LAN-2-XG-SFP",
+            ],
+            "layer-protocol": [
+              {
+                "local-id": "LP-ETY-TTP-LAN-2-XG-SFP",
+                "layer-protocol-name": "wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
+              },
+            ],
+          },
+        ],
+        traceIndicatorIncrementer: 55,
+      });
+    });
+    
+    it("should return an empty list if no pluggable SFPs are found", async () => {
+      LtpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockResolvedValueOnce();
+  
+      const result = await ReadInventoryData_Private.getListOfPluggableSfpLtp(
+        mountName,
+        ltpStructure,
+        requestHeaders,
+        traceIndicatorIncrementer
+      );
+  
+      expect(result).toEqual({
+        pluggableSfpList: [],
+        traceIndicatorIncrementer: traceIndicatorIncrementer
+      });
+    });
+  
+    it("should handle errors and return only the traceIndicatorIncrementer", async () => {
+      LtpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockRejectedValueOnce(new Error("Test erro"));
+  
+      const result = await ReadInventoryData_Private.getListOfPluggableSfpLtp(
+        mountName,
+        ltpStructure,
+        requestHeaders,
+        traceIndicatorIncrementer
+      );
+  
+      expect(result).toEqual({
+        pluggableSfpList: [],
+        traceIndicatorIncrementer: traceIndicatorIncrementer
+      });
+    });
+});
+
 describe("getWireInterfaceNameForRetrievingSfpInformation", () => {
   let mountName, wireInterfaceUuid, requestHeaders, traceIndicatorIncrementer;
 
