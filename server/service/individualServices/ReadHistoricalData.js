@@ -421,8 +421,8 @@ exports.RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregat
 
       if (airLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP] &&
           airLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP].length > 0) {
-        clientStructureUuid = airLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP][0];
-      }
+            for(let i=0; i<onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP.length; i++){
+              clientStructureUuid = airLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP][i];
 
       // Navigate upwards to find the EthernetContainerUuid
       let clientEthernetContainerUuid = undefined;
@@ -444,7 +444,7 @@ exports.RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregat
         }
 
         if (clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP].length > 0) {
-          clientStructureUuid = clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP][0];
+            clientStructureUuid = clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP][0];
         } else {
           clientStructureUuid = undefined;
         }
@@ -500,6 +500,8 @@ exports.RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregat
 
       resultForOneLtp["list"] = subResultsList;
       aggregatedResults.push(resultForOneLtp);
+    }
+  }
     }
   } catch (error) {
     logger.error(`${forwardingName} is not success with ${error}`);

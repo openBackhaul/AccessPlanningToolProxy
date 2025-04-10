@@ -371,3 +371,13 @@ async function getConfiguredModulation(airInterfaceCapability, transmissioModeTy
   }
   return transmissionModeFromtransmissionModeList;
 }
+
+if (global.testPrivateFuntions === 1)  {
+  module.exports.readAirInterfaceData_private = {
+    RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest,
+    RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache,
+    RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive,
+    formulateAirInterfaceResponseBody
+
+  };
+}
