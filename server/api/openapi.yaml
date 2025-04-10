@@ -34842,10 +34842,6 @@ components:
         mount-name: "513250010"
         link-id: "513550010"
     inline_response_200_2:
-      required:
-      - device
-      - modem
-      - radio
       type: object
       properties:
         radio:
