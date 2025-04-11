@@ -1,4 +1,4 @@
-global.testPrivateFuntions=1;
+global.testPrivateFunctions=1;
 const rewire = require('rewire');
 const ReadAirInterfaceDataRewire = rewire('../ReadAirInterfaceData'); 
 const {readAirInterfaceData_private}= require('../ReadAirInterfaceData');
@@ -8,7 +8,7 @@ const LtpStructureUtility=require('../LtpStructureUtility');
 const getConfiguredModulation = ReadAirInterfaceDataRewire.__get__('getConfiguredModulation');
 const formulateAirInterfaceResponseBody = ReadAirInterfaceDataRewire.__get__('formulateAirInterfaceResponseBody');
 const {RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache} = require("../ReadAirInterfaceData");
-global.testPrivateFuntions=0;
+global.testPrivateFunctions=0;
 
   jest.mock("../IndividualServiceUtility", () => ({
     forwardRequest: jest.fn(),
