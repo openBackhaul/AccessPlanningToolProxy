@@ -1054,7 +1054,7 @@ async function formulatePositionofModemBoard(equipmentHolderLabelResponse, equip
 
 
 
-if (global.testPrivateFuntions === 1)  {
+if (global.testPrivateFunctions === 1)  {
   module.exports.ReadInventoryData_Private= {
     RequestForProvidingAcceptanceDataCausesReadingFirmwareList,
     RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositionEquipmentUuid,

@@ -1,109 +1,11 @@
-global.testPrivateFuntions = 1;
-
+global.testPrivateFunctions = 1;
 const { ReadInventoryData_Private } = require('../ReadInventoryData');
 const IndividualServiceUtility = require('../IndividualServiceUtility');
 const LtpStructureUtility = require('../LtpStructureUtility');
-
-global.testPrivateFuntions = 0;
+global.testPrivateFunctions = 0;
 
 jest.mock('../LtpStructureUtility');
 jest.mock('../IndividualServiceUtility');
-
-const FIRMWARE = {
-  MODULE: "firmware-1-0:",
-  COLLECTION: "firmware-collection",
-  CLASS_TYPE: "FIRMWARE_COMPONENT_CLASS_TYPE_PACKAGE",
-  COMPONENT_LIST: "firmware-component-list",
-  PAC: "firmware-component-pac",
-  CAPABILITY: "firmware-component-capability",
-  CLASS: "firmware-component-class",
-  NAME: "firmware-component-name",
-  VERSION: "firmware-component-version",
-  STATUS: "firmware-component-status"
-};
-
-const PURE_ETHERNET_STRUCTURE = {
-  MODULE: "pure-ethernet-structure-2-0:",
-  LAYER_PROTOCOL_NAME: "LAYER_PROTOCOL_NAME_TYPE_PURE_ETHERNET_STRUCTURE_LAYER"
-};
-const ETHERNET_CONTAINER = {
-  MODULE: "ethernet-container-2-0:",
-  STATUS: "ethernet-container-status",
-  INTERFACE_STATUS: "interface-status",
-  LAYER_PROTOCOL_NAME: "LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER"
-};
-const WIRE_INTERFACE = {
-  MODULE: "wire-interface-2-0:",
-  LAYER_PROTOCOL_NAME: "LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER",
-  CAPABILITY: "wire-interface-capability",
-  STATUS: "wire-interface-status",
-  SUPPORTED_PMD_LIST: "supported-pmd-kind-list",
-  PMD_NAME: "pmd-name",
-  PMD_KIND_CUR: "pmd-kind-cur"
-};
-const AIR_INTERFACE = {
-  MODULE: "air-interface-2-0:",
-  LAYER_PROTOCOL_NAME: "LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER",
-  CONFIGURAION: "air-interface-configuration",
-  NAME: "air-interface-name"
-};
-const LTP_AUGMENT = {
-  MODULE: "ltp-augment-1-0:",
-  PAC: "ltp-augment-pac",
-  ORIGINAL_LTP_NAME: "original-ltp-name",
-  EQUIPMENT: "equipment",
-  CONNECTOR: "connector",
-  EXTERNAL_LABEL: "external-label"
-};
-const HYBRID_MW_STRUCTURE = {
-  MODULE: "hybrid-mw-structure-2-0:",
-  LAYER_PROTOCOL_NAME: "LAYER_PROTOCOL_NAME_TYPE_HYBRID_MW_STRUCTURE_LAYER"
-};
-const CORE = {
-  MODULE: "core-model-1-4:",
-  CONTROL_CONSTRUCT: "control-construct",
-  EQUIPMENT: "equipment"
-}
-const EQUIPMENT = {
-  MODULE: "equipment-augment-1-0:",
-  EQUIPMENT: {
-    CONTAINED_HOLDER: "contained-holder",
-    ACTUAL_EQUIPMENT: "actual-equipment",
-    CONNECTOR: "connector"
-  },
-  CONNECTOR: {
-    CONNECTOR_PAC: "connector-pac",
-    SEQUENCE_ID: "sequence-id"
-  },
-  ACTUAL_EQUIPMENT: {
-    MANUFACTURED_THING: "manufactured-thing",
-    EQUIPMENT_NAME: "equipment-name",
-    SERIAL_NUMBER: "serial-number",
-    EQUIPMENT: "equipment",
-    PART_NUMBER: "part-number",
-    STRUCTURE: "structure",
-    CATEGORY: "category",
-    TYPE_NAME: "type-name",
-    PART_TYPE_IDENTIFIER: "part-type-identifier",
-    EQUIPMENT_TYPE: "equipment-type",
-    EQUIPMENT_INSTANCE: "equipment-instance"
-  },
-  EQUIPMENT_CATEGORY: {
-    MODEM: "EQUIPMENT_CATEGORY_MODEM",
-    OUTDOOR_UNIT: "EQUIPMENT_CATEGORY_OUTDOOR_UNIT",
-    FULL_OUTDOOR_UNIT: "EQUIPMENT_CATEGORY_FULL_OUTDOOR_UNIT",
-    SFP: "EQUIPMENT_CATEGORY_SMALL_FORMFACTOR_PLUGGABLE"
-  }
-}
-
-const CONTAINED_HOLDER = {
-  EQUIPMENT_AUGMENT: {
-    MODULE: "equipment-augment-1-0:",
-    VENDORL_LABEL: "vendor-label",
-    HOLDER_PAC: "holder-pac"
-  },
-  OCCUPYING_FRU: "occupying-fru"
-}
 
 describe("RequestForProvidingAcceptanceDataCausesReadingFirmwareList", () => {
   let mountName, requestHeaders, traceIndicatorIncrementer;

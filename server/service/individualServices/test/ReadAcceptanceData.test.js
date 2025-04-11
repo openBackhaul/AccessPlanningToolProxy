@@ -1,4 +1,4 @@
-global.testPrivateFuntions = 1;
+global.testPrivateFunctions = 1;
  
 const {ReadAcceptanceData_Private} = require("../ReadAcceptanceData");
 const ReadLtpStructure = require("../ReadLtpStructure");
@@ -9,12 +9,10 @@ const ReadAlarmsData = require("../ReadAlarmsData");
 const onfAttributes = require("onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes");
 const FcPort = require("onf-core-model-ap/applicationPattern/onfModel/models/FcPort");
 const { executeAcceptanceDataRequest } = require("../ReadAcceptanceData");
-const createHttpError = require("http-errors");
-const onfAttributeFormatter = require("onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter");
 const rewire = require('rewire');
 const ReadAcceptanceDataRewire = rewire('../ReadAcceptanceData')
  
-global.testPrivateFuntions = 0;
+global.testPrivateFunctions = 0;
  
 jest.mock("../ReadLtpStructure");
 jest.mock("../ReadAirInterfaceData");
@@ -1653,7 +1651,6 @@ describe("executeAcceptanceDataRequest", () => {
     ReadVlanInterfaceData.readVlanInterfaceData.mockResolvedValue(vlanInterfaceResult);
     ReadInventoryData.readInventoryData.mockResolvedValue(inventoryResult);
     ReadAlarmsData.readAlarmsData.mockResolvedValue(alarmsResult);
-    // onfAttributeFormatter.modifyJsonObjectKeysToKebabCase.mockImplementation(data => data);
 
     const result = await executeAcceptanceDataRequest(mountName, linkId, requestHeaders, traceIndicatorIncrementer);
     expect(result).toEqual(acceptanceDataOfLinkEndPoint);
