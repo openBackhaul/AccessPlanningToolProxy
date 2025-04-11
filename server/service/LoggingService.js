@@ -5,21 +5,21 @@ const path = require("path");
 const transports = pino.transport({
   targets: [
     {
-      level: 'debug',
+      level: 'info',
       target: 'pino-pretty',
       options: { colorize: true }
     },
     {
-      level: 'trace',
+      level: 'info',
       target: 'pino-roll',
       options: { file: path.join(__dirname, '../logs/AccessPlanningToolProxy'), extension: '.log', mkdir: true,
-        frequency: 'daily', dateFormat: 'yyyy-MM-dd', size: "1m", "limit.count": 15 }
+        frequency: 'daily', dateFormat: 'yyyy-MM-dd', size: "1m", "limit.count": 10 }
     }
   ]
 });
 
 // create pino logger instance
-const logger = pino({level: 'trace'}, transports);
+const logger = pino({level: 'info'}, transports);
 
 exports.getLogger = function getLogger() {
   return logger;

@@ -1,21 +1,26 @@
 'use strict';
 
-const ReadLtpStructure = require('./individualServices/ReadLtpStructure');
-const ReadLiveAlarmsData = require('./individualServices/ReadLiveAlarmsData');
-const ReadLiveEquipmentData = require('./individualServices/ReadLiveEquipmentData');
-const ReadLiveStatusData = require('./individualServices/ReadLiveStatusData');
-const ReadConfigurationAirInterfaceData = require('./individualServices/ReadConfigurationAirInterfaceData');
 const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
-const createHttpError = require('http-errors');
-const IndividualServiceUtility = require('./individualServices/IndividualServiceUtility');
 const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
-const ReadHistoricalData = require('./individualServices/ReadHistoricalData');
-const softwareUpgrade = require('./individualServices/SoftwareUpgrade');
 const HttpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
-const LogicalTerminationPointC = require('./individualServices/custom/LogicalTerminationPointC');
 const fileOperation = require('onf-core-model-ap/applicationPattern/databaseDriver/JSONDriver');
 const onfPaths = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfPaths');
+
+const createHttpError = require('http-errors');
+
+const softwareUpgrade = require('./individualServices/SoftwareUpgrade');
+const ReadLtpStructure = require('./individualServices/ReadLtpStructure');
+const ReadLiveAlarmsData = require('./individualServices/ReadLiveAlarmsData');
+const ReadLiveStatusData = require('./individualServices/ReadLiveStatusData');
+const ReadHistoricalData = require('./individualServices/ReadHistoricalData');
 const ReadAcceptanceData = require('./individualServices/ReadAcceptanceData');
+const ReadLiveEquipmentData = require('./individualServices/ReadLiveEquipmentData');
+const IndividualServiceUtility = require('./individualServices/IndividualServiceUtility');
+const LogicalTerminationPointC = require('./individualServices/custom/LogicalTerminationPointC');
+const ReadConfigurationAirInterfaceData = require('./individualServices/ReadConfigurationAirInterfaceData');
+
+const logger = require('./LoggingService').getLogger();
+
 /**
  * Initiates process of embedding a new release
  *
@@ -36,7 +41,7 @@ exports.bequeathYourDataAndDie = async function (body, user, originator, xCorrel
   if (newReleaseNumber !== currentReleaseNumber) {
 
     softwareUpgrade.upgradeSoftwareVersion(user, xCorrelator, traceIndicator, customerJourney, newApplicationDetails)
-      .catch(err => console.log(`upgradeSoftwareVersion failed with error: ${err}`));
+      .catch(err => logger.error(`upgradeSoftwareVersion failed with error: ${err}`));
   }
 }
 
@@ -137,7 +142,7 @@ exports.provideAcceptanceDataOfLinkEndpoint = function (body, user, originator, 
       resolve(response);
 
     } catch (error) {
-      console.log(error);
+      logger.error(error);
       counterStatusAcceptanceDataOfLinkEndpointCall--;
       reject(error);
     }
@@ -177,7 +182,7 @@ exports.provideAlarmsForLiveNetView = function (body, user, originator, xCorrela
       };
 
       let alarmsResult = await ReadLiveAlarmsData.readLiveAlarmsData(mountName, requestHeaders, traceIndicatorIncrementer)
-        .catch(err => console.log(` ${err}`));
+        .catch(err => logger.error(` ${err}`));
       if (alarmsResult) {
         if (Object.keys(alarmsResult.alarms).length != 0) {
           if (alarmsResult.alarms) {
@@ -244,7 +249,7 @@ exports.provideEquipmentInfoForLiveNetView = function (body, user, originator, x
        * Collect equipment data
        ****************************************************************************************/
       let equipmentResult = await ReadLiveEquipmentData.readLiveEquipmentData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer)
-        .catch(err => console.log(` ${err}`));
+        .catch(err => logger.error(` ${err}`));
 
       if (equipmentResult == undefined) {
         throw new createHttpError.NotFound("Empty Equiment not found");
@@ -253,7 +258,7 @@ exports.provideEquipmentInfoForLiveNetView = function (body, user, originator, x
       }
 
     } catch (error) {
-      console.log(error)
+      logger.error(error)
       reject(error);
     }
 
@@ -303,7 +308,7 @@ exports.provideHistoricalPmDataOfDevice = function (body, user, originator, xCor
       resolve(response);
       
     } catch (error) {
-      console.log(error);
+      logger.error(error);
       counterStatusHistoricalPMDataCall--;
       reject(error);
     }
@@ -365,7 +370,7 @@ exports.provideStatusForLiveNetView = function (body, user, originator, xCorrela
        * Collect status data
        ****************************************************************************************/
       let statusResult = await ReadLiveStatusData.readStatusInterfaceData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer)
-        .catch(err => console.log(` ${err}`));
+        .catch(err => logger.error(` ${err}`));
 
       let uuidUnderTest = "";
       if (statusResult) {
@@ -385,7 +390,7 @@ exports.provideStatusForLiveNetView = function (body, user, originator, xCorrela
         resolve(statusForLiveNetView.airInterface);
       }
     } catch (error) {
-      console.log(error)
+      logger.error(error)
       reject(error);
     } finally {
       counterStatus--;
@@ -439,7 +444,7 @@ exports.provideConfigurationForLiveNetView = function (body, user, originator, x
        * Collect air-interface data
        ****************************************************************************************/
       let airInterfaceResult = await ReadConfigurationAirInterfaceData.readConfigurationAirInterfaceData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer)
-        .catch(err => console.log(` ${err}`));
+        .catch(err => logger.error(` ${err}`));
 
       let uuidUnderTest = "";
       if (airInterfaceResult) {
@@ -455,7 +460,7 @@ exports.provideConfigurationForLiveNetView = function (body, user, originator, x
       resolve(airInterface);
 
     } catch (error) {
-      console.log(error)
+      logger.error(error)
       reject(error);
     }
   });
@@ -522,11 +527,11 @@ exports.updateAptClient = function(body) {
       }
       catch(error){
         try{
-          console.log(error);
+          logger.error(error);
           let originalFileRestored =  await IndividualServiceUtility.resetCompleteFile(coreModelJsonObject);
         }
         catch(error){
-          console.log(error)
+          logger.error(error);
         }
         throw new createHttpError.InternalServerError("Internal Server Error");
       }
@@ -534,7 +539,7 @@ exports.updateAptClient = function(body) {
       resolve(result);
 
     } catch (error) {
-      console.log(error)
+      logger.error(error);
       reject(error);
     }
   });

@@ -9,6 +9,8 @@ const RequestHeader = require('onf-core-model-ap/applicationPattern/rest/client/
 const RestRequestBuilder = require('onf-core-model-ap/applicationPattern/rest/client/RequestBuilder');
 const ExecutionAndTraceService = require('onf-core-model-ap/applicationPattern/services/ExecutionAndTraceService');
 
+const logger = require('./LoggingService').getLogger();
+
 /**
  * This function formulates the request body based on the operation name and application 
  * @param {String} operationClientUuid uuid of the client operation that needs to be addressed
@@ -55,7 +57,7 @@ exports.dispatchEvent = async function(operationClientUuid, httpRequestBody, use
     } else 
     if (responseCode == 408) {
         ExecutionAndTraceService.recordServiceRequestFromClient(serverApplicationName, serverApplicationReleaseNumber, xCorrelator, traceIndicator, user, originator, operationName, responseCode, httpRequestBody, response.data)
-            .catch((error) => console.log(`record service request ${JSON.stringify({
+            .catch((error) => logger.error(`record service request ${JSON.stringify({
                 xCorrelator,
                 traceIndicator,
                 user,

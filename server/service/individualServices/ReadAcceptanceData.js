@@ -4,20 +4,20 @@
  * @file This module provides functionality to gather the air-interface data for given mount-name and linkId. 
  * @module ReadHistoricalData
  **/
-
-const ReadAirInterfaceData = require('./ReadAirInterfaceData');
-const ReadVlanInterfaceData = require('./ReadVlanInterfaceData');
-const ReadInventoryData = require('./ReadInventoryData');
-const ReadAlarmsData = require('./ReadAlarmsData');
-
-const createHttpError = require('http-errors');
-const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
-const ReadLtpStructure = require('./ReadLtpStructure');
-const eventDispatcher = require('./EventDispatcherWithResponse');
-const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
 const FcPort = require('onf-core-model-ap/applicationPattern/onfModel/models/FcPort');
+const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
+const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
 const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
 
+const createHttpError = require('http-errors');
+
+const ReadAlarmsData = require('./ReadAlarmsData');
+const ReadLtpStructure = require('./ReadLtpStructure');
+const eventDispatcher = require('./EventDispatcherWithResponse');
+const ReadInventoryData = require('./ReadInventoryData');
+const ReadAirInterfaceData = require('./ReadAirInterfaceData');
+const ReadVlanInterfaceData = require('./ReadVlanInterfaceData');
+const logger = require('./LoggingService').getLogger();
 
 /**
  * @description This function automates the forwarding construct by calling the appropriate call back operations based on the fcPort input and output directions.
@@ -99,11 +99,11 @@ exports.RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData
 
     return response;
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     return (new createHttpError.InternalServerError(`${error}`));
   }
-
 }
+
 exports.processAcceptanceDataRequest = async function (mountName, linkId, request_id, requestHeaders, traceIndicatorIncrementer) {
 
   let acceptanceDataOfLinkEndPoint = {};
@@ -113,7 +113,7 @@ exports.processAcceptanceDataRequest = async function (mountName, linkId, reques
       request_id, requestHeaders, acceptanceDataOfLinkEndPoint, traceIndicatorIncrementer);
   }
   catch (error) {
-    console.error(`readAirInterfaceData is not success with ${error}`);
+    logger.error(`readAirInterfaceData is not success with ${error}`);
   }
   finally {
     global.counterStatusAcceptanceDataOfLinkEndpointCall--;
@@ -144,7 +144,7 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
      * Collect air-interface data
      ****************************************************************************************/
     let airInterfaceResult = await ReadAirInterfaceData.readAirInterfaceData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer)
-      .catch(err => console.log(` ${err}`));
+      .catch(err => logger.error(` ${err}`));
 
     let uuidUnderTest = "";
     if (airInterfaceResult) {
@@ -172,7 +172,7 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
      * Collect vlan-interface data
      ****************************************************************************************/
     let vlanInterfaceResult = await ReadVlanInterfaceData.readVlanInterfaceData(mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer)
-      .catch(err => console.log(` ${err}`));
+      .catch(err => logger.error(` ${err}`));
 
     if(vlanInterfaceResult && vlanInterfaceResult.vlanInterface) {
 
@@ -191,13 +191,13 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
      * Collect inventory data
      ****************************************************************************************/
     let inventoryResult = await ReadInventoryData.readInventoryData(mountName, ltpStructure, uuidUnderTest, requestHeaders, traceIndicatorIncrementer)
-      .catch(err => console.log(` ${err}`));
+      .catch(err => logger.error(` ${err}`));
 
     if(inventoryResult && inventoryResult.inventory) {
-    if (Object.keys(inventoryResult.inventory).length != 0) {
-      acceptanceDataOfLinkEndPoint.inventory = inventoryResult.inventory;
-    }
-    traceIndicatorIncrementer = inventoryResult.traceIndicatorIncrementer;
+      if (Object.keys(inventoryResult.inventory).length != 0) {
+        acceptanceDataOfLinkEndPoint.inventory = inventoryResult.inventory;
+      }
+      traceIndicatorIncrementer = inventoryResult.traceIndicatorIncrementer;
     } else {
       error.code = 530;
       error.message = "Data invalid. Response data not available, incomplete or corrupted";
@@ -208,7 +208,7 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
      * Collect alarms data
      ****************************************************************************************/
     let alarmsResult = await ReadAlarmsData.readAlarmsData(mountName, requestHeaders, traceIndicatorIncrementer)
-      .catch(err => console.log(` ${err}`));
+      .catch(err => logger.error(` ${err}`));
     if (alarmsResult) {
       if (Object.keys(alarmsResult.alarms).length != 0) {
         if (alarmsResult.alarms) {
@@ -225,7 +225,7 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
 
   }
   catch (error) {
-    console.error(`readAirInterfaceData is not success with ${error}`);
+    logger.error(`readAirInterfaceData is not success with ${error}`);
   }
   finally{
     acceptanceDataOfLinkEndPoint = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(acceptanceDataOfLinkEndPoint);
