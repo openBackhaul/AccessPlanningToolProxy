@@ -1,9 +1,9 @@
-global.testPrivateFuntions = 1;
+global.testPrivateFunctions = 1;
 const { readVlanInterfaceData_private } = require('../ReadVlanInterfaceData');
 const IndividualServiceUtility = require('../IndividualServiceUtility');
 const LtpStructureUtility = require('../LtpStructureUtility');
 const a = require('../ReadVlanInterfaceData');
-global.testPrivateFuntions = 0;
+global.testPrivateFunctions = 0;
 
 jest.mock('../IndividualServiceUtility', () => ({
   getConsequentOperationClientAndFieldParams: jest.fn(),
