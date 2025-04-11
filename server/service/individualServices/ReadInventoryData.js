@@ -1055,9 +1055,22 @@ async function formulatePositionofModemBoard(equipmentHolderLabelResponse, equip
 
 
 
-if (global.testPrivateFuntions === 1)  {
+if (global.testPrivateFunctions === 1)  {
   module.exports.ReadInventoryData_Private= {
+    RequestForProvidingAcceptanceDataCausesReadingFirmwareList,
+    RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositionEquipmentUuid,
+    RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositionEquipmentCategory,
+    RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositionHolderLabel,
+    RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers,
+    getLtpDesignation,
+    FetchPluggedSfpPmdList,
+    getListOfPluggableSfpLtp,
+    getWireInterfaceNameForRetrievingSfpInformation,
+    getSupportedPmdListForRetrievingSfpInformation,
+    getCurrentlyOperatedPmdForRetrievingSfpInformation,
     FetchConnectorPluggingTheOutdoorUnit,
+    FetchConfiguredGroupOfAirInterfaces,
+    getServingPhysicLtpList,
     formulateEquipmentInfo,
     isEquipmentCategoryModem,
     isEquipmentCategoryRadio,

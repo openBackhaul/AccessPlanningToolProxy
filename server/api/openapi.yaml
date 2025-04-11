@@ -34619,9 +34619,7 @@ components:
             \ reset. Corresponds to the most recent performance measurement of the\
             \ device, which has been logged outside the MW SDN Domain"
       example:
-      - mount-name: "513250010"
-        time-stamp: 2024-02-12T10:55:00+01:00
-      - mount-name: "513250332"
+        mount-name: "513250332"
         time-stamp: 2025-03-11T12:55:00+01:00
     inline_response_202_1:
       required:
@@ -34842,10 +34840,6 @@ components:
         mount-name: "513250010"
         link-id: "513550010"
     inline_response_200_2:
-      required:
-      - device
-      - modem
-      - radio
       type: object
       properties:
         radio:

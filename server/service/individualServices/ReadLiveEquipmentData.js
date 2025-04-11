@@ -153,24 +153,8 @@ async function RequestForProvidingEquipmentForLivenetviewCausesDeterminingAirInt
 exports.RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache = async function (pathParams, requestHeaders, traceIndicatorIncrementer) {
   const forwardingName = "RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentUuid";
   const stringName = "RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentUuid";
-  let equipmentUuidList = {}; 
-  let newStructure = {
-    "radio": {
-      "equipment-name": "",
-      "serial-number": "",
-      "part-number": ""
-    },
-    "modem": {
-      "equipment-name": "",
-      "serial-number": "",
-      "part-number": ""
-    },
-    "device": {
-      "equipment-name": "",
-      "serial-number": "",
-      "part-number": ""
-    }
-  };
+  let newStructure = {};
+
   try {
 
     /****************************************************************************************************
@@ -199,14 +183,14 @@ exports.RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfo
       if (Object.keys(equipmentUuidListResponse).length === 0) {
         logger.error(`${forwardingName} is not success`);
       } else {
-        addToStructure(equipmentCategoryResponse, newStructure);
+        newStructure = addToStructure(equipmentCategoryResponse, newStructure);
       }
 
     }
   } catch (error) {
     logger.error(`${forwardingName} is not success with ${error}`);
   }
-  
+
   return newStructure;
 }
 
@@ -216,23 +200,27 @@ function addToStructure(data, structure) {
   const { "type-name": equipmentName, "part-type-identifier": partNumber } = data["manufactured-thing"]["equipment-type"];
   const { "serial-number": serialNumber } = data["manufactured-thing"]["equipment-instance"];
 
+  let retObject = {};
   if (category === "equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM") {
-    structure.modem = {
+    retObject = { ...structure, "modem": {
       "equipment-name": equipmentName,
       "serial-number": serialNumber,
       "part-number": partNumber,
-    };
+    }};
   } else if (category === "equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT") {
-    structure.radio = {
+    retObject = { ...structure, "radio": {
       "equipment-name": equipmentName,
       "serial-number": serialNumber,
       "part-number": partNumber,
-    };
+    }};
   } else if (category === "equipment-augment-1-0:EQUIPMENT_CATEGORY_FULL_OUTDOOR_UNIT") {
-    structure.device = {
+    retObject = { ...structure, "device": {
       "equipment-name": equipmentName,
       "serial-number": serialNumber,
       "part-number": partNumber,
-    };
+    }};
   }
+  
+  return retObject;
+
 }
