@@ -17,7 +17,7 @@ const eventDispatcher = require('./EventDispatcherWithResponse');
 const ReadInventoryData = require('./ReadInventoryData');
 const ReadAirInterfaceData = require('./ReadAirInterfaceData');
 const ReadVlanInterfaceData = require('./ReadVlanInterfaceData');
-const logger = require('./LoggingService').getLogger();
+const logger = require('../LoggingService').getLogger();
 
 /**
  * @description This function automates the forwarding construct by calling the appropriate call back operations based on the fcPort input and output directions.

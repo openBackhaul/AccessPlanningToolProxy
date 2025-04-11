@@ -9,7 +9,7 @@ const RequestHeader = require('onf-core-model-ap/applicationPattern/rest/client/
 const RestRequestBuilder = require('onf-core-model-ap/applicationPattern/rest/client/RequestBuilder');
 const ExecutionAndTraceService = require('onf-core-model-ap/applicationPattern/services/ExecutionAndTraceService');
 
-const logger = require('./LoggingService').getLogger();
+const logger = require('../LoggingService').getLogger();
 
 /**
  * This function formulates the request body based on the operation name and application 
