@@ -369,7 +369,7 @@ async function fetchServingEthernetContainerStatus(mountName, requestHeaders, tr
   return ethernetContainerStatusResponse;
 }
 
-if (global.testPrivateFuntions === 1)  {
+if (global.testPrivateFunctions === 1)  {
   module.exports.readVlanInterfaceData_private = {
     RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole,
     RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole,
