@@ -5,6 +5,7 @@ const ReadLtpStructure = require('../individualServices/ReadLtpStructure');
 const ReadLiveEquipmentData = require('../individualServices/ReadLiveEquipmentData');
 const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
 const IndividualServiceUtility = require('../individualServices/IndividualServiceUtility');
+const ReadAcceptanceData = require('../individualServices/ReadAcceptanceData');
 const LogicalTerminationPointC = require('../individualServices/custom/LogicalTerminationPointC');
 const fileOperation = require('onf-core-model-ap/applicationPattern/databaseDriver/JSONDriver');
 const createHttpError = require('http-errors');
@@ -23,25 +24,25 @@ const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfM
 const provideConfigurationForLiveNetView = require('../IndividualServicesService');
 
 const {provideHistoricalPmDataOfDevice} = require("../IndividualServicesService");
+const {provideAcceptanceDataOfLinkEndpoint} = require('../IndividualServicesService');
 const ReadHistoricalData = require("../individualServices/ReadHistoricalData");
 
 // Mocking dependencies used in the individual services
 jest.mock('../individualServices/ReadLtpStructure');
 jest.mock('../individualServices/ReadLiveEquipmentData');
+jest.mock('../individualServices/ReadAcceptanceData');
 jest.mock('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
 jest.mock('../individualServices/IndividualServiceUtility');
 jest.mock('onf-core-model-ap/applicationPattern/databaseDriver/JSONDriver');
 jest.mock('../individualServices/custom/LogicalTerminationPointC');
 jest.mock('../individualServices/ReadConfigurationAirInterfaceData');
 jest.mock('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
-
 jest.mock('../individualServices/ReadLiveAlarmsData');
 //=====================================================//
 jest.mock('../individualServices/ReadLiveStatusData');
 jest.mock("../individualServices/ReadHistoricalData");
-
-
 //=======================================================//
+
 describe('provideEquipmentInfoForLiveNetView', () => {
   afterEach(() => {
     // Clear all mock calls and instances after each test to prevent interference
@@ -253,8 +254,6 @@ describe('updateAptClient', () => {
   });
 });
 
-
-
 describe('checkRegisteredAvailabilityOfDevice', () => {
   let body;
 
@@ -363,7 +362,6 @@ describe('checkRegisteredAvailabilityOfDevice', () => {
     expect(global.counter).toBe(0);
   });
 });
-
 
 describe('provideConfigurationForLiveNetView', () => {
   let body, user, originator, xCorrelator, traceIndicator, customerJourney;
@@ -698,5 +696,83 @@ describe("provideHistoricalPmDataOfDevice", () => {
 
     await expect(provideHistoricalPmDataOfDevice(mockBody, ...Object.values(mockRequestHeaders)))
       .rejects.toThrow("Unexpected Error");
+  });
+});
+
+describe('provideAcceptanceDataOfLinkEndpoint', () => {
+  beforeEach(() => {
+    global.counterStatusAcceptanceDataOfLinkEndpointCall = 0;
+    jest.clearAllMocks();
+  });
+
+  it('should resolve with request-id on successful call', async () => {
+    const body = {
+      "mount-name": "testMount",
+      "link-id": "testLink"
+    };
+
+    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue({
+      uuid: "abc-op123"
+    });
+
+    IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(3);
+    IndividualServiceUtility.generateRequestId.mockResolvedValue("req-123");
+    ReadAcceptanceData.processAcceptanceDataRequest.mockResolvedValue();
+
+    const response = await provideAcceptanceDataOfLinkEndpoint(
+      body, "testUser", "origin", "xCorr", 1, "custJourney"
+    );
+
+    expect(response).toEqual({ "request-id": "req-123" });
+    expect(ReadAcceptanceData.processAcceptanceDataRequest).toHaveBeenCalledWith(
+      "testMount", "testLink", "req-123",
+      {
+        user: "testUser",
+        originator: "origin",
+        xCorrelator: "xCorr",
+        traceIndicator: 1,
+        customerJourney: "custJourney"
+      },
+      1
+    );
+  });
+
+  it('should reject if too many requests', async () => {
+    const body = {
+      "mount-name": "mountX",
+      "link-id": "linkY"
+    };
+
+    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue({
+      uuid: "prefix-op000"
+    });
+
+    IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(0); // Set max parallel ops to 0
+
+    await expect(
+      provideAcceptanceDataOfLinkEndpoint(body, "user", "origin", "x", 1, "journey")
+    ).rejects.toThrow("Too many requests");
+
+    expect(global.counterStatusAcceptanceDataOfLinkEndpointCall).toBe(0);
+  });
+
+  it('should reject if generateRequestId fails', async () => {
+    const body = {
+      "mount-name": "mountY",
+      "link-id": "linkZ"
+    };
+
+    forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue({
+      uuid: "some-op000"
+    });
+
+    IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(2);
+    IndividualServiceUtility.generateRequestId.mockRejectedValue(new Error("ID Error"));
+
+    await expect(
+      provideAcceptanceDataOfLinkEndpoint(body, "user", "origin", "x", 1, "journey")
+    ).rejects.toThrow("ID Error");
+
+    expect(global.counterStatusAcceptanceDataOfLinkEndpointCall).toBe(0);
   });
 });
