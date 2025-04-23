@@ -182,7 +182,13 @@ exports.RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfo
       if (Object.keys(equipmentUuidListResponse).length === 0) {
         console.log(`${forwardingName} is not success`);
       } else {
-        newStructure = addToStructure(equipmentCategoryResponse, newStructure);
+        let tmp_response = addToStructure(equipmentCategoryResponse, newStructure);
+        if (Object.keys(tmp_response).length > 0) {
+          newStructure = tmp_response;
+        } else {
+          console.log("Return empty structure from equipment")
+        }
+
       }
 
     }
