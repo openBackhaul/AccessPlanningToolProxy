@@ -2573,7 +2573,7 @@
               "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
               "operation-client-interface-1-0:operation-client-interface-pac": {
                 "operation-client-interface-configuration": {
-                  "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}",
+                  "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}",
                   "operation-key": "Operation key not yet provided."
                 },
                 "operation-client-interface-status": {
@@ -2598,7 +2598,7 @@
               "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
               "operation-client-interface-1-0:operation-client-interface-pac": {
                 "operation-client-interface-configuration": {
-                  "operation-name": "/core-model-1-4:network-control-domain=live/control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms",
+                  "operation-name": "/core-model-1-4:network-control-domain=live/control-construct={mountName}/alarms-1-0:alarm-pac/current-alarms",
                   "operation-key": "Operation key not yet provided."
                 },
                 "operation-client-interface-status": {
@@ -2623,7 +2623,7 @@
               "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
               "operation-client-interface-1-0:operation-client-interface-pac": {
                 "operation-client-interface-configuration": {
-                  "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}",
+                  "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment={uuid}",
                   "operation-key": "Operation key not yet provided."
                 },
                 "operation-client-interface-status": {
@@ -2648,7 +2648,7 @@
               "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
               "operation-client-interface-1-0:operation-client-interface-pac": {
                 "operation-client-interface-configuration": {
-                  "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/connector={local-id}",
+                  "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment={uuid}/connector={local-id}",
                   "operation-key": "Operation key not yet provided."
                 },
                 "operation-client-interface-status": {
@@ -2673,7 +2673,7 @@
               "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
               "operation-client-interface-1-0:operation-client-interface-pac": {
                 "operation-client-interface-configuration": {
-                  "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment",
+                  "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment={uuid}/actual-equipment",
                   "operation-key": "Operation key not yet provided."
                 },
                 "operation-client-interface-status": {
@@ -2698,7 +2698,7 @@
               "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
               "operation-client-interface-1-0:operation-client-interface-pac": {
                 "operation-client-interface-configuration": {
-                  "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/firmware-1-0:firmware-collection",
+                  "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/firmware-1-0:firmware-collection",
                   "operation-key": "Operation key not yet provided."
                 },
                 "operation-client-interface-status": {
@@ -2723,7 +2723,7 @@
               "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
               "operation-client-interface-1-0:operation-client-interface-pac": {
                 "operation-client-interface-configuration": {
-                  "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac",
+                  "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac",
                   "operation-key": "Operation key not yet provided."
                 },
                 "operation-client-interface-status": {
@@ -2748,7 +2748,7 @@
               "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
               "operation-client-interface-1-0:operation-client-interface-pac": {
                 "operation-client-interface-configuration": {
-                  "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability",
+                  "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability",
                   "operation-key": "Operation key not yet provided."
                 },
                 "operation-client-interface-status": {
@@ -2773,7 +2773,7 @@
               "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
               "operation-client-interface-1-0:operation-client-interface-pac": {
                 "operation-client-interface-configuration": {
-                  "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration",
+                  "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration",
                   "operation-key": "Operation key not yet provided."
                 },
                 "operation-client-interface-status": {
@@ -2823,7 +2823,7 @@
               "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
               "operation-client-interface-1-0:operation-client-interface-pac": {
                 "operation-client-interface-configuration": {
-                  "operation-name": "/core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status",
+                  "operation-name": "/core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status",
                   "operation-key": "Operation key not yet provided."
                 },
                 "operation-client-interface-status": {
@@ -2848,7 +2848,7 @@
               "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
               "operation-client-interface-1-0:operation-client-interface-pac": {
                 "operation-client-interface-configuration": {
-                  "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status",
+                  "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status",
                   "operation-key": "Operation key not yet provided."
                 },
                 "operation-client-interface-status": {
@@ -2898,7 +2898,7 @@
               "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
               "operation-client-interface-1-0:operation-client-interface-pac": {
                 "operation-client-interface-configuration": {
-                  "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration",
+                  "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration",
                   "operation-key": "Operation key not yet provided."
                 },
                 "operation-client-interface-status": {
@@ -2923,7 +2923,7 @@
               "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
               "operation-client-interface-1-0:operation-client-interface-pac": {
                 "operation-client-interface-configuration": {
-                  "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-capability",
+                  "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-capability",
                   "operation-key": "Operation key not yet provided."
                 },
                 "operation-client-interface-status": {
@@ -2948,7 +2948,7 @@
               "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
               "operation-client-interface-1-0:operation-client-interface-pac": {
                 "operation-client-interface-configuration": {
-                  "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status",
+                  "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status",
                   "operation-key": "Operation key not yet provided."
                 },
                 "operation-client-interface-status": {
