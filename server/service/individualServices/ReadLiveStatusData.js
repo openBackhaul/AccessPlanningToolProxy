@@ -88,7 +88,7 @@ exports.readStatusInterfaceData = async function (mountName, linkId, ltpStructur
         }
       }
     } else {
-      console.log(`Unable to fetch UuidUnderTest and LocalIdUnderTest for linkId ${linkId} and muntName ${mountName}`);
+      console.log(`Unable to fetch UuidUnderTest and LocalIdUnderTest for linkId ${linkId} and mountName ${mountName}`);
     }
 
     let airInterfaceResult = {
@@ -140,7 +140,7 @@ exports.RequestForProvidingStatusForLivenetviewCausesDeterminingAirInterfaceUuid
 
       /****************************************************************************************************
        * RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest
-       *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}
+       *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}
        *      /ltp-augment-1-0:ltp-augment-pac?fields=external-label
        *****************************************************************************************************/
 
@@ -183,7 +183,7 @@ exports.RequestForProvidingStatusForLivenetviewCausesReadingConfigurationFromCac
 
     /****************************************************************************************************
      * RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache
-     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}
      *    /logical-termination-point={uuid}/layer-protocol={local-id}
      *        /air-interface-2-0:air-interface-pac/air-interface-configuration
      *****************************************************************************************************/
@@ -221,7 +221,7 @@ exports.RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCach
 
     /****************************************************************************************************
      * RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache
-     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}
      *          /logical-termination-point={uuid}/layer-protocol={local-id}
      *        /air-interface-2-0:air-interface-pac/air-interface-capability
      *****************************************************************************************************/
@@ -259,7 +259,7 @@ exports.RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValue
 
     /****************************************************************************************************
      * RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive
-     *   MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}
+     *   MWDI://core-model-1-4:network-control-domain=live/control-construct={mountName}
      *        /logical-termination-point={uuid}/layer-protocol={local-id}
      *        /air-interface-2-0:air-interface-pac/air-interface-status
      *        ?fields=tx-level-cur;rx-level-cur;transmission-mode-cur;rx-frequency-cur;tx-frequency-cur

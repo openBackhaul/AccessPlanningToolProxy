@@ -20,7 +20,7 @@ exports.readLtpStructure = async function (mountName, requestHeaders, traceIndic
       pathParamList.push(mountName);
       /****************************************************************************************************
       * RequestForProvidingAcceptanceDataCausesReadingLtpStructure
-      *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+      *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}
       *      ?fields=logical-termination-point(uuid;server-ltp;client-ltp;layer-protocol(local-id;layer-protocol-name))
       *****************************************************************************************************/
       let ltpStructure = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParamList, requestHeaders, traceIndicatorIncrementer++);
