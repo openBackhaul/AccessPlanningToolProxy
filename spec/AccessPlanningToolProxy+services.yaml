@@ -284,45 +284,45 @@ clients:
           - operation-name: /v1/provide-list-of-connected-devices
             uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-010
 
-          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}
             uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-000
 
-          - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms
+          - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/alarms-1-0:alarm-pac/current-alarms
             uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-407
 
-          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}
+          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment={uuid}
             uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-110
-          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/connector={local-id}
+          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment={uuid}/connector={local-id}
             uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-111
-          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment
+          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment={uuid}/actual-equipment
             uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-114
 
-          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/firmware-1-0:firmware-collection
+          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/firmware-1-0:firmware-collection
             uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-120
 
-          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
+          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac
             uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-201
 
-          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
+          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
             uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-210
-          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
             uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-211
           - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-historical-performances
             uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-214
-          - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
+          - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
             uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-512
 
-          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status
+          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status
             uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-222
           - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances
             uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-224
 
-          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
+          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration
             uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-261
 
-          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
+          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-capability
             uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-270
-          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
+          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status
             uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-272
 
   - http-client:
