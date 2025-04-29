@@ -347,7 +347,7 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInte
 
       /****************************************************************************************************
        * RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInterfaces
-       *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}
+       *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}
        *      /ltp-augment-1-0:ltp-augment-pac?fields=external-label
        *****************************************************************************************************/
 
