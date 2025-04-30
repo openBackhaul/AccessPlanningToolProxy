@@ -66,7 +66,7 @@ async function RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarms
 
     /****************************************************************************************************
      * RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromLive
-     *   MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}
+     *   MWDI://core-model-1-4:network-control-domain=live/control-construct={mountName}
      *           /alarms-1-0:alarm-pac/current-alarms
      *****************************************************************************************************/
     pathParams.push(mountName);

@@ -260,7 +260,7 @@ async function RequestForProvidingAcceptanceDataCausesReadingFirmwareList(mountN
     /****************************************************************************************************
      * process required attributes from firmware-collection
      *   RequestForProvidingAcceptanceDataCausesReadingFirmwareList
-     *     MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/firmware-1-0:firmware-collection
+     *     MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}/firmware-1-0:firmware-collection
      *****************************************************************************************************/
     let response = await IndividualServiceUtility.forwardRequest(clientAndFieldParamsForFirmwareList, pathParamList, requestHeaders, traceIndicatorIncrementer++);
     if (Object.keys(response).length > 0) {
@@ -322,7 +322,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositio
 
     /********************************************************************************************************
      * RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentUuid
-     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}
      *    /logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment
      ******************************************************************************************************/
     let pathParams = [];
@@ -366,7 +366,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositio
 
     /****************************************************************************************************
      * RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory
-     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}
      *        /equipment={uuid}/actual-equipment?fields=structure(category)
      *****************************************************************************************************/
     for (let i = 0; i < equipmentUuidList.length; i++) {
@@ -420,7 +420,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositio
 
     /****************************************************************************************************
      * RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.HolderLabel
-     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}
      *     ?fields=equipment(contained-holder
      *         (occupying-fru;equipment-augment-1-0:holder-pac(vendor-label)))
      *****************************************************************************************************/
@@ -466,7 +466,7 @@ async function RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentId
 
     /****************************************************************************************************
      * RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers
-     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}
      *      /equipment={uuid}/actual-equipment
      *      ?fields=structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier)
      *            ;equipment-instance(serial-number))
@@ -609,7 +609,7 @@ async function getLtpDesignation(mountName, ltp, requestHeaders, traceIndicatorI
     pathParamList.push(mountName, uuid);
     /****************************************************************************************************
      * RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation
-     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}
+     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}
      *      /ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name;external-label
      *****************************************************************************************************/
     let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName);
@@ -725,7 +725,7 @@ async function getListOfPluggableSfpLtp(mountName, ltpStructure, requestHeaders,
       pathParamList.push(mountName, wireInterfaceUuid);
       /****************************************************************************************************
        * RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentUuid
-       *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+       *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}
        *    /logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment
        *****************************************************************************************************/
       let equipmentUuidResponse = await IndividualServiceUtility.forwardRequest(clientAndFieldParamsForEquipmentUuid, pathParamList, requestHeaders, traceIndicatorIncrementer++);
@@ -745,7 +745,7 @@ async function getListOfPluggableSfpLtp(mountName, ltpStructure, requestHeaders,
               pathParamList.push(mountName, equipmentUuid);
               /****************************************************************************************************
                * RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentCategory
-               *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+               *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}
                *    /equipment={uuid}/actual-equipment?fields=structure(category)
                *****************************************************************************************************/
               let equipmentCategoryResponse = await IndividualServiceUtility.forwardRequest(clientAndFieldParamsForEquipmentCategory, pathParamList, requestHeaders, traceIndicatorIncrementer++);
@@ -795,7 +795,7 @@ async function getWireInterfaceNameForRetrievingSfpInformation(mountName, wireIn
     pathParamList.push(mountName, wireInterfaceUuid);
     /****************************************************************************************************
      * RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.WireInterfaceName
-     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}
      *    /logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name
      *****************************************************************************************************/
     let response = await IndividualServiceUtility.forwardRequest(clientAndFieldParamsForWireInterfaceName, pathParamList, requestHeaders, traceIndicatorIncrementer++);
@@ -832,7 +832,7 @@ async function getSupportedPmdListForRetrievingSfpInformation(mountName, wireInt
     pathParamList.push(mountName, wireInterfaceUuid, wireInterfaceLocalId);
     /****************************************************************************************************
      * RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.SupportedPmds
-     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}
      *    /logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac
      *     /wire-interface-capability?fields=supported-pmd-kind-list(pmd-name)
      *****************************************************************************************************/
@@ -875,7 +875,7 @@ async function getCurrentlyOperatedPmdForRetrievingSfpInformation(mountName, wir
     pathParamList.push(mountName, wireInterfaceUuid, wireInterfaceLocalId);
     /****************************************************************************************************
      * RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.OperatedPmd
-     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}
      *    /logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac
      *     /wire-interface-status?fields=pmd-kind-cur
      *****************************************************************************************************/
@@ -914,7 +914,7 @@ async function FetchConnectorPluggingTheOutdoorUnit(mountName, uuidUnderTest, re
     pathParamList.push(mountName, uuidUnderTest);
     /****************************************************************************************************
      * RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorId
-     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+     *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}
      *    /logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment;connector
      *****************************************************************************************************/
     let connectorIdResponse = await IndividualServiceUtility.forwardRequest(clientAndFieldParamsForConnectorId, pathParamList, requestHeaders, traceIndicatorIncrementer++);
@@ -929,7 +929,7 @@ async function FetchConnectorPluggingTheOutdoorUnit(mountName, uuidUnderTest, re
           pathParamList.push(mountName, equipmentUuid, connector);
           /****************************************************************************************************
            * RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorNumber
-           *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+           *   MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}
            *    /equipment={uuid}/connector={local-id}?fields=equipment-augment-1-0:connector-pac(sequence-id)
            *****************************************************************************************************/
           let connectorNumberResponse = await IndividualServiceUtility.forwardRequest(clientAndFieldParamsForConnectorNumber, pathParamList, requestHeaders, traceIndicatorIncrementer++);

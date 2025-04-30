@@ -26,7 +26,7 @@ describe("RequestForProvidingAcceptanceDataCausesReadingFirmwareList", () => {
   it("should return installed firmware details when firmware data is available", async () => {
     IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValue({
       operationClientUuid: "aptp-1-1-0-op-c-is-mwdi-1-1-2-120",
-      operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/firmware-1-0:firmware-collection",
+      operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/firmware-1-0:firmware-collection",
       fields: "",
     });
 
@@ -1098,7 +1098,7 @@ describe("RequestForProvidingAcceptanceDataCausesReadingFirmwareList", () => {
   it("should return an empty installed firmware list when no firmware data is found", async () => {
     IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValue({
       operationClientUuid: "aptp-1-1-0-op-c-is-mwdi-1-1-2-120",
-      operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/firmware-1-0:firmware-collection",
+      operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/firmware-1-0:firmware-collection",
       fields: "",
     });
 
@@ -2322,7 +2322,7 @@ describe("FetchConfiguredGroupOfAirInterfaces", () => {
       };
       const consequentOperationClientAndFieldParams1={
         operationClientUuid: "aptp-1-1-0-op-c-is-mwdi-1-1-2-201",
-        operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac",
+        operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac",
         fields: "original-ltp-name%3Bexternal-label",
       };
       const ltpAugmentResponse1 ={
@@ -2333,7 +2333,7 @@ describe("FetchConfiguredGroupOfAirInterfaces", () => {
       };
       const consequentOperationClientAndFieldParams2 ={
         operationClientUuid: "aptp-1-1-0-op-c-is-mwdi-1-1-2-201",
-        operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac",
+        operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac",
         fields: "original-ltp-name%3Bexternal-label",
       };
       const ltpAugmentResponse2={
@@ -3134,7 +3134,7 @@ describe("getLtpDesignation", () => {
     
     const consequentOperationClientAndFieldParams={
         operationClientUuid: "aptp-1-1-0-op-c-is-mwdi-1-1-2-201",
-        operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac",
+        operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac",
         fields: "original-ltp-name%3Bexternal-label",
       };
     const ltpAugmentResponse={
@@ -4553,12 +4553,12 @@ describe("getListOfPluggableSfpLtp", () => {
       };
       const clientAndFieldParamsForEquipmentUuid1={
         operationClientUuid: "aptp-1-1-0-op-c-is-mwdi-1-1-2-201",
-        operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac",
+        operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac",
         fields: "equipment",
       };
       const clientAndFieldParamsForEquipmentCategory1={
         operationClientUuid: "aptp-1-1-0-op-c-is-mwdi-1-1-2-114",
-        operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment",
+        operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment={uuid}/actual-equipment",
         fields: "",
       };
       const wireInterfaceLtpList1=[
@@ -5381,7 +5381,7 @@ describe("getWireInterfaceNameForRetrievingSfpInformation", () => {
 
     IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValueOnce({
       operationClientUuid: "aptp-1-1-0-op-c-is-mwdi-1-1-2-201",
-      operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac",
+      operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac",
       fields: "original-ltp-name",
     });
     IndividualServiceUtility.forwardRequest.mockResolvedValueOnce(responseMock);
@@ -5402,7 +5402,7 @@ describe("getWireInterfaceNameForRetrievingSfpInformation", () => {
   it("should return an empty response if the API response is empty", async () => {
     IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValueOnce({
       operationClientUuid: "aptp-1-1-0-op-c-is-mwdi-1-1-2-201",
-      operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac",
+      operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac",
       fields: "original-ltp-name",
     });
     IndividualServiceUtility.forwardRequest.mockResolvedValueOnce({});
@@ -5465,7 +5465,7 @@ describe("getSupportedPmdListForRetrievingSfpInformation", () => {
 
     IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValueOnce({
   operationClientUuid: "aptp-1-1-0-op-c-is-mwdi-1-1-2-270",
-  operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-capability",
+  operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-capability",
   fields: "supported-pmd-kind-list%28pmd-name%29",
 });
     IndividualServiceUtility.forwardRequest.mockResolvedValueOnce(responseMock);
@@ -5572,7 +5572,7 @@ describe("getCurrentlyOperatedPmdForRetrievingSfpInformation", () => {
 
     IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValueOnce({
       operationClientUuid: "aptp-1-1-0-op-c-is-mwdi-1-1-2-272",
-      operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status",
+      operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status",
       fields: "pmd-kind-cur",
     });
     IndividualServiceUtility.forwardRequest.mockResolvedValueOnce(responseMock);
@@ -5680,12 +5680,12 @@ describe("FetchConnectorPluggingTheOutdoorUnit", () => {
     IndividualServiceUtility.getConsequentOperationClientAndFieldParams
       .mockResolvedValueOnce({
         operationClientUuid: "aptp-1-1-0-op-c-is-mwdi-1-1-2-201",
-        operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac",
+        operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac",
         fields: "equipment%3Bconnector",
       })
       .mockResolvedValueOnce({
         operationClientUuid: "aptp-1-1-0-op-c-is-mwdi-1-1-2-111",
-        operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/connector={local-id}",
+        operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment={uuid}/connector={local-id}",
         fields: "equipment-augment-1-0%3Aconnector-pac%28sequence-id%29",
       });
     IndividualServiceUtility.forwardRequest
@@ -5708,12 +5708,12 @@ describe("FetchConnectorPluggingTheOutdoorUnit", () => {
     IndividualServiceUtility.getConsequentOperationClientAndFieldParams
     .mockResolvedValueOnce({
       operationClientUuid: "aptp-1-1-0-op-c-is-mwdi-1-1-2-201",
-      operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac",
+      operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac",
       fields: "equipment%3Bconnector",
     })
     .mockResolvedValueOnce({
       operationClientUuid: "aptp-1-1-0-op-c-is-mwdi-1-1-2-111",
-      operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/connector={local-id}",
+      operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment={uuid}/connector={local-id}",
       fields: "equipment-augment-1-0%3Aconnector-pac%28sequence-id%29",
     });
     IndividualServiceUtility.forwardRequest.mockResolvedValueOnce({});
@@ -5783,12 +5783,12 @@ describe("FetchConnectorPluggingTheOutdoorUnit", () => {
     IndividualServiceUtility.getConsequentOperationClientAndFieldParams
       .mockResolvedValueOnce({
         operationClientUuid: "aptp-1-1-0-op-c-is-mwdi-1-1-2-201",
-        operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac",
+        operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac",
         fields: "equipment%3Bconnector",
       })
       .mockResolvedValueOnce({
         operationClientUuid: "aptp-1-1-0-op-c-is-mwdi-1-1-2-111",
-        operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/connector={local-id}",
+        operationName: "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment={uuid}/connector={local-id}",
         fields: "equipment-augment-1-0%3Aconnector-pac%28sequence-id%29",
       });
     IndividualServiceUtility.forwardRequest.mockResolvedValueOnce(connectorIdResponseMock);

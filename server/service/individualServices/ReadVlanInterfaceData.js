@@ -105,7 +105,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole(
         /****************************************************************************************************
           * process OriginalLtpName for each wire_interface
           *   RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.OriginalLtpName
-          *     MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+          *     MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}
           *       /logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name
           *****************************************************************************************************/
         let firstLayerToReachEthernetContainer = [PURE_ETHERNET_STRUCTURE.MODULE + PURE_ETHERNET_STRUCTURE.LAYER_PROTOCOL_NAME];
@@ -126,7 +126,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole(
         /****************************************************************************************************
           * process VlanInterfaceKind for each wire_interface
           *   RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.VlanInterfaceKind
-          *     MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+          *     MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}
           *       /logical-termination-point={uuid}/layer-protocol={local-id}
           *         /vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration?fields=interface-kind
           *****************************************************************************************************/
@@ -146,7 +146,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole(
         /****************************************************************************************************
           * process EthernetContainerStatus for each wire_interface
           *   RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.EthernetContainerStatus
-          *     MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+          *     MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}
           *       /logical-termination-point={uuid}/layer-protocol={local-id}
           *         /ethernet-container-2-0:ethernet-container-pac/ethernet-container-status?fields=interface-status
           *****************************************************************************************************/
@@ -210,7 +210,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole(
         /****************************************************************************************************
           * process OriginalLtpName for each air_interface
           *   RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.OriginalLtpName
-          *     MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+          *     MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}
           *       /logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name
           *****************************************************************************************************/
         let firstLayerToReachEthernetContainer = [PURE_ETHERNET_STRUCTURE.MODULE + PURE_ETHERNET_STRUCTURE.LAYER_PROTOCOL_NAME, HYBRID_MW_STRUCTURE.MODULE + HYBRID_MW_STRUCTURE.LAYER_PROTOCOL_NAME];
@@ -230,7 +230,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole(
         /****************************************************************************************************
           * process VlanInterfaceKind for each air_interface
           *   RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.VlanInterfaceKind
-          *     MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+          *     MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}
           *       /logical-termination-point={uuid}/layer-protocol={local-id}
           *         /vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration?fields=interface-kind
           *****************************************************************************************************/
@@ -249,7 +249,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole(
         /****************************************************************************************************
         * process EthernetContainerStatus for each air_interface
         *   RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.EthernetContainerStatus
-        *     MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}
+        *     MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}
         *       /logical-termination-point={uuid}/layer-protocol={local-id}
         *         /ethernet-container-2-0:ethernet-container-pac/ethernet-container-status?fields=interface-status
         *****************************************************************************************************/
