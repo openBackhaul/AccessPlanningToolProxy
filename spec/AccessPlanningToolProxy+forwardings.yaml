@@ -451,7 +451,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}?fields=logical-termination-point(uuid;server-ltp;client-ltp;layer-protocol(local-id;layer-protocol-name))
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}?fields=logical-termination-point(uuid;server-ltp;client-ltp;layer-protocol(local-id;layer-protocol-name))
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-000
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest
@@ -466,7 +466,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=external-label
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=external-label
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-201
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache
@@ -481,7 +481,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-210
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache
@@ -496,7 +496,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-211
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive
@@ -511,7 +511,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status?fields=tx-level-cur;rx-level-cur;transmission-mode-cur;rx-frequency-cur;tx-frequency-cur;xpd-cur;snir-cur
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status?fields=tx-level-cur;rx-level-cur;transmission-mode-cur;rx-frequency-cur;tx-frequency-cur;xpd-cur;snir-cur
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-512
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesAnalysingTheAggregation
@@ -526,7 +526,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name;external-label
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name;external-label
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-201
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive
@@ -541,7 +541,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=live/control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=live/control-construct={mountName}/alarms-1-0:alarm-pac/current-alarms
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-407
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.OriginalLtpName
@@ -556,7 +556,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-201
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.VlanInterfaceKind
@@ -571,7 +571,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration?fields=interface-kind
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration?fields=interface-kind
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-261
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole.EthernetContainerStatus
@@ -586,7 +586,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status?fields=interface-status
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status?fields=interface-status
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-222
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.OriginalLtpName
@@ -601,7 +601,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-201
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.VlanInterfaceKind
@@ -616,7 +616,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration?fields=interface-kind
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={local-id}/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration?fields=interface-kind
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-261
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole.EthernetContainerStatus
@@ -631,7 +631,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status?fields=interface-status
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={local-id}/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status?fields=interface-status
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-222
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentUuid
@@ -646,7 +646,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-201
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentInfo
@@ -661,7 +661,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment?fields=structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier);equipment-instance(serial-number))
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment={uuid}/actual-equipment?fields=structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier);equipment-instance(serial-number))
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-114
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.WireInterfaceName
@@ -676,7 +676,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=original-ltp-name
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-201
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.SupportedPmds
@@ -691,7 +691,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-capability?fields=supported-pmd-kind-list(pmd-name)
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-capability?fields=supported-pmd-kind-list(pmd-name)
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-270
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.OperatedPmd
@@ -706,7 +706,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status?fields=pmd-kind-cur
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={local-id}/wire-interface-2-0:wire-interface-pac/wire-interface-status?fields=pmd-kind-cur
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-272
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentUuid
@@ -721,7 +721,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-201
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory
@@ -736,7 +736,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment?fields=structure(category)
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment={uuid}/actual-equipment?fields=structure(category)
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-114
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.HolderLabel
@@ -751,7 +751,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}?fields=equipment(contained-holder(occupying-fru;equipment-augment-1-0:holder-pac(vendor-label)))
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}?fields=equipment(contained-holder(occupying-fru;equipment-augment-1-0:holder-pac(vendor-label)))
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-000
 
 
@@ -767,7 +767,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment;connector
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment;connector
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-201
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorNumber
@@ -782,7 +782,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/connector={local-id}?fields=equipment-augment-1-0:connector-pac(sequence-id)
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment={uuid}/connector={local-id}?fields=equipment-augment-1-0:connector-pac(sequence-id)
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-111
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers
@@ -797,7 +797,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment?fields=structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier);equipment-instance(serial-number))
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment={uuid}/actual-equipment?fields=structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier);equipment-instance(serial-number))
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-114
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesReadingFirmwareList
@@ -812,7 +812,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/firmware-1-0:firmware-collection
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/firmware-1-0:firmware-collection
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-120
 
 
@@ -828,7 +828,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-201
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.EquipmentCategory
@@ -843,7 +843,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment?fields=structure(category)
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment={uuid}/actual-equipment?fields=structure(category)
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-114
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.HolderLabel
@@ -858,7 +858,7 @@ forwardings:
       - server-name: /v1/provide-acceptance-data-of-link-endpoint
         uuid: aptp-1-1-0-op-s-is-000
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}?fields=equipment(contained-holder(occupying-fru;equipment-augment-1-0:holder-pac(vendor-label)))
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}?fields=equipment(contained-holder(occupying-fru;equipment-augment-1-0:holder-pac(vendor-label)))
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-000
 
   - forwarding-name: RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData
@@ -1008,7 +1008,7 @@ forwardings:
       - server-name: /v1/provide-configuration-for-livenetview
         uuid: aptp-1-1-0-op-s-is-007
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}?fields=logical-termination-point(uuid;layer-protocol(local-id;layer-protocol-name))
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}?fields=logical-termination-point(uuid;layer-protocol(local-id;layer-protocol-name))
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-000
 
   - forwarding-name: RequestForProvidingConfigurationForLivenetviewCausesDeterminingAirInterfaceUnderTest
@@ -1023,7 +1023,7 @@ forwardings:
       - server-name: /v1/provide-configuration-for-livenetview
         uuid: aptp-1-1-0-op-s-is-007
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=external-label
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=external-label
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-201
 
   - forwarding-name: RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache
@@ -1038,7 +1038,7 @@ forwardings:
       - server-name: /v1/provide-configuration-for-livenetview
         uuid: aptp-1-1-0-op-s-is-007
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-211
 
   - forwarding-name: RequestForProvidingConfigurationForLivenetviewCausesReadingCapabilitiesFromCache
@@ -1053,7 +1053,7 @@ forwardings:
       - server-name: /v1/provide-configuration-for-livenetview
         uuid: aptp-1-1-0-op-s-is-007
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-210
 
 
@@ -1069,7 +1069,7 @@ forwardings:
       - server-name: /v1/provide-equipment-info-for-livenetview
         uuid: aptp-1-1-0-op-s-is-008
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}?fields=logical-termination-point(uuid;layer-protocol(local-id;layer-protocol-name))
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}?fields=logical-termination-point(uuid;layer-protocol(local-id;layer-protocol-name))
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-000
 
   - forwarding-name: RequestForProvidingEquipmentInfoForLivenetviewCausesDeterminingAirInterfaceUnderTest
@@ -1084,7 +1084,7 @@ forwardings:
       - server-name: /v1/provide-equipment-info-for-livenetview
         uuid: aptp-1-1-0-op-s-is-008
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=external-label
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=external-label
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-201
 
   - forwarding-name: RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentUuid
@@ -1099,7 +1099,7 @@ forwardings:
       - server-name: /v1/provide-equipment-info-for-livenetview
         uuid: aptp-1-1-0-op-s-is-008
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}\n/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}\n/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-201
 
   - forwarding-name: RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo
@@ -1114,7 +1114,7 @@ forwardings:
       - server-name: /v1/provide-equipment-info-for-livenetview
         uuid: aptp-1-1-0-op-s-is-008
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment?fields=structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier);equipment-instance(serial-number))
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment={uuid}/actual-equipment?fields=structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier);equipment-instance(serial-number))
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-114
 
   - forwarding-name: RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromLive
@@ -1129,7 +1129,7 @@ forwardings:
       - server-name: /v1/provide-alarms-for-livenetview
         uuid: aptp-1-1-0-op-s-is-009
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=live/control-construct={mount-name}/alarms-1-0:alarm-pac/current-alarms
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=live/control-construct={mountName}/alarms-1-0:alarm-pac/current-alarms
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-407
 
   - forwarding-name: RequestForProvidingStatusForLivenetviewCausesReadingLtpStructure
@@ -1144,7 +1144,7 @@ forwardings:
       - server-name: /v1/provide-status-for-livenetview
         uuid: aptp-1-1-0-op-s-is-010
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}?fields=logical-termination-point(uuid;layer-protocol(local-id;layer-protocol-name))
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}?fields=logical-termination-point(uuid;layer-protocol(local-id;layer-protocol-name))
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-000
 
   - forwarding-name: RequestForProvidingStatusForLivenetviewCausesDeterminingAirInterfaceUnderTest
@@ -1159,7 +1159,7 @@ forwardings:
       - server-name: /v1/provide-status-for-livenetview
         uuid: aptp-1-1-0-op-s-is-010
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=external-label
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=external-label
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-201
 
   - forwarding-name: RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive
@@ -1173,7 +1173,7 @@ forwardings:
     initiating-requests:
       - server-name: /v1/provide-status-for-livenetview
         uuid: aptp-1-1-0-op-s-is-010
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status?fields=tx-level-cur;rx-level-cur;transmission-mode-cur;rx-frequency-cur;tx-frequency-cur
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status?fields=tx-level-cur;rx-level-cur;transmission-mode-cur;rx-frequency-cur;tx-frequency-cur
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-512
 
   - forwarding-name: RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache
@@ -1187,5 +1187,5 @@ forwardings:
     initiating-requests:
       - server-name: /v1/provide-status-for-livenetview
         uuid: aptp-1-1-0-op-s-is-010
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-capability
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-210
