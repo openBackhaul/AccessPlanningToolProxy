@@ -474,7 +474,7 @@ exports.updateAptClient = function(body) {
     try {
         let future_release_number = body["future-release-number"];
         let future_apt_protocol = body["future-apt-protocol"] ==="HTTP"  ? "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP" : "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTPS";
-        let future_apt_address = body["future-apt-address"];
+        let future_apt_address = body["future-apt-address"]["ip-address"]["ipv-4-address"];
         let future_apt_tcp_port = body["future-apt-tcp-port"];
         let future_acceptance_data_receive_operation = body["future-acceptance-data-receive-operation"];
         let future_performance_data_receive_operation = body["future-performance-data-receive-operation"];

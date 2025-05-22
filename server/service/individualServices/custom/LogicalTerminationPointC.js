@@ -137,7 +137,7 @@ class LogicalTerminationPointC extends LogicalTerminationPoint {
      **/
     static async setLayerProtolRemoteAddressLtpAsync(ltpUuid, remoteAddress) {
         let isUpdated = false;
-        let layerProtolPath = onfPaths.TCP_CLIENT_ADDRESS.replace("{uuid}", ltpUuid);
+        let layerProtolPath = onfPaths.TCP_CLIENT_REMOTE_ADDRESS.replace("{uuid}", ltpUuid);
         //await fileOperation.deletefromDatabaseAsync(layerProtolPath);
         
         isUpdated = await fileOperation.writeToDatabaseAsync(
