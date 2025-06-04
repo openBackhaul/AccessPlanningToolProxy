@@ -464,15 +464,15 @@ paths:
                 if-port-identifier: 'Slot 1/5.2'
                 connector-plugging-the-outdoor-unit: 1
               alarms:
-                  current-alarms:
-                    number-of-current-alarms: 2
-                    current-alarm-list:
-                      - alarm-type-id: 'alarms-ext-ericsson-mltn:ALARM_TYPE_ID_LOF'
-                        alarm-type-qualifier: ''
-                        alarm-severity: 'alarms-1-0:SEVERITY_TYPE_CRITICAL'
-                      - alarm-type-id: 'alarms-ext-ericsson-mltn:ALARM_TYPE_ID_ETHERNET_DOWN'
-                        alarm-type-qualifier: ''
-                        alarm-severity: 'alarms-1-0:SEVERITY_TYPE_CRITICAL'
+                current-alarms:
+                  number-of-current-alarms: 2
+                  current-alarm-list:
+                    - alarm-type-id: 'alarms-ext-ericsson-mltn:ALARM_TYPE_ID_LOF'
+                      alarm-type-qualifier: ''
+                      alarm-severity: 'alarms-1-0:SEVERITY_TYPE_CRITICAL'
+                    - alarm-type-id: 'alarms-ext-ericsson-mltn:ALARM_TYPE_ID_ETHERNET_DOWN'
+                      alarm-type-qualifier: ''
+                      alarm-severity: 'alarms-1-0:SEVERITY_TYPE_CRITICAL'
       responses:
         '204':
           description: 'Acceptance data of link endpoint received'
@@ -514,7 +514,7 @@ paths:
                                 description: 'Identifier of the microwave link endpoint as used in the Telefonica planning tools'
                               link-id:
                                 type: string
-                                description: 'Identifier of the microwave link as used in the Telefonica planning tools.To be obtained by extracting the substring constituted by the 9 first characters'                            
+                                description: 'Identifier of the microwave link as used in the Telefonica planning tools.To be obtained by extracting the substring constituted by the 9 first characters'
                               logical-termination-point-id:
                                 type: string
                                 description: 'Identifier of the microwave link endpoint within the MW SDN domain'
@@ -1693,7 +1693,7 @@ paths:
                                   description: 'Identifier of the microwave link endpoint as used in the Telefonica planning tools'
                                 link-id:
                                   type: string
-                                  description: 'Identifier of the microwave link as used in the Telefonica planning tools.To be obtained by extracting the substring constituted by the 9 first characters'                            
+                                  description: 'Identifier of the microwave link as used in the Telefonica planning tools.To be obtained by extracting the substring constituted by the 9 first characters'
                                 logical-termination-point-id:
                                   type: string
                                   description: 'Identifier of the microwave link endpoint within the MW SDN domain'
@@ -2847,7 +2847,7 @@ paths:
                                     description: 'Identifier of the microwave link endpoint as used in the Telefonica planning tools'
                                   link-id:
                                     type: string
-                                    description: 'Identifier of the microwave link as used in the Telefonica planning tools.To be obtained by extracting the substring constituted by the 9 first characters'                            
+                                    description: 'Identifier of the microwave link as used in the Telefonica planning tools.To be obtained by extracting the substring constituted by the 9 first characters'
                                   logical-termination-point-id:
                                     type: string
                                     description: 'Identifier of the microwave link endpoint within the MW SDN domain'
@@ -3577,3 +3577,4 @@ components:
           format: int32
         message:
           type: string
+          
