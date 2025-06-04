@@ -1697,7 +1697,7 @@
             "http-server-interface-1-0:http-server-interface-pac": {
               "http-server-interface-capability": {
                 "application-name": "AccessPlanningToolProxy",
-                "release-number": "1.1.0",
+                "release-number": "1.1.1",
                 "application-purpose": "Makes data and info from the MW SDN Domain available to the external AccessPlanningTool",
                 "data-update-period": "http-server-interface-1-0:DATA_UPDATE_PERIOD_TYPE_MANUAL",
                 "owner-name": "Ana Cabello Barrera",
@@ -1713,6 +1713,12 @@
                     "local-id": "1",
                     "release-number": "1.1.0",
                     "release-date": "23.08.2024",
+                    "changes": "Performance Data, Asynchron services, LiveNetView, ConnectionStatus, AptClientUpDate"
+                  },
+                  {
+                    "local-id": "2",
+                    "release-number": "1.1.1",
+                    "release-date": "04.06.2025",
                     "changes": "Performance Data, Asynchron services, LiveNetView, ConnectionStatus, AptClientUpDate"
                   }
                 ]
