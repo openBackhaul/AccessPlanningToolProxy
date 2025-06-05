@@ -1,0 +1,21 @@
+{
+  "name": "alap-receiverapplication",
+  "version": "1.0.0",
+  "description": "Application to store asynchronous data sent by AccessPlanningToolProxy",
+  "main": "index.js",
+  "scripts": {
+    "prestart": "npm install",
+    "start": "node index.js"
+  },
+  "keywords": [
+    "swagger"
+  ],
+  "license": "Unlicense",
+  "private": true,
+  "dependencies": {
+    "connect": "^3.2.0",
+    "http-errors": "^2.0.0",
+    "js-yaml": "^3.3.0",
+    "oas3-tools": "^2.2.3"
+  }
+}
