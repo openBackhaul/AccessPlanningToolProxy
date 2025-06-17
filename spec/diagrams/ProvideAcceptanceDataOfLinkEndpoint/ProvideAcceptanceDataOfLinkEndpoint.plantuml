@@ -30,10 +30,15 @@ Number of requests to be executed in parallel shall not exceed the value stated 
 <b>profile=APTP-1-0-1-integer-p-000</b>
 <b>IntegerProfilePac::IntegerProfileConfiguration:integerValue</b>
 end note
+note over APTP
+The request shall be only accepted in the requested mountName is found in the
+internal list of connected devices. If the device is not found in the list,
+error response with code '460'  to be sent to the requestor. 
+end note
 
 activate APTP
 
-APTP --> LinkVis: {requestId}
+APTP --> LinkVis: '202':{requestId}
 
 
 MwdiCapa --> APTP: {entire AirInterfaceCapabilities from cache}
