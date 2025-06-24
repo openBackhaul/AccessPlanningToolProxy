@@ -128,6 +128,11 @@ exports.provideAcceptanceDataOfLinkEndpoint = function (body, user, originator, 
       if (counterStatusAcceptanceDataOfLinkEndpointCall > maxNumberOfParallelOperations) {
         throw new createHttpError.TooManyRequests("Too many requests");
       }
+
+      if (undefined == global.connectedDeviceList["mount-name-list"] || !(global.connectedDeviceList["mount-name-list"].includes(mountName))) {
+        throw new createHttpError(460, "Not connected. Requested device is currently not in connected state at the controller");
+      }
+
       let request_id =  await IndividualServiceUtility.generateRequestId(mountName,linkId);
       let response = {
         'request-id': request_id
