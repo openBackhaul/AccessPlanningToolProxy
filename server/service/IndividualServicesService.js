@@ -1,21 +1,26 @@
 'use strict';
 
-const ReadLtpStructure = require('./individualServices/ReadLtpStructure');
-const ReadLiveAlarmsData = require('./individualServices/ReadLiveAlarmsData');
-const ReadLiveEquipmentData = require('./individualServices/ReadLiveEquipmentData');
-const ReadLiveStatusData = require('./individualServices/ReadLiveStatusData');
-const ReadConfigurationAirInterfaceData = require('./individualServices/ReadConfigurationAirInterfaceData');
-const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
-const createHttpError = require('http-errors');
-const IndividualServiceUtility = require('./individualServices/IndividualServiceUtility');
-const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
-const ReadHistoricalData = require('./individualServices/ReadHistoricalData');
-const softwareUpgrade = require('./individualServices/SoftwareUpgrade');
-const HttpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
-const LogicalTerminationPointC = require('./individualServices/custom/LogicalTerminationPointC');
+// const onfPaths = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfPaths');
 const fileOperation = require('onf-core-model-ap/applicationPattern/databaseDriver/JSONDriver');
-const onfPaths = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfPaths');
+const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
+const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
+const HttpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
+
+const createHttpError = require('http-errors');
+
+const softwareUpgrade = require('./individualServices/SoftwareUpgrade');
+const ReadLtpStructure = require('./individualServices/ReadLtpStructure');
 const ReadAcceptanceData = require('./individualServices/ReadAcceptanceData');
+const ReadHistoricalData = require('./individualServices/ReadHistoricalData');
+const ReadLiveAlarmsData = require('./individualServices/ReadLiveAlarmsData');
+const ReadLiveStatusData = require('./individualServices/ReadLiveStatusData');
+const ReadLiveEquipmentData = require('./individualServices/ReadLiveEquipmentData');
+const IndividualServiceUtility = require('./individualServices/IndividualServiceUtility');
+const ReadConfigurationAirInterfaceData = require('./individualServices/ReadConfigurationAirInterfaceData');
+const LogicalTerminationPointC = require('./individualServices/custom/LogicalTerminationPointC');
+
+const logger = require('./LoggingService').getLogger();
+
 /**
  * Initiates process of embedding a new release
  *
@@ -49,14 +54,16 @@ exports.bequeathYourDataAndDie = async function (body, user, originator, xCorrel
  **/
 exports.checkRegisteredAvailabilityOfDevice = function (body) {
   return new Promise(async function (resolve, reject) {
-    var result = {};
+    let result = {};
     try {
       const forwardingName = "RequestForProvidingConfigurationForLivenetviewCausesReadingLtpStructure";
       const forwardingConstruct = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
       let prefix = forwardingConstruct.uuid.split('op')[0];
       let maxNumberOfParallelOperations = await IndividualServiceUtility.extractProfileConfiguration(prefix + "integer-p-002");
       counter = counter + 1;
+
       if (counter > maxNumberOfParallelOperations) {
+        logger.warn(`Request rejected due to many request in parallel: ${counter} > ${maxNumberOfParallelOperations}`);
         throw new createHttpError.TooManyRequests("Too many requests");
       }
       let mountName = body['mount-name'];
@@ -66,6 +73,8 @@ exports.checkRegisteredAvailabilityOfDevice = function (body) {
           "device-is-available": true
         };
       } else {
+        logger.warn(`Mountname ${mountName} seems not in the list of connected devices`);
+        logger.debug(global.connectedDeviceList["mount-name-list"]);
         result['application/json'] = {
           "device-is-available": false
         };
@@ -73,12 +82,15 @@ exports.checkRegisteredAvailabilityOfDevice = function (body) {
 
       resolve(Object.values(result)[0]);
     } catch (error) {
-
+      logger.error(error);
       reject(error);
       resolve(error);
     } finally {
       if (counter > 0) {
+        logger.trace(`Decreasing counter from: ${counter}`);
         counter = counter - 1;
+      } else {
+        logger.trace("Counter is already to 0");
       }
       
     }
@@ -143,6 +155,7 @@ exports.provideAcceptanceDataOfLinkEndpoint = function (body, user, originator, 
 
     } catch (error) {
       console.log(error);
+      logger.error(error);
       counterStatusAcceptanceDataOfLinkEndpointCall--;
       reject(error);
     }
