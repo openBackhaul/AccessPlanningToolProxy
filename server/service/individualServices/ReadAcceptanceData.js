@@ -1,23 +1,24 @@
 'use strict';
-
 /**
  * @file This module provides functionality to gather the air-interface data for given mount-name and linkId. 
  * @module ReadHistoricalData
  **/
 
-const ReadAirInterfaceData = require('./ReadAirInterfaceData');
-const ReadVlanInterfaceData = require('./ReadVlanInterfaceData');
-const ReadInventoryData = require('./ReadInventoryData');
-const ReadAlarmsData = require('./ReadAlarmsData');
-
-const createHttpError = require('http-errors');
-const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
-const ReadLtpStructure = require('./ReadLtpStructure');
-const eventDispatcher = require('./EventDispatcherWithResponse');
-const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
 const FcPort = require('onf-core-model-ap/applicationPattern/onfModel/models/FcPort');
+const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
+const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
 const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
 
+const createHttpError = require('http-errors');
+
+const ReadAlarmsData = require('./ReadAlarmsData');
+const ReadLtpStructure = require('./ReadLtpStructure');
+const ReadInventoryData = require('./ReadInventoryData');
+const ReadAirInterfaceData = require('./ReadAirInterfaceData');
+const ReadVlanInterfaceData = require('./ReadVlanInterfaceData');
+const eventDispatcher = require('./EventDispatcherWithResponse');
+
+const logger = require('../LoggingService').getLogger();
 
 /**
  * @description This function automates the forwarding construct by calling the appropriate call back operations based on the fcPort input and output directions.
@@ -104,18 +105,22 @@ exports.RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData
   }
 
 }
-exports.processAcceptanceDataRequest = async function (mountName, linkId, request_id, requestHeaders, traceIndicatorIncrementer) {
 
+exports.processAcceptanceDataRequest = async function (mountName, linkId, request_id, requestHeaders, traceIndicatorIncrementer) {
   let acceptanceDataOfLinkEndPoint = {};
   try {
     acceptanceDataOfLinkEndPoint = await exports.executeAcceptanceDataRequest(mountName, linkId, requestHeaders, traceIndicatorIncrementer);
     await exports.RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData(
       request_id, requestHeaders, acceptanceDataOfLinkEndPoint, traceIndicatorIncrementer);
+    logger.info(`Execute successfully req_id: ${request_id} for mount-name: ${mountName}`);
+    logger.trace(requestHeaders);
   }
   catch (error) {
+    logger.error(error, "readAirInterfaceData is not success");
     console.error(`readAirInterfaceData is not success with ${error}`);
   }
   finally {
+    logger.trace(`Decreasing counterStatusAcceptanceDataOfLinkEndpointCall: ${global.counterStatusAcceptanceDataOfLinkEndpointCall}`);
     global.counterStatusAcceptanceDataOfLinkEndpointCall--;
   }
 

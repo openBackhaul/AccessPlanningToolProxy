@@ -138,21 +138,24 @@ exports.provideAcceptanceDataOfLinkEndpoint = function (body, user, originator, 
       let maxNumberOfParallelOperations = await IndividualServiceUtility.extractProfileConfiguration(prefix + "integer-p-000");
       counterStatusAcceptanceDataOfLinkEndpointCall = counterStatusAcceptanceDataOfLinkEndpointCall + 1;
       if (counterStatusAcceptanceDataOfLinkEndpointCall > maxNumberOfParallelOperations) {
+        logger.warn(`Too Many requests: Counter status ${counterStatusAcceptanceDataOfLinkEndpointCall} > Max Parallel Ops${maxNumberOfParallelOperations}`)
         throw new createHttpError.TooManyRequests("Too many requests");
       }
 
       if (undefined == global.connectedDeviceList["mount-name-list"] || !(global.connectedDeviceList["mount-name-list"].includes(mountName))) {
+        logger.error(`Mount-name (${mountName}) not found, Throwing 460 eurror`);
         throw new createHttpError(460, "Not connected. Requested device is currently not in connected state at the controller");
       }
 
-      let request_id =  await IndividualServiceUtility.generateRequestId(mountName,linkId);
+      // Generating Request id:
+      let request_id = await IndividualServiceUtility.generateRequestId(mountName,linkId);
+      logger.trace(`Request id: ${request_id}`);
       let response = {
         'request-id': request_id
       };
-      
-      ReadAcceptanceData.processAcceptanceDataRequest(mountName,linkId,request_id,requestHeaders,traceIndicatorIncrementer);
-      resolve(response);
 
+      ReadAcceptanceData.processAcceptanceDataRequest(mountName, linkId, request_id, requestHeaders, traceIndicatorIncrementer);
+      resolve(response);
     } catch (error) {
       console.log(error);
       logger.error(error);
