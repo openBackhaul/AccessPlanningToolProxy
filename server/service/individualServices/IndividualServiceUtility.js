@@ -15,7 +15,7 @@ const fileSystem = require('fs');
 const AsyncLock = require('async-lock');
 const lock = new AsyncLock();
 
-// const logger = require('./LoggingService').getLogger();
+const logger = require('../LoggingService').getLogger();
   
 /**
  * This function fetches the string value from the string profile based on the expected string name.
@@ -43,6 +43,7 @@ exports.getStringProfileInstanceValue = async function (expectedStringName) {
 
   } catch (error) {
     console.log(`getStringProfileInstanceValue is not success with ${error}`);
+    logger.error(error, "getStringProfileInstanceValue is not success");
     return new createHttpError.InternalServerError(`${error}`);  
   }
 }
@@ -76,8 +77,9 @@ exports.getQueryAndPathParameter = async function (operationName, pathParamList,
     return params;
 
   } catch (error) {
-    console.log(`getQueryAndPathParameter is not success with ${error}`);
-    return new createHttpError.InternalServerError(`${error}`);    }
+    logger.error(error, "getQueryAndPathParameter is not success");
+    return new createHttpError.InternalServerError(`${error}`);
+  }
 }
 
 
@@ -97,6 +99,7 @@ exports.getConsequentOperationClientAndFieldParams = async function(forwardingCo
     consequentOperationClientAndFieldParams.fields = await IndividualServiceUtility.getStringProfileInstanceValue(stringName);
   } catch(error) {
     console.log(`getConsequentOperationClientAndFieldParams is not success with ${error}`);
+    logger.error(error, "getConsequentOperationClientAndFieldParams is not success");
     return new createHttpError.InternalServerError(`${error}`);
   }
   return consequentOperationClientAndFieldParams;
@@ -128,6 +131,7 @@ exports.forwardRequest = async function (operationClientAndFieldParams, pathPara
     return responseData;
   } catch (error) {
     console.log(`forwardRequest is not success with ${error}`);
+    logger.error(error, "forwardRequest is not success");
     return new createHttpError.InternalServerError(`${error}`);
   }
 }
@@ -149,7 +153,10 @@ exports.resetCompleteFile = async function (coreModelJsonObject) {
   let controlConstructPath = onfPaths.CONTROL_CONSTRUCT;
   let resultDel = await fileOperation.deletefromDatabaseAsync(controlConstructPath);
   if (!resultDel) {
+    logger.info("Delete CC succeffully");
     return resultDel;
+  } else {
+    logger.warn("Delete CC doesn't succeed");
   }
    
   return await lock.acquire(global.databasePath, async () => {
@@ -168,7 +175,7 @@ exports.resetCompleteFile = async function (coreModelJsonObject) {
       fileSystem.writeFileSync(global.databasePath, JSON.stringify(coreModelJsonObject));
       return true;
     } catch (error) {
-      console.log('write failed:', error)
+      logger.error(error, "Write to file failed");
       return false;
     }
   }
