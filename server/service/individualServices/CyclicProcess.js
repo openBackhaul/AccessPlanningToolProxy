@@ -13,7 +13,7 @@ const httpClientInterface = require('onf-core-model-ap/applicationPattern/onfMod
 const axios = require('axios');
 
 const LogicalTerminationPointC = require('./custom/LogicalTerminationPointC');
-const logger = require('./LoggingService').getLogger();
+const logger = require('../LoggingService').getLogger();
 
 var procedureIsRunning = false;
 var cyclicTimerId = 0;
