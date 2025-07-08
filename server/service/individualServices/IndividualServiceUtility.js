@@ -14,6 +14,8 @@ const createHttpError = require('http-errors');
 const fileSystem = require('fs');
 const AsyncLock = require('async-lock');
 const lock = new AsyncLock();
+
+// const logger = require('./LoggingService').getLogger();
   
 /**
  * This function fetches the string value from the string profile based on the expected string name.
@@ -131,8 +133,7 @@ exports.forwardRequest = async function (operationClientAndFieldParams, pathPara
 }
 
 exports.extractProfileConfiguration = async function (uuid) {
-  const profileCollection = require('onf-core-model-ap/applicationPattern/onfModel/models/ProfileCollection');
-  let profile = await profileCollection.getProfileAsync(uuid);
+  let profile = await ProfileCollection.getProfileAsync(uuid);
   let objectKey = Object.keys(profile)[2];
   profile = profile[objectKey];
   return profile["integer-profile-configuration"]["integer-value"];
@@ -145,32 +146,32 @@ exports.extractProfileConfiguration = async function (uuid) {
  * @returns {Boolean} return true if the value is updated, otherwise returns false
  **/
 exports.resetCompleteFile = async function (coreModelJsonObject) { 
-   let controlConstructPath = onfPaths.CONTROL_CONSTRUCT;
-   let resultDel = await fileOperation.deletefromDatabaseAsync(controlConstructPath);
-   if(!resultDel) {
+  let controlConstructPath = onfPaths.CONTROL_CONSTRUCT;
+  let resultDel = await fileOperation.deletefromDatabaseAsync(controlConstructPath);
+  if (!resultDel) {
     return resultDel;
-   }
-    return await lock.acquire(global.databasePath, async () => {
+  }
+   
+  return await lock.acquire(global.databasePath, async () => {
     let result = writeToFile(coreModelJsonObject);
     return result;
-});
-        
+  });
 
-/** 
- * Write to the filesystem.<br>
- * @param {JSON} coreModelJsonObject json object that needs to be updated
- * @returns {Boolean} return true if the value is updated, otherwise returns false
- **/
-function writeToFile(coreModelJsonObject) {
-  try {
+
+  /** 
+   * Write to the filesystem.<br>
+   * @param {JSON} coreModelJsonObject json object that needs to be updated
+   * @returns {Boolean} return true if the value is updated, otherwise returns false
+   **/
+  function writeToFile(coreModelJsonObject) {
+    try {
       fileSystem.writeFileSync(global.databasePath, JSON.stringify(coreModelJsonObject));
       return true;
-  } catch (error) {
+    } catch (error) {
       console.log('write failed:', error)
       return false;
+    }
   }
-}
-
 }
 
 exports.generateRequestIdForHistoricalPMDataAPI = async function () {

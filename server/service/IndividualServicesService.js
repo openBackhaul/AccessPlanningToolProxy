@@ -87,10 +87,10 @@ exports.checkRegisteredAvailabilityOfDevice = function (body) {
       resolve(error);
     } finally {
       if (counter > 0) {
-        logger.trace(`Decreasing counter from: ${counter}`);
+        logger.trace(`checkRegisteredAvailabilityOfDevice - Decreasing counter from: ${counter}`);
         counter = counter - 1;
       } else {
-        logger.trace("Counter is already to 0");
+        logger.trace("checkRegisteredAvailabilityOfDevice - Counter is already to 0");
       }
       
     }
@@ -138,12 +138,12 @@ exports.provideAcceptanceDataOfLinkEndpoint = function (body, user, originator, 
       let maxNumberOfParallelOperations = await IndividualServiceUtility.extractProfileConfiguration(prefix + "integer-p-000");
       counterStatusAcceptanceDataOfLinkEndpointCall = counterStatusAcceptanceDataOfLinkEndpointCall + 1;
       if (counterStatusAcceptanceDataOfLinkEndpointCall > maxNumberOfParallelOperations) {
-        logger.warn(`Too Many requests: Counter status ${counterStatusAcceptanceDataOfLinkEndpointCall} > Max Parallel Ops${maxNumberOfParallelOperations}`)
+        logger.warn(`Too Many requests: Counter status ${counterStatusAcceptanceDataOfLinkEndpointCall} > Max Parallel Ops: ${maxNumberOfParallelOperations}`)
         throw new createHttpError.TooManyRequests("Too many requests");
       }
 
       if (undefined == global.connectedDeviceList["mount-name-list"] || !(global.connectedDeviceList["mount-name-list"].includes(mountName))) {
-        logger.error(`Mount-name (${mountName}) not found, Throwing 460 eurror`);
+        logger.error(`Mount-name (${mountName}) not found, Throwing 460 error`);
         throw new createHttpError(460, "Not connected. Requested device is currently not in connected state at the controller");
       }
 
@@ -183,6 +183,7 @@ exports.provideAlarmsForLiveNetView = function (body, user, originator, xCorrela
       let maxNumberOfParallelOperations = await IndividualServiceUtility.extractProfileConfiguration(prefix + "integer-p-005");
       counterAlarms = counterAlarms + 1;
       if (counterAlarms > maxNumberOfParallelOperations) {
+        logger.warn(`provideAlarmsForLiveNetView - Too many requests, Counter: ${counterAlarms} > ${maxNumberOfParallelOperations}`);
         throw new createHttpError.TooManyRequests("Too many requests");
       }
 
@@ -211,9 +212,11 @@ exports.provideAlarmsForLiveNetView = function (body, user, originator, xCorrela
       }
     }
     catch (error) {
+      logger.error(error);
       reject(error);
     }
     finally {
+      logger.debug(`provideAlarmsForLiveNetView - Decreasing counter Alarm request from: ${counterAlarms}`);
       counterAlarms--;
     }
   });
