@@ -68,7 +68,8 @@ exports.checkRegisteredAvailabilityOfDevice = function (body) {
       }
       let mountName = body['mount-name'];
       
-       if (undefined != global.connectedDeviceList["mount-name-list"] && global.connectedDeviceList["mount-name-list"].includes(mountName)) {
+      if (undefined != global.connectedDeviceList["mount-name-list"] && global.connectedDeviceList["mount-name-list"].includes(mountName)) {
+        logger.debug(`checkRegisteredAvailabilityOfDevice - Mountname ${mountName} is in the list of Connected devices`);
         result['application/json'] = {
           "device-is-available": true
         };
@@ -156,6 +157,7 @@ exports.provideAcceptanceDataOfLinkEndpoint = function (body, user, originator, 
         'request-id': request_id
       };
 
+      logger.info(`provideAcceptanceDataOfLinkEndpoint - Processing Acceptance Data for MountNAme ${mountName} LinkId ${linkId}`);
       ReadAcceptanceData.processAcceptanceDataRequest(mountName, linkId, request_id, requestHeaders, traceIndicatorIncrementer);
       resolve(response);
     } catch (error) {
@@ -200,6 +202,7 @@ exports.provideAlarmsForLiveNetView = function (body, user, originator, xCorrela
         customerJourney: customerJourney
       };
 
+      logger.info(`provideAlarmsForLiveNetView - Reading Alarms data for MountName ${mountName}`);
       let alarmsResult = await ReadLiveAlarmsData.readLiveAlarmsData(mountName, requestHeaders, traceIndicatorIncrementer)
         .catch(err => console.log(` ${err}`));
 
@@ -208,10 +211,14 @@ exports.provideAlarmsForLiveNetView = function (body, user, originator, xCorrela
           if (alarmsResult.alarms) {
             alarmsResult = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(alarmsResult);
             resolve(alarmsResult.alarms);
+          } else {
+            logger.warn("provideAlarmsForLiveNetView - No Alarms seems received");
           }
+        } else {
+          logger.warn("provideAlarmsForLiveNetView - No Alarms seems received");
         }
       } else {
-        logger.warn("No Alarms seems received");
+        logger.warn("provideAlarmsForLiveNetView - No Alarms seems received");
         resolve();
       }
     }
@@ -264,10 +271,12 @@ exports.provideEquipmentInfoForLiveNetView = function (body, user, originator, x
        ****************************************************************************************/
       let ltpStructure = {};
       try {
+        logger.info(`provideEquipmentInfoForLiveNetView - Reading LTP Structure for MountName ${mountName}`);
         let ltpStructureResult = await ReadLtpStructure.readLtpStructure(mountName, requestHeaders, traceIndicatorIncrementer)
         ltpStructure = ltpStructureResult.ltpStructure;
         traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
       } catch (err) {
+        logger.error(err, `Throwing Internal Server Error`);
         throw new createHttpError.InternalServerError(`${err}`)
       };
 
@@ -275,17 +284,20 @@ exports.provideEquipmentInfoForLiveNetView = function (body, user, originator, x
       /****************************************************************************************
        * Collect equipment data
        ****************************************************************************************/
+      logger.info(`provideEquipmentInfoForLiveNetView - Reading Live Equipment Data for MountName ${mountName} LinkId ${linkId}`);
       let equipmentResult = await ReadLiveEquipmentData.readLiveEquipmentData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer)
         .catch(err => console.log(` ${err}`));
 
       if (equipmentResult == undefined) {
+        logger.error(`provideEquipmentInfoForLiveNetView - Equipment hasn't be found for MountName ${mountName} LinkId ${linkId}, Throwing HTTP error`);
         throw new createHttpError.NotFound("Empty Equiment not found");
       } else {
+        logger.debug(`provideEquipmentInfoForLiveNetView - Equipment has been found from Live Equipment Data for MountName ${mountName} LinkId ${linkId}`);
         resolve(equipmentResult);
       }
 
     } catch (error) {
-      console.log(error)
+      logger.error(error);
       reject(error);
     }
 
@@ -323,6 +335,7 @@ exports.provideHistoricalPmDataOfDevice = function (body, user, originator, xCor
         throw new createHttpError.TooManyRequests("Too many requests");
       }
 
+      logger.debug(`provideHistoricalPmDataOfDevice - Generating Request ID`);
       let request_id =  await IndividualServiceUtility.generateRequestIdForHistoricalPMDataAPI();
       /****************************************************************************************
        * Loop through each request in the body array
@@ -331,7 +344,8 @@ exports.provideHistoricalPmDataOfDevice = function (body, user, originator, xCor
         'request-id': request_id
       };
       //setImmediate(() => ReadHistoricalData.processHistoricalDataRequest(body,request_id,requestHeaders,traceIndicatorIncrementer));
-      ReadHistoricalData.processHistoricalDataRequest(body,request_id,requestHeaders,traceIndicatorIncrementer);
+      logger.info(`provideHistoricalPmDataOfDevice - Process Historical Data Request with Request ID ${request_id}`);
+      ReadHistoricalData.processHistoricalDataRequest(body, request_id, requestHeaders, traceIndicatorIncrementer);
       resolve(response);
       
     } catch (error) {
@@ -355,9 +369,11 @@ exports.provideStatusForLiveNetView = function (body, user, originator, xCorrela
       const forwardingName = "RequestForProvidingConfigurationForLivenetviewCausesReadingLtpStructure";
       const forwardingConstruct = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
       let prefix = forwardingConstruct.uuid.split('op')[0];
+      logger.debug("provideStatusForLiveNetView - Extract Profile configuration");
       let maxNumberOfParallelOperations = await IndividualServiceUtility.extractProfileConfiguration(prefix + "integer-p-006");
       counterStatus = counterStatus + 1;
       if (counterStatus > maxNumberOfParallelOperations) {
+        logger.warn(`provideStatusForLiveNetView - Too many requests - CounterStatus ${counterStatus} > ${maxNumberOfParallelOperations}`);
         throw new createHttpError.TooManyRequests("Too many requests");
       }
 
@@ -385,10 +401,12 @@ exports.provideStatusForLiveNetView = function (body, user, originator, xCorrela
        ****************************************************************************************/
       let ltpStructure = {};
       try {
+        logger.info(`provideStatusForLiveNetView - Read LTP Structure for MountName ${mountName}`);
         let ltpStructureResult = await ReadLtpStructure.readLtpStructure(mountName, requestHeaders, traceIndicatorIncrementer)
         ltpStructure = ltpStructureResult.ltpStructure;
         traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
       } catch (err) {
+        logger.error(err, "Throwing Internal Server Error");
         throw new createHttpError.InternalServerError(`${err}`)
       };
 
@@ -396,6 +414,7 @@ exports.provideStatusForLiveNetView = function (body, user, originator, xCorrela
       /****************************************************************************************
        * Collect status data
        ****************************************************************************************/
+      logger.info(`provideStatusForLiveNetView - Read Status Interface data for MountName ${mountName} and LinkId ${linkId}`);
       let statusResult = await ReadLiveStatusData.readStatusInterfaceData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer)
         .catch(err => console.log(` ${err}`));
 
@@ -412,6 +431,7 @@ exports.provideStatusForLiveNetView = function (body, user, originator, xCorrela
 
       // let acceptanecstatusForLiveNetView = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(statusForLiveNetView.airInterface);
       if (statusForLiveNetView.airInterface == undefined) {
+        logger.error(`Empty Equiment not found for MountName ${mountName}`);
         throw new createHttpError.NotFound("Empty Equiment not found");
       } else {
         resolve(statusForLiveNetView.airInterface);
@@ -420,6 +440,7 @@ exports.provideStatusForLiveNetView = function (body, user, originator, xCorrela
       console.log(error)
       reject(error);
     } finally {
+      logger.info("Decreasing CounterStatus")
       counterStatus--;
     }
 

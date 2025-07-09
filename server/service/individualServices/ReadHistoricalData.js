@@ -132,85 +132,93 @@ exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = asy
   }
 
 }
-exports.processHistoricalDataRequest = async function(body,request_id,requestHeaders,traceIndicatorIncrementer) {
-  
-  try{
-      let historicalPmDataOfDevice = {
-        "air-interface-list": [],
-        "ethernet-container-list": [],
-        "mount-name-list-with-errors":[]
+exports.processHistoricalDataRequest = async function(body,request_id, requestHeaders, traceIndicatorIncrementer) {
+
+  try {
+    let historicalPmDataOfDevice = {
+      "air-interface-list": [],
+      "ethernet-container-list": [],
+      "mount-name-list-with-errors":[]
+    };
+
+    let mountNameWithError = [];
+
+    for (let i=0; i<body.length; i++) {
+      let mountName = body[i]["mount-name"]; 
+      let timeStamp = body[i]["time-stamp"];
+      let mountWithError = {
+        "mount-name":mountName,
+        "code":"",
+        "message":""
       };
 
-      let mountNameWithError = [];
+      if (undefined === global.connectedDeviceList["mount-name-list"] || !global.connectedDeviceList["mount-name-list"].includes(mountName)) {
+        logger.warn(`processHistoricalDataRequest - MountName ${mountName} isn't in the list reporting 460 error`);
+        mountWithError["code"] = 460;
+        mountWithError["message"] = "Not connected. Requested device is currently not in connected state at the controller";
+        mountNameWithError.push(mountWithError);
+        continue;
+      } 
 
-      for(let i=0; i<body.length; i++){
+      /****************************************************************************************
+       * Collect complete ltp structure of mount-name in request bodys
+       ****************************************************************************************/
+      let ltpStructure = {};
+      try {
+        logger.info(`processHistoricalDataRequest - Reading LTP Structure for MountName ${mountName}`);
+        let ltpStructureResult = await ReadLtpStructure.readLtpStructure(mountName, requestHeaders, traceIndicatorIncrementer)
+        ltpStructure = ltpStructureResult.ltpStructure;
+        traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
+      } catch (err) {
+        mountWithError["code"] = 500;
+        mountWithError["message"] = "Internal server error";
+        mountNameWithError.push(mountWithError);
+        logger.warn(`processHistoricalDataRequest - ${mountWithError.message} - Error Code: ${mountWithError.code}`);
+        continue;
+      };
 
-          let mountName = body[i]["mount-name"]; 
-          let timeStamp = body[i]["time-stamp"];
-          let mountWithError = {
-            "mount-name":mountName,
-            "code":"",
-            "message":""
-          };
+      /****************************************************************************************
+       * Collect history data
+       ****************************************************************************************/
+      logger.info(`processHistoricalDataRequest - Reading Historical data for MountName ${mountName} and TimeStamp ${timeStamp}`);
+      let historicalDataResult = await exports.readHistoricalData(mountName, timeStamp, ltpStructure, requestHeaders, traceIndicatorIncrementer)
+        .catch(err => console.log(` ${err}`));
 
-          if (undefined === global.connectedDeviceList["mount-name-list"] || !global.connectedDeviceList["mount-name-list"].includes(mountName)) {
-            mountWithError["code"] = 460;
-            mountWithError["message"] = "Not connected. Requested device is currently not in connected state at the controller";
-            mountNameWithError.push(mountWithError);
-            continue;
-          } 
-
-          /****************************************************************************************
-           * Collect complete ltp structure of mount-name in request bodys
-           ****************************************************************************************/
-          let ltpStructure = {};
-          try {
-            let ltpStructureResult = await ReadLtpStructure.readLtpStructure(mountName, requestHeaders, traceIndicatorIncrementer)
-            ltpStructure = ltpStructureResult.ltpStructure;
-            traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
-          } catch (err) {
-            mountWithError["code"] = 500;
-            mountWithError["message"] = "Internal server error";
-            mountNameWithError.push(mountWithError);
-            continue;
-          };
-          
-          /****************************************************************************************
-           * Collect history data
-           ****************************************************************************************/
-          
-          let historicalDataResult = await exports.readHistoricalData(mountName, timeStamp, ltpStructure, requestHeaders, traceIndicatorIncrementer)
-            .catch(err => console.log(` ${err}`));
-
-            let dataPresent = false;
-              if(historicalDataResult["air-interface-list"].length > 0){
-                historicalPmDataOfDevice["air-interface-list"].push(...historicalDataResult["air-interface-list"]);
-                dataPresent = true;
-              }
-              if(historicalDataResult["ethernet-container-list"].length > 0){
-                historicalPmDataOfDevice["ethernet-container-list"].push(...historicalDataResult["ethernet-container-list"]);
-                dataPresent = true;
-              }
-            
-            if(!dataPresent){
-              mountWithError["code"] = 500;
-              mountWithError["message"] = "Internal server error";
-              mountNameWithError.push(mountWithError);
-            }
+      let dataPresent = false;
+      
+      if (historicalDataResult["air-interface-list"].length > 0) {
+        historicalPmDataOfDevice["air-interface-list"].push(...historicalDataResult["air-interface-list"]);
+        dataPresent = true;
       }
-      historicalPmDataOfDevice["mount-name-list-with-errors"] = mountNameWithError;
-
-     await exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData(
-        request_id, requestHeaders,historicalPmDataOfDevice,traceIndicatorIncrementer); 
+      
+      if (historicalDataResult["ethernet-container-list"].length > 0) {
+        historicalPmDataOfDevice["ethernet-container-list"].push(...historicalDataResult["ethernet-container-list"]);
+        dataPresent = true;
       }
-      catch (error) {
-        console.error(`readAirInterfaceData is not success with ${error}`);
+        
+      if (!dataPresent) {
+        mountWithError["code"] = 500;
+        mountWithError["message"] = "Internal server error";
+        mountNameWithError.push(mountWithError);
       }
-      finally {
-      global.counterStatusHistoricalPMDataCall--;
     }
 
-
+    historicalPmDataOfDevice["mount-name-list-with-errors"] = mountNameWithError;
+    
+    logger.info(`processHistoricalDataRequest - Delivering Historical PM Data for Request Id ${request_id}`);
+    await exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData(
+      request_id, requestHeaders, historicalPmDataOfDevice, traceIndicatorIncrementer); 
+    } catch (error) {
+      logger.error(error, `Delivering Historcal PM data fauls`);
+    } finally {
+      if (global.counterStatusHistoricalPMDataCall > 0) {
+        logger.debug(`counterStatusHistoricalPMDataCall ${counterStatusHistoricalPMDataCall} --> decreasing`);
+        global.counterStatusHistoricalPMDataCall--;
+      } else {
+        logger.debug("counterStatusHistoricalPMDataCall is already to 0, not needed to decrement");
+      }
+      
+    }
 }
 
 

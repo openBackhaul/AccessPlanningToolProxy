@@ -27,6 +27,7 @@ exports.readLiveAlarmsData = async function (mountName, requestHeaders, traceInd
   try {
 
     let alarms = {};
+    logger.info(`readLiveAlarmsData - Retrieving Alarms from Live for MountName: ${mountName}`);
     let alarmsFromLiveResponse = await RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromLive(mountName, requestHeaders, traceIndicatorIncrementer);
 
     if (Object.keys(alarmsFromLiveResponse).length !== 0) {
