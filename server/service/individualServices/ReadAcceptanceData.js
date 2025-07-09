@@ -128,12 +128,12 @@ exports.processAcceptanceDataRequest = async function (mountName, linkId, reques
 
 
 exports.executeAcceptanceDataRequest = async function (mountName, linkId, requestHeaders, traceIndicatorIncrementer) {
-
   let acceptanceDataOfLinkEndPoint = {};
   let error = {};
   try {
     let ltpStructure = {};
     try {
+      logger.info(`executeAcceptanceDataRequest - Reading LTP Structure for Mountname ${mountName} and linkid: ${linkId}`);
       let ltpStructureResult = await ReadLtpStructure.readLtpStructure(mountName, requestHeaders, traceIndicatorIncrementer)
       ltpStructure = ltpStructureResult.ltpStructure;
       traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
@@ -141,6 +141,7 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
       error.code = 502;
       error.message = "Bad Gateway. The upstream server (MicrowveDeviceInventory) is unavailable";
       acceptanceDataOfLinkEndPoint.error = error;
+      logger.error(err, `executeAcceptanceDataRequest - ${error.message} - Code: ${error.message}`);
       throw new createHttpError.InternalServerError(`${err}`);
     };
 
@@ -148,6 +149,7 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
     /****************************************************************************************
      * Collect air-interface data
      ****************************************************************************************/
+    logger.info(`Reading Air Interface data for Mountname ${mountName} and linkid: ${linkId}`);
     let airInterfaceResult = await ReadAirInterfaceData.readAirInterfaceData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer)
       .catch(err => console.log(` ${err}`));
 
@@ -159,27 +161,32 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
         error.code = 470;
         error.message = "The requested ressource does not exist within the referenced device";
         acceptanceDataOfLinkEndPoint.error = error;
-        throw new createHttpError.InternalServerError(`${err}`);
+        logger.error(`executeAcceptanceDataRequest - ${error.message} - Code: ${error.message}`);
+        throw new createHttpError.InternalServerError(`${error}`);
       }
       if (Object.keys(airInterfaceResult.airInterface).length != 0) {
         acceptanceDataOfLinkEndPoint.airInterface = airInterfaceResult.airInterface;
+      } else {
+        logger.warn(`executeAcceptanceDataRequest - Airinterface seems empty for MountName ${mountName} and linkid ${linkId}`);
       }
       traceIndicatorIncrementer = airInterfaceResult.traceIndicatorIncrementer;
     }
     else {
       error.code = 530;
-      error.message = "Data invalid. Response data not available, incomplete or corrupted";
+      error.message = "Air Inteface Data invalid. Response data not available, incomplete or corrupted";
       acceptanceDataOfLinkEndPoint.error = error;
-      throw new createHttpError.InternalServerError(`${err}`);
+      logger.error(`executeAcceptanceDataRequest - ${error.message} - Code: ${error.message}`);
+      throw new createHttpError.InternalServerError(`${error}`);
     }
 
     /****************************************************************************************
      * Collect vlan-interface data
      ****************************************************************************************/
+    logger.info(`Reading VLAN Interface data for Mountname ${mountName}`);
     let vlanInterfaceResult = await ReadVlanInterfaceData.readVlanInterfaceData(mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer)
       .catch(err => console.log(` ${err}`));
 
-    if(vlanInterfaceResult && vlanInterfaceResult.vlanInterface) {
+    if (vlanInterfaceResult && vlanInterfaceResult.vlanInterface) {
 
       if (Object.keys(vlanInterfaceResult.vlanInterface).length != 0) {
         acceptanceDataOfLinkEndPoint.vlanInterface = vlanInterfaceResult.vlanInterface;
@@ -188,30 +195,34 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
     }
     else {
       error.code = 530;
-      error.message = "Data invalid. Response data not available, incomplete or corrupted";
+      error.message = "VLAN Data invalid. Response data not available, incomplete or corrupted";
       acceptanceDataOfLinkEndPoint.error = error;
-      throw new createHttpError.InternalServerError(`${err}`);
+      logger.error(`executeAcceptanceDataRequest - ${error.message} - Code: ${error.message}`);
+      throw new createHttpError.InternalServerError(`${error}`);
     }
     /****************************************************************************************
      * Collect inventory data
      ****************************************************************************************/
+    logger.info(`Reading Inventory data for Mountname ${mountName} and UUID ${uuidUnderTest}`);
     let inventoryResult = await ReadInventoryData.readInventoryData(mountName, ltpStructure, uuidUnderTest, requestHeaders, traceIndicatorIncrementer)
       .catch(err => console.log(` ${err}`));
 
-    if(inventoryResult && inventoryResult.inventory) {
-    if (Object.keys(inventoryResult.inventory).length != 0) {
-      acceptanceDataOfLinkEndPoint.inventory = inventoryResult.inventory;
-    }
-    traceIndicatorIncrementer = inventoryResult.traceIndicatorIncrementer;
+    if (inventoryResult && inventoryResult.inventory) {
+      if (Object.keys(inventoryResult.inventory).length != 0) {
+        acceptanceDataOfLinkEndPoint.inventory = inventoryResult.inventory;
+      }
+      traceIndicatorIncrementer = inventoryResult.traceIndicatorIncrementer;
     } else {
       error.code = 530;
-      error.message = "Data invalid. Response data not available, incomplete or corrupted";
+      error.message = "Inventory Data invalid. Response data not available, incomplete or corrupted";
       acceptanceDataOfLinkEndPoint.error = error;
-      throw new createHttpError.InternalServerError(`${err}`);
+      logger.error(`executeAcceptanceDataRequest - ${error.message} - Code: ${error.message}`);
+      throw new createHttpError.InternalServerError(`${error}`);
     }
     /****************************************************************************************
      * Collect alarms data
      ****************************************************************************************/
+    logger.info(`Reading Alarms data for Mountname ${mountName}`);
     let alarmsResult = await ReadAlarmsData.readAlarmsData(mountName, requestHeaders, traceIndicatorIncrementer)
       .catch(err => console.log(` ${err}`));
     if (alarmsResult) {
@@ -223,16 +234,17 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
       traceIndicatorIncrementer = alarmsResult.traceIndicatorIncrementer;
     } else {
       error.code = 530;
-      error.message = "Data invalid. Response data not available, incomplete or corrupted";
+      error.message = "Alarms Data invalid. Response data not available, incomplete or corrupted";
       acceptanceDataOfLinkEndPoint.error = error;
+      logger.error(`executeAcceptanceDataRequest - ${error.message} - Code: ${error.message}`);
       throw new createHttpError.InternalServerError(`${err}`);
     }
-
   }
   catch (error) {
-    console.error(`readAirInterfaceData is not success with ${error}`);
+    logger.error(error, `readAirInterfaceData is not success`);
   }
   finally{
+    logger.debug(`Formatting acceptanceDataOfLinkEndPoint: ${acceptanceDataOfLinkEndPoint}`);
     acceptanceDataOfLinkEndPoint = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(acceptanceDataOfLinkEndPoint);
     return acceptanceDataOfLinkEndPoint;
   }

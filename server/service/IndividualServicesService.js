@@ -143,8 +143,10 @@ exports.provideAcceptanceDataOfLinkEndpoint = function (body, user, originator, 
       }
 
       if (undefined == global.connectedDeviceList["mount-name-list"] || !(global.connectedDeviceList["mount-name-list"].includes(mountName))) {
-        logger.error(`Mount-name (${mountName}) not found, Throwing 460 error`);
+        logger.error(`provideAcceptanceDataOfLinkEndpoint - MountName (${mountName}) not found, Throwing 460 error`);
         throw new createHttpError(460, "Not connected. Requested device is currently not in connected state at the controller");
+      } else {
+        logger.info(`provideAcceptanceDataOfLinkEndpoint - MountName: ${mountName} is in the list, continue generating the request`);
       }
 
       // Generating Request id:
