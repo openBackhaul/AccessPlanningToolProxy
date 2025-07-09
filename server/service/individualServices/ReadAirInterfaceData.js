@@ -304,8 +304,8 @@ async function formulateAirInterfaceResponseBody(airInterfaceEndPointName, airIn
     if (airInterfaceConfiguration.hasOwnProperty("tx-power")) airInterface["configured-tx-power"] = airInterfaceConfiguration["tx-power"];
     if (airInterfaceStatus.hasOwnProperty("tx-level-cur")) airInterface["current-tx-power"] = airInterfaceStatus["tx-level-cur"];
     if (airInterfaceStatus.hasOwnProperty("rx-level-cur")) airInterface["current-rx-level"] = airInterfaceStatus["rx-level-cur"];
-    if (airInterfaceConfiguration.hasOwnProperty("tx-frequency")) airInterface["configured-tx-frequency"] = airInterfaceConfiguration["tx-frequency"];
-    if (airInterfaceConfiguration.hasOwnProperty("rx-frequency")) airInterface["configured-rx-frequency"] = airInterfaceConfiguration["rx-frequency"];
+    if (airInterfaceStatus.hasOwnProperty("tx-frequency-cur")) airInterface["current-tx-frequency"] = airInterfaceStatus["tx-frequency-cur"];
+    if (airInterfaceStatus.hasOwnProperty("rx-frequency-cur")) airInterface["current-rx-frequency"] = airInterfaceStatus["rx-frequency-cur"];
     if (airInterfaceConfiguration.hasOwnProperty("transmitted-radio-signal-id")) airInterface["configured-transmitted-radio-signal-id"] = airInterfaceConfiguration["transmitted-radio-signal-id"];
     if (airInterfaceConfiguration.hasOwnProperty("expected-radio-signal-id")) airInterface["configured-expected-radio-signal-id"] = airInterfaceConfiguration["expected-radio-signal-id"];
     if (airInterfaceConfiguration.hasOwnProperty("atpc-is-on")) airInterface["configured-atpc-is-on"] = airInterfaceConfiguration["atpc-is-on"];
@@ -317,6 +317,9 @@ async function formulateAirInterfaceResponseBody(airInterfaceEndPointName, airIn
     if (airInterfaceConfiguration.hasOwnProperty("performance-monitoring-is-on")) airInterface["configured-performance-monitoring-is-on"] = airInterfaceConfiguration["performance-monitoring-is-on"];
     if (airInterfaceConfiguration.hasOwnProperty("xpic-is-on")) airInterface["configured-xpic-is-on"] = airInterfaceConfiguration["xpic-is-on"];
     if (airInterfaceStatus.hasOwnProperty("snir-cur")) airInterface["current-signal-to-noise-ratio"] = airInterfaceStatus["snir-cur"];
+    if (airInterfaceCapability.hasOwnProperty("supported-radio-signal-id-datatype")) airInterface["supported-radio-signal-id-datatype"] = airInterfaceCapability["supported-radio-signal-id-datatype"];
+	  if (airInterfaceCapability.hasOwnProperty("supported-radio-signal-id-length")) airInterface["supported-radio-signal-id-length"] = airInterfaceCapability["supported-radio-signal-id-length"];
+	
     let minTransmissionMode = await getConfiguredModulation(
       airInterfaceCapability,
       airInterfaceConfiguration["transmission-mode-min"]);

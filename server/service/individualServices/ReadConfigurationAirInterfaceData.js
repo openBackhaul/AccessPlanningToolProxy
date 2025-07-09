@@ -103,6 +103,9 @@ exports.readConfigurationAirInterfaceData = async function (mountName, linkId, l
   } catch (error) {
     console.log(`readConfigurationAirInterfaceData is not success with ${error}`);
   }
+   if(uuidUnderTest == ""){
+    throw new createHttpError(470, "Resource not existing. Device informs about addressed resource unknown");
+    }
 }
 
 /**

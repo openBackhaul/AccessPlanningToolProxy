@@ -241,15 +241,16 @@ exports.provideEquipmentInfoForLiveNetView = function (body, user, originator, x
         ltpStructure = ltpStructureResult.ltpStructure;
         traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
       } catch (err) {
-        throw new createHttpError.InternalServerError(`${err}`)
+        throw new createHttpError(502, "Bad Gateway");
+        //throw new createHttpError.InternalServerError(`${err}`)
       };
 
 
       /****************************************************************************************
        * Collect equipment data
        ****************************************************************************************/
-      let equipmentResult = await ReadLiveEquipmentData.readLiveEquipmentData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer)
-        .catch(err => console.log(` ${err}`));
+      let equipmentResult = await ReadLiveEquipmentData.readLiveEquipmentData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer);
+        //.catch(err => console.log(` ${err}`));
 
       if (equipmentResult == undefined) {
         throw new createHttpError.NotFound("Empty Equiment not found");
@@ -362,15 +363,16 @@ exports.provideStatusForLiveNetView = function (body, user, originator, xCorrela
         ltpStructure = ltpStructureResult.ltpStructure;
         traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
       } catch (err) {
-        throw new createHttpError.InternalServerError(`${err}`)
+        throw new createHttpError(502, "Bad Gateway");
+        //throw new createHttpError.InternalServerError(`${err}`)
       };
 
 
       /****************************************************************************************
        * Collect status data
        ****************************************************************************************/
-      let statusResult = await ReadLiveStatusData.readStatusInterfaceData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer)
-        .catch(err => console.log(` ${err}`));
+      let statusResult = await ReadLiveStatusData.readStatusInterfaceData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer);
+        //.catch(err => console.log(` ${err}`));
 
       let uuidUnderTest = "";
       if (statusResult) {
@@ -437,14 +439,15 @@ exports.provideConfigurationForLiveNetView = function (body, user, originator, x
         ltpStructure = ltpStructureResult.ltpStructure;
         traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
       } catch (err) {
-        throw new createHttpError.InternalServerError(`${err}`)
+          throw new createHttpError(502, "Bad Gateway");
+        //throw new createHttpError.InternalServerError(`${err}`)
       };
 
       /****************************************************************************************
        * Collect air-interface data
        ****************************************************************************************/
-      let airInterfaceResult = await ReadConfigurationAirInterfaceData.readConfigurationAirInterfaceData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer)
-        .catch(err => console.log(` ${err}`));
+      let airInterfaceResult = await ReadConfigurationAirInterfaceData.readConfigurationAirInterfaceData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer);
+       // .catch(err => console.log(` ${err}`));
 
       let uuidUnderTest = "";
       if (airInterfaceResult) {
