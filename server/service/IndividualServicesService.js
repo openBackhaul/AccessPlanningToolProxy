@@ -200,6 +200,7 @@ exports.provideAlarmsForLiveNetView = function (body, user, originator, xCorrela
 
       let alarmsResult = await ReadLiveAlarmsData.readLiveAlarmsData(mountName, requestHeaders, traceIndicatorIncrementer)
         .catch(err => console.log(` ${err}`));
+
       if (alarmsResult) {
         if (Object.keys(alarmsResult.alarms).length != 0) {
           if (alarmsResult.alarms) {
@@ -208,6 +209,7 @@ exports.provideAlarmsForLiveNetView = function (body, user, originator, xCorrela
           }
         }
       } else {
+        logger.warn("No Alarms seems received");
         resolve();
       }
     }
@@ -216,8 +218,12 @@ exports.provideAlarmsForLiveNetView = function (body, user, originator, xCorrela
       reject(error);
     }
     finally {
-      logger.debug(`provideAlarmsForLiveNetView - Decreasing counter Alarm request from: ${counterAlarms}`);
-      counterAlarms--;
+      if (counterAlarms > 0) {
+        logger.debug(`provideAlarmsForLiveNetView - Decreasing counter Alarm request from: ${counterAlarms}`);
+        counterAlarms--;
+      } else {
+        logger.trace("Counter Alarms already 0");
+      }
     }
   });
 }

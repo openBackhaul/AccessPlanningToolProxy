@@ -149,7 +149,7 @@ exports.extractProfileConfiguration = async function (uuid) {
  * @param {JSON} coreModelJsonObject json object that needs to be updated
  * @returns {Boolean} return true if the value is updated, otherwise returns false
  **/
-exports.resetCompleteFile = async function (coreModelJsonObject) { 
+exports.resetCompleteFile = async function (coreModelJsonObject) {
   let controlConstructPath = onfPaths.CONTROL_CONSTRUCT;
   let resultDel = await fileOperation.deletefromDatabaseAsync(controlConstructPath);
   if (!resultDel) {
@@ -158,12 +158,11 @@ exports.resetCompleteFile = async function (coreModelJsonObject) {
   } else {
     logger.warn("Delete CC doesn't succeed");
   }
-   
+
   return await lock.acquire(global.databasePath, async () => {
     let result = writeToFile(coreModelJsonObject);
     return result;
   });
-
 
   /** 
    * Write to the filesystem.<br>
