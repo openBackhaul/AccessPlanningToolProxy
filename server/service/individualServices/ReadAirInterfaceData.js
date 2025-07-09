@@ -9,6 +9,8 @@ const ltpStructureUtility = require('./LtpStructureUtility');
 const createHttpError = require('http-errors');
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 
+const logger = require('../LoggingService').getLogger();
+
 const AIR_INTERFACE = {
   MODULE: "air-interface-2-0",
   LAYER_PROTOCOL_NAME: "LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER",
@@ -48,7 +50,7 @@ exports.readAirInterfaceData = async function (mountName, linkId, ltpStructure, 
     /****************************************************************************************
      *  Fetching and setting up UuidUnderTest and PathParameters
      ****************************************************************************************/
-
+    logger.info(`ReadAirInterface - Retrieving air interface UUID under test for MountName ${mountName} linkid ${linkId}`);
     let uuidUnderTestResponse = await RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest(
       ltpStructure,
       mountName,
@@ -67,21 +69,29 @@ exports.readAirInterfaceData = async function (mountName, linkId, ltpStructure, 
        *  Fetching airInterfaceConfiguration , airInterfaceCapability, airInterfaceStatus
        ****************************************************************************************/
       if (uuidUnderTest != "") {
-
+        logger.info(`ReadAirInterface - Retrieving Configuration from Cache with path ${pathParams}`);
         let airInterfaceConfiguration = await exports.RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache(pathParams, requestHeaders, traceIndicatorIncrementer);
 
         if (Object.keys(airInterfaceConfiguration).length !== 0) {
           traceIndicatorIncrementer = airInterfaceConfiguration.traceIndicatorIncrementer;
+        } else {
+          logger.warn(`ReadAirInterface - NO DATA from Configuration from Cache with path ${pathParams}`);
         }
 
+        logger.info(`ReadAirInterface - Retrieving Capabilities from Cache with path ${pathParams}`);
         let airInterfaceCapability = await RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache(pathParams, requestHeaders, traceIndicatorIncrementer);
         if (Object.keys(airInterfaceCapability).length !== 0) {
           traceIndicatorIncrementer = airInterfaceCapability.traceIndicatorIncrementer;
+        } else {
+          logger.warn(`ReadAirInterface - NO DATA from Capabilities from Cache with path ${pathParams}`);
         }
 
+        logger.info(`ReadAirInterface - Retrieving Dedicated Status value from Live with path ${pathParams}`);
         let airInterfaceStatus = await RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive(pathParams, requestHeaders, traceIndicatorIncrementer);
         if (Object.keys(airInterfaceStatus).length !== 0) {
           traceIndicatorIncrementer = airInterfaceStatus.traceIndicatorIncrementer;
+        } else {
+          logger.warn(`ReadAirInterface - NO DATA from Dedicated Status value from Live with path ${pathParams}`);
         }
 
 
@@ -91,11 +101,14 @@ exports.readAirInterfaceData = async function (mountName, linkId, ltpStructure, 
         if (Object.keys(airInterfaceConfiguration).length !== 0 ||
           Object.keys(airInterfaceCapability).length !== 0 ||
           Object.keys(airInterfaceStatus).length !== 0) {
+          logger.debug("ReadAirInterface - Transforming Air interface data to response body");
           airInterface = await formulateAirInterfaceResponseBody(airInterfaceEndPointName, airInterfaceConfiguration, airInterfaceCapability, airInterfaceStatus)
+        } else {
+          logger.warn("ReadAirInterface - skipping formulateAirInterfaceResponseBody");
         }
       }
     } else {
-      console.log(`Unable to fetch UuidUnderTest and LocalIdUnderTest for linkId ${linkId} and mountName ${mountName}`);
+      logger.error(`Unable to fetch UuidUnderTest and LocalIdUnderTest for linkId ${linkId} and mountName ${mountName}`);
     }
 
     let airInterfaceResult = {
@@ -106,7 +119,7 @@ exports.readAirInterfaceData = async function (mountName, linkId, ltpStructure, 
 
     return airInterfaceResult;
   } catch (error) {
-    console.log(`readAirInterfaceData is not success with ${error}`);
+    logger.error(error, `readAirInterfaceData is not success`);
   }
 }
 
