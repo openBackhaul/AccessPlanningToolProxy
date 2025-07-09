@@ -69,12 +69,14 @@ exports.RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData
   try {
 
     if (acceptanceDataOfLinkEndPoint.error && Object.keys(acceptanceDataOfLinkEndPoint.error).length != 0) {
+      logger.error(`RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData - found error in the response for ReqID ${request_id}`);
       requestBody = {
         "request-id": request_id,
         "code": acceptanceDataOfLinkEndPoint.error.code,
         "message": acceptanceDataOfLinkEndPoint.error.message
       };
     } else {
+      logger.debug(`RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData - filing response properly for ReqID: ${request_id}`);
       requestBody = {
         "request-id": request_id,
         "air-interface": acceptanceDataOfLinkEndPoint["air-interface"],
@@ -89,6 +91,7 @@ exports.RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData
      *   RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData
      *  
      *****************************************************************************************************/
+    logger.debug(`Forward request ReqId ${request_id} for fwdName ${forwardingName}`);
     response = await forwardRequest(
       forwardingName,
       requestBody,
@@ -100,7 +103,7 @@ exports.RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData
 
     return response;
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     return (new createHttpError.InternalServerError(`${error}`));
   }
 
@@ -112,15 +115,15 @@ exports.processAcceptanceDataRequest = async function (mountName, linkId, reques
     acceptanceDataOfLinkEndPoint = await exports.executeAcceptanceDataRequest(mountName, linkId, requestHeaders, traceIndicatorIncrementer);
     await exports.RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData(
       request_id, requestHeaders, acceptanceDataOfLinkEndPoint, traceIndicatorIncrementer);
-    logger.info(`Execute successfully req_id: ${request_id} for mount-name: ${mountName}`);
+    logger.info(`processAcceptanceDataRequest - Execute successfully req_id: ${request_id} for mount-name: ${mountName}`);
     logger.trace(requestHeaders);
   }
   catch (error) {
-    logger.error(error, "readAirInterfaceData is not success");
+    logger.error(error, "processAcceptanceDataRequest - readAirInterfaceData is not success");
     console.error(`readAirInterfaceData is not success with ${error}`);
   }
   finally {
-    logger.trace(`Decreasing counterStatusAcceptanceDataOfLinkEndpointCall: ${global.counterStatusAcceptanceDataOfLinkEndpointCall}`);
+    logger.trace(`processAcceptanceDataRequest - Decreasing counterStatusAcceptanceDataOfLinkEndpointCall: ${global.counterStatusAcceptanceDataOfLinkEndpointCall}`);
     global.counterStatusAcceptanceDataOfLinkEndpointCall--;
   }
 
