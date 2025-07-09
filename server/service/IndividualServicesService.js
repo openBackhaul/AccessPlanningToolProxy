@@ -88,12 +88,11 @@ exports.checkRegisteredAvailabilityOfDevice = function (body) {
       resolve(error);
     } finally {
       if (counter > 0) {
-        logger.trace(`checkRegisteredAvailabilityOfDevice - Decreasing counter from: ${counter}`);
+        logger.debug(`checkRegisteredAvailabilityOfDevice - Decreasing counter from: ${counter}`);
         counter = counter - 1;
       } else {
-        logger.trace("checkRegisteredAvailabilityOfDevice - Counter is already to 0");
+        logger.debug("checkRegisteredAvailabilityOfDevice - Counter is already to 0");
       }
-      
     }
   });
 }
@@ -163,8 +162,14 @@ exports.provideAcceptanceDataOfLinkEndpoint = function (body, user, originator, 
     } catch (error) {
       console.log(error);
       logger.error(error);
-      counterStatusAcceptanceDataOfLinkEndpointCall--;
       reject(error);
+    } finally {
+      if (counterStatusAcceptanceDataOfLinkEndpointCall > 0) {
+        logger.debug(`provideAcceptanceDataOfLinkEndpoint - Decreasing counter from: ${counterStatusAcceptanceDataOfLinkEndpointCall}`);
+        counterStatusAcceptanceDataOfLinkEndpointCall--;
+      } else {
+        logger.debug("provideAcceptanceDataOfLinkEndpoint - Counter is already to 0");
+      }
     }
 
   });
@@ -228,10 +233,10 @@ exports.provideAlarmsForLiveNetView = function (body, user, originator, xCorrela
     }
     finally {
       if (counterAlarms > 0) {
-        logger.debug(`provideAlarmsForLiveNetView - Decreasing counter Alarm request from: ${counterAlarms}`);
+        logger.debug(`provideAlarmsForLiveNetView - Decreasing counter from: ${counterAlarms}`);
         counterAlarms--;
       } else {
-        logger.trace("Counter Alarms already 0");
+        logger.debug("provideAlarmsForLiveNetView - Counter is already to 0");
       }
     }
   });
@@ -350,8 +355,15 @@ exports.provideHistoricalPmDataOfDevice = function (body, user, originator, xCor
       
     } catch (error) {
       console.log(error);
-      counterStatusHistoricalPMDataCall--;
+      logger.error(error);
       reject(error);
+    } finally {
+      if (counterStatusHistoricalPMDataCall > 0) {
+        logger.debug(`provideHistoricalPmDataOfDevice - Decreasing counter from: ${counterStatusHistoricalPMDataCall}`);
+        counterStatusHistoricalPMDataCall--;
+      } else {
+        logger.debug("provideHistoricalPmDataOfDevice - Counter is already to 0");
+      }
     }
   });
 }
@@ -440,8 +452,12 @@ exports.provideStatusForLiveNetView = function (body, user, originator, xCorrela
       console.log(error)
       reject(error);
     } finally {
-      logger.info("Decreasing CounterStatus")
-      counterStatus--;
+      if (counterStatus > 0) {
+        logger.debug(`provideStatusForLiveNetView - Decreasing counter from: ${counterStatus}`);
+        counterStatus = counterStatus - 1;
+      } else {
+        logger.debug("provideStatusForLiveNetView - Counter is already to 0");
+      }
     }
 
   });
