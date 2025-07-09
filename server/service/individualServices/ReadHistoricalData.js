@@ -4,15 +4,19 @@
  * @file This module provides functionality to gather the air-interface data for given mount-name and linkId. 
  * @module ReadHistoricalData
  **/
+const FcPort = require('onf-core-model-ap/applicationPattern/onfModel/models/FcPort');
+const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
+const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
+
+const createHttpError = require('http-errors');
+
 const IndividualServiceUtility = require('./IndividualServiceUtility');
 const ltpStructureUtility = require('./LtpStructureUtility');
-const createHttpError = require('http-errors');
-const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 const ReadLtpStructure = require('./ReadLtpStructure');
-const tcpClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/TcpClientInterface');
 const eventDispatcher = require('./EventDispatcherWithResponse');
-const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
-const FcPort = require('onf-core-model-ap/applicationPattern/onfModel/models/FcPort');
+
+const logger = require('../LoggingService').getLogger();
+
 const AIR_INTERFACE = {
   MODULE: "air-interface-2-0",
   LAYER_PROTOCOL_NAME: "LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER",
@@ -122,7 +126,8 @@ exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = asy
       
       return response;
   } catch (error) {
-      console.log(error);
+      // console.log(error);
+      logger.error(error);
       return (new createHttpError.InternalServerError(`${error}`));
   }
 
@@ -153,7 +158,7 @@ exports.processHistoricalDataRequest = async function(body,request_id,requestHea
             mountWithError["message"] = "Not connected. Requested device is currently not in connected state at the controller";
             mountNameWithError.push(mountWithError);
             continue;
-          }      
+          } 
 
           /****************************************************************************************
            * Collect complete ltp structure of mount-name in request bodys
@@ -229,61 +234,79 @@ exports.readHistoricalData = async function (mountName, timeStamp, ltpStructure,
     /****************************************************************************************
      *  Fetch Name of Air and Ethernet Interfaces
      ****************************************************************************************/
+    logger.info(`readHistoricalData - Reading Air and Eth interfaces for Mountname ${mountName}`);
     let airAndEthernetInterfacesResponse = await exports.RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInterfaces(
       ltpStructure, mountName, requestHeaders, traceIndicatorIncrementer);
 
     if (Object.keys(airAndEthernetInterfacesResponse.processedLtpResponses).length !== 0) {
       traceIndicatorIncrementer = airAndEthernetInterfacesResponse.traceIndicatorIncrementer;
+    } else {
+      logger.warn(`readHistoricalData - NO DATA for Air and Eth interfaces for Mountname ${mountName}`);
     }
 
     /****************************************************************************************
      *  Identify Physical Link Aggregations
      ****************************************************************************************/
+    logger.info(`readHistoricalData - Reading Physical Link Aggreagations for Mountname ${mountName}`);
     let physicalLinkAggregations = await exports.RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregations(
       ltpStructure, mountName, requestHeaders, traceIndicatorIncrementer);
 
     if (Object.keys(physicalLinkAggregations.aggregatedResults).length !== 0) {
       traceIndicatorIncrementer = physicalLinkAggregations.traceIndicatorIncrementer;
+    } else {
+      logger.warn(`readHistoricalData - NO DATA for Physical Link Aggreagations for Mountname ${mountName}`);
     }
 
     /****************************************************************************************
      *  Fetch Air Interface Configuration from Cache
      ****************************************************************************************/
+    logger.info(`readHistoricalData - Reading Air If Configutation from Cache for Mountname ${mountName}`);
     let airInterfaceConfiguration = await exports.RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfigurationFromCache(
       ltpStructure, mountName, requestHeaders, traceIndicatorIncrementer);
 
     if (Object.keys(airInterfaceConfiguration.airInterfaceConfigurations).length !== 0) {
       traceIndicatorIncrementer = airInterfaceConfiguration.traceIndicatorIncrementer;
+    } else {
+      logger.warn(`readHistoricalData - NO DATA for Physical Link Aggreagations for Mountname ${mountName}`);
     }
 
     /****************************************************************************************
      *  Fetch Air Interface Capabilities from Cache
      ****************************************************************************************/
+    logger.info(`readHistoricalData - Reading Air If Capabilities from Cache for Mountname ${mountName}`);
     let airInterfaceCapabilities = await exports.RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceCapabilitiesFromCache(
       ltpStructure, mountName, requestHeaders, traceIndicatorIncrementer);
 
     if (Object.keys(airInterfaceCapabilities.airInterfaceCapabilities).length !== 0) {
       traceIndicatorIncrementer = airInterfaceCapabilities.traceIndicatorIncrementer;
+    } else {
+      logger.warn(`readHistoricalData - NO DATA for Air If Capabilities from Cache for Mountname ${mountName}`);
     }
 
     /****************************************************************************************
      *  Fetch Historical Air Interface Performance from Cache
      ****************************************************************************************/
+    logger.info(`readHistoricalData - Reading Air If Performance from Cache for Mountname ${mountName}`);
     let airInterfacePerformance = await exports.RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePerformanceFromCache(
       ltpStructure, mountName, timeStamp, requestHeaders, traceIndicatorIncrementer);
 
     if (Object.keys(airInterfacePerformance.processedResponses).length !== 0) {
       traceIndicatorIncrementer = airInterfacePerformance.traceIndicatorIncrementer;
+    } else {
+      logger.warn(`readHistoricalData - NO DATA for Air If Performance from Cache for Mountname ${mountName}`);
     }
 
     /****************************************************************************************
      *  Fetch Historical Ethernet Container Performance from Cache
      ****************************************************************************************/
+    logger.info(`readHistoricalData - Reading Ethernet Container Performance from Cache for Mountname ${mountName}`);
     let ethernetPerformance = await exports.RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache(
       ltpStructure, mountName, timeStamp, requestHeaders, traceIndicatorIncrementer);
 
     if (Object.keys(ethernetPerformance.processedResponses).length !== 0) {
       traceIndicatorIncrementer = ethernetPerformance.traceIndicatorIncrementer;
+    } else {
+      logger.info(`readHistoricalData - NO DATA for Ethernet Container Performance from Cache for Mountname ${mountName}`);
     }
 
     /****************************************************************************************
@@ -292,6 +315,7 @@ exports.readHistoricalData = async function (mountName, timeStamp, ltpStructure,
     *  Air Interface Configuration, Capabilities, Historical Performance, 
     *  and Ethernet Container Performance into a single response.
     ******************************************************************************************/
+    logger.info(`readHistoricalData - Creating Historical PM data for Mountname ${mountName}`);
     let historicalData = await exports.formulateHistoricalPmData(mountName, ltpStructure, airAndEthernetInterfacesResponse, physicalLinkAggregations, airInterfaceConfiguration,
       airInterfaceCapabilities, airInterfacePerformance, ethernetPerformance);
 
@@ -299,7 +323,8 @@ exports.readHistoricalData = async function (mountName, timeStamp, ltpStructure,
     // Returning the final structured historical PM data response.
     return historicalData;
   } catch (error) {
-    console.error(`readAirInterfaceData is not success with ${error}`);
+    logger.error(error, "readHistoricalData is not success");
+    // console.error(`readHistoricalData is not success with ${error}`);
     throw error;
   }
 }
@@ -1045,7 +1070,8 @@ exports.formulateHistoricalPmData = async function (mountName, ltpStructure, air
 
     }
   } catch (error) {
-    console.log(error);
+    logger.error(error);
+    // console.log(error);
   }
 
   // if (Object.keys(air_interface_list).length !== 0) { result["air-interface-list"] = air_interface_list; }
