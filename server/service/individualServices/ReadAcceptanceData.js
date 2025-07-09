@@ -144,7 +144,7 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
       error.code = 502;
       error.message = "Bad Gateway. The upstream server (MicrowveDeviceInventory) is unavailable";
       acceptanceDataOfLinkEndPoint.error = error;
-      logger.error(err, `executeAcceptanceDataRequest - ${error.message} - Code: ${error.message}`);
+      logger.error(err, `executeAcceptanceDataRequest - ${error.message} - Code: ${error.code}`);
       throw new createHttpError.InternalServerError(`${err}`);
     };
 
@@ -164,7 +164,7 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
         error.code = 470;
         error.message = "The requested ressource does not exist within the referenced device";
         acceptanceDataOfLinkEndPoint.error = error;
-        logger.error(`executeAcceptanceDataRequest - ${error.message} - Code: ${error.message}`);
+        logger.error(`executeAcceptanceDataRequest - ${error.message} - Code: ${error.code}`);
         throw new createHttpError.InternalServerError(`${error}`);
       }
       if (Object.keys(airInterfaceResult.airInterface).length != 0) {
@@ -178,7 +178,7 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
       error.code = 530;
       error.message = "Air Inteface Data invalid. Response data not available, incomplete or corrupted";
       acceptanceDataOfLinkEndPoint.error = error;
-      logger.error(`executeAcceptanceDataRequest - ${error.message} - Code: ${error.message}`);
+      logger.error(`executeAcceptanceDataRequest - ${error.message} - Code: ${error.code}`);
       throw new createHttpError.InternalServerError(`${error}`);
     }
 
@@ -200,7 +200,7 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
       error.code = 530;
       error.message = "VLAN Data invalid. Response data not available, incomplete or corrupted";
       acceptanceDataOfLinkEndPoint.error = error;
-      logger.error(`executeAcceptanceDataRequest - ${error.message} - Code: ${error.message}`);
+      logger.error(`executeAcceptanceDataRequest - ${error.message} - Code: ${error.code}`);
       throw new createHttpError.InternalServerError(`${error}`);
     }
     /****************************************************************************************
@@ -219,7 +219,7 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
       error.code = 530;
       error.message = "Inventory Data invalid. Response data not available, incomplete or corrupted";
       acceptanceDataOfLinkEndPoint.error = error;
-      logger.error(`executeAcceptanceDataRequest - ${error.message} - Code: ${error.message}`);
+      logger.error(`executeAcceptanceDataRequest - ${error.message} - Code: ${error.code}`);
       throw new createHttpError.InternalServerError(`${error}`);
     }
     /****************************************************************************************
@@ -239,7 +239,7 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
       error.code = 530;
       error.message = "Alarms Data invalid. Response data not available, incomplete or corrupted";
       acceptanceDataOfLinkEndPoint.error = error;
-      logger.error(`executeAcceptanceDataRequest - ${error.message} - Code: ${error.message}`);
+      logger.error(`executeAcceptanceDataRequest - ${error.message} - Code: ${error.code}`);
       throw new createHttpError.InternalServerError(`${err}`);
     }
   }
