@@ -34,7 +34,7 @@ async function resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(forw
     for (const fcPort of fcPortList) {
         const portDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
         if (FcPort.portDirectionEnum.OUTPUT === portDirection) {
-            logger.trace("Pushing fcPort attribute to array");
+            logger.trace("CyclicProcess - Pushing fcPort attribute to array");
             fcPortOutputDirectionLogicalTerminationPointList.push(fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
         }
     }
@@ -45,12 +45,14 @@ async function resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(forw
     }
 
     const opLtpUuid = fcPortOutputDirectionLogicalTerminationPointList[0];
+    logger.info(`CyclicProcess - Get Server LTP List from UUID: ${opLtpUuid}`);
     const httpLtpUuidList = await LogicalTerminationPoint.getServerLtpListAsync(opLtpUuid);
 
     const httpClientLtpUuid = httpLtpUuidList[0];
+    logger.info(`CyclicProcess - Get Application name from UUID: ${httpClientLtpUuid}`);
     const applicationName = await httpClientInterface.getApplicationNameAsync(httpClientLtpUuid);
 
-    logger.info(`Application name is: ${applicationName}`);
+    logger.info(`CyclicProcess - Application name is: ${applicationName}`);
     return applicationName === undefined ? {
         applicationName: null,
         httpClientLtpUuid
@@ -62,9 +64,10 @@ async function resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(forw
 
 
 async function resolveOperationNameAndOperationKeyFromForwardingName(forwardingName) {
-
+    logger.debug(`CyclicProcess - resolveOperationNameAndOperationKeyFromForwardingName forwardingName: ${forwardingName}`);
     const forwardingConstruct = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
     if (forwardingConstruct === undefined) {
+        logger.warn("CyclicProcess - resolveOperationNameAndOperationKeyFromForwardingName forwardingConstruct is undefined");
         return null;
     }
 
@@ -78,10 +81,12 @@ async function resolveOperationNameAndOperationKeyFromForwardingName(forwardingN
     }
 
     if (fcPortOutputDirectionLogicalTerminationPointList.length !== 1) {
+        logger.warn("CyclicProcess - resolveOperationNameAndOperationKeyFromForwardingName fcPortOutputDirectionLogicalTerminationPointList is != 1 so return null");
         return null;
     }
 
     const opLtpUuid = fcPortOutputDirectionLogicalTerminationPointList[0];
+    logger.info(`CyclicProcess - Get Layer of LTP List from UUID ${opLtpUuid}`);
     const logicalTerminationPointLayer = await LogicalTerminationPointC.getLayerLtpListAsync(opLtpUuid);
 
     let clientPac;
@@ -104,6 +109,7 @@ async function resolveOperationNameAndOperationKeyFromForwardingName(forwardingN
         }
     }
 
+    logger.info(`CyclicProcess - Operation name is: ${operationName}`);
     return operationName === undefined ? {
         operationName: null,
         operationKey
@@ -119,17 +125,22 @@ async function updateConnectedDeviceList(finalUrl, httpRequestHeaderAuth) {
           headers: httpRequestHeaderAuth
         });
 
-        logger.info(response.data, "Getting Mountname connected");
+        let mountNameSize = 0;
+        if (response && response.data && response.data['mount-name-list']) {
+            mountNameSize = response.data['mount-name-list'].length;
+        }
+        logger.info(`CyclicProcess - Get connected MountName list with size of ${mountNameSize} entries`);
+        logger.debug(response.data, "CyclicProcess - Lost of Mountname connected");
         global.connectedDeviceList = response.data
     } catch (error) {
-        logger.error(error, "Error occurred retrieving connected device list");
+        logger.error(error, "CyclicProcess - Error occurred retrieving connected device list");
     }
 }
 
 module.exports.start = async function start(user, originator, xCorrelator, traceIndicator, customerJourney) {
-    logger.info("Request to start Cycle process");
+    logger.info("CyclicProcess - Request to start Cycle process");
     if (procedureIsRunning) {
-        logger.warn("Cycle process already running, not need to run again. Returning without doing nothing");
+        logger.warn("CyclicProcess - Already running, not need to run again. Returning without doing nothing");
         return;
     }
     procedureIsRunning = true;
@@ -150,12 +161,12 @@ module.exports.start = async function start(user, originator, xCorrelator, trace
     // Get the refresh interval time
     const forwardingName = "PromptForEmbeddingCausesRequestForBequeathingData";
     const forwardingConstruct = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
-    logger.info(`Forwarding Construct ${forwardingConstruct}`);
+    logger.info(`CyclicProcess - Forwarding Construct ${forwardingConstruct}`);
     coreModelPrefix = forwardingConstruct.name[0].value.split(':')[0];
     let prefix = forwardingConstruct.uuid.split('op')[0];
     refreshTime = await extractProfileConfiguration(prefix + 'integer-p-003')
     refreshTime = refreshTime * 60 * 1000       // convert it in milliseconds
-    logger.debug(`Refreshing time (ms): ${refreshTime}`);
+    logger.debug(`CyclicProcess - Refreshing time (ms): ${refreshTime}`);
 
     // Test cyclic engine
     let applicationNameAndHttpClient =
@@ -183,7 +194,7 @@ module.exports.start = async function start(user, originator, xCorrelator, trace
     let remoteTcpPort = await tcpClientInterface.getRemotePortAsync(ltpTcpUuid);
 
     let finalUrl = "http://" + remoteTcpAddress["ip-address"]["ipv-4-address"] + ":" + remoteTcpPort + operationName;
-    logger.debug(`Url to be query to retrieve data: ${finalUrl}`);
+    logger.debug(`CyclicProcess - Url to be query to retrieve data: ${finalUrl}`);
 
     let httpRequestHeader = new RequestHeader(
       user,
@@ -205,13 +216,15 @@ module.exports.start = async function start(user, originator, xCorrelator, trace
     };
 
     httpRequestHeader = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(httpRequestHeaderAuth);
-    logger.info("CycleProcess - Trying to retrieving Connected Device list");
+    logger.info("CyclicProcess - Trying to retrieving Connected Device list");
     updateConnectedDeviceList(finalUrl, httpRequestHeaderAuth)
     cyclicTimerId = setInterval(updateConnectedDeviceList, refreshTime, finalUrl, httpRequestHeaderAuth);
+    let nextRefresh = new Date(Date.now() + refreshTime); // Calculate next time of cyclic process.
+    logger.info(`CyclicProcess - Retrieving data will start ${nextRefresh.toISOString()}`);
 }
 
 module.exports.stop = async function stop() {
     procedureIsRunning = false;
-    logger.info("CycleProcess - Request to STOP");
+    logger.info("CyclicProcess - Request to STOP");
     clearInterval(cyclicTimerId);
 }
