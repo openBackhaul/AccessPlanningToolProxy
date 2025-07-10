@@ -1,23 +1,24 @@
 'use strict';
-
 /**
  * @file This module provides functionality to gather the air-interface data for given mount-name and linkId. 
  * @module ReadHistoricalData
  **/
 
-const ReadAirInterfaceData = require('./ReadAirInterfaceData');
-const ReadVlanInterfaceData = require('./ReadVlanInterfaceData');
-const ReadInventoryData = require('./ReadInventoryData');
-const ReadAlarmsData = require('./ReadAlarmsData');
-
-const createHttpError = require('http-errors');
-const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
-const ReadLtpStructure = require('./ReadLtpStructure');
-const eventDispatcher = require('./EventDispatcherWithResponse');
-const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
 const FcPort = require('onf-core-model-ap/applicationPattern/onfModel/models/FcPort');
+const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
+const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
 const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
 
+const createHttpError = require('http-errors');
+
+const ReadAlarmsData = require('./ReadAlarmsData');
+const ReadLtpStructure = require('./ReadLtpStructure');
+const ReadInventoryData = require('./ReadInventoryData');
+const ReadAirInterfaceData = require('./ReadAirInterfaceData');
+const ReadVlanInterfaceData = require('./ReadVlanInterfaceData');
+const eventDispatcher = require('./EventDispatcherWithResponse');
+
+const logger = require('../LoggingService').getLogger();
 
 /**
  * @description This function automates the forwarding construct by calling the appropriate call back operations based on the fcPort input and output directions.
@@ -68,12 +69,14 @@ exports.RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData
   try {
 
     if (acceptanceDataOfLinkEndPoint.error && Object.keys(acceptanceDataOfLinkEndPoint.error).length != 0) {
+      logger.error(`RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData - found error in the response for ReqID ${request_id}`);
       requestBody = {
         "request-id": request_id,
         "code": acceptanceDataOfLinkEndPoint.error.code,
         "message": acceptanceDataOfLinkEndPoint.error.message
       };
     } else {
+      logger.debug(`RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData - filing response properly for ReqID: ${request_id}`);
       requestBody = {
         "request-id": request_id,
         "air-interface": acceptanceDataOfLinkEndPoint["air-interface"],
@@ -88,6 +91,7 @@ exports.RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData
      *   RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData
      *  
      *****************************************************************************************************/
+    logger.debug(`Forward request ReqId ${request_id} for fwdName ${forwardingName}`);
     response = await forwardRequest(
       forwardingName,
       requestBody,
@@ -99,23 +103,27 @@ exports.RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData
 
     return response;
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     return (new createHttpError.InternalServerError(`${error}`));
   }
 
 }
-exports.processAcceptanceDataRequest = async function (mountName, linkId, request_id, requestHeaders, traceIndicatorIncrementer) {
 
+exports.processAcceptanceDataRequest = async function (mountName, linkId, request_id, requestHeaders, traceIndicatorIncrementer) {
   let acceptanceDataOfLinkEndPoint = {};
   try {
     acceptanceDataOfLinkEndPoint = await exports.executeAcceptanceDataRequest(mountName, linkId, requestHeaders, traceIndicatorIncrementer);
     await exports.RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData(
       request_id, requestHeaders, acceptanceDataOfLinkEndPoint, traceIndicatorIncrementer);
+    logger.info(`processAcceptanceDataRequest - Execute successfully req_id: ${request_id} for mount-name: ${mountName}`);
+    logger.trace(requestHeaders);
   }
   catch (error) {
+    logger.error(error, "processAcceptanceDataRequest - readAirInterfaceData is not success");
     console.error(`readAirInterfaceData is not success with ${error}`);
   }
   finally {
+    logger.trace(`processAcceptanceDataRequest - Decreasing counterStatusAcceptanceDataOfLinkEndpointCall: ${global.counterStatusAcceptanceDataOfLinkEndpointCall}`);
     global.counterStatusAcceptanceDataOfLinkEndpointCall--;
   }
 
@@ -123,12 +131,12 @@ exports.processAcceptanceDataRequest = async function (mountName, linkId, reques
 
 
 exports.executeAcceptanceDataRequest = async function (mountName, linkId, requestHeaders, traceIndicatorIncrementer) {
-
   let acceptanceDataOfLinkEndPoint = {};
   let error = {};
   try {
     let ltpStructure = {};
     try {
+      logger.info(`executeAcceptanceDataRequest - Reading LTP Structure for Mountname ${mountName} and linkid: ${linkId}`);
       let ltpStructureResult = await ReadLtpStructure.readLtpStructure(mountName, requestHeaders, traceIndicatorIncrementer)
       ltpStructure = ltpStructureResult.ltpStructure;
       traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
@@ -136,6 +144,7 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
       error.code = 502;
       error.message = "Bad Gateway. The upstream server (MicrowveDeviceInventory) is unavailable";
       acceptanceDataOfLinkEndPoint.error = error;
+      logger.error(err, `executeAcceptanceDataRequest - ${error.message} - Code: ${error.code}`);
       throw new createHttpError.InternalServerError(`${err}`);
     };
 
@@ -143,6 +152,7 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
     /****************************************************************************************
      * Collect air-interface data
      ****************************************************************************************/
+    logger.info(`Reading Air Interface data for Mountname ${mountName} and linkid: ${linkId}`);
     let airInterfaceResult = await ReadAirInterfaceData.readAirInterfaceData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer)
       .catch(err => console.log(` ${err}`));
 
@@ -154,27 +164,32 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
         error.code = 470;
         error.message = "The requested ressource does not exist within the referenced device";
         acceptanceDataOfLinkEndPoint.error = error;
-        throw new createHttpError.InternalServerError(`${err}`);
+        logger.error(`executeAcceptanceDataRequest - ${error.message} - Code: ${error.code}`);
+        throw new createHttpError.InternalServerError(`${error}`);
       }
       if (Object.keys(airInterfaceResult.airInterface).length != 0) {
         acceptanceDataOfLinkEndPoint.airInterface = airInterfaceResult.airInterface;
+      } else {
+        logger.warn(`executeAcceptanceDataRequest - Airinterface seems empty for MountName ${mountName} and linkid ${linkId}`);
       }
       traceIndicatorIncrementer = airInterfaceResult.traceIndicatorIncrementer;
     }
     else {
       error.code = 530;
-      error.message = "Data invalid. Response data not available, incomplete or corrupted";
+      error.message = "Air Inteface Data invalid. Response data not available, incomplete or corrupted";
       acceptanceDataOfLinkEndPoint.error = error;
-      throw new createHttpError.InternalServerError(`${err}`);
+      logger.error(`executeAcceptanceDataRequest - ${error.message} - Code: ${error.code}`);
+      throw new createHttpError.InternalServerError(`${error}`);
     }
 
     /****************************************************************************************
      * Collect vlan-interface data
      ****************************************************************************************/
+    logger.info(`Reading VLAN Interface data for Mountname ${mountName}`);
     let vlanInterfaceResult = await ReadVlanInterfaceData.readVlanInterfaceData(mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer)
       .catch(err => console.log(` ${err}`));
 
-    if(vlanInterfaceResult && vlanInterfaceResult.vlanInterface) {
+    if (vlanInterfaceResult && vlanInterfaceResult.vlanInterface) {
 
       if (Object.keys(vlanInterfaceResult.vlanInterface).length != 0) {
         acceptanceDataOfLinkEndPoint.vlanInterface = vlanInterfaceResult.vlanInterface;
@@ -183,30 +198,34 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
     }
     else {
       error.code = 530;
-      error.message = "Data invalid. Response data not available, incomplete or corrupted";
+      error.message = "VLAN Data invalid. Response data not available, incomplete or corrupted";
       acceptanceDataOfLinkEndPoint.error = error;
-      throw new createHttpError.InternalServerError(`${err}`);
+      logger.error(`executeAcceptanceDataRequest - ${error.message} - Code: ${error.code}`);
+      throw new createHttpError.InternalServerError(`${error}`);
     }
     /****************************************************************************************
      * Collect inventory data
      ****************************************************************************************/
+    logger.info(`Reading Inventory data for Mountname ${mountName} and UUID ${uuidUnderTest}`);
     let inventoryResult = await ReadInventoryData.readInventoryData(mountName, ltpStructure, uuidUnderTest, requestHeaders, traceIndicatorIncrementer)
       .catch(err => console.log(` ${err}`));
 
-    if(inventoryResult && inventoryResult.inventory) {
-    if (Object.keys(inventoryResult.inventory).length != 0) {
-      acceptanceDataOfLinkEndPoint.inventory = inventoryResult.inventory;
-    }
-    traceIndicatorIncrementer = inventoryResult.traceIndicatorIncrementer;
+    if (inventoryResult && inventoryResult.inventory) {
+      if (Object.keys(inventoryResult.inventory).length != 0) {
+        acceptanceDataOfLinkEndPoint.inventory = inventoryResult.inventory;
+      }
+      traceIndicatorIncrementer = inventoryResult.traceIndicatorIncrementer;
     } else {
       error.code = 530;
-      error.message = "Data invalid. Response data not available, incomplete or corrupted";
+      error.message = "Inventory Data invalid. Response data not available, incomplete or corrupted";
       acceptanceDataOfLinkEndPoint.error = error;
-      throw new createHttpError.InternalServerError(`${err}`);
+      logger.error(`executeAcceptanceDataRequest - ${error.message} - Code: ${error.code}`);
+      throw new createHttpError.InternalServerError(`${error}`);
     }
     /****************************************************************************************
      * Collect alarms data
      ****************************************************************************************/
+    logger.info(`Reading Alarms data for Mountname ${mountName}`);
     let alarmsResult = await ReadAlarmsData.readAlarmsData(mountName, requestHeaders, traceIndicatorIncrementer)
       .catch(err => console.log(` ${err}`));
     if (alarmsResult) {
@@ -218,16 +237,17 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
       traceIndicatorIncrementer = alarmsResult.traceIndicatorIncrementer;
     } else {
       error.code = 530;
-      error.message = "Data invalid. Response data not available, incomplete or corrupted";
+      error.message = "Alarms Data invalid. Response data not available, incomplete or corrupted";
       acceptanceDataOfLinkEndPoint.error = error;
+      logger.error(`executeAcceptanceDataRequest - ${error.message} - Code: ${error.code}`);
       throw new createHttpError.InternalServerError(`${err}`);
     }
-
   }
   catch (error) {
-    console.error(`readAirInterfaceData is not success with ${error}`);
+    logger.error(error, `readAirInterfaceData is not success`);
   }
   finally{
+    logger.debug(`Formatting acceptanceDataOfLinkEndPoint: ${acceptanceDataOfLinkEndPoint}`);
     acceptanceDataOfLinkEndPoint = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(acceptanceDataOfLinkEndPoint);
     return acceptanceDataOfLinkEndPoint;
   }

@@ -1,21 +1,26 @@
 'use strict';
 
-const ReadLtpStructure = require('./individualServices/ReadLtpStructure');
-const ReadLiveAlarmsData = require('./individualServices/ReadLiveAlarmsData');
-const ReadLiveEquipmentData = require('./individualServices/ReadLiveEquipmentData');
-const ReadLiveStatusData = require('./individualServices/ReadLiveStatusData');
-const ReadConfigurationAirInterfaceData = require('./individualServices/ReadConfigurationAirInterfaceData');
-const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
-const createHttpError = require('http-errors');
-const IndividualServiceUtility = require('./individualServices/IndividualServiceUtility');
-const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
-const ReadHistoricalData = require('./individualServices/ReadHistoricalData');
-const softwareUpgrade = require('./individualServices/SoftwareUpgrade');
-const HttpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
-const LogicalTerminationPointC = require('./individualServices/custom/LogicalTerminationPointC');
+// const onfPaths = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfPaths');
 const fileOperation = require('onf-core-model-ap/applicationPattern/databaseDriver/JSONDriver');
-const onfPaths = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfPaths');
+const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
+const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
+const HttpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
+
+const createHttpError = require('http-errors');
+
+const softwareUpgrade = require('./individualServices/SoftwareUpgrade');
+const ReadLtpStructure = require('./individualServices/ReadLtpStructure');
 const ReadAcceptanceData = require('./individualServices/ReadAcceptanceData');
+const ReadHistoricalData = require('./individualServices/ReadHistoricalData');
+const ReadLiveAlarmsData = require('./individualServices/ReadLiveAlarmsData');
+const ReadLiveStatusData = require('./individualServices/ReadLiveStatusData');
+const ReadLiveEquipmentData = require('./individualServices/ReadLiveEquipmentData');
+const IndividualServiceUtility = require('./individualServices/IndividualServiceUtility');
+const ReadConfigurationAirInterfaceData = require('./individualServices/ReadConfigurationAirInterfaceData');
+const LogicalTerminationPointC = require('./individualServices/custom/LogicalTerminationPointC');
+
+const logger = require('./LoggingService').getLogger();
+
 /**
  * Initiates process of embedding a new release
  *
@@ -49,23 +54,28 @@ exports.bequeathYourDataAndDie = async function (body, user, originator, xCorrel
  **/
 exports.checkRegisteredAvailabilityOfDevice = function (body) {
   return new Promise(async function (resolve, reject) {
-    var result = {};
+    let result = {};
     try {
       const forwardingName = "RequestForProvidingConfigurationForLivenetviewCausesReadingLtpStructure";
       const forwardingConstruct = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
       let prefix = forwardingConstruct.uuid.split('op')[0];
       let maxNumberOfParallelOperations = await IndividualServiceUtility.extractProfileConfiguration(prefix + "integer-p-002");
       counter = counter + 1;
+
       if (counter > maxNumberOfParallelOperations) {
+        logger.warn(`Request rejected due to many request in parallel: ${counter} > ${maxNumberOfParallelOperations}`);
         throw new createHttpError.TooManyRequests("Too many requests");
       }
       let mountName = body['mount-name'];
       
-       if (undefined != global.connectedDeviceList["mount-name-list"] && global.connectedDeviceList["mount-name-list"].includes(mountName)) {
+      if (undefined != global.connectedDeviceList["mount-name-list"] && global.connectedDeviceList["mount-name-list"].includes(mountName)) {
+        logger.debug(`checkRegisteredAvailabilityOfDevice - Mountname ${mountName} is in the list of Connected devices`);
         result['application/json'] = {
           "device-is-available": true
         };
       } else {
+        logger.warn(`Mountname ${mountName} seems not in the list of connected devices`);
+        logger.debug(global.connectedDeviceList["mount-name-list"]);
         result['application/json'] = {
           "device-is-available": false
         };
@@ -73,14 +83,16 @@ exports.checkRegisteredAvailabilityOfDevice = function (body) {
 
       resolve(Object.values(result)[0]);
     } catch (error) {
-
+      logger.error(error);
       reject(error);
       resolve(error);
     } finally {
       if (counter > 0) {
+        logger.debug(`checkRegisteredAvailabilityOfDevice - Decreasing counter from: ${counter}`);
         counter = counter - 1;
+      } else {
+        logger.debug("checkRegisteredAvailabilityOfDevice - Counter is already to 0");
       }
-      
     }
   });
 }
@@ -126,25 +138,38 @@ exports.provideAcceptanceDataOfLinkEndpoint = function (body, user, originator, 
       let maxNumberOfParallelOperations = await IndividualServiceUtility.extractProfileConfiguration(prefix + "integer-p-000");
       counterStatusAcceptanceDataOfLinkEndpointCall = counterStatusAcceptanceDataOfLinkEndpointCall + 1;
       if (counterStatusAcceptanceDataOfLinkEndpointCall > maxNumberOfParallelOperations) {
+        logger.warn(`Too Many requests: Counter status ${counterStatusAcceptanceDataOfLinkEndpointCall} > Max Parallel Ops: ${maxNumberOfParallelOperations}`)
         throw new createHttpError.TooManyRequests("Too many requests");
       }
 
       if (undefined == global.connectedDeviceList["mount-name-list"] || !(global.connectedDeviceList["mount-name-list"].includes(mountName))) {
+        logger.error(`provideAcceptanceDataOfLinkEndpoint - MountName (${mountName}) not found, Throwing 460 error`);
         throw new createHttpError(460, "Not connected. Requested device is currently not in connected state at the controller");
+      } else {
+        logger.info(`provideAcceptanceDataOfLinkEndpoint - MountName: ${mountName} is in the list, continue generating the request`);
       }
 
-      let request_id =  await IndividualServiceUtility.generateRequestId(mountName,linkId);
+      // Generating Request id:
+      let request_id = await IndividualServiceUtility.generateRequestId(mountName,linkId);
+      logger.trace(`Request id: ${request_id}`);
       let response = {
         'request-id': request_id
       };
-      
-      ReadAcceptanceData.processAcceptanceDataRequest(mountName,linkId,request_id,requestHeaders,traceIndicatorIncrementer);
-      resolve(response);
 
+      logger.info(`provideAcceptanceDataOfLinkEndpoint - Processing Acceptance Data for MountNAme ${mountName} LinkId ${linkId}`);
+      ReadAcceptanceData.processAcceptanceDataRequest(mountName, linkId, request_id, requestHeaders, traceIndicatorIncrementer);
+      resolve(response);
     } catch (error) {
       console.log(error);
-      counterStatusAcceptanceDataOfLinkEndpointCall--;
+      logger.error(error);
       reject(error);
+    } finally {
+      if (counterStatusAcceptanceDataOfLinkEndpointCall > 0) {
+        logger.debug(`provideAcceptanceDataOfLinkEndpoint - Decreasing counter from: ${counterStatusAcceptanceDataOfLinkEndpointCall}`);
+        counterStatusAcceptanceDataOfLinkEndpointCall--;
+      } else {
+        logger.debug("provideAcceptanceDataOfLinkEndpoint - Counter is already to 0");
+      }
     }
 
   });
@@ -167,6 +192,7 @@ exports.provideAlarmsForLiveNetView = function (body, user, originator, xCorrela
       let maxNumberOfParallelOperations = await IndividualServiceUtility.extractProfileConfiguration(prefix + "integer-p-005");
       counterAlarms = counterAlarms + 1;
       if (counterAlarms > maxNumberOfParallelOperations) {
+        logger.warn(`provideAlarmsForLiveNetView - Too many requests, Counter: ${counterAlarms} > ${maxNumberOfParallelOperations}`);
         throw new createHttpError.TooManyRequests("Too many requests");
       }
 
@@ -181,24 +207,37 @@ exports.provideAlarmsForLiveNetView = function (body, user, originator, xCorrela
         customerJourney: customerJourney
       };
 
+      logger.info(`provideAlarmsForLiveNetView - Reading Alarms data for MountName ${mountName}`);
       let alarmsResult = await ReadLiveAlarmsData.readLiveAlarmsData(mountName, requestHeaders, traceIndicatorIncrementer)
         .catch(err => console.log(` ${err}`));
+
       if (alarmsResult) {
         if (Object.keys(alarmsResult.alarms).length != 0) {
           if (alarmsResult.alarms) {
             alarmsResult = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(alarmsResult);
             resolve(alarmsResult.alarms);
+          } else {
+            logger.warn("provideAlarmsForLiveNetView - No Alarms seems received");
           }
+        } else {
+          logger.warn("provideAlarmsForLiveNetView - No Alarms seems received");
         }
       } else {
+        logger.warn("provideAlarmsForLiveNetView - No Alarms seems received");
         resolve();
       }
     }
     catch (error) {
+      logger.error(error);
       reject(error);
     }
     finally {
-      counterAlarms--;
+      if (counterAlarms > 0) {
+        logger.debug(`provideAlarmsForLiveNetView - Decreasing counter from: ${counterAlarms}`);
+        counterAlarms--;
+      } else {
+        logger.debug("provideAlarmsForLiveNetView - Counter is already to 0");
+      }
     }
   });
 }
@@ -237,10 +276,12 @@ exports.provideEquipmentInfoForLiveNetView = function (body, user, originator, x
        ****************************************************************************************/
       let ltpStructure = {};
       try {
+        logger.info(`provideEquipmentInfoForLiveNetView - Reading LTP Structure for MountName ${mountName}`);
         let ltpStructureResult = await ReadLtpStructure.readLtpStructure(mountName, requestHeaders, traceIndicatorIncrementer)
         ltpStructure = ltpStructureResult.ltpStructure;
         traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
       } catch (err) {
+        logger.error(err, `Throwing Internal Server Error`);
         throw new createHttpError.InternalServerError(`${err}`)
       };
 
@@ -248,17 +289,20 @@ exports.provideEquipmentInfoForLiveNetView = function (body, user, originator, x
       /****************************************************************************************
        * Collect equipment data
        ****************************************************************************************/
+      logger.info(`provideEquipmentInfoForLiveNetView - Reading Live Equipment Data for MountName ${mountName} LinkId ${linkId}`);
       let equipmentResult = await ReadLiveEquipmentData.readLiveEquipmentData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer)
         .catch(err => console.log(` ${err}`));
 
       if (equipmentResult == undefined) {
+        logger.error(`provideEquipmentInfoForLiveNetView - Equipment hasn't be found for MountName ${mountName} LinkId ${linkId}, Throwing HTTP error`);
         throw new createHttpError.NotFound("Empty Equiment not found");
       } else {
+        logger.debug(`provideEquipmentInfoForLiveNetView - Equipment has been found from Live Equipment Data for MountName ${mountName} LinkId ${linkId}`);
         resolve(equipmentResult);
       }
 
     } catch (error) {
-      console.log(error)
+      logger.error(error);
       reject(error);
     }
 
@@ -296,6 +340,7 @@ exports.provideHistoricalPmDataOfDevice = function (body, user, originator, xCor
         throw new createHttpError.TooManyRequests("Too many requests");
       }
 
+      logger.debug(`provideHistoricalPmDataOfDevice - Generating Request ID`);
       let request_id =  await IndividualServiceUtility.generateRequestIdForHistoricalPMDataAPI();
       /****************************************************************************************
        * Loop through each request in the body array
@@ -304,13 +349,21 @@ exports.provideHistoricalPmDataOfDevice = function (body, user, originator, xCor
         'request-id': request_id
       };
       //setImmediate(() => ReadHistoricalData.processHistoricalDataRequest(body,request_id,requestHeaders,traceIndicatorIncrementer));
-      ReadHistoricalData.processHistoricalDataRequest(body,request_id,requestHeaders,traceIndicatorIncrementer);
+      logger.info(`provideHistoricalPmDataOfDevice - Process Historical Data Request with Request ID ${request_id}`);
+      ReadHistoricalData.processHistoricalDataRequest(body, request_id, requestHeaders, traceIndicatorIncrementer);
       resolve(response);
       
     } catch (error) {
       console.log(error);
-      counterStatusHistoricalPMDataCall--;
+      logger.error(error);
       reject(error);
+    } finally {
+      if (counterStatusHistoricalPMDataCall > 0) {
+        logger.debug(`provideHistoricalPmDataOfDevice - Decreasing counter from: ${counterStatusHistoricalPMDataCall}`);
+        counterStatusHistoricalPMDataCall--;
+      } else {
+        logger.debug("provideHistoricalPmDataOfDevice - Counter is already to 0");
+      }
     }
   });
 }
@@ -328,9 +381,11 @@ exports.provideStatusForLiveNetView = function (body, user, originator, xCorrela
       const forwardingName = "RequestForProvidingConfigurationForLivenetviewCausesReadingLtpStructure";
       const forwardingConstruct = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
       let prefix = forwardingConstruct.uuid.split('op')[0];
+      logger.debug("provideStatusForLiveNetView - Extract Profile configuration");
       let maxNumberOfParallelOperations = await IndividualServiceUtility.extractProfileConfiguration(prefix + "integer-p-006");
       counterStatus = counterStatus + 1;
       if (counterStatus > maxNumberOfParallelOperations) {
+        logger.warn(`provideStatusForLiveNetView - Too many requests - CounterStatus ${counterStatus} > ${maxNumberOfParallelOperations}`);
         throw new createHttpError.TooManyRequests("Too many requests");
       }
 
@@ -358,10 +413,12 @@ exports.provideStatusForLiveNetView = function (body, user, originator, xCorrela
        ****************************************************************************************/
       let ltpStructure = {};
       try {
+        logger.info(`provideStatusForLiveNetView - Read LTP Structure for MountName ${mountName}`);
         let ltpStructureResult = await ReadLtpStructure.readLtpStructure(mountName, requestHeaders, traceIndicatorIncrementer)
         ltpStructure = ltpStructureResult.ltpStructure;
         traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
       } catch (err) {
+        logger.error(err, "Throwing Internal Server Error");
         throw new createHttpError.InternalServerError(`${err}`)
       };
 
@@ -369,6 +426,7 @@ exports.provideStatusForLiveNetView = function (body, user, originator, xCorrela
       /****************************************************************************************
        * Collect status data
        ****************************************************************************************/
+      logger.info(`provideStatusForLiveNetView - Read Status Interface data for MountName ${mountName} and LinkId ${linkId}`);
       let statusResult = await ReadLiveStatusData.readStatusInterfaceData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer)
         .catch(err => console.log(` ${err}`));
 
@@ -385,6 +443,7 @@ exports.provideStatusForLiveNetView = function (body, user, originator, xCorrela
 
       // let acceptanecstatusForLiveNetView = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(statusForLiveNetView.airInterface);
       if (statusForLiveNetView.airInterface == undefined) {
+        logger.error(`Empty Equiment not found for MountName ${mountName}`);
         throw new createHttpError.NotFound("Empty Equiment not found");
       } else {
         resolve(statusForLiveNetView.airInterface);
@@ -393,7 +452,12 @@ exports.provideStatusForLiveNetView = function (body, user, originator, xCorrela
       console.log(error)
       reject(error);
     } finally {
-      counterStatus--;
+      if (counterStatus > 0) {
+        logger.debug(`provideStatusForLiveNetView - Decreasing counter from: ${counterStatus}`);
+        counterStatus = counterStatus - 1;
+      } else {
+        logger.debug("provideStatusForLiveNetView - Counter is already to 0");
+      }
     }
 
   });

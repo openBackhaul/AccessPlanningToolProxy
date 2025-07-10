@@ -14,6 +14,8 @@ const createHttpError = require('http-errors');
 const fileSystem = require('fs');
 const AsyncLock = require('async-lock');
 const lock = new AsyncLock();
+
+const logger = require('../LoggingService').getLogger();
   
 /**
  * This function fetches the string value from the string profile based on the expected string name.
@@ -41,6 +43,7 @@ exports.getStringProfileInstanceValue = async function (expectedStringName) {
 
   } catch (error) {
     console.log(`getStringProfileInstanceValue is not success with ${error}`);
+    logger.error(error, "getStringProfileInstanceValue is not success");
     return new createHttpError.InternalServerError(`${error}`);  
   }
 }
@@ -74,8 +77,9 @@ exports.getQueryAndPathParameter = async function (operationName, pathParamList,
     return params;
 
   } catch (error) {
-    console.log(`getQueryAndPathParameter is not success with ${error}`);
-    return new createHttpError.InternalServerError(`${error}`);    }
+    logger.error(error, "getQueryAndPathParameter is not success");
+    return new createHttpError.InternalServerError(`${error}`);
+  }
 }
 
 
@@ -95,6 +99,7 @@ exports.getConsequentOperationClientAndFieldParams = async function(forwardingCo
     consequentOperationClientAndFieldParams.fields = await IndividualServiceUtility.getStringProfileInstanceValue(stringName);
   } catch(error) {
     console.log(`getConsequentOperationClientAndFieldParams is not success with ${error}`);
+    logger.error(error, "getConsequentOperationClientAndFieldParams is not success");
     return new createHttpError.InternalServerError(`${error}`);
   }
   return consequentOperationClientAndFieldParams;
@@ -126,13 +131,13 @@ exports.forwardRequest = async function (operationClientAndFieldParams, pathPara
     return responseData;
   } catch (error) {
     console.log(`forwardRequest is not success with ${error}`);
+    logger.error(error, "forwardRequest is not success");
     return new createHttpError.InternalServerError(`${error}`);
   }
 }
 
 exports.extractProfileConfiguration = async function (uuid) {
-  const profileCollection = require('onf-core-model-ap/applicationPattern/onfModel/models/ProfileCollection');
-  let profile = await profileCollection.getProfileAsync(uuid);
+  let profile = await ProfileCollection.getProfileAsync(uuid);
   let objectKey = Object.keys(profile)[2];
   profile = profile[objectKey];
   return profile["integer-profile-configuration"]["integer-value"];
@@ -144,33 +149,35 @@ exports.extractProfileConfiguration = async function (uuid) {
  * @param {JSON} coreModelJsonObject json object that needs to be updated
  * @returns {Boolean} return true if the value is updated, otherwise returns false
  **/
-exports.resetCompleteFile = async function (coreModelJsonObject) { 
-   let controlConstructPath = onfPaths.CONTROL_CONSTRUCT;
-   let resultDel = await fileOperation.deletefromDatabaseAsync(controlConstructPath);
-   if(!resultDel) {
+exports.resetCompleteFile = async function (coreModelJsonObject) {
+  let controlConstructPath = onfPaths.CONTROL_CONSTRUCT;
+  let resultDel = await fileOperation.deletefromDatabaseAsync(controlConstructPath);
+  if (!resultDel) {
+    logger.info("Delete CC succeffully");
     return resultDel;
-   }
-    return await lock.acquire(global.databasePath, async () => {
+  } else {
+    logger.warn("Delete CC doesn't succeed");
+  }
+
+  return await lock.acquire(global.databasePath, async () => {
     let result = writeToFile(coreModelJsonObject);
     return result;
-});
-        
+  });
 
-/** 
- * Write to the filesystem.<br>
- * @param {JSON} coreModelJsonObject json object that needs to be updated
- * @returns {Boolean} return true if the value is updated, otherwise returns false
- **/
-function writeToFile(coreModelJsonObject) {
-  try {
+  /** 
+   * Write to the filesystem.<br>
+   * @param {JSON} coreModelJsonObject json object that needs to be updated
+   * @returns {Boolean} return true if the value is updated, otherwise returns false
+   **/
+  function writeToFile(coreModelJsonObject) {
+    try {
       fileSystem.writeFileSync(global.databasePath, JSON.stringify(coreModelJsonObject));
       return true;
-  } catch (error) {
-      console.log('write failed:', error)
+    } catch (error) {
+      logger.error(error, "Write to file failed");
       return false;
+    }
   }
-}
-
 }
 
 exports.generateRequestIdForHistoricalPMDataAPI = async function () {
