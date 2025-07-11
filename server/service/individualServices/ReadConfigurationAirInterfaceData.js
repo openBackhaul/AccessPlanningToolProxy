@@ -9,6 +9,8 @@ const ltpStructureUtility = require('./LtpStructureUtility');
 const createHttpError = require('http-errors');
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 
+const logger = require('../LoggingService').getLogger();
+
 const AIR_INTERFACE = {
   MODULE: "air-interface-2-0",
   LAYER_PROTOCOL_NAME: "LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER",
@@ -45,7 +47,7 @@ exports.readConfigurationAirInterfaceData = async function (mountName, linkId, l
     /****************************************************************************************
      * Declaring required variables
      ****************************************************************************************/
-    
+
     let airInterface = {};
 
     /****************************************************************************************
@@ -96,17 +98,21 @@ exports.readConfigurationAirInterfaceData = async function (mountName, linkId, l
         };
 
         return airInterfaceResult;
+      } else {
+        logger.warn(`readConfigurationAirInterfaceData - uuidUnderTest is empty for linkId ${linkId} and mountName ${mountName}`);
       }
     } else {
-      console.log(`Unable to fetch UuidUnderTest and LocalIdUnderTest for linkId ${linkId} and mountName ${mountName}`);
+      logger.warn(`readConfigurationAirInterfaceData - Unable to fetch UuidUnderTest and LocalIdUnderTest for linkId ${linkId} and mountName ${mountName}`);
     }
 
   } catch (error) {
-    console.log(`readConfigurationAirInterfaceData is not success with ${error}`);
+    logger.error(error, `readConfigurationAirInterfaceData is not success`);
   }
-  if(uuidUnderTest == ""){
+
+  if (uuidUnderTest == "") {
+    logger.error(`readConfigurationAirInterfaceData - Resource not existing. Device informs about addressed resource unknown, Throwing 470 error`);
     throw new createHttpError(470, "Resource not existing. Device informs about addressed resource unknown");
-    }
+  }
 }
 
 /**
@@ -118,8 +124,7 @@ exports.readConfigurationAirInterfaceData = async function (mountName, linkId, l
  * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
  * @returns {Object} return values of uuidUnderTest,PathParams,trace indicator incrementer if external-label === linkId
  */
-exports.RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest = async function (ltpStructure, mountName, linkId, requestHeaders, traceIndicatorIncrementer) 
-{
+exports.RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest = async function (ltpStructure, mountName, linkId, requestHeaders, traceIndicatorIncrementer) {
   const forwardingName = "RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest";
   const stringName = "RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceLabel";
   let uuidUnderTestResponse = {};
@@ -166,7 +171,8 @@ exports.RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderT
       }
     }
   } catch (error) {
-    console.log(`${forwardingName} is not success with ${error}`);
+    logger.error(error, `${forwardingName} is not success with`);
+    // console.log(`${forwardingName} is not success with ${error}`);
   }
   uuidUnderTestResponse.uuidUnderTest = uuidUnderTest;
   uuidUnderTestResponse.pathParams = pathParams;
@@ -199,16 +205,19 @@ exports.RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache = a
     let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
     let airInterfaceConfigurationResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
     if (Object.keys(airInterfaceConfigurationResponse).length === 0) {
-      console.log(`${forwardingName} is not success`);
+      logger.warn(`ReadingConfigurationFromCache - ${forwardingName} is not success`);
     } else {
       airInterfaceConfiguration = airInterfaceConfigurationResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.CONFIGURATION];
     }
   } catch (error) {
-    console.log(`${forwardingName} is not success with ${error}`);
+    logger.error(error, `${forwardingName} is not success`);
   }
+
   if (airInterfaceConfiguration == undefined) {
+    logger.debug(`ReadingConfigurationFromCache - airInterfaceConfiguration is undefined, returning empty object`);
     airInterfaceConfiguration = {};
   }
+
   airInterfaceConfiguration.traceIndicatorIncrementer = traceIndicatorIncrementer;
   return airInterfaceConfiguration;
 }
@@ -220,7 +229,7 @@ exports.RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache = a
  * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
  * @returns {Object} returns airInterfaceCapability for UuidUnderTest and LocalIdUnderTest
  */
-exports.RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache= async function (pathParams, requestHeaders, traceIndicatorIncrementer) {
+exports.RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache = async function (pathParams, requestHeaders, traceIndicatorIncrementer) {
   const forwardingName = "RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache";
   const stringName = "RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache"
   let airInterfaceCapability = {};
@@ -237,16 +246,19 @@ exports.RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache= asy
     let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
     let airInterfaceCapabilityResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
     if (Object.keys(airInterfaceCapabilityResponse).length === 0) {
-      console.log(`${forwardingName} is not success`);
+      logger.warn(`ReadingCapabilitiesFromCache - ${forwardingName} is not success`);
     } else {
       airInterfaceCapability = airInterfaceCapabilityResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.CAPABILITY];
     }
   } catch (error) {
-    console.log(`${forwardingName} is not success with ${error}`);
+    logger.error(error, `${forwardingName} is not success with`);
   }
+
   if (airInterfaceCapability == undefined) {
+    logger.debug(`ReadingCapabilitiesFromCache - airInterfaceCapability is undefined, returning empty object`);
     airInterfaceCapability = {};
   }
+
   airInterfaceCapability.traceIndicatorIncrementer = traceIndicatorIncrementer;
   return airInterfaceCapability;
 }
@@ -268,41 +280,119 @@ exports.RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache= asy
 async function formulateAirInterfaceResponseBody(airInterfaceEndPointName, airInterfaceConfiguration, airInterfaceCapability) {
   let airInterface = {};
   try {
-    if (airInterfaceEndPointName) airInterface["air-interface-endpoint-name"] = airInterfaceEndPointName;
-    if (airInterfaceConfiguration.hasOwnProperty("tx-power")) airInterface["configured-tx-power"] = airInterfaceConfiguration["tx-power"];
-    if (airInterfaceCapability.hasOwnProperty("supported-radio-signal-id-datatype")) airInterface["supported-radio-signal-id-datatype"] = airInterfaceCapability["supported-radio-signal-id-datatype"];
-    if (airInterfaceCapability.hasOwnProperty("supported-radio-signal-id-length")) airInterface["supported-radio-signal-id-length"] = airInterfaceCapability["supported-radio-signal-id-length"];
-    if (airInterfaceConfiguration.hasOwnProperty("transmitted-radio-signal-id")) airInterface["configured-transmitted-radio-signal-id"] = airInterfaceConfiguration["transmitted-radio-signal-id"];
-    if (airInterfaceConfiguration.hasOwnProperty("expected-radio-signal-id")) airInterface["configured-expected-radio-signal-id"] = airInterfaceConfiguration["expected-radio-signal-id"];
-    if (airInterfaceConfiguration.hasOwnProperty("atpc-is-on")) airInterface["configured-atpc-is-on"] = airInterfaceConfiguration["atpc-is-on"];
-    if (airInterfaceConfiguration.hasOwnProperty("atpc-thresh-upper")) airInterface["configured-atpc-threshold-upper"] = airInterfaceConfiguration["atpc-thresh-upper"];
-    if (airInterfaceConfiguration.hasOwnProperty("atpc-thresh-lower")) airInterface["configured-atpc-threshold-lower"] = airInterfaceConfiguration["atpc-thresh-lower"];
-    if (airInterfaceConfiguration.hasOwnProperty("atpc-tx-power-min")) airInterface["configured-atpc-tx-power-min"] = airInterfaceConfiguration["atpc-tx-power-min"];
-    if (airInterfaceConfiguration.hasOwnProperty("adaptive-modulation-is-on")) airInterface["configured-adaptive-modulation-is-on"] = airInterfaceConfiguration["adaptive-modulation-is-on"];
+    if (airInterfaceEndPointName) {
+      airInterface["air-interface-endpoint-name"] = airInterfaceEndPointName;
+    } else {
+      // logger
+    }
+
+    if (airInterfaceConfiguration.hasOwnProperty("tx-power")) {
+      airInterface["configured-tx-power"] = airInterfaceConfiguration["tx-power"];
+    } else {
+      // logger
+    }
+
+    if (airInterfaceCapability.hasOwnProperty("supported-radio-signal-id-datatype")) {
+      airInterface["supported-radio-signal-id-datatype"] = airInterfaceCapability["supported-radio-signal-id-datatype"];
+    } else {
+      // logger
+    }
+
+    if (airInterfaceCapability.hasOwnProperty("supported-radio-signal-id-length")) {
+      airInterface["supported-radio-signal-id-length"] = airInterfaceCapability["supported-radio-signal-id-length"];
+    } else {
+      // logger
+    }
+
+    if (airInterfaceConfiguration.hasOwnProperty("transmitted-radio-signal-id")) {
+      airInterface["configured-transmitted-radio-signal-id"] = airInterfaceConfiguration["transmitted-radio-signal-id"];
+    } else {
+      // logger
+    }
+
+    if (airInterfaceConfiguration.hasOwnProperty("expected-radio-signal-id")) {
+      airInterface["configured-expected-radio-signal-id"] = airInterfaceConfiguration["expected-radio-signal-id"];
+    } else {
+      // logger
+    }
+
+    if (airInterfaceConfiguration.hasOwnProperty("atpc-is-on")) {
+      airInterface["configured-atpc-is-on"] = airInterfaceConfiguration["atpc-is-on"];
+    } else {
+      // logger
+    }
+
+    if (airInterfaceConfiguration.hasOwnProperty("atpc-thresh-upper")) {
+      airInterface["configured-atpc-threshold-upper"] = airInterfaceConfiguration["atpc-thresh-upper"];
+    } else {
+      // logger
+    }
+
+    if (airInterfaceConfiguration.hasOwnProperty("atpc-thresh-lower")) {
+      airInterface["configured-atpc-threshold-lower"] = airInterfaceConfiguration["atpc-thresh-lower"];
+    } else {
+      // logger
+    }
+
+    if (airInterfaceConfiguration.hasOwnProperty("atpc-tx-power-min")) {
+      airInterface["configured-atpc-tx-power-min"] = airInterfaceConfiguration["atpc-tx-power-min"];
+    } else {
+      // logger
+    }
+
+    if (airInterfaceConfiguration.hasOwnProperty("adaptive-modulation-is-on")) {
+      airInterface["configured-adaptive-modulation-is-on"] = airInterfaceConfiguration["adaptive-modulation-is-on"];
+    } else {
+      // logger
+    }
+
     let minTransmissionMode = await getConfiguredModulation(
       airInterfaceCapability,
       airInterfaceConfiguration["transmission-mode-min"]);
-    let maxTransmissionMode = await getConfiguredModulation(
+
+      let maxTransmissionMode = await getConfiguredModulation(
       airInterfaceCapability,
       airInterfaceConfiguration["transmission-mode-max"]);
+
     if (minTransmissionMode) {
       airInterface["configured-modulation-minimum"] = {
         "number-of-states": minTransmissionMode["modulation-scheme"],
         "name-at-lct": minTransmissionMode["modulation-scheme-name-at-lct"]
       };
+    } else {
+      // logger
     }
+
     if (maxTransmissionMode) {
       airInterface["configured-modulation-maximum"] = {
         "number-of-states": maxTransmissionMode["modulation-scheme"],
         "name-at-lct": maxTransmissionMode["modulation-scheme-name-at-lct"]
       };
+    } else {
+      // logger
     }
-    if (minTransmissionMode.hasOwnProperty("channel-bandwidth")) airInterface["configured-channel-bandwidth-min"] = minTransmissionMode["channel-bandwidth"];
-    if (maxTransmissionMode.hasOwnProperty("channel-bandwidth")) airInterface["configured-channel-bandwidth-max"] = maxTransmissionMode["channel-bandwidth"];
-    if (airInterfaceConfiguration.hasOwnProperty("xpic-is-on")) airInterface["configured-xpic-is-on"] = airInterfaceConfiguration["xpic-is-on"];
-    
+
+    if (minTransmissionMode.hasOwnProperty("channel-bandwidth")) {
+      airInterface["configured-channel-bandwidth-min"] = minTransmissionMode["channel-bandwidth"];
+    } else {
+      // logger
+    }
+
+    if (maxTransmissionMode.hasOwnProperty("channel-bandwidth")) {
+      airInterface["configured-channel-bandwidth-max"] = maxTransmissionMode["channel-bandwidth"];
+    } else {
+      // logger
+    }
+
+    if (airInterfaceConfiguration.hasOwnProperty("xpic-is-on")) {
+      airInterface["configured-xpic-is-on"] = airInterfaceConfiguration["xpic-is-on"];
+    } else {
+      // logger
+    }
+
   } catch (error) {
-    console.log(error);
+    logger.error(error);
+    // console.log(error);
   }
   return airInterface;
 }
@@ -315,6 +405,7 @@ async function formulateAirInterfaceResponseBody(airInterfaceEndPointName, airIn
  */
 async function getConfiguredModulation(airInterfaceCapability, transmissioModeType) {
   let transmissionModeFromtransmissionModeList = {};
+
   if (airInterfaceCapability && airInterfaceCapability.hasOwnProperty("transmission-mode-list")) {
     let transmissionModeList = airInterfaceCapability["transmission-mode-list"];
     if (transmissionModeList != undefined && transmissioModeType != undefined) {
@@ -322,5 +413,6 @@ async function getConfiguredModulation(airInterfaceCapability, transmissioModeTy
         transmissionMode["transmission-mode-name"] === transmissioModeType)
     }
   }
+
   return transmissionModeFromtransmissionModeList;
 }

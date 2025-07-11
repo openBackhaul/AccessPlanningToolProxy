@@ -9,6 +9,8 @@ const ltpStructureUtility = require('./LtpStructureUtility');
 const createHttpError = require('http-errors');
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 
+const logger = require('../LoggingService').getLogger();
+
 const AIR_INTERFACE = {
   MODULE: "air-interface-2-0",
   LAYER_PROTOCOL_NAME: "LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER",
@@ -45,7 +47,7 @@ exports.readLiveEquipmentData = async function (mountName, linkId, ltpStructure,
     /****************************************************************************************
      * Declaring required variables
      ****************************************************************************************/
-    
+
     let airInterface = {};
 
     /****************************************************************************************
@@ -74,10 +76,11 @@ exports.readLiveEquipmentData = async function (mountName, linkId, ltpStructure,
 
     }
   } catch (error) {
-    console.log(`readAirInterfaceData is not success with ${error}`);
+    logger.error(error, `readLiveEquipmentData is not success`);
   }
+
   if (uuidUnderTest == "") {
-     throw new createHttpError(470, "Resource not existing. Device informs about addressed resource unknown");        
+    throw new createHttpError(470, "Resource not existing. Device informs about addressed resource unknown");
   }
 }
 
@@ -124,6 +127,7 @@ async function RequestForProvidingEquipmentForLivenetviewCausesDeterminingAirInt
 
       let externalLabelResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParamList, requestHeaders, _traceIndicatorIncrementer);
       if (Object.keys(externalLabelResponse).length === 0) {
+        logger.warn(`DeterminingAirInterfaceUuidUnderTest - ${forwardingName} is not success, externalLabelResponse is empty`);
         console.log(createHttpError.InternalServerError(`${forwardingName} is not success`));
       } else {
         externalLabelResponse = externalLabelResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.EXTERNAL_LABEL];
@@ -137,7 +141,7 @@ async function RequestForProvidingEquipmentForLivenetviewCausesDeterminingAirInt
       }
     }
   } catch (error) {
-    console.log(`${forwardingName} is not success with ${error}`);
+    logger.error(error, `${forwardingName} is not success`);
   }
   uuidUnderTestResponse.uuidUnderTest = uuidUnderTest;
   uuidUnderTestResponse.pathParams = pathParams;
@@ -171,12 +175,12 @@ exports.RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfo
     let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
     let equipmentUuidListResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
     if (Object.keys(equipmentUuidListResponse).length === 0) {
-      console.log(`${forwardingName} is not success`);
+      logger.warn(`ReadingEquipmentInfoFromCache - ${forwardingName} is not success equipmentUuidListResponse is empty`)
     }
     const forwardingName1 = "RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo";
     const stringName1 = "RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo";
     equipmentUuidListResponse = equipmentUuidListResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.EQUIPMENT]
-    
+
     for (let i = 0; i < equipmentUuidListResponse.length; i++) {
       let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName1, stringName1)
       let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
@@ -184,20 +188,20 @@ exports.RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfo
       let equipmentCategoryResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
       equipmentCategoryResponse = equipmentCategoryResponse["core-model-1-4:actual-equipment"]
       if (Object.keys(equipmentUuidListResponse).length === 0) {
-        console.log(`${forwardingName} is not success`);
+        logger.warn(`ReadingEquipmentInfoFromCache - ${forwardingName} is not success equipmentUuidListResponse is empty`)
       } else {
         let tmp_response = addToStructure(equipmentCategoryResponse, newStructure);
         if (Object.keys(tmp_response).length > 0) {
           newStructure = tmp_response;
         } else {
-          console.log("Return empty structure from equipment")
+          logger.warn(`ReadingEquipmentInfoFromCache - Return empty structure from equipment`);
         }
 
       }
 
     }
   } catch (error) {
-    console.log(`${forwardingName} is not success with ${error}`);
+    logger.error(error, `${forwardingName} is not success`);
   }
 
   return newStructure;
@@ -211,25 +215,31 @@ function addToStructure(data, structure) {
 
   let retObject = {};
   if (category === "equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM") {
-    retObject = { ...structure, "modem": {
-      "equipment-name": equipmentName,
-      "serial-number": serialNumber,
-      "part-number": partNumber,
-    }};
+    retObject = {
+      ...structure, "modem": {
+        "equipment-name": equipmentName,
+        "serial-number": serialNumber,
+        "part-number": partNumber,
+      }
+    };
   } else if (category === "equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT") {
-    retObject = { ...structure, "radio": {
-      "equipment-name": equipmentName,
-      "serial-number": serialNumber,
-      "part-number": partNumber,
-    }};
+    retObject = {
+      ...structure, "radio": {
+        "equipment-name": equipmentName,
+        "serial-number": serialNumber,
+        "part-number": partNumber,
+      }
+    };
   } else if (category === "equipment-augment-1-0:EQUIPMENT_CATEGORY_FULL_OUTDOOR_UNIT") {
-    retObject = { ...structure, "device": {
-      "equipment-name": equipmentName,
-      "serial-number": serialNumber,
-      "part-number": partNumber,
-    }};
+    retObject = {
+      ...structure, "device": {
+        "equipment-name": equipmentName,
+        "serial-number": serialNumber,
+        "part-number": partNumber,
+      }
+    };
   }
-  
+
   return retObject;
 
 }
