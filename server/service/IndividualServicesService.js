@@ -208,8 +208,9 @@ exports.provideAlarmsForLiveNetView = function (body, user, originator, xCorrela
       };
 
       logger.info(`provideAlarmsForLiveNetView - Reading Alarms data for MountName ${mountName}`);
-      let alarmsResult = await ReadLiveAlarmsData.readLiveAlarmsData(mountName, requestHeaders, traceIndicatorIncrementer)
-        .catch(err => console.log(` ${err}`));
+      let alarmsResult = await ReadLiveAlarmsData.readLiveAlarmsData(mountName, requestHeaders, traceIndicatorIncrementer);
+        //.catch(err => console.log(` ${err}`));
+
 
       if (alarmsResult) {
         if (Object.keys(alarmsResult.alarms).length != 0) {
@@ -281,8 +282,10 @@ exports.provideEquipmentInfoForLiveNetView = function (body, user, originator, x
         ltpStructure = ltpStructureResult.ltpStructure;
         traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
       } catch (err) {
-        logger.error(err, `Throwing Internal Server Error`);
-        throw new createHttpError.InternalServerError(`${err}`)
+         logger.error(err, `Throwing 502 Bad Gateway Error`);
+         throw new createHttpError(502, "Bad Gateway");
+        //throw new createHttpError.InternalServerError(`${err}`)
+
       };
 
 
@@ -290,8 +293,8 @@ exports.provideEquipmentInfoForLiveNetView = function (body, user, originator, x
        * Collect equipment data
        ****************************************************************************************/
       logger.info(`provideEquipmentInfoForLiveNetView - Reading Live Equipment Data for MountName ${mountName} LinkId ${linkId}`);
-      let equipmentResult = await ReadLiveEquipmentData.readLiveEquipmentData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer)
-        .catch(err => console.log(` ${err}`));
+      let equipmentResult = await ReadLiveEquipmentData.readLiveEquipmentData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer);
+        //.catch(err => console.log(` ${err}`));
 
       if (equipmentResult == undefined) {
         logger.error(`provideEquipmentInfoForLiveNetView - Equipment hasn't be found for MountName ${mountName} LinkId ${linkId}, Throwing HTTP error`);
@@ -418,8 +421,9 @@ exports.provideStatusForLiveNetView = function (body, user, originator, xCorrela
         ltpStructure = ltpStructureResult.ltpStructure;
         traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
       } catch (err) {
-        logger.error(err, "Throwing Internal Server Error");
-        throw new createHttpError.InternalServerError(`${err}`)
+        logger.error(err, `Throwing 502 Bad Gateway Error`);        
+        throw new createHttpError(502, "Bad Gateway");
+        //throw new createHttpError.InternalServerError(`${err}`)
       };
 
 
@@ -427,8 +431,8 @@ exports.provideStatusForLiveNetView = function (body, user, originator, xCorrela
        * Collect status data
        ****************************************************************************************/
       logger.info(`provideStatusForLiveNetView - Read Status Interface data for MountName ${mountName} and LinkId ${linkId}`);
-      let statusResult = await ReadLiveStatusData.readStatusInterfaceData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer)
-        .catch(err => console.log(` ${err}`));
+      let statusResult = await ReadLiveStatusData.readStatusInterfaceData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer);
+        //.catch(err => console.log(` ${err}`));
 
       let uuidUnderTest = "";
       if (statusResult) {
@@ -501,14 +505,15 @@ exports.provideConfigurationForLiveNetView = function (body, user, originator, x
         ltpStructure = ltpStructureResult.ltpStructure;
         traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
       } catch (err) {
-        throw new createHttpError.InternalServerError(`${err}`)
+          throw new createHttpError(502, "Bad Gateway");
+        //throw new createHttpError.InternalServerError(`${err}`)
       };
 
       /****************************************************************************************
        * Collect air-interface data
        ****************************************************************************************/
-      let airInterfaceResult = await ReadConfigurationAirInterfaceData.readConfigurationAirInterfaceData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer)
-        .catch(err => console.log(` ${err}`));
+      let airInterfaceResult = await ReadConfigurationAirInterfaceData.readConfigurationAirInterfaceData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer);
+       // .catch(err => console.log(` ${err}`));
 
       let uuidUnderTest = "";
       if (airInterfaceResult) {

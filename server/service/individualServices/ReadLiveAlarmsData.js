@@ -1,7 +1,7 @@
 'use strict';
 
 const IndividualServiceUtility = require('./IndividualServiceUtility');
-
+const createHttpError = require('http-errors');
 const logger = require('../LoggingService').getLogger();
 
 let ALARMS = {
@@ -24,32 +24,33 @@ let ALARMS = {
    @returns {Object} result which contains the live alarms data and traceIndicatorIncrementer
  **/
 exports.readLiveAlarmsData = async function (mountName, requestHeaders, traceIndicatorIncrementer) {
+  let alarms = {};
   try {
 
-    let alarms = {};
     logger.info(`readLiveAlarmsData - Retrieving Alarms from Live for MountName: ${mountName}`);
     let alarmsFromLiveResponse = await RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromLive(mountName, requestHeaders, traceIndicatorIncrementer);
 
-    if (Object.keys(alarmsFromLiveResponse).length !== 0) {
-      logger.debug(`readLiveAlarmsData - Receiving Alarms from live > 0`);
+    if (alarmsFromLiveResponse && Object.keys(alarmsFromLiveResponse).length !== 0) {
       let alarmsFromLive = alarmsFromLiveResponse.alarmsFromLive;
       traceIndicatorIncrementer = alarmsFromLiveResponse.traceIndicatorIncrementer;
       if (Object.keys(alarmsFromLive).length !== 0) {
         logger.info("readLiveAlarmsData - Alarms in the list, processing it");
         alarms = await formulateResponseBodyForAlarms(alarmsFromLive);
+        let alarmsData = {
+          alarms: alarms,
+          traceIndicatorIncrementer: traceIndicatorIncrementer
+        };
+        return alarmsData;
       } else {
         logger.debug("readLiveAlarmsData - Alarms are == 0");
       }
     }
 
-    let alarmsData = {
-      alarms: alarms,
-      traceIndicatorIncrementer: traceIndicatorIncrementer
-    };
-
-    return alarmsData;
   } catch (error) {
     logger.info(error, "readLiveAlarmsData fails");
+  }
+  if(Object.keys(alarms).length === 0){
+    throw new createHttpError(502, "Bad Gateway");
   }
 }
 
@@ -79,12 +80,16 @@ async function RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarms
     let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
     logger.debug(`RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromLive - increment traceIndicator: ${_traceIndicatorIncrementer}`);
     let alarmsFromLiveResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
-    if (alarmsFromLiveResponse) {
+    if (alarmsFromLiveResponse && Object.keys(alarmsFromLiveResponse).length != 0) {
       if (Object.keys(alarmsFromLiveResponse).length === 0) {
         logger.warn(`${forwardingName} is not success, empty data`);
       } else {
         logger.debug(`RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromLive - Receiving list of alarms`);
         alarms = alarmsFromLiveResponse;
+        alarmsFromLive.traceIndicatorIncrementer = traceIndicatorIncrementer;
+        alarmsFromLive.alarmsFromLive = alarms;
+        logger.trace(alarmsFromLive, "Returning data from RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromLive");
+        return alarmsFromLive;
       }
     } else {
       logger.warn(`${forwardingName} is not success`);
@@ -93,11 +98,7 @@ async function RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarms
     logger.error(error, `${forwardingName} is not success`);
     console.log(`${forwardingName} is not success with ${error}`);
   }
-  alarmsFromLive.traceIndicatorIncrementer = traceIndicatorIncrementer;
-  alarmsFromLive.alarmsFromLive = alarms;
-
-  logger.trace(alarmsFromLive, "Returning data from RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromLive");
-  return alarmsFromLive;
+  
 }
 
 
