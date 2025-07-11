@@ -23,28 +23,30 @@ let ALARMS = {
    @returns {Object} result which contains the live alarms data and traceIndicatorIncrementer
  **/
 exports.readLiveAlarmsData = async function (mountName, requestHeaders, traceIndicatorIncrementer) {
+  let alarms = {};
   try {
 
-    let alarms = {};
+    
     let alarmsFromLiveResponse = await RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromLive(mountName, requestHeaders, traceIndicatorIncrementer);
 
-    if (Object.keys(alarmsFromLiveResponse).length !== 0) {
+    if (alarmsFromLiveResponse && Object.keys(alarmsFromLiveResponse).length !== 0) {
       let alarmsFromLive = alarmsFromLiveResponse.alarmsFromLive;
       traceIndicatorIncrementer = alarmsFromLiveResponse.traceIndicatorIncrementer;
       if (Object.keys(alarmsFromLive).length !== 0) {
         alarms = await formulateResponseBodyForAlarms(alarmsFromLive);
+        let alarmsData = {
+          alarms: alarms,
+          traceIndicatorIncrementer: traceIndicatorIncrementer
+        };
+        return alarmsData;
       }
     }
 
-    let alarmsData = {
-      alarms: alarms,
-      traceIndicatorIncrementer: traceIndicatorIncrementer
-    };
-
-    return alarmsData;
-
   } catch (error) {
     console.log(`readLiveAlarmsData fails with the error: ${error}`);
+  }
+  if(Object.keys(alarms).length === 0){
+    throw new createHttpError(502, "Bad Gateway");
   }
 }
 
@@ -73,11 +75,14 @@ async function RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarms
     let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName)
     let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
     let alarmsFromLiveResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
-    if (alarmsFromLiveResponse) {
+    if (alarmsFromLiveResponse && Object.keys(alarmsFromLiveResponse).length != 0) {
       if (Object.keys(alarmsFromLiveResponse).length === 0) {
         console.log(`${forwardingName} is not success`);
       } else {
         alarms = alarmsFromLiveResponse;
+        alarmsFromLive.traceIndicatorIncrementer = traceIndicatorIncrementer;
+        alarmsFromLive.alarmsFromLive = alarms;
+        return alarmsFromLive;
       }
     } else {
       console.log(`${forwardingName} is not success`);
@@ -85,9 +90,7 @@ async function RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarms
   } catch (error) {
     console.log(`${forwardingName} is not success with ${error}`);
   }
-  alarmsFromLive.traceIndicatorIncrementer = traceIndicatorIncrementer;
-  alarmsFromLive.alarmsFromLive = alarms;
-  return alarmsFromLive;
+  
 }
 
 

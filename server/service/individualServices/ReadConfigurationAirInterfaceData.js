@@ -40,11 +40,12 @@ const LTP_AUGMENT = {
 * **/
 
 exports.readConfigurationAirInterfaceData = async function (mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer) {
+  let uuidUnderTest = "";
   try {
     /****************************************************************************************
      * Declaring required variables
      ****************************************************************************************/
-    let uuidUnderTest = "";
+    
     let airInterface = {};
 
     /****************************************************************************************
@@ -88,22 +89,22 @@ exports.readConfigurationAirInterfaceData = async function (mountName, linkId, l
           Object.keys(airInterfaceCapability).length !== 0) {
           airInterface = await formulateAirInterfaceResponseBody(airInterfaceEndPointName, airInterfaceConfiguration, airInterfaceCapability)
         }
+        let airInterfaceResult = {
+          uuidUnderTest: uuidUnderTest,
+          airInterface: airInterface,
+          traceIndicatorIncrementer: traceIndicatorIncrementer
+        };
+
+        return airInterfaceResult;
       }
     } else {
       console.log(`Unable to fetch UuidUnderTest and LocalIdUnderTest for linkId ${linkId} and mountName ${mountName}`);
     }
 
-    let airInterfaceResult = {
-      uuidUnderTest: uuidUnderTest,
-      airInterface: airInterface,
-      traceIndicatorIncrementer: traceIndicatorIncrementer
-    };
-
-    return airInterfaceResult;
   } catch (error) {
     console.log(`readConfigurationAirInterfaceData is not success with ${error}`);
   }
-   if(uuidUnderTest == ""){
+  if(uuidUnderTest == ""){
     throw new createHttpError(470, "Resource not existing. Device informs about addressed resource unknown");
     }
 }

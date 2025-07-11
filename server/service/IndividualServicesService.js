@@ -181,8 +181,8 @@ exports.provideAlarmsForLiveNetView = function (body, user, originator, xCorrela
         customerJourney: customerJourney
       };
 
-      let alarmsResult = await ReadLiveAlarmsData.readLiveAlarmsData(mountName, requestHeaders, traceIndicatorIncrementer)
-        .catch(err => console.log(` ${err}`));
+      let alarmsResult = await ReadLiveAlarmsData.readLiveAlarmsData(mountName, requestHeaders, traceIndicatorIncrementer);
+       // .catch(err => console.log(` ${err}`));
       if (alarmsResult) {
         if (Object.keys(alarmsResult.alarms).length != 0) {
           if (alarmsResult.alarms) {

@@ -38,11 +38,12 @@ const LTP_AUGMENT = {
    @returns {Object} result which contains the airInterface data and uuidUnderTest
 * **/
 exports.readStatusInterfaceData = async function (mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer) {
+   let uuidUnderTest = "";
   try {
     /****************************************************************************************
      * Declaring required variables
      ****************************************************************************************/
-    let uuidUnderTest = "";
+   
     let airInterface = {};
 
     /****************************************************************************************
@@ -86,18 +87,20 @@ exports.readStatusInterfaceData = async function (mountName, linkId, ltpStructur
           Object.keys(airInterfaceStatus).length !== 0) {
           airInterface = await formulateAirInterfaceResponseBody(airInterfaceEndPointName, airInterfaceCapability, airInterfaceStatus)
         }
+      
+        let airInterfaceResult = {
+          uuidUnderTest: uuidUnderTest,
+          airInterface: airInterface,
+          traceIndicatorIncrementer: traceIndicatorIncrementer
+        };
+
+        return airInterfaceResult;
       }
     } else {
       console.log(`Unable to fetch UuidUnderTest and LocalIdUnderTest for linkId ${linkId} and mountName ${mountName}`);
     }
 
-    let airInterfaceResult = {
-      uuidUnderTest: uuidUnderTest,
-      airInterface: airInterface,
-      traceIndicatorIncrementer: traceIndicatorIncrementer
-    };
-
-    return airInterfaceResult;
+    
   } catch (error) {
     console.log(`readAirInterfaceData is not success with ${error}`);
   }
