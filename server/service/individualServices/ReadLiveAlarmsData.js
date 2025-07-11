@@ -1,7 +1,7 @@
 'use strict';
 
 const IndividualServiceUtility = require('./IndividualServiceUtility');
-
+const createHttpError = require('http-errors');
 const logger = require('../LoggingService').getLogger();
 
 let ALARMS = {
