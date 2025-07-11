@@ -3,7 +3,8 @@
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 const IndividualServiceUtility = require('./IndividualServiceUtility');
 const LtpStructureUtility = require('./LtpStructureUtility');
-const ReadAirInterfaceData = require('./ReadAirInterfaceData');
+
+const logger = require('../LoggingService').getLogger();
 
 const FIRMWARE = {
   MODULE: "firmware-1-0:",
@@ -122,13 +123,17 @@ exports.readInventoryData = function (mountName, ltpStructure, uuidUnderTest, re
       /****************************************************************************************
        *  Fetching data for installed-firmware attribute
        ****************************************************************************************/
+      logger.info(`readInventoryData - Reading FirmwareList for MountName ${mountName}`);
       let installedFirmwareResponse = await RequestForProvidingAcceptanceDataCausesReadingFirmwareList(mountName, requestHeaders, traceIndicatorIncrementer);
       if (Object.keys(installedFirmwareResponse).length > 0) {
         if (installedFirmwareResponse.installedFirmware != undefined) {
           inventoryData.installedFirmware = installedFirmwareResponse.installedFirmware;
         }
         traceIndicatorIncrementer = installedFirmwareResponse.traceIndicatorIncrementer;
+      } else {
+        logger.warn("No data for Installed firmware");
       }
+
 
       /****************************************************************************************
        *  Fetch data for Components Radio, Modem, Device  
@@ -140,12 +145,14 @@ exports.readInventoryData = function (mountName, ltpStructure, uuidUnderTest, re
       if (uuidUnderTest != "") {
         let equipmentUuidList = [];
         let equipmentInfo = {};
+        logger.info(`readInventoryData - Reading Modem Position Equioment UUID for MountName ${mountName} UUIID ${uuidUnderTest}`);
         let equipmentUuidResponse = await RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositionEquipmentUuid(mountName, uuidUnderTest, requestHeaders, traceIndicatorIncrementer);
 
         if (Object.keys(equipmentUuidResponse).length !== 0) {
           traceIndicatorIncrementer = equipmentUuidResponse.traceIndicatorIncrementer;
           equipmentUuidList = equipmentUuidResponse.equipmentUuidList;
           if (equipmentUuidList && equipmentUuidList.length !== 0) {
+            logger.info(`readInventoryData - Reading Radio Component Identifier for MountName ${mountName}`);
             let equipmentInfoResponse = await RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers(mountName, equipmentUuidResponse, requestHeaders);
             if (Object.keys(equipmentInfoResponse).length !== 0) {
               traceIndicatorIncrementer = equipmentInfoResponse.traceIndicatorIncrementer;
@@ -174,6 +181,7 @@ exports.readInventoryData = function (mountName, ltpStructure, uuidUnderTest, re
          ****************************************************************************************/
 
         if (equipmentUuidList && equipmentUuidList.length !== 0) {
+          logger.info(`readInventoryData - Reading Modem Position Equioment Category UUID for MountName ${mountName}`);
           let equipmentCategoryResponse = await RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositionEquipmentCategory(mountName, equipmentUuidList, requestHeaders, traceIndicatorIncrementer);
           if (equipmentCategoryResponse) {
             let equipmentUuidOfModemCategory = equipmentCategoryResponse.equipmentUuidOfModemCategory;
@@ -188,41 +196,54 @@ exports.readInventoryData = function (mountName, ltpStructure, uuidUnderTest, re
                 }
               }
             }
+          } else {
+            logger.warn (`readInventoryData - NO DATA for Modem Position Equioment Category UUID for MountName ${mountName}`);
           }
+        } else {
+          logger.warn(`readInventoryData - equipmentUuidList is empty`);
         }
       }
 
       /****************************************************************************************
        *  Fetching data for configured-group-of-air-interfaces attribute
        ****************************************************************************************/
+      logger.info(`readInventoryData - Fetching Configured Group Of AIR Interfaces for MountName ${mountName} UUID ${uuidUnderTest}`);
       let configuredGroupOfAirInterfacesResponse = await FetchConfiguredGroupOfAirInterfaces(mountName, ltpStructure, uuidUnderTest, requestHeaders, traceIndicatorIncrementer);
       if (Object.keys(configuredGroupOfAirInterfacesResponse).length > 0) {
         if (Object.keys(configuredGroupOfAirInterfacesResponse.configuredGroupOfAirInterfaceList).length != 0) {
           inventoryData.configuredGroupOfAirInterfaces = configuredGroupOfAirInterfacesResponse.configuredGroupOfAirInterfaceList;
         }
         traceIndicatorIncrementer = configuredGroupOfAirInterfacesResponse.traceIndicatorIncrementer;
+      } else {
+        logger.warn(`readInventoryData - NO DATA for Configured Group Of AIR Interfaces for MountName ${mountName} UUID ${uuidUnderTest}`);
       }
 
       /****************************************************************************************
        *  Fetching data for plugged-sfp-pmd-list attribute
        ****************************************************************************************/
+      logger.info(`readInventoryData - Fetching Plugged Sfp list for MountName ${mountName}`);
       let pluggedSfpPmdListResponse = await FetchPluggedSfpPmdList(mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer);
       if (Object.keys(pluggedSfpPmdListResponse).length > 0) {
         if (Object.keys(pluggedSfpPmdListResponse.pluggedSfpPmdList).length > 0) {
           inventoryData.pluggedSfpPmdList = pluggedSfpPmdListResponse.pluggedSfpPmdList;
         }
         traceIndicatorIncrementer = pluggedSfpPmdListResponse.traceIndicatorIncrementer;
+      } else {
+        logger.warn(`readInventoryData - No DATA for Plugged Sfp list for MountName ${mountName}`);
       }
 
       /****************************************************************************************
        *  Fetching data for connector-plugging-the-outdoor-unit attribute
        ****************************************************************************************/
+      logger.info(`readInventoryData - Fetching Connector Plugging Outdoor Unit for MountName ${mountName} UUID ${uuidUnderTest}`);
       let connectorPluggingTheOutdoorUnitResponse = await FetchConnectorPluggingTheOutdoorUnit(mountName, uuidUnderTest, requestHeaders, traceIndicatorIncrementer);
       if (Object.keys(connectorPluggingTheOutdoorUnitResponse).length > 0) {
         if (connectorPluggingTheOutdoorUnitResponse.connectorPluggingTheOutdoorUnit != undefined) {
           inventoryData.connectorPluggingTheOutdoorUnit = connectorPluggingTheOutdoorUnitResponse.connectorPluggingTheOutdoorUnit;
         }
         traceIndicatorIncrementer = connectorPluggingTheOutdoorUnitResponse.traceIndicatorIncrementer;
+      } else {
+        logger.warn(`readInventoryData - NO DATA for Connector Plugging Outdoor Unit for MountName ${mountName} UUID ${uuidUnderTest}`);
       }
 
       /****************************************************************************************
@@ -294,12 +315,14 @@ async function RequestForProvidingAcceptanceDataCausesReadingFirmwareList(mountN
       }
     }
   } catch (error) {
-    console.log(`${fcNameForReadingFirmwareList} is not success with ${error}`);
+    logger.error(error, `${fcNameForReadingFirmwareList} is not success`);
   }
+
   installedFirmwareResponse = {
     installedFirmware: installedFirmwareList,
     traceIndicatorIncrementer: traceIndicatorIncrementer
   };
+
   return installedFirmwareResponse;
 
 }
@@ -332,7 +355,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositio
     let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
     let ltpAugmentResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
     if (Object.keys(ltpAugmentResponse).length === 0) {
-      console.log(`${forwardingName} is not success`);
+      logger.error(`${forwardingName} is not success`);
     } else {
       let ltpAugmentPac = ltpAugmentResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC];
       if (ltpAugmentPac && ltpAugmentPac.hasOwnProperty(LTP_AUGMENT.EQUIPMENT)) {
@@ -340,8 +363,10 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositio
       }
     }
   } catch (error) {
+    // logger.error(error, `${forwardingName} is not success`);
     console.log(`${forwardingName} is not success with ${error}`);
   }
+
   equipmentUuidResponse.equipmentUuidList = equipmentUuidList;
   equipmentUuidResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
   return equipmentUuidResponse;

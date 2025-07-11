@@ -1,7 +1,8 @@
 'use strict';
 
 const IndividualServiceUtility = require('./IndividualServiceUtility');
-const createHttpError = require('http-errors');
+
+const logger = require('../LoggingService').getLogger();
 
 let ALARMS = {
   MODULE: "alarms-1-0",
@@ -26,24 +27,27 @@ exports.readLiveAlarmsData = async function (mountName, requestHeaders, traceInd
   let alarms = {};
   try {
 
-    
+    logger.info(`readLiveAlarmsData - Retrieving Alarms from Live for MountName: ${mountName}`);
     let alarmsFromLiveResponse = await RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromLive(mountName, requestHeaders, traceIndicatorIncrementer);
 
     if (alarmsFromLiveResponse && Object.keys(alarmsFromLiveResponse).length !== 0) {
       let alarmsFromLive = alarmsFromLiveResponse.alarmsFromLive;
       traceIndicatorIncrementer = alarmsFromLiveResponse.traceIndicatorIncrementer;
       if (Object.keys(alarmsFromLive).length !== 0) {
+        logger.info("readLiveAlarmsData - Alarms in the list, processing it");
         alarms = await formulateResponseBodyForAlarms(alarmsFromLive);
         let alarmsData = {
           alarms: alarms,
           traceIndicatorIncrementer: traceIndicatorIncrementer
         };
         return alarmsData;
+      } else {
+        logger.debug("readLiveAlarmsData - Alarms are == 0");
       }
     }
 
   } catch (error) {
-    console.log(`readLiveAlarmsData fails with the error: ${error}`);
+    logger.info(error, "readLiveAlarmsData fails");
   }
   if(Object.keys(alarms).length === 0){
     throw new createHttpError(502, "Bad Gateway");
@@ -74,20 +78,24 @@ async function RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarms
     pathParams.push(mountName);
     let consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName)
     let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
+    logger.debug(`RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromLive - increment traceIndicator: ${_traceIndicatorIncrementer}`);
     let alarmsFromLiveResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
     if (alarmsFromLiveResponse && Object.keys(alarmsFromLiveResponse).length != 0) {
       if (Object.keys(alarmsFromLiveResponse).length === 0) {
-        console.log(`${forwardingName} is not success`);
+        logger.warn(`${forwardingName} is not success, empty data`);
       } else {
+        logger.debug(`RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromLive - Receiving list of alarms`);
         alarms = alarmsFromLiveResponse;
         alarmsFromLive.traceIndicatorIncrementer = traceIndicatorIncrementer;
         alarmsFromLive.alarmsFromLive = alarms;
+        logger.trace(alarmsFromLive, "Returning data from RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromLive");
         return alarmsFromLive;
       }
     } else {
-      console.log(`${forwardingName} is not success`);
+      logger.warn(`${forwardingName} is not success`);
     }
   } catch (error) {
+    logger.error(error, `${forwardingName} is not success`);
     console.log(`${forwardingName} is not success with ${error}`);
   }
   
@@ -103,10 +111,13 @@ async function formulateResponseBodyForAlarms(alarmsFromLive) {
   let alarms = {
     "current-alarms": {}
   };
+
   if (alarmsFromLive) {
+    logger.debug("formulateResponseBodyForAlarms - Checking current alarms");
     let currentAlarms = alarmsFromLive[ALARMS.MODULE + ":" + ALARMS.CURRENT_ALARMS];
     if (currentAlarms) {
       if (Object.keys(currentAlarms).length !== 0) {
+        logger.debug("formulateResponseBodyForAlarms - Current alarms are present");
         let numberOfCurrentAlarms = alarmsFromLive[ALARMS.MODULE + ":" + ALARMS.CURRENT_ALARMS][ALARMS.NUMBER_OF_CURRENT_ALARMS];
         let alarmList = [];
         if (numberOfCurrentAlarms != 0) {
@@ -121,6 +132,8 @@ async function formulateResponseBodyForAlarms(alarmsFromLive) {
         }
         alarms[ALARMS.CURRENT_ALARMS][ALARMS.NUMBER_OF_CURRENT_ALARMS] = numberOfCurrentAlarms;
         alarms[ALARMS.CURRENT_ALARMS][ALARMS.CURRENT_ALARM_LIST] = alarmList;
+      } else {
+        logger.debug("formulateResponseBodyForAlarms - Current alarms entry does't exists");
       }
     }
   }

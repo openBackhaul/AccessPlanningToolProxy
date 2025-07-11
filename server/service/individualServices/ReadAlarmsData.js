@@ -1,7 +1,7 @@
 'use strict';
 
 const IndividualServiceUtility = require('./IndividualServiceUtility');
-const createHttpError = require('http-errors');
+const logger = require('../LoggingService').getLogger();
 
 let ALARMS = {
   MODULE: "alarms-1-0",
@@ -33,7 +33,11 @@ exports.readAlarmsData = async function (mountName, requestHeaders, traceIndicat
       traceIndicatorIncrementer = alarmsFromLiveResponse.traceIndicatorIncrementer;
       if (Object.keys(alarmsFromLive).length !== 0) {
         alarms = await formulateResponseBodyForAlarms(alarmsFromLive);
+      } else {
+        logger.warn(`alarmsFromLive is empty for MountName: ${mountName}`);
       }
+    } else {
+      logger.warn(`alarmsFromLiveResponse is empty for MountName: ${mountName}`);
     }
 
     let alarmsData = {
@@ -44,7 +48,7 @@ exports.readAlarmsData = async function (mountName, requestHeaders, traceIndicat
     return alarmsData;
 
   } catch (error) {
-    console.log(`readAlarmsData is not success with ${error}`);
+    logger.error(error, "readAlarmsData is not success");
   }
 }
 
@@ -75,16 +79,19 @@ async function RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLi
     let alarmsFromLiveResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
     if (alarmsFromLiveResponse) {
       if (Object.keys(alarmsFromLiveResponse).length === 0) {
-        console.log(`${forwardingName} is not success`);
+        logger.error(`${forwardingName} is not success for mountName ${mountName}`);
       } else {
+        logger.info(`${forwardingName} for mountName ${mountName} successed`);
         alarms = alarmsFromLiveResponse;
       }
     } else {
-      console.log(`${forwardingName} is not success`);
+      logger.error(`${forwardingName} is not success for mountName ${mountName}, alarmsFromLiveResponse is empty`);
     }
   } catch (error) {
+    logger.error(error, `${forwardingName} is not success for mountName: ${mountName}`);
     console.log(`${forwardingName} is not success with ${error}`);
   }
+
   alarmsFromLive.traceIndicatorIncrementer = traceIndicatorIncrementer;
   alarmsFromLive.alarmsFromLive = alarms;
   return alarmsFromLive;
@@ -100,6 +107,7 @@ async function formulateResponseBodyForAlarms(alarmsFromLive) {
   let alarms = {
     "current-alarms": {}
   };
+
   if (alarmsFromLive) {
     let currentAlarms = alarmsFromLive[ALARMS.MODULE + ":" + ALARMS.CURRENT_ALARMS];
     if (currentAlarms) {
@@ -113,13 +121,22 @@ async function formulateResponseBodyForAlarms(alarmsFromLive) {
             alarm[ALARMS.ALARM_SEVERITY] = currentAlarmList[i][ALARMS.ALARM_SEVERITY];
             alarm[ALARMS.ALARM_TYPE_QUALIFIER] = currentAlarmList[i][ALARMS.ALARM_TYPE_QUALIFIER];
             alarm[ALARMS.ALARM_TYPE_ID] = currentAlarmList[i][ALARMS.ALARM_TYPE_ID];
+            logger.trace(alarm, `formulateResponseBodyForAlarms - Pushing alarm to alarmlist`);
             alarmList.push(alarm);
           }
+        } else {
+          logger.warn("formulateResponseBodyForAlarms - numberOfCurrentAlarms is 0");
         }
+        logger.debug(`formulateResponseBodyForAlarms - number of current alarm is ${numberOfCurrentAlarms}`);
         alarms[ALARMS.CURRENT_ALARMS][ALARMS.NUMBER_OF_CURRENT_ALARMS] = numberOfCurrentAlarms;
         alarms[ALARMS.CURRENT_ALARMS][ALARMS.CURRENT_ALARM_LIST] = alarmList;
+      } else {
+        logger.warn("formulateResponseBodyForAlarms - currentAlarms seems empty")
       }
+    } else {
+      logger.warn("formulateResponseBodyForAlarms - currentAlarms is empty");
     }
   }
+
   return alarms;
 }

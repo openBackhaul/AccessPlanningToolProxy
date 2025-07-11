@@ -3,6 +3,8 @@
 const IndividualServiceUtility = require('./IndividualServiceUtility');
 const createHttpError = require('http-errors');
 
+const logger = require('../LoggingService').getLogger();
+
 /**
  * This method performs the set of procedure to gather the ltp structure of given mount name
  * @param {String} mountName Identifier of the device at the Controller
@@ -25,16 +27,18 @@ exports.readLtpStructure = async function (mountName, requestHeaders, traceIndic
       *****************************************************************************************************/
       let ltpStructure = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParamList, requestHeaders, traceIndicatorIncrementer++);
       if (Object.keys(ltpStructure).length > 0) {
+        logger.debug(`readLtpStructure - LTP structure found for MountName ${mountName}, filling the response`);
         let result = {
           ltpStructure: ltpStructure,
           traceIndicatorIncrementer: traceIndicatorIncrementer
         }
         resolve(result);
       } else {
+        logger.error(`readLtpStructure - LTP structure not found for MountName ${mountName}, throwing InternalServerError`);
         throw new createHttpError.InternalServerError(`unable to fetch ltpStructure for mountName ${mountName}`);
       }
     } catch (error) {
-      console.log(error)
+      logger.error(error);
       reject(error);
     }
   });
