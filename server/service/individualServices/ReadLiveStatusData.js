@@ -4,10 +4,14 @@
  * @file This module provides functionality to gather the status data for given mount-name and linkId. 
  * @module readStatusInterfaceData
  **/
+const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
+
+const createHttpError = require('http-errors');
+
 const IndividualServiceUtility = require('./IndividualServiceUtility');
 const ltpStructureUtility = require('./LtpStructureUtility');
-const createHttpError = require('http-errors');
-const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
+
+const logger = require('../LoggingService').getLogger();
 
 const AIR_INTERFACE = {
   MODULE: "air-interface-2-0",
@@ -38,18 +42,18 @@ const LTP_AUGMENT = {
    @returns {Object} result which contains the airInterface data and uuidUnderTest
 * **/
 exports.readStatusInterfaceData = async function (mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer) {
-   let uuidUnderTest = "";
+  let uuidUnderTest = "";
   try {
     /****************************************************************************************
      * Declaring required variables
      ****************************************************************************************/
-   
+
     let airInterface = {};
 
     /****************************************************************************************
      *  Fetching and setting up UuidUnderTest and PathParameters
      ****************************************************************************************/
-
+    logger.info(`readStatusInterfaceData - Calling RequestForProvidingStatusForLivenetviewCausesDeterminingAirInterfaceUuidUnderTest ${mountName} linkid ${linkId}`);
     let uuidUnderTestResponse = await exports.RequestForProvidingStatusForLivenetviewCausesDeterminingAirInterfaceUuidUnderTest(
       ltpStructure,
       mountName,
@@ -87,7 +91,7 @@ exports.readStatusInterfaceData = async function (mountName, linkId, ltpStructur
           Object.keys(airInterfaceStatus).length !== 0) {
           airInterface = await formulateAirInterfaceResponseBody(airInterfaceEndPointName, airInterfaceCapability, airInterfaceStatus)
         }
-      
+
         let airInterfaceResult = {
           uuidUnderTest: uuidUnderTest,
           airInterface: airInterface,
@@ -97,15 +101,16 @@ exports.readStatusInterfaceData = async function (mountName, linkId, ltpStructur
         return airInterfaceResult;
       }
     } else {
-      console.log(`Unable to fetch UuidUnderTest and LocalIdUnderTest for linkId ${linkId} and mountName ${mountName}`);
+      logger.warn(`readStatusInterfaceData - Unable to fetch UuidUnderTest and LocalIdUnderTest for linkId ${linkId} and mountName ${mountName}`);
     }
 
-    
   } catch (error) {
-    console.log(`readAirInterfaceData is not success with ${error}`);
+    logger.error(error, "readStatusInterfaceData is not success");
   }
-  if(uuidUnderTest == ""){
-  throw new createHttpError(470, "Resource not existing. Device informs about addressed resource unknown");
+
+  if (uuidUnderTest == "") {
+    logger.warn(`readStatusInterfaceData - Resource not existing. Device informs about addressed resource unknown, Throwing 470 error`);
+    throw new createHttpError(470, "Resource not existing. Device informs about addressed resource unknown");
   }
 }
 
@@ -152,6 +157,7 @@ exports.RequestForProvidingStatusForLivenetviewCausesDeterminingAirInterfaceUuid
 
       let externalLabelResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParamList, requestHeaders, _traceIndicatorIncrementer);
       if (Object.keys(externalLabelResponse).length === 0) {
+        logger.error(`DeterminingAirInterfaceUuidUnderTest - externalLabelResponse for ${forwardingName} doesn't contains keys`);
         console.log(createHttpError.InternalServerError(`${forwardingName} is not success`));
       } else {
         externalLabelResponse = externalLabelResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.EXTERNAL_LABEL];
@@ -165,7 +171,7 @@ exports.RequestForProvidingStatusForLivenetviewCausesDeterminingAirInterfaceUuid
       }
     }
   } catch (error) {
-    console.log(`${forwardingName} is not success with ${error}`);
+    logger.error(error, `${forwardingName} is not success`);
   }
   uuidUnderTestResponse.uuidUnderTest = uuidUnderTest;
   uuidUnderTestResponse.pathParams = pathParams;
@@ -198,16 +204,19 @@ exports.RequestForProvidingStatusForLivenetviewCausesReadingConfigurationFromCac
     let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
     let airInterfaceConfigurationResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
     if (Object.keys(airInterfaceConfigurationResponse).length === 0) {
-      console.log(`${forwardingName} is not success`);
+      logger.warn("ReadingConfigurationFromCache - keys in airInterfaceConfigurationResponse are 0");
     } else {
       airInterfaceConfiguration = airInterfaceConfigurationResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.CONFIGURATION];
     }
   } catch (error) {
-    console.log(`${forwardingName} is not success with ${error}`);
+    logger.error(error, `${forwardingName} is not success`);
   }
+
   if (airInterfaceConfiguration == undefined) {
+    logger.warn("ReadingConfigurationFromCache - airInterfaceConfiguration is undefined, filling with empty object");
     airInterfaceConfiguration = {};
   }
+
   airInterfaceConfiguration.traceIndicatorIncrementer = traceIndicatorIncrementer;
   return airInterfaceConfiguration;
 }
@@ -236,14 +245,16 @@ exports.RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCach
     let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
     let airInterfaceCapabilityResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
     if (Object.keys(airInterfaceCapabilityResponse).length === 0) {
-      console.log(`${forwardingName} is not success`);
+      logger.warn("ReadingCapabilitiesFromCache - keys in airInterfaceCapabilityResponse are 0");
     } else {
       airInterfaceCapability = airInterfaceCapabilityResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.CAPABILITY];
     }
   } catch (error) {
-    console.log(`${forwardingName} is not success with ${error}`);
+    logger.error(error, `${forwardingName} is not success`);
   }
+
   if (airInterfaceCapability == undefined) {
+    logger.warn("ReadingCapabilitiesFromCache - airInterfaceCapability is undefined, filling with empty object");
     airInterfaceCapability = {};
   }
   airInterfaceCapability.traceIndicatorIncrementer = traceIndicatorIncrementer;
@@ -257,7 +268,7 @@ exports.RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCach
  * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator * 
  * @returns {Object} returns airInterfaceStatus for UuidUnderTest and LocalIdUnderTest
  */
-exports.RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive = async function(pathParams, requestHeaders, traceIndicatorIncrementer) {
+exports.RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive = async function (pathParams, requestHeaders, traceIndicatorIncrementer) {
   const forwardingName = "RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive";
   const stringName = "RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive.DedicatedStatusValuesFromLive";
   let airInterfaceStatus = {};
@@ -275,16 +286,19 @@ exports.RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValue
     let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
     let airInterfaceStatusResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
     if (Object.keys(airInterfaceStatusResponse).length === 0) {
-      console.log(`${forwardingName} is not success`);
+      logger.warn("ReadingDedicatedStatusValuesFromLive - keys in airInterfaceStatusResponse are 0");
     } else {
       airInterfaceStatus = airInterfaceStatusResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.STATUS];
     }
   } catch (error) {
-    console.log(`${forwardingName} is not success with ${error}`);
+    logger.error(error, `${forwardingName} is not success`);
   }
+
   if (airInterfaceStatus == undefined) {
+    logger.warn("ReadingDedicatedStatusValuesFromLive - airInterfaceStatus is undefined, filling with empty object");
     airInterfaceStatus = {};
   }
+
   airInterfaceStatus.traceIndicatorIncrementer = traceIndicatorIncrementer;
   return airInterfaceStatus;
 }
@@ -298,22 +312,44 @@ exports.RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValue
 async function formulateAirInterfaceResponseBody(airInterfaceEndPointName, airInterfaceCapability, airInterfaceStatus) {
   let airInterface = {};
   try {
-    if (airInterfaceStatus.hasOwnProperty("tx-level-cur")) airInterface["current-tx-power"] = airInterfaceStatus["tx-level-cur"];
-    if (airInterfaceStatus.hasOwnProperty("rx-level-cur")) airInterface["current-rx-level"] = airInterfaceStatus["rx-level-cur"];
+    if (airInterfaceStatus.hasOwnProperty("tx-level-cur")) {
+      airInterface["current-tx-power"] = airInterfaceStatus["tx-level-cur"];
+    } else {
+      logger.debug(`formulateAirInterfaceResponseBody - NO tx-level-cur for ${airInterfaceEndPointName}`);
+    }
+
+    if (airInterfaceStatus.hasOwnProperty("rx-level-cur")) {
+      airInterface["current-rx-level"] = airInterfaceStatus["rx-level-cur"];
+    } else {
+      logger.debug(`formulateAirInterfaceResponseBody - NO rx-level-cur for ${airInterfaceEndPointName}`);
+    }
+
     let curTransmissionMode = await getConfiguredModulation(
       airInterfaceCapability,
       airInterfaceStatus["transmission-mode-cur"]);
+
     if (curTransmissionMode) {
       airInterface["current-modulation"] = {
         "number-of-states": curTransmissionMode["modulation-scheme"],
         "name-at-lct": curTransmissionMode["modulation-scheme-name-at-lct"]
       };
+    } else {
+      logger.debug(`formulateAirInterfaceResponseBody - NO current-modulation for ${airInterfaceEndPointName}`);
     }
-    if (airInterfaceStatus.hasOwnProperty("tx-frequency-cur")) airInterface["current-tx-frequency"] = airInterfaceStatus["tx-frequency-cur"];
-    if (airInterfaceStatus.hasOwnProperty("rx-frequency-cur")) airInterface["current-rx-frequency"] = airInterfaceStatus["rx-frequency-cur"];
+
+    if (airInterfaceStatus.hasOwnProperty("tx-frequency-cur")) {
+      airInterface["current-tx-frequency"] = airInterfaceStatus["tx-frequency-cur"];
+    } else {
+      logger.debug(`formulateAirInterfaceResponseBody - NO tx-frequency-cur for ${airInterfaceEndPointName}`);
+    }
+    if (airInterfaceStatus.hasOwnProperty("rx-frequency-cur")) {
+      airInterface["current-rx-frequency"] = airInterfaceStatus["rx-frequency-cur"];
+    } else {
+      logger.debug(`formulateAirInterfaceResponseBody - NO rx-frequency-cur for ${airInterfaceEndPointName}`);
+    }
 
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
   return airInterface;
 }
@@ -331,7 +367,11 @@ async function getConfiguredModulation(airInterfaceCapability, transmissioModeTy
     if (transmissionModeList != undefined && transmissioModeType != undefined) {
       transmissionModeFromtransmissionModeList = transmissionModeList.find(transmissionMode =>
         transmissionMode["transmission-mode-name"] === transmissioModeType)
+    } else {
+      logger.debug(`getConfiguredModulation - transmissionModeList or transmissioModeType are undefined`);
     }
+  } else {
+    logger.debug(`getConfiguredModulation - airInterfaceCapability is undefined`);
   }
   return transmissionModeFromtransmissionModeList;
 }
