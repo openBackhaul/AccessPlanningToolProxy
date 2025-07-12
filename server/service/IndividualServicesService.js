@@ -138,7 +138,7 @@ exports.provideAcceptanceDataOfLinkEndpoint = function (body, user, originator, 
       let maxNumberOfParallelOperations = await IndividualServiceUtility.extractProfileConfiguration(prefix + "integer-p-000");
       counterStatusAcceptanceDataOfLinkEndpointCall = counterStatusAcceptanceDataOfLinkEndpointCall + 1;
       if (counterStatusAcceptanceDataOfLinkEndpointCall > maxNumberOfParallelOperations) {
-        logger.warn(`Too Many requests: Counter status ${counterStatusAcceptanceDataOfLinkEndpointCall} > Max Parallel Ops: ${maxNumberOfParallelOperations}`)
+        logger.warn(`Too Many requests: Counter status ${counterStatusAcceptanceDataOfLinkEndpointCall} > Max Parallel Ops: ${maxNumberOfParallelOperations}`);
         throw new createHttpError.TooManyRequests("Too many requests");
       }
 
@@ -162,15 +162,14 @@ exports.provideAcceptanceDataOfLinkEndpoint = function (body, user, originator, 
     } catch (error) {
       console.log(error);
       logger.error(error);
-      reject(error);
-    } finally {
       if (counterStatusAcceptanceDataOfLinkEndpointCall > 0) {
         logger.debug(`provideAcceptanceDataOfLinkEndpoint - Decreasing counter from: ${counterStatusAcceptanceDataOfLinkEndpointCall}`);
         counterStatusAcceptanceDataOfLinkEndpointCall--;
       } else {
         logger.debug("provideAcceptanceDataOfLinkEndpoint - Counter is already to 0");
       }
-    }
+      reject(error);
+    } 
 
   });
 }
@@ -342,7 +341,6 @@ exports.provideHistoricalPmDataOfDevice = function (body, user, originator, xCor
       if (counterStatusHistoricalPMDataCall > maxNumberOfParallelOperations) {
         throw new createHttpError.TooManyRequests("Too many requests");
       }
-
       logger.debug(`provideHistoricalPmDataOfDevice - Generating Request ID`);
       let request_id =  await IndividualServiceUtility.generateRequestIdForHistoricalPMDataAPI();
       /****************************************************************************************
@@ -359,15 +357,14 @@ exports.provideHistoricalPmDataOfDevice = function (body, user, originator, xCor
     } catch (error) {
       console.log(error);
       logger.error(error);
-      reject(error);
-    } finally {
       if (counterStatusHistoricalPMDataCall > 0) {
         logger.debug(`provideHistoricalPmDataOfDevice - Decreasing counter from: ${counterStatusHistoricalPMDataCall}`);
         counterStatusHistoricalPMDataCall--;
       } else {
         logger.debug("provideHistoricalPmDataOfDevice - Counter is already to 0");
       }
-    }
+      reject(error);
+    } 
   });
 }
 
