@@ -315,13 +315,13 @@ async function formulateAirInterfaceResponseBody(airInterfaceEndPointName, airIn
     if (airInterfaceStatus.hasOwnProperty("tx-level-cur")) {
       airInterface["current-tx-power"] = airInterfaceStatus["tx-level-cur"];
     } else {
-      logger.debug(`formulateAirInterfaceResponseBody - NO tx-level-cur for ${airInterfaceEndPointName}`);
+      logger.warn(`formulateAirInterfaceResponseBody - NO tx-level-cur for ${airInterfaceEndPointName}`);
     }
 
     if (airInterfaceStatus.hasOwnProperty("rx-level-cur")) {
       airInterface["current-rx-level"] = airInterfaceStatus["rx-level-cur"];
     } else {
-      logger.debug(`formulateAirInterfaceResponseBody - NO rx-level-cur for ${airInterfaceEndPointName}`);
+      logger.warn(`formulateAirInterfaceResponseBody - NO rx-level-cur for ${airInterfaceEndPointName}`);
     }
 
     let curTransmissionMode = await getConfiguredModulation(
@@ -334,18 +334,18 @@ async function formulateAirInterfaceResponseBody(airInterfaceEndPointName, airIn
         "name-at-lct": curTransmissionMode["modulation-scheme-name-at-lct"]
       };
     } else {
-      logger.debug(`formulateAirInterfaceResponseBody - NO current-modulation for ${airInterfaceEndPointName}`);
+      logger.warn(`formulateAirInterfaceResponseBody - NO current-modulation for ${airInterfaceEndPointName}`);
     }
 
     if (airInterfaceStatus.hasOwnProperty("tx-frequency-cur")) {
       airInterface["current-tx-frequency"] = airInterfaceStatus["tx-frequency-cur"];
     } else {
-      logger.debug(`formulateAirInterfaceResponseBody - NO tx-frequency-cur for ${airInterfaceEndPointName}`);
+      logger.warn(`formulateAirInterfaceResponseBody - NO tx-frequency-cur for ${airInterfaceEndPointName}`);
     }
     if (airInterfaceStatus.hasOwnProperty("rx-frequency-cur")) {
       airInterface["current-rx-frequency"] = airInterfaceStatus["rx-frequency-cur"];
     } else {
-      logger.debug(`formulateAirInterfaceResponseBody - NO rx-frequency-cur for ${airInterfaceEndPointName}`);
+      logger.warn(`formulateAirInterfaceResponseBody - NO rx-frequency-cur for ${airInterfaceEndPointName}`);
     }
 
   } catch (error) {
