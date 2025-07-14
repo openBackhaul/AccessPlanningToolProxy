@@ -15,15 +15,15 @@ const fileOperation = require('onf-core-model-ap/applicationPattern/databaseDriv
 
 class LogicalTerminationPointC extends LogicalTerminationPoint {
     constructor(uuid, ltpDirection, clientLtp, serverLtp, layerProtocol, additionalProperty) {
-        super(uuid, ltpDirection, clientLtp, serverLtp, layerProtocol);    
-      }
+        super(uuid, ltpDirection, clientLtp, serverLtp, layerProtocol);
+    }
 
-     /**
-     * @description This function returns the layer-protocol list for the given logical-termination-point uuid
-     * @param {String} ltpUuid : the value should be a valid string in the pattern
-     * '-\d+-\d+-\d+-(http|tcp|op)-(server|client)-\d+$'
-     * @returns {Promise<Array>}
-     **/
+    /**
+    * @description This function returns the layer-protocol list for the given logical-termination-point uuid
+    * @param {String} ltpUuid : the value should be a valid string in the pattern
+    * '-\d+-\d+-\d+-(http|tcp|op)-(server|client)-\d+$'
+    * @returns {Promise<Array>}
+    **/
     static async getLayerLtpListAsync(ltpUuid) {
         let ltp = await controlConstruct.getLogicalTerminationPointAsync(ltpUuid);
         if (ltp != undefined) {
@@ -42,13 +42,13 @@ class LogicalTerminationPointC extends LogicalTerminationPoint {
     static async setLayerProtolLtpAsync(ltpUuid, layerProtolUuid) {
         let isUpdated = false;
         let layerProtolPath = onfPaths.LAYER_PROTOCOL.replace("{uuid}", ltpUuid);
-       // await fileOperation.deletefromDatabaseAsync(layerProtolPath);
-        
+        // await fileOperation.deletefromDatabaseAsync(layerProtolPath);
+
         isUpdated = await fileOperation.writeToDatabaseAsync(
-                layerProtolPath,
-                layerProtolUuid,
-                true);
-        
+            layerProtolPath,
+            layerProtolUuid,
+            true);
+
         return isUpdated;
     }
 
@@ -63,14 +63,14 @@ class LogicalTerminationPointC extends LogicalTerminationPoint {
         let isUpdated = false;
         let layerProtolPath = onfPaths.TCP_CLIENT_REMOTE_PROTOCOL.replace("{uuid}", ltpUuid);
         //await fileOperation.deletefromDatabaseAsync(layerProtolPath);
-            isUpdated = await fileOperation.writeToDatabaseAsync(
-                layerProtolPath,
-                remoteAddress,
-                false);
-        
+        isUpdated = await fileOperation.writeToDatabaseAsync(
+            layerProtolPath,
+            remoteAddress,
+            false);
+
         return isUpdated;
     }
-    
+
     /**
      * @description This function modifies the remote port in layer-protocol for the given logical-termination-point uuid.
      * @param {String} ltpUuid : uuid of the logical-termination-point in the pattern
@@ -82,11 +82,11 @@ class LogicalTerminationPointC extends LogicalTerminationPoint {
         let isUpdated = false;
         let layerProtolPath = onfPaths.TCP_CLIENT_REMOTE_PORT.replace("{uuid}", ltpUuid);
         //await fileOperation.deletefromDatabaseAsync(layerProtolPath);
-            isUpdated = await fileOperation.writeToDatabaseAsync(
-                layerProtolPath,
-                remotePort,
-                false);
-        
+        isUpdated = await fileOperation.writeToDatabaseAsync(
+            layerProtolPath,
+            remotePort,
+            false);
+
         return isUpdated;
     }
 
@@ -101,11 +101,11 @@ class LogicalTerminationPointC extends LogicalTerminationPoint {
         let isUpdated = false;
         let layerProtolPath = onfPaths.HTTP_CLIENT_RELEASE_NUMBER.replace("{uuid}", ltpUuid);
         //await fileOperation.deletefromDatabaseAsync(layerProtolPath);
-            isUpdated = await fileOperation.writeToDatabaseAsync(
-                layerProtolPath,
-                releaseNumber,
-                false);
-        
+        isUpdated = await fileOperation.writeToDatabaseAsync(
+            layerProtolPath,
+            releaseNumber,
+            false);
+
         return isUpdated;
     }
 
@@ -120,11 +120,11 @@ class LogicalTerminationPointC extends LogicalTerminationPoint {
         let isUpdated = false;
         let layerProtolPath = onfPaths.OPERATION_CLIENT_OPERATION_NAME.replace("{uuid}", ltpUuid);
         //await fileOperation.deletefromDatabaseAsync(layerProtolPath);
-            isUpdated = await fileOperation.writeToDatabaseAsync(
-                layerProtolPath,
-                operationName,
-                false);
-        
+        isUpdated = await fileOperation.writeToDatabaseAsync(
+            layerProtolPath,
+            operationName,
+            false);
+
         return isUpdated;
     }
 
@@ -139,16 +139,16 @@ class LogicalTerminationPointC extends LogicalTerminationPoint {
         let isUpdated = false;
         let layerProtolPath = onfPaths.TCP_CLIENT_REMOTE_ADDRESS.replace("{uuid}", ltpUuid);
         //await fileOperation.deletefromDatabaseAsync(layerProtolPath);
-        
+
         isUpdated = await fileOperation.writeToDatabaseAsync(
-                layerProtolPath,
-                remoteAddress,
-                false);
-        
+            layerProtolPath,
+            remoteAddress,
+            false);
+
         return isUpdated;
-    }       
+    }
 
-  }
+}
 
-  module.exports = LogicalTerminationPointC;
+module.exports = LogicalTerminationPointC;
 
