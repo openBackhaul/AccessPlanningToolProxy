@@ -283,74 +283,74 @@ async function formulateAirInterfaceResponseBody(airInterfaceEndPointName, airIn
     if (airInterfaceEndPointName) {
       airInterface["air-interface-endpoint-name"] = airInterfaceEndPointName;
     } else {
-      // logger
+      logger.warn(`formulateAirInterfaceResponseBody - airInterfaceEndPointName is undefined for ${airInterfaceEndPointName}`);
     }
 
     if (airInterfaceConfiguration.hasOwnProperty("tx-power")) {
       airInterface["configured-tx-power"] = airInterfaceConfiguration["tx-power"];
     } else {
-      // logger
+      logger.warn(`formulateAirInterfaceResponseBody - airInterfaceConfiguration - tx-power is undefined for ${airInterfaceEndPointName}`);
     }
 
     if (airInterfaceCapability.hasOwnProperty("supported-radio-signal-id-datatype")) {
       airInterface["supported-radio-signal-id-datatype"] = airInterfaceCapability["supported-radio-signal-id-datatype"];
     } else {
-      // logger
+      logger.warn(`formulateAirInterfaceResponseBody - airInterfaceCapability - supported-radio-signal-id-datatype is undefined for ${airInterfaceEndPointName}`);
     }
 
     if (airInterfaceCapability.hasOwnProperty("supported-radio-signal-id-length")) {
       airInterface["supported-radio-signal-id-length"] = airInterfaceCapability["supported-radio-signal-id-length"];
     } else {
-      // logger
+      logger.warn(`formulateAirInterfaceResponseBody - airInterfaceCapability - supported-radio-signal-id-length is undefined for ${airInterfaceEndPointName}`);
     }
 
     if (airInterfaceConfiguration.hasOwnProperty("transmitted-radio-signal-id")) {
       airInterface["configured-transmitted-radio-signal-id"] = airInterfaceConfiguration["transmitted-radio-signal-id"];
     } else {
-      // logger
+      logger.warn(`formulateAirInterfaceResponseBody - airInterfaceConfiguration - ransmitted-radio-signal-id is undefined for ${airInterfaceEndPointName}`);
     }
 
     if (airInterfaceConfiguration.hasOwnProperty("expected-radio-signal-id")) {
       airInterface["configured-expected-radio-signal-id"] = airInterfaceConfiguration["expected-radio-signal-id"];
     } else {
-      // logger
+      logger.warn(`formulateAirInterfaceResponseBody - airInterfaceConfiguration - expected-radio-signal-id is undefined for ${airInterfaceEndPointName}`);
     }
 
     if (airInterfaceConfiguration.hasOwnProperty("atpc-is-on")) {
       airInterface["configured-atpc-is-on"] = airInterfaceConfiguration["atpc-is-on"];
     } else {
-      // logger
+      logger.warn(`formulateAirInterfaceResponseBody - airInterfaceConfiguration - atpc-is-on is undefined for ${airInterfaceEndPointName}`);
     }
 
     if (airInterfaceConfiguration.hasOwnProperty("atpc-thresh-upper")) {
       airInterface["configured-atpc-threshold-upper"] = airInterfaceConfiguration["atpc-thresh-upper"];
     } else {
-      // logger
+      logger.warn(`formulateAirInterfaceResponseBody - airInterfaceConfiguration - atpc-thresh-upper is undefined for ${airInterfaceEndPointName}`);
     }
 
     if (airInterfaceConfiguration.hasOwnProperty("atpc-thresh-lower")) {
       airInterface["configured-atpc-threshold-lower"] = airInterfaceConfiguration["atpc-thresh-lower"];
     } else {
-      // logger
+      logger.warn(`formulateAirInterfaceResponseBody - airInterfaceConfiguration - atpc-thresh-lower is undefined for ${airInterfaceEndPointName}`);
     }
 
     if (airInterfaceConfiguration.hasOwnProperty("atpc-tx-power-min")) {
       airInterface["configured-atpc-tx-power-min"] = airInterfaceConfiguration["atpc-tx-power-min"];
     } else {
-      // logger
+      logger.warn(`formulateAirInterfaceResponseBody - airInterfaceConfiguration - atpc-tx-power-min is undefined for ${airInterfaceEndPointName}`);
     }
 
     if (airInterfaceConfiguration.hasOwnProperty("adaptive-modulation-is-on")) {
       airInterface["configured-adaptive-modulation-is-on"] = airInterfaceConfiguration["adaptive-modulation-is-on"];
     } else {
-      // logger
+      logger.warn(`formulateAirInterfaceResponseBody - airInterfaceConfiguration - adaptive-modulation-is-on is undefined for ${airInterfaceEndPointName}`);
     }
 
     let minTransmissionMode = await getConfiguredModulation(
       airInterfaceCapability,
       airInterfaceConfiguration["transmission-mode-min"]);
 
-      let maxTransmissionMode = await getConfiguredModulation(
+    let maxTransmissionMode = await getConfiguredModulation(
       airInterfaceCapability,
       airInterfaceConfiguration["transmission-mode-max"]);
 
@@ -360,7 +360,7 @@ async function formulateAirInterfaceResponseBody(airInterfaceEndPointName, airIn
         "name-at-lct": minTransmissionMode["modulation-scheme-name-at-lct"]
       };
     } else {
-      // logger
+      logger.warn(`formulateAirInterfaceResponseBody - minTransmissionMode is undefined for ${airInterfaceEndPointName}`);
     }
 
     if (maxTransmissionMode) {
@@ -369,25 +369,25 @@ async function formulateAirInterfaceResponseBody(airInterfaceEndPointName, airIn
         "name-at-lct": maxTransmissionMode["modulation-scheme-name-at-lct"]
       };
     } else {
-      // logger
+      logger.warn(`formulateAirInterfaceResponseBody - maxTransmissionMode is undefined for ${airInterfaceEndPointName}`);
     }
 
     if (minTransmissionMode.hasOwnProperty("channel-bandwidth")) {
       airInterface["configured-channel-bandwidth-min"] = minTransmissionMode["channel-bandwidth"];
     } else {
-      // logger
+      logger.warn(`formulateAirInterfaceResponseBody - minTransmissionMode - channel-bandwidth is undefined for ${airInterfaceEndPointName}`);
     }
 
     if (maxTransmissionMode.hasOwnProperty("channel-bandwidth")) {
       airInterface["configured-channel-bandwidth-max"] = maxTransmissionMode["channel-bandwidth"];
     } else {
-      // logger
+      logger.warn(`formulateAirInterfaceResponseBody - maxTransmissionMode - channel-bandwidth is undefined for ${airInterfaceEndPointName}`);
     }
 
     if (airInterfaceConfiguration.hasOwnProperty("xpic-is-on")) {
       airInterface["configured-xpic-is-on"] = airInterfaceConfiguration["xpic-is-on"];
     } else {
-      // logger
+      logger.warn(`formulateAirInterfaceResponseBody - airInterfaceConfiguration - xpic-is-on is undefined for ${airInterfaceEndPointName}`);
     }
 
   } catch (error) {
