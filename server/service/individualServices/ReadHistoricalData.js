@@ -189,13 +189,17 @@ exports.processHistoricalDataRequest = async function(body,request_id, requestHe
       if (historicalDataResult["air-interface-list"].length > 0) {
         historicalPmDataOfDevice["air-interface-list"].push(...historicalDataResult["air-interface-list"]);
         dataPresent = true;
+      } else {
+        logger.warn(`processHistoricalDataRequest - historicalDataResult - air-interface-list doesn't exist for MountName ${mountName}`);
       }
       
       if (historicalDataResult["ethernet-container-list"].length > 0) {
         historicalPmDataOfDevice["ethernet-container-list"].push(...historicalDataResult["ethernet-container-list"]);
         dataPresent = true;
+      } else {
+        logger.warn(`processHistoricalDataRequest - historicalDataResult - ethernet-container-list doesn't exist for MountName ${mountName}`);
       }
-        
+
       if (!dataPresent) {
         mountWithError["code"] = 500;
         mountWithError["message"] = "Internal server error";
