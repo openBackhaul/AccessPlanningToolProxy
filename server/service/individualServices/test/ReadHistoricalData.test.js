@@ -1331,30 +1331,77 @@ describe("formulateHistoricalPmData", () => {
     };    
  
     mockAirInterfaceCapabilities = {
-      airInterfaceCapabilities: [
-        {
-          uuid: "LTP-1",
-          "transmission-mode-list": [
-            {
-              "transmission-mode-name": "Mode-1",
-              "modulation-scheme": "16-QAM",  
-              "modulation-scheme-name-at-lct": "16QAM",
-              "channel-bandwidth": 50,  
-              "code-rate": "5/6",  
-              "symbol-rate-reduction-factor": 0.8  
-            },
-            {
-              "transmission-mode-name": "Mode-2",
-              "modulation-scheme": "64-QAM",
-              "modulation-scheme-name-at-lct": "64QAM",
-              "channel-bandwidth": 100,  
-              "code-rate": "3/4",  
-              "symbol-rate-reduction-factor": 0.7  
-            }
-          ]
-        }
-      ]
-    };
+  airInterfaceCapabilities: [
+    {
+      mountName: "513250332",
+      uuid: "LTP-1",
+      localId: "LTP-1",
+      airInterfaceCapabilities: {
+        "adaptive-modulation-is-avail": true,
+        "duplex-distance-list": [
+          -1,
+        ],
+        "supported-radio-signal-id-datatype": "air-interface-2-0:RADIO_SIGNAL_ID_DATATYPE_TYPE_STRING",
+        "rx-frequency-max": 76000000,
+        "transmission-mode-list": [
+          {
+            "transmission-mode-name": "782.2.1.2.10",
+            "tx-power-max": 15,
+            "symbol-rate-reduction-factor": 1,
+            "rx-threshold": 99,
+            "am-downshift-level": 99,
+            "supported-as-fixed-configuration": true,
+            "channel-bandwidth": 250000,
+            "xpic-is-avail": false,
+            "tx-power-min": -7,
+            "transmission-mode-rank": 741,
+            "am-upshift-level": 99,
+            "modulation-scheme-name-at-lct": "16 QAM",
+            "modulation-scheme": 16,
+            "code-rate": 85,
+          },
+          {
+            "transmission-mode-name": "782.2.1.3.22",
+            "tx-power-max": 15,
+            "symbol-rate-reduction-factor": 1,
+            "rx-threshold": 99,
+            "am-downshift-level": 99,
+            "supported-as-fixed-configuration": true,
+            "channel-bandwidth": 500000,
+            "xpic-is-avail": false,
+            "tx-power-min": -7,
+            "transmission-mode-rank": 2991,
+            "am-upshift-level": 99,
+            "modulation-scheme-name-at-lct": "256 QAM",
+            "modulation-scheme": 256,
+            "code-rate": 86,
+          },
+        ],
+        "direction-of-acm-performance-values": "air-interface-2-0:DIRECTION_TYPE_NONE",
+        "supported-loop-back-kind-list": [
+          "air-interface-2-0:LOOP_BACK_TYPE_NONE",
+        ],
+        "clearing-threshold-cross-alarms-is-avail": false,
+        "duplex-distance-is-freely-configurable": false,
+        "tx-frequency-max": 86000000,
+        "maintenance-timer-range": "Range of the maintenance timer not yet defined.",
+        "acm-threshold-cross-alarms-is-avail": true,
+        "expected-equals-transmitted-radio-signal-id": false,
+        "atpc-is-avail": true,
+        "encryption-is-avail": false,
+        "type-of-equipment": "UKL 501 57/11H R1B CXP9026371_3 R29E117",
+        "receiver-on-off-is-avail": false,
+        "atpc-range": 9,
+        "supported-radio-signal-id-length": 30,
+        "performance-monitoring-is-avail": true,
+        "auto-freq-select-is-avail": false,
+        "rx-frequency-min": 71000000,
+        "tx-frequency-min": 81000000,
+      },
+    },
+  ],
+  traceIndicatorIncrementer: 20,
+};
    
     mockAirInterfacePerformance = {
         processedResponses: [
