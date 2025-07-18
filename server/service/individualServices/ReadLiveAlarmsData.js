@@ -139,3 +139,10 @@ async function formulateResponseBodyForAlarms(alarmsFromLive) {
   }
   return alarms;
 }
+
+
+if (global.testPrivateFunctions === 1)  {
+  module.exports.ReadLiveAlarmsData_Private= {
+    formulateResponseBodyForAlarms
+  }
+};

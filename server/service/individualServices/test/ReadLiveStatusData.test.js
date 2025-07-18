@@ -475,35 +475,58 @@ describe('readStatusInterfaceData', () => {
         expect(mockFormulateAirInterfaceResponseBody).toHaveBeenCalled();
       });
      
-      it('should return empty airInterface when uuidUnderTest is not found', async () => {
-        // Mock the function to return an empty object indicating no uuid found
-        readStatusInterfaceDatarewire.RequestForProvidingStatusForLivenetviewCausesDeterminingAirInterfaceUuidUnderTest = jest.fn().mockResolvedValue({});
+     it('should throw 470 error when uuidUnderTest is not found', async () => {
+  // Mock the function to return an empty object indicating no uuid found
+  readStatusInterfaceDatarewire.RequestForProvidingStatusForLivenetviewCausesDeterminingAirInterfaceUuidUnderTest = jest.fn().mockResolvedValue({});
+
+  // Test that the specific 470 error is thrown when uuidUnderTest is empty
+  await expect(
+    readStatusInterfaceData(
+      mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer
+    )
+  ).rejects.toMatchObject({
+    status: 470,
+    message: "Resource not existing. Device informs about addressed resource unknown"
+  });
+
+  // Verify the function was called
+  expect(readStatusInterfaceDatarewire.RequestForProvidingStatusForLivenetviewCausesDeterminingAirInterfaceUuidUnderTest).toHaveBeenCalledWith(
+    ltpStructure,
+    mountName,
+    linkId,
+    requestHeaders,
+    traceIndicatorIncrementer
+  );
+
+  // consoleSpy.mockRestore();
+});
+
      
-        const result = await readStatusInterfaceData(
-          mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer
-        );
-     
-        expect(result).toEqual({
-          uuidUnderTest: "",
-          airInterface: {},
-          traceIndicatorIncrementer: traceIndicatorIncrementer
-        });
-     
-        expect(readStatusInterfaceDatarewire.RequestForProvidingStatusForLivenetviewCausesDeterminingAirInterfaceUuidUnderTest).toHaveBeenCalled();
-      });
-     
-      it('should handle errors gracefully', async () => {
+it('should handle errors gracefully', async () => {
         // Mock the first function to throw an error
-        readStatusInterfaceDatarewire.RequestForProvidingStatusForLivenetviewCausesDeterminingAirInterfaceUuidUnderTest = jest.fn().mockImplementation(() => {
+         readStatusInterfaceDatarewire.RequestForProvidingStatusForLivenetviewCausesDeterminingAirInterfaceUuidUnderTest = jest.fn().mockImplementation(() => {
           throw new Error('Mocked error');
         });
+         await expect(
+    readStatusInterfaceData(
+      mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer
+    )
+  ).rejects.toMatchObject({
+    status: 470,
+    message: "Resource not existing. Device informs about addressed resource unknown"
+  });
+ 
+  // Verify the function was called
+  expect(readStatusInterfaceDatarewire.RequestForProvidingStatusForLivenetviewCausesDeterminingAirInterfaceUuidUnderTest).toHaveBeenCalledWith(
+    ltpStructure,
+    mountName,
+    linkId,
+    requestHeaders,
+    traceIndicatorIncrementer
+  );
      
-        const result = await readStatusInterfaceData(
-          mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer
-        );
-     
-        expect(result).toBeUndefined();  // The function catches errors and logs them but returns nothing
-      });
+     //   expect(result).toBeUndefined();  // The function catches errors and logs them but returns nothing
+      });     
     });
      
     describe('getConfiguredModulation', () => {

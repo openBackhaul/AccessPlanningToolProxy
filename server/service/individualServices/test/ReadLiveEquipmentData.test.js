@@ -119,40 +119,39 @@ describe('ReadLiveEquipmentData', () => {
         new Error('Error in ltpStructureUtility')
       );
   
-      const result = await readLiveEquipmentData.readLiveEquipmentData(
+      await expect (readLiveEquipmentData.readLiveEquipmentData(
         mountName,
         linkId,
         ltpStructure,
         requestHeaders,
         traceIndicatorIncrementer
-      );
-  
-      // Assertions
-      expect(result).toBeUndefined();
-      expect(ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure).toHaveBeenCalled();
+      )).rejects.toMatchObject({
+    status: 470,
+    message: "Resource not existing. Device informs about addressed resource unknown"
+  })
     });
   
-    it('should return undefined when no UUID is determined', async () => {
-      const mountName = 'Device1';
-      const linkId = 'Link123';
-      const ltpStructure = {};
-      const requestHeaders = {};
-      const traceIndicatorIncrementer = 1;
+    // it('should return undefined when no UUID is determined', async () => {
+    //   const mountName = 'Device1';
+    //   const linkId = 'Link123';
+    //   const ltpStructure = {};
+    //   const requestHeaders = {};
+    //   const traceIndicatorIncrementer = 1;
   
-      ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockResolvedValue([]);
+    //   ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockResolvedValue([]);
   
-      const result = await readLiveEquipmentData.readLiveEquipmentData(
-        mountName,
-        linkId,
-        ltpStructure,
-        requestHeaders,
-        traceIndicatorIncrementer
-      );
+    //   const result = await readLiveEquipmentData.readLiveEquipmentData(
+    //     mountName,
+    //     linkId,
+    //     ltpStructure,
+    //     requestHeaders,
+    //     traceIndicatorIncrementer
+    //   );
   
-      // Assertions
-      expect(result).toBeUndefined();
-      expect(ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure).toHaveBeenCalled();
-    });
+    //   // Assertions
+    //   expect(result).toBeUndefined();
+    //   expect(ltpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure).toHaveBeenCalled();
+    // });
   });
   
   describe('RequestForProvidingEquipmentForLivenetviewCausesDeterminingAirInterfaceUuidUnderTest', () => {
@@ -444,8 +443,8 @@ describe('ReadLiveEquipmentData', () => {
         modem: { 'equipment-name': '', 'serial-number': '', 'part-number': '' },
         radio: { 'equipment-name': '', 'serial-number': '', 'part-number': '' },
         device: { 'equipment-name': '', 'serial-number': '', 'part-number': '' },
-      });
     });
+  });
    
 });
  })

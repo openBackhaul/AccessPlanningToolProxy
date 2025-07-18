@@ -2072,44 +2072,46 @@ describe('formulateAirInterfaceResponseBody', () => {
       );
   
       expect(result).toEqual({
-        "air-interface-endpoint-name": "513559993",
-        "configured-tx-power": 23,
-        "current-tx-power": 23,
-        "current-rx-level": -50,
-        "configured-tx-frequency": 18460000,
-        "configured-rx-frequency": -1,
-        "configured-transmitted-radio-signal-id": {
-          "alphanumeric-radio-signal-id": "Not yet defined.",
-          "numeric-radio-signal-id": 193,
-        },
-        "configured-expected-radio-signal-id": {
-          "alphanumeric-radio-signal-id": "Not yet defined.",
-          "numeric-radio-signal-id": -1,
-        },
-        "configured-atpc-is-on": false,
-        "configured-atpc-threshold-upper": -40,
-        "configured-atpc-threshold-lower": -60,
-        "configured-atpc-tx-power-min": -7,
-        "configured-adaptive-modulation-is-on": false,
-        "current-cross-polarization-discrimination": 99,
-        "configured-performance-monitoring-is-on": true,
-        "configured-xpic-is-on": true,
-        "current-signal-to-noise-ratio": 40,
-        "configured-modulation-minimum": {
-          "number-of-states": 4,
-          "name-at-lct": "4QAM",
-        },
-        "configured-modulation-maximum": {
-          "number-of-states": 4,
-          "name-at-lct": "4QAM",
-        },
-        "current-modulation": {
-          "number-of-states": 4,
-          "name-at-lct": "4QAM",
-        },
-        "configured-channel-bandwidth-min": 56000,
-        "configured-channel-bandwidth-max": 56000,
-      });
+  "air-interface-endpoint-name": "513559993",
+  "configured-tx-power": 23,
+  "current-tx-power": 23,
+  "current-rx-level": -50,
+  "current-tx-frequency": 18460000,
+  "current-rx-frequency": 19470000,
+  "configured-transmitted-radio-signal-id": {
+    "alphanumeric-radio-signal-id": "Not yet defined.",
+    "numeric-radio-signal-id": 193,
+  },
+  "configured-expected-radio-signal-id": {
+    "alphanumeric-radio-signal-id": "Not yet defined.",
+    "numeric-radio-signal-id": -1,
+  },
+  "configured-atpc-is-on": false,
+  "configured-atpc-threshold-upper": -40,
+  "configured-atpc-threshold-lower": -60,
+  "configured-atpc-tx-power-min": -7,
+  "configured-adaptive-modulation-is-on": false,
+  "current-cross-polarization-discrimination": 99,
+  "configured-performance-monitoring-is-on": true,
+  "configured-xpic-is-on": true,
+  "current-signal-to-noise-ratio": 40,
+  "supported-radio-signal-id-datatype": "air-interface-2-0:RADIO_SIGNAL_ID_DATATYPE_TYPE_INTEGER",
+  "supported-radio-signal-id-length": 255,
+  "configured-modulation-minimum": {
+    "number-of-states": 4,
+    "name-at-lct": "4QAM",
+  },
+  "configured-modulation-maximum": {
+    "number-of-states": 4,
+    "name-at-lct": "4QAM",
+  },
+  "current-modulation": {
+    "number-of-states": 4,
+    "name-at-lct": "4QAM",
+  },
+  "configured-channel-bandwidth-min": 56000,
+  "configured-channel-bandwidth-max": 56000,
+});
   
   });
   

@@ -644,31 +644,26 @@ describe('readConfigurationAirInterfaceData', () => {
     // Mock the function to return an empty object indicating no uuid found
     readConfigurationAirInterfaceDatarewire.RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest = jest.fn().mockResolvedValue({});
  
-    const result = await readConfigurationAirInterfaceData(
+    // const result = await readConfigurationAirInterfaceData(
+    //   mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer
+    // );
+    await expect(
+    readConfigurationAirInterfaceData(
       mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer
-    );
+    )
+  ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+ });
  
-    expect(result).toEqual({
-      uuidUnderTest: "",
-      airInterface: {},
-      traceIndicatorIncrementer: traceIndicatorIncrementer
-    });
- 
-    expect(readConfigurationAirInterfaceDatarewire.RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest).toHaveBeenCalled();
-  });
- 
-  it('should handle errors gracefully', async () => {
-    // Mock the first function to throw an error
-    readConfigurationAirInterfaceDatarewire.RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest = jest.fn().mockImplementation(() => {
-      throw new Error('Mocked error');
-    });
- 
-    const result = await readConfigurationAirInterfaceData(
+it('should handle errors gracefully', async () => {
+  readConfigurationAirInterfaceDatarewire.RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest = jest.fn().mockRejectedValue(new Error('Resource not existing. Device informs about addressed resource unknown'));
+
+  await expect(
+    readConfigurationAirInterfaceData(
       mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer
-    );
- 
-    expect(result).toBeUndefined();  // The function catches errors and logs them but returns nothing
-  });
+    )
+  ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+});
+
 });
  
 });
