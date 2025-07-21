@@ -50,7 +50,7 @@ exports.readAirInterfaceData = async function (mountName, linkId, ltpStructure, 
     /****************************************************************************************
      *  Fetching and setting up UuidUnderTest and PathParameters
      ****************************************************************************************/
-    logger.info(`ReadAirInterface - Retrieving air interface UUID under test for MountName ${mountName} linkid ${linkId}`);
+    logger.info(`readAirInterfaceData - Retrieving air interface UUID under test for MountName ${mountName} linkid ${linkId}`);
     let uuidUnderTestResponse = await RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest(
       ltpStructure,
       mountName,
@@ -69,29 +69,29 @@ exports.readAirInterfaceData = async function (mountName, linkId, ltpStructure, 
        *  Fetching airInterfaceConfiguration , airInterfaceCapability, airInterfaceStatus
        ****************************************************************************************/
       if (uuidUnderTest != "") {
-        logger.info(`ReadAirInterface - Retrieving Configuration from Cache with path ${pathParams}`);
+        logger.info(`readAirInterfaceData - Retrieving Configuration from Cache with path ${pathParams}`);
         let airInterfaceConfiguration = await exports.RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache(pathParams, requestHeaders, traceIndicatorIncrementer);
 
         if (Object.keys(airInterfaceConfiguration).length !== 0) {
           traceIndicatorIncrementer = airInterfaceConfiguration.traceIndicatorIncrementer;
         } else {
-          logger.warn(`ReadAirInterface - NO DATA from Configuration from Cache with path ${pathParams}`);
+          logger.warn(`readAirInterfaceData - NO DATA from Configuration from Cache with path ${pathParams}`);
         }
 
-        logger.info(`ReadAirInterface - Retrieving Capabilities from Cache with path ${pathParams}`);
+        logger.info(`readAirInterfaceData - Retrieving Capabilities from Cache with path ${pathParams}`);
         let airInterfaceCapability = await RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache(pathParams, requestHeaders, traceIndicatorIncrementer);
         if (Object.keys(airInterfaceCapability).length !== 0) {
           traceIndicatorIncrementer = airInterfaceCapability.traceIndicatorIncrementer;
         } else {
-          logger.warn(`ReadAirInterface - NO DATA from Capabilities from Cache with path ${pathParams}`);
+          logger.warn(`readAirInterfaceData - NO DATA from Capabilities from Cache with path ${pathParams}`);
         }
 
-        logger.info(`ReadAirInterface - Retrieving Dedicated Status value from Live with path ${pathParams}`);
+        logger.info(`readAirInterfaceData - Retrieving Dedicated Status value from Live with path ${pathParams}`);
         let airInterfaceStatus = await RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive(pathParams, requestHeaders, traceIndicatorIncrementer);
         if (Object.keys(airInterfaceStatus).length !== 0) {
           traceIndicatorIncrementer = airInterfaceStatus.traceIndicatorIncrementer;
         } else {
-          logger.warn(`ReadAirInterface - NO DATA from Dedicated Status value from Live with path ${pathParams}`);
+          logger.warn(`readAirInterfaceData - NO DATA from Dedicated Status value from Live with path ${pathParams}`);
         }
 
 
@@ -101,14 +101,14 @@ exports.readAirInterfaceData = async function (mountName, linkId, ltpStructure, 
         if (Object.keys(airInterfaceConfiguration).length !== 0 ||
           Object.keys(airInterfaceCapability).length !== 0 ||
           Object.keys(airInterfaceStatus).length !== 0) {
-          logger.debug("ReadAirInterface - Transforming Air interface data to response body");
+          logger.debug("readAirInterfaceData - Transforming Air interface data to response body");
           airInterface = await formulateAirInterfaceResponseBody(airInterfaceEndPointName, airInterfaceConfiguration, airInterfaceCapability, airInterfaceStatus)
         } else {
-          logger.warn("ReadAirInterface - skipping formulateAirInterfaceResponseBody");
+          logger.warn("readAirInterfaceData - skipping formulateAirInterfaceResponseBody");
         }
       }
     } else {
-      logger.error(`Unable to fetch UuidUnderTest and LocalIdUnderTest for linkId ${linkId} and mountName ${mountName}`);
+      logger.error(`readAirInterfaceData - Unable to fetch UuidUnderTest and LocalIdUnderTest for linkId ${linkId} and mountName ${mountName}`);
     }
 
     let airInterfaceResult = {
@@ -166,6 +166,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUui
 
       let externalLabelResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParamList, requestHeaders, _traceIndicatorIncrementer);
       if (Object.keys(externalLabelResponse).length === 0) {
+        logger.error(`DeterminingAirInterfaceUuidUnderTest - ${forwardingName} is not success for mountname ${mountName} linkid ${linkId}`);
         console.log(createHttpError.InternalServerError(`${forwardingName} is not success`));
       } else {
         externalLabelResponse = externalLabelResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.EXTERNAL_LABEL];
@@ -179,7 +180,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUui
       }
     }
   } catch (error) {
-    console.log(`${forwardingName} is not success with ${error}`);
+    logger.error(error, `${forwardingName} is not success`);
   }
   uuidUnderTestResponse.uuidUnderTest = uuidUnderTest;
   uuidUnderTestResponse.pathParams = pathParams;
@@ -212,16 +213,19 @@ exports.RequestForProvidingAcceptanceDataCausesReadingConfigurationFromCache = a
     let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
     let airInterfaceConfigurationResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
     if (Object.keys(airInterfaceConfigurationResponse).length === 0) {
-      console.log(`${forwardingName} is not success`);
+      logger.warn(`ReadingConfigurationFromCache - ${forwardingName} is not success, airInterfaceConfigurationResponse is empty`);
     } else {
       airInterfaceConfiguration = airInterfaceConfigurationResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.CONFIGURATION];
     }
   } catch (error) {
-    console.log(`${forwardingName} is not success with ${error}`);
+    logger.error(error, `${forwardingName} is not success`);
   }
+
   if (airInterfaceConfiguration == undefined) {
+    logger.warn("ReadingConfigurationFromCache - airInterfaceConfiguration is undefined, filling with empty object");
     airInterfaceConfiguration = {};
   }
+
   airInterfaceConfiguration.traceIndicatorIncrementer = traceIndicatorIncrementer;
   return airInterfaceConfiguration;
 }
@@ -250,16 +254,19 @@ async function RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCac
     let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
     let airInterfaceCapabilityResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
     if (Object.keys(airInterfaceCapabilityResponse).length === 0) {
-      console.log(`${forwardingName} is not success`);
+      logger.warn(`ReadingCapabilitiesFromCache - ${forwardingName} is not success, airInterfaceCapabilityResponse is empty`);
     } else {
       airInterfaceCapability = airInterfaceCapabilityResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.CAPABILITY];
     }
   } catch (error) {
-    console.log(`${forwardingName} is not success with ${error}`);
+    logger.error(error, `${forwardingName} is not success`);
   }
+
   if (airInterfaceCapability == undefined) {
+    logger.warn("ReadingCapabilitiesFromCache - airInterfaceCapability is undefined, filling with empty object");
     airInterfaceCapability = {};
   }
+
   airInterfaceCapability.traceIndicatorIncrementer = traceIndicatorIncrementer;
   return airInterfaceCapability;
 }
@@ -289,16 +296,19 @@ async function RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValu
     let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
     let airInterfaceStatusResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
     if (Object.keys(airInterfaceStatusResponse).length === 0) {
-      console.log(`${forwardingName} is not success`);
+      logger.error(`ReadingDedicatedStatusValuesFromLive - ${forwardingName} is not success, airInterfaceStatusResponse is empty`);
     } else {
       airInterfaceStatus = airInterfaceStatusResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.STATUS];
     }
   } catch (error) {
-    console.log(`${forwardingName} is not success with ${error}`);
+    logger.error(error, `${forwardingName} is not success`);
   }
+
   if (airInterfaceStatus == undefined) {
+    logger.warn("ReadingDedicatedStatusValuesFromLive - airInterfaceStatus is undefined, filling with empty object");
     airInterfaceStatus = {};
   }
+
   airInterfaceStatus.traceIndicatorIncrementer = traceIndicatorIncrementer;
   return airInterfaceStatus;
 }
@@ -313,58 +323,175 @@ async function RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValu
 async function formulateAirInterfaceResponseBody(airInterfaceEndPointName, airInterfaceConfiguration, airInterfaceCapability, airInterfaceStatus) {
   let airInterface = {};
   try {
-    if (airInterfaceEndPointName) airInterface["air-interface-endpoint-name"] = airInterfaceEndPointName;
-    if (airInterfaceConfiguration.hasOwnProperty("tx-power")) airInterface["configured-tx-power"] = airInterfaceConfiguration["tx-power"];
-    if (airInterfaceStatus.hasOwnProperty("tx-level-cur")) airInterface["current-tx-power"] = airInterfaceStatus["tx-level-cur"];
-    if (airInterfaceStatus.hasOwnProperty("rx-level-cur")) airInterface["current-rx-level"] = airInterfaceStatus["rx-level-cur"];
-    if (airInterfaceStatus.hasOwnProperty("tx-frequency-cur")) airInterface["current-tx-frequency"] = airInterfaceStatus["tx-frequency-cur"];
-    if (airInterfaceStatus.hasOwnProperty("rx-frequency-cur")) airInterface["current-rx-frequency"] = airInterfaceStatus["rx-frequency-cur"];
-    if (airInterfaceConfiguration.hasOwnProperty("transmitted-radio-signal-id")) airInterface["configured-transmitted-radio-signal-id"] = airInterfaceConfiguration["transmitted-radio-signal-id"];
-    if (airInterfaceConfiguration.hasOwnProperty("expected-radio-signal-id")) airInterface["configured-expected-radio-signal-id"] = airInterfaceConfiguration["expected-radio-signal-id"];
-    if (airInterfaceConfiguration.hasOwnProperty("atpc-is-on")) airInterface["configured-atpc-is-on"] = airInterfaceConfiguration["atpc-is-on"];
-    if (airInterfaceConfiguration.hasOwnProperty("atpc-thresh-upper")) airInterface["configured-atpc-threshold-upper"] = airInterfaceConfiguration["atpc-thresh-upper"];
-    if (airInterfaceConfiguration.hasOwnProperty("atpc-thresh-lower")) airInterface["configured-atpc-threshold-lower"] = airInterfaceConfiguration["atpc-thresh-lower"];
-    if (airInterfaceConfiguration.hasOwnProperty("atpc-tx-power-min")) airInterface["configured-atpc-tx-power-min"] = airInterfaceConfiguration["atpc-tx-power-min"];
-    if (airInterfaceConfiguration.hasOwnProperty("adaptive-modulation-is-on")) airInterface["configured-adaptive-modulation-is-on"] = airInterfaceConfiguration["adaptive-modulation-is-on"];
-    if (airInterfaceStatus.hasOwnProperty("xpd-cur")) airInterface["current-cross-polarization-discrimination"] = airInterfaceStatus["xpd-cur"];
-    if (airInterfaceConfiguration.hasOwnProperty("performance-monitoring-is-on")) airInterface["configured-performance-monitoring-is-on"] = airInterfaceConfiguration["performance-monitoring-is-on"];
-    if (airInterfaceConfiguration.hasOwnProperty("xpic-is-on")) airInterface["configured-xpic-is-on"] = airInterfaceConfiguration["xpic-is-on"];
-    if (airInterfaceStatus.hasOwnProperty("snir-cur")) airInterface["current-signal-to-noise-ratio"] = airInterfaceStatus["snir-cur"];
-    if (airInterfaceCapability.hasOwnProperty("supported-radio-signal-id-datatype")) airInterface["supported-radio-signal-id-datatype"] = airInterfaceCapability["supported-radio-signal-id-datatype"];
-	  if (airInterfaceCapability.hasOwnProperty("supported-radio-signal-id-length")) airInterface["supported-radio-signal-id-length"] = airInterfaceCapability["supported-radio-signal-id-length"];
-	
+    if (airInterfaceEndPointName) {
+      airInterface["air-interface-endpoint-name"] = airInterfaceEndPointName;
+    } else {
+      logger.warn(`formulateAirInterfaceResponseBody - airInterfaceEndPointName is undefined`);
+    }
+
+    if (airInterfaceConfiguration.hasOwnProperty("tx-power")) {
+      airInterface["configured-tx-power"] = airInterfaceConfiguration["tx-power"];
+    } else {
+      logger.warn(`formulateAirInterfaceResponseBody - airInterfaceConfiguration - tx-power is undefined for ${airInterfaceEndPointName}`);
+    }
+
+    if (airInterfaceStatus.hasOwnProperty("tx-level-cur")) {
+      airInterface["current-tx-power"] = airInterfaceStatus["tx-level-cur"];
+    } else {
+      logger.warn(`formulateAirInterfaceResponseBody - airInterfaceStatus - tx-level-curr is undefined for ${airInterfaceEndPointName}`);
+    }
+
+    if (airInterfaceStatus.hasOwnProperty("rx-level-cur")) {
+      airInterface["current-rx-level"] = airInterfaceStatus["rx-level-cur"];
+    } else {
+      logger.warn(`formulateAirInterfaceResponseBody - airInterfaceStatus - rx-level-cur is undefined for ${airInterfaceEndPointName}`);
+    }
+
+    if (airInterfaceStatus.hasOwnProperty("tx-frequency-cur")) {
+      airInterface["current-tx-frequency"] = airInterfaceStatus["tx-frequency-cur"];
+    } else {
+      logger.warn(`formulateAirInterfaceResponseBody - airInterfaceStatus - tx-frequency-cur is undefined for ${airInterfaceEndPointName}`);
+    }
+
+    if (airInterfaceStatus.hasOwnProperty("rx-frequency-cur")) {
+      airInterface["current-rx-frequency"] = airInterfaceStatus["rx-frequency-cur"];
+    } else {
+      logger.warn(`formulateAirInterfaceResponseBody - airInterfaceStatus - rx-frequency-cur is undefined for ${airInterfaceEndPointName}`);
+    }
+
+    if (airInterfaceConfiguration.hasOwnProperty("transmitted-radio-signal-id")) {
+      airInterface["configured-transmitted-radio-signal-id"] = airInterfaceConfiguration["transmitted-radio-signal-id"];
+    } else {
+      logger.warn(`formulateAirInterfaceResponseBody - airInterfaceConfiguration - transmitted-radio-signal-id is undefined for ${airInterfaceEndPointName}`);
+    }
+
+    if (airInterfaceConfiguration.hasOwnProperty("expected-radio-signal-id")) {
+      airInterface["configured-expected-radio-signal-id"] = airInterfaceConfiguration["expected-radio-signal-id"];
+    } else {
+      logger.warn(`formulateAirInterfaceResponseBody - airInterfaceConfiguration - expected-radio-signal-id is undefined for ${airInterfaceEndPointName}`);
+    }
+
+    if (airInterfaceConfiguration.hasOwnProperty("atpc-is-on")) {
+      airInterface["configured-atpc-is-on"] = airInterfaceConfiguration["atpc-is-on"];
+    } else {
+      logger.warn(`formulateAirInterfaceResponseBody - airInterfaceConfiguration - atpc-is-on is undefined for ${airInterfaceEndPointName}`);
+    }
+
+    if (airInterfaceConfiguration.hasOwnProperty("atpc-thresh-upper")) {
+      airInterface["configured-atpc-threshold-upper"] = airInterfaceConfiguration["atpc-thresh-upper"];
+    } else {
+      logger.warn(`formulateAirInterfaceResponseBody - airInterfaceConfiguration - atpc-thresh-upper is undefined for ${airInterfaceEndPointName}`);
+    }
+
+    if (airInterfaceConfiguration.hasOwnProperty("atpc-thresh-lower")) {
+      airInterface["configured-atpc-threshold-lower"] = airInterfaceConfiguration["atpc-thresh-lower"];
+    } else {
+      logger.warn(`formulateAirInterfaceResponseBody - airInterfaceConfiguration - atpc-thresh-lowe is undefined for ${airInterfaceEndPointName}`);
+    }
+
+    if (airInterfaceConfiguration.hasOwnProperty("atpc-tx-power-min")) {
+      airInterface["configured-atpc-tx-power-min"] = airInterfaceConfiguration["atpc-tx-power-min"];
+    } else {
+      logger.warn(`formulateAirInterfaceResponseBody - airInterfaceConfiguration - atpc-tx-power-min is undefined for ${airInterfaceEndPointName}`);
+    }
+
+    if (airInterfaceConfiguration.hasOwnProperty("adaptive-modulation-is-on")) {
+      airInterface["configured-adaptive-modulation-is-on"] = airInterfaceConfiguration["adaptive-modulation-is-on"];
+    } else {
+      logger.warn(`formulateAirInterfaceResponseBody - airInterfaceConfiguration - eadaptive-modulation-is-on is undefined for ${airInterfaceEndPointName}`);
+    }
+
+    if (airInterfaceStatus.hasOwnProperty("xpd-cur")) {
+      airInterface["current-cross-polarization-discrimination"] = airInterfaceStatus["xpd-cur"];
+    } else {
+      logger.warn(`formulateAirInterfaceResponseBody - airInterfaceConfiguration - xpd-cur is undefined for ${airInterfaceEndPointName}`);
+    }
+
+    if (airInterfaceConfiguration.hasOwnProperty("performance-monitoring-is-on")) {
+      airInterface["configured-performance-monitoring-is-on"] = airInterfaceConfiguration["performance-monitoring-is-on"];
+    } else {
+      logger.warn(`formulateAirInterfaceResponseBody - airInterfaceConfiguration - performance-monitoring-is-on is undefined for ${airInterfaceEndPointName}`);
+    }
+
+    if (airInterfaceConfiguration.hasOwnProperty("xpic-is-on")) {
+      airInterface["configured-xpic-is-on"] = airInterfaceConfiguration["xpic-is-on"];
+    } else {
+      logger.warn(`formulateAirInterfaceResponseBody - airInterfaceConfiguration - xpic-is-on is undefined for ${airInterfaceEndPointName}`);
+    }
+
+    if (airInterfaceStatus.hasOwnProperty("snir-cur")) {
+      airInterface["current-signal-to-noise-ratio"] = airInterfaceStatus["snir-cur"];
+    } else {
+      logger.warn(`formulateAirInterfaceResponseBody - airInterfaceStatus - snir-cur is undefined for ${airInterfaceEndPointName}`);
+    }
+
+    if (airInterfaceCapability.hasOwnProperty("supported-radio-signal-id-datatype")) {
+      airInterface["supported-radio-signal-id-datatype"] = airInterfaceCapability["supported-radio-signal-id-datatype"];
+    } else {
+      logger.warn(`formulateAirInterfaceResponseBody - airInterfaceCapability - supported-radio-signal-id-datatype is undefined for ${airInterfaceEndPointName}`);
+    }
+
+    if (airInterfaceCapability.hasOwnProperty("supported-radio-signal-id-length")) {
+      airInterface["supported-radio-signal-id-length"] = airInterfaceCapability["supported-radio-signal-id-length"];
+    } else {
+      logger.warn(`formulateAirInterfaceResponseBody - airInterfaceCapability - supported-radio-signal-id-length is undefined for ${airInterfaceEndPointName}`);
+    }
+
     let minTransmissionMode = await getConfiguredModulation(
       airInterfaceCapability,
       airInterfaceConfiguration["transmission-mode-min"]);
+    
     let maxTransmissionMode = await getConfiguredModulation(
       airInterfaceCapability,
       airInterfaceConfiguration["transmission-mode-max"]);
+    
     let curTransmissionMode = await getConfiguredModulation(
       airInterfaceCapability,
       airInterfaceStatus["transmission-mode-cur"]);
+    
     if (minTransmissionMode) {
       airInterface["configured-modulation-minimum"] = {
         "number-of-states": minTransmissionMode["modulation-scheme"],
         "name-at-lct": minTransmissionMode["modulation-scheme-name-at-lct"]
       };
+    } else {
+      logger.warn(`formulateAirInterfaceResponseBody - minTransmissionMode is undefined`);
     }
+
     if (maxTransmissionMode) {
       airInterface["configured-modulation-maximum"] = {
         "number-of-states": maxTransmissionMode["modulation-scheme"],
         "name-at-lct": maxTransmissionMode["modulation-scheme-name-at-lct"]
       };
+    } else {
+      logger.warn(`formulateAirInterfaceResponseBody - maxTransmissionMode is undefined`);
     }
+
+    // Current Transmission Mode
     if (curTransmissionMode) {
       airInterface["current-modulation"] = {
         "number-of-states": curTransmissionMode["modulation-scheme"],
         "name-at-lct": curTransmissionMode["modulation-scheme-name-at-lct"]
       };
+    } else {
+      logger.warn(`formulateAirInterfaceResponseBody - curTransmissionMode (modulation-scheme) is undefined`);
     }
-    if (minTransmissionMode.hasOwnProperty("channel-bandwidth")) airInterface["configured-channel-bandwidth-min"] = minTransmissionMode["channel-bandwidth"];
-    if (maxTransmissionMode.hasOwnProperty("channel-bandwidth")) airInterface["configured-channel-bandwidth-max"] = maxTransmissionMode["channel-bandwidth"];
+
+    if (minTransmissionMode.hasOwnProperty("channel-bandwidth")) {
+      airInterface["configured-channel-bandwidth-min"] = minTransmissionMode["channel-bandwidth"];
+    } else {
+      logger.warn(`formulateAirInterfaceResponseBody - minTransmissionMode (channel-bandwith) is undefined`);
+    }
+
+    if (maxTransmissionMode.hasOwnProperty("channel-bandwidth")) {
+      airInterface["configured-channel-bandwidth-max"] = maxTransmissionMode["channel-bandwidth"];
+    } else {
+      logger.warn(`formulateAirInterfaceResponseBody - maxTransmissionMode (channel-bandwith) is undefined`);
+    }
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
+
   return airInterface;
 }
 
@@ -376,17 +503,23 @@ async function formulateAirInterfaceResponseBody(airInterfaceEndPointName, airIn
  */
 async function getConfiguredModulation(airInterfaceCapability, transmissioModeType) {
   let transmissionModeFromtransmissionModeList = {};
+
   if (airInterfaceCapability && airInterfaceCapability.hasOwnProperty("transmission-mode-list")) {
     let transmissionModeList = airInterfaceCapability["transmission-mode-list"];
     if (transmissionModeList != undefined && transmissioModeType != undefined) {
       transmissionModeFromtransmissionModeList = transmissionModeList.find(transmissionMode =>
         transmissionMode["transmission-mode-name"] === transmissioModeType)
+    } else {
+      logger.warn("getConfiguredModulation - transmissionModeList and transmissioModeType is undefined");
     }
+  } else {
+    logger.warn("getConfiguredModulation - airInterfaceCapability is undefined");
   }
+
   return transmissionModeFromtransmissionModeList;
 }
 
-if (global.testPrivateFunctions === 1)  {
+if (global.testPrivateFunctions === 1) {
   module.exports.readAirInterfaceData_private = {
     RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest,
     RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache,

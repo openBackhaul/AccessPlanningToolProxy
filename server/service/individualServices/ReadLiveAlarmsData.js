@@ -47,9 +47,11 @@ exports.readLiveAlarmsData = async function (mountName, requestHeaders, traceInd
     }
 
   } catch (error) {
-    logger.info(error, "readLiveAlarmsData fails");
+    logger.error(error, "readLiveAlarmsData fails");
   }
-  if(Object.keys(alarms).length === 0){
+
+  if (Object.keys(alarms).length === 0) {
+    logger.error("readLiveAlarmsData - Alarms not retrieved, throwing 502 - Bad Gateway");
     throw new createHttpError(502, "Bad Gateway");
   }
 }

@@ -10,7 +10,7 @@ const RequestHeader = require('onf-core-model-ap/applicationPattern/rest/client/
 const httpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
 const operationServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationServerInterface');
 
-module.exports.bequeathYourDataAndDie = async function bequeathYourDataAndDie (req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+module.exports.bequeathYourDataAndDie = async function bequeathYourDataAndDie(req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.NO_CONTENT;
   let responseBodyToDocument = {};
@@ -26,10 +26,10 @@ module.exports.bequeathYourDataAndDie = async function bequeathYourDataAndDie (r
       responseCode = sentResp.code;
       responseBodyToDocument = sentResp.body;
     });
-    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.checkRegisteredAvailabilityOfDevice = async function checkRegisteredAvailabilityOfDevice (req, res, next, body) {
+module.exports.checkRegisteredAvailabilityOfDevice = async function checkRegisteredAvailabilityOfDevice(req, res, next, body) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -71,7 +71,7 @@ module.exports.checkRegisteredAvailabilityOfDevice = async function checkRegiste
 /**
  * generates request header parameters : user, originator, xCorrelator, traceIndicator, customerJourney
  **/
-module.exports.provideAcceptanceDataOfLinkEndpoint = async function provideAcceptanceDataOfLinkEndpoint (req, res, next, body) {
+module.exports.provideAcceptanceDataOfLinkEndpoint = async function provideAcceptanceDataOfLinkEndpoint(req, res, next, body) {
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
 
@@ -107,11 +107,11 @@ module.exports.provideAcceptanceDataOfLinkEndpoint = async function provideAccep
       responseCode = sentResp.code;
       responseBodyToDocument = sentResp.body;
     });
-    //user is sent in place of originator for the root request since it is originated from user not application
-    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, user, req.url, responseCode, req.body, responseBodyToDocument);
+  //user is sent in place of originator for the root request since it is originated from user not application
+  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, user, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.provideAlarmsForLiveNetView = async function provideAlarmsForLiveNetView (req, res, next, body) {
+module.exports.provideAlarmsForLiveNetView = async function provideAlarmsForLiveNetView(req, res, next, body) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -149,7 +149,7 @@ module.exports.provideAlarmsForLiveNetView = async function provideAlarmsForLive
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, user, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.provideEquipmentInfoForLiveNetView = async function provideEquipmentInfoForLiveNetView (req, res, next, body) {
+module.exports.provideEquipmentInfoForLiveNetView = async function provideEquipmentInfoForLiveNetView(req, res, next, body) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -187,7 +187,7 @@ module.exports.provideEquipmentInfoForLiveNetView = async function provideEquipm
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, user, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.provideStatusForLiveNetView = async function provideStatusForLiveNetView (req, res, next, body) {
+module.exports.provideStatusForLiveNetView = async function provideStatusForLiveNetView(req, res, next, body) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -225,7 +225,7 @@ module.exports.provideStatusForLiveNetView = async function provideStatusForLive
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, user, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.provideConfigurationForLiveNetView = async function provideConfigurationForLiveNetView (req, res, next, body) {
+module.exports.provideConfigurationForLiveNetView = async function provideConfigurationForLiveNetView(req, res, next, body) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -263,38 +263,37 @@ module.exports.provideConfigurationForLiveNetView = async function provideConfig
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, user, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.updateAptClient = async function updateAptClient (req, res, next, body) {
+module.exports.updateAptClient = async function updateAptClient(req, res, next, body) {
   let responseCode = responseCodeEnum.code.NO_CONTENT;
   let responseBodyToDocument = {};
   let startTime = process.hrtime();
-    /****************************************************************************************
- * generates custom request header parameters : user, originator, xCorrelator, traceIndicator, customerJourney for callbacks
- ****************************************************************************************/
-    let authorizationCode = req.headers.authorization;
-    let user = authorizingService.decodeAuthorizationCodeAndExtractUserName(authorizationCode);
+  /****************************************************************************************
+   * generates custom request header parameters : user, originator, xCorrelator, traceIndicator, customerJourney for callbacks
+   ****************************************************************************************/
+  let authorizationCode = req.headers.authorization;
+  let user = authorizingService.decodeAuthorizationCodeAndExtractUserName(authorizationCode);
 
-    let originator = await httpServerInterface.getApplicationNameAsync();
+  let originator = await httpServerInterface.getApplicationNameAsync();
 
-    let customRequestHeaders = new RequestHeader(user, originator);
+  let customRequestHeaders = new RequestHeader(user, originator);
 
-    let xCorrelator = customRequestHeaders.xCorrelator;
+  let xCorrelator = customRequestHeaders.xCorrelator;
 
-    let traceIndicator = customRequestHeaders.traceIndicator.toString();
-    /****************************************************************************************
-    * generates response header parama
-    ****************************************************************************************/
+  let traceIndicator = customRequestHeaders.traceIndicator.toString();
+  /****************************************************************************************
+  * generates response header parama
+  ****************************************************************************************/
 
-    let operationServerUuid = await operationServerInterface.getOperationServerUuidAsync(req.url);
-    let lifeCycleState = await operationServerInterface.getLifeCycleState(operationServerUuid);
-    let responseHeader = {};
-    responseHeader.lifeCycleState = lifeCycleState;
+  let operationServerUuid = await operationServerInterface.getOperationServerUuidAsync(req.url);
+  let lifeCycleState = await operationServerInterface.getLifeCycleState(operationServerUuid);
+  let responseHeader = {};
+  responseHeader.lifeCycleState = lifeCycleState;
 
-
- await  IndividualServices.updateAptClient(body)
-   .then(async function (responseBody) {
-    responseBodyToDocument = responseBody;
-    let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
-    restResponseBuilder.buildResponse(res, responseCode, undefined, responseHeader);
+  await IndividualServices.updateAptClient(body)
+    .then(async function (responseBody) {
+      responseBodyToDocument = responseBody;
+      let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
+      restResponseBuilder.buildResponse(res, responseCode, undefined, responseHeader);
     })
     .catch(async function (responseBody) {
       let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
@@ -302,16 +301,16 @@ module.exports.updateAptClient = async function updateAptClient (req, res, next,
       responseCode = sentResp.code;
       responseBodyToDocument = sentResp.body;
     });
-executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, user, req.url, responseCode, req.body, responseBodyToDocument);
+  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, user, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.provideHistoricalPmDataOfDevice = async function provideHistoricalPmDataOfDevice (req, res, next, body) {
+module.exports.provideHistoricalPmDataOfDevice = async function provideHistoricalPmDataOfDevice(req, res, next, body) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
   /****************************************************************************************
- * generates custom request header parameters : user, originator, xCorrelator, traceIndicator, customerJourney for callbacks
- ****************************************************************************************/
+   * generates custom request header parameters : user, originator, xCorrelator, traceIndicator, customerJourney for callbacks
+  ****************************************************************************************/
   let authorizationCode = req.headers.authorization;
   let user = authorizingService.decodeAuthorizationCodeAndExtractUserName(authorizationCode);
 
