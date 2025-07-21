@@ -13,7 +13,7 @@ describe('LogicalTerminationPointC', () => {
     describe('setLayerProtolRemoteAddressLtpAsync', () => {
         const ltpUuid = '12345';
         const remoteAddress = '192.168.1.1';
-        const layerProtolPath = onfPaths.TCP_CLIENT_ADDRESS.replace("{uuid}", ltpUuid);
+        let layerProtolPath = onfPaths.TCP_CLIENT_REMOTE_ADDRESS.replace("{uuid}", ltpUuid);
 
         beforeEach(() => {
             jest.clearAllMocks();

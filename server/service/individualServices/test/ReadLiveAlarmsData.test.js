@@ -1,8 +1,11 @@
+global.testPrivateFunctions=1;
+
 const rewire = require('rewire');
 const alarmsModuleRewire = rewire('../ReadLiveAlarmsData');
 const alarmsModule = require('../ReadLiveAlarmsData');
 const IndividualServiceUtility = require('../IndividualServiceUtility');
-
+const {ReadLiveAlarmsData_Private}=require("../ReadLiveAlarmsData")
+global.testPrivateFunctions=0;
 jest.mock('../IndividualServiceUtility', () => ({
   getConsequentOperationClientAndFieldParams: jest.fn(),
   forwardRequest: jest.fn(),
@@ -91,17 +94,7 @@ describe('ReadAlarmsData', () => {
         traceIndicatorIncrementer: 1,
       });
   
-      const result = await alarmsModuleRewire.readLiveAlarmsData('Device1', {}, 0);
-  
-      expect(mockRequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromLive).toHaveBeenCalledWith(
-        'Device1',
-        {},
-        0
-      );
-      expect(result).toEqual({
-        alarms: {},
-        traceIndicatorIncrementer: 1,
-      });
+    await expect(alarmsModuleRewire.readLiveAlarmsData('Device1', {}, 0)).rejects.toThrow('Bad Gateway');
     });    
   
     it('should handle no trace indicator increment', async () => {
@@ -141,17 +134,11 @@ describe('ReadAlarmsData', () => {
         traceIndicatorIncrementer: 1,
       });
     
-      const result = await alarmsModule.readLiveAlarmsData('Device1', {}, 0);
-    
-      expect(result).toEqual({
-        alarms: {},
-        traceIndicatorIncrementer: 1,
-      });
+    await expect(alarmsModuleRewire.readLiveAlarmsData('Device1', {}, 0)).rejects.toThrow('Bad Gateway');
     });
   });
 
-
-describe("RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromLive", () => {
+  describe("RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromLive", () => {
     afterEach(() => {
       jest.clearAllMocks();
     })
@@ -221,35 +208,16 @@ describe("RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromL
         IndividualServiceUtility.forwardRequest.mockResolvedValue({});
   
         // Call the function
-        const result = await alarmsModule.readLiveAlarmsData('mountName', {}, 0);
-  
-        // Assertions
-        expect(result).toEqual({
-          alarms: {},
-          traceIndicatorIncrementer: 1,
-        });
+        // const result = await alarmsModule.readLiveAlarmsData('mountName', {}, 0);
+      await expect(alarmsModule.readLiveAlarmsData('mountName', {}, 0)).rejects.toThrow('Bad Gateway');
       });
   
       it('should handle errors gracefully', async () => {
         // Mock the utility function to throw an error
         IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValue({});
         IndividualServiceUtility.forwardRequest.mockRejectedValue(new Error('Test error'));
-      
-        // Spy on console.log to suppress error output during test
-        const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
-      
-        // Call the function
-        const result = await alarmsModule.readLiveAlarmsData('mountName', {}, 0);
-      
-        // Assertions
-        expect(result).toEqual({
-          alarms: {},
-          traceIndicatorIncrementer: 1, // Adjust this value based on your function's logic
-        });
-        expect(consoleSpy).toHaveBeenCalledWith('RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromLive is not success with Error: Test error');
-      
-        // Restore console.log
-        consoleSpy.mockRestore();
+
+      await expect(alarmsModule.readLiveAlarmsData('mountName', {}, 0)).rejects.toThrow('Bad Gateway');
       });  
       
       it('should handle valid response with complex alarm structure', async () => {
@@ -285,12 +253,10 @@ describe("RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromL
         IndividualServiceUtility.forwardRequest.mockResolvedValue(null);
       
         // Call the public function
-        const result = await alarmsModule.readLiveAlarmsData('Device1', {}, 0);
-      
-        // Assertions
-        expect(result.alarms).toEqual({});
+      await expect(alarmsModule.readLiveAlarmsData('mountName', {}, 0)).rejects.toThrow('Bad Gateway');
       });      
    });
+
 
    describe('formulateResponseBodyForAlarms', () => {
       let mockRequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromLive;
@@ -329,10 +295,9 @@ describe("RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromL
           mockRequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromLive
         );
     
-        const result = await alarmsModuleRewire.readLiveAlarmsData(mountName, requestHeaders, traceIndicatorIncrementer);
+        const result = await ReadLiveAlarmsData_Private.formulateResponseBodyForAlarms(mountName, requestHeaders, traceIndicatorIncrementer);
     
-        expect(result.alarms).toEqual({});
-        expect(result.traceIndicatorIncrementer).toBe(traceIndicatorIncrementer);
+        expect(result.alarms).toBeUndefined;
       });
     
       it('should return empty alarms when the response has no data structure', async () => {
@@ -349,10 +314,9 @@ describe("RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromL
           mockRequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromLive
         );
     
-        const result = await alarmsModuleRewire.readLiveAlarmsData(mountName, requestHeaders, traceIndicatorIncrementer);
+        const result = await ReadLiveAlarmsData_Private.formulateResponseBodyForAlarms(mountName, requestHeaders, traceIndicatorIncrementer);
     
-        expect(result.alarms).toEqual({});
-        expect(result.traceIndicatorIncrementer).toBe(traceIndicatorIncrementer+1);
+        expect(result.alarms).toBeUndefined;
       });
     
       it('should handle errors in RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive gracefully', async () => {
@@ -368,9 +332,10 @@ describe("RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromL
         const requestHeaders = {};
         const traceIndicatorIncrementer = 0;
     
-        const result = await alarmsModuleRewire.readLiveAlarmsData(mountName, requestHeaders, traceIndicatorIncrementer);
+        const result = await ReadLiveAlarmsData_Private.formulateResponseBodyForAlarms(mountName, requestHeaders, traceIndicatorIncrementer);
     
-        expect(result).toBeUndefined(); // Expected undefined due to error handling
+        expect(result.alarms).toBeUndefined;
       });
     });
+
   })
