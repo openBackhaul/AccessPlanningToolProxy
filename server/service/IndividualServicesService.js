@@ -63,7 +63,7 @@ exports.checkRegisteredAvailabilityOfDevice = function (body) {
       counter = counter + 1;
 
       if (counter > maxNumberOfParallelOperations) {
-        logger.warn(`Request rejected due to many request in parallel: ${counter} > ${maxNumberOfParallelOperations}`);
+        logger.warn(`checkRegisteredAvailabilityOfDevice - Request rejected due to many request in parallel: counter ${counter} > ${maxNumberOfParallelOperations}`);
         throw new createHttpError.TooManyRequests("Too many requests");
       }
       let mountName = body['mount-name'];
@@ -210,7 +210,6 @@ exports.provideAlarmsForLiveNetView = function (body, user, originator, xCorrela
       let alarmsResult = await ReadLiveAlarmsData.readLiveAlarmsData(mountName, requestHeaders, traceIndicatorIncrementer);
         //.catch(err => console.log(` ${err}`));
 
-
       if (alarmsResult) {
         if (Object.keys(alarmsResult.alarms).length != 0) {
           if (alarmsResult.alarms) {
@@ -339,6 +338,7 @@ exports.provideHistoricalPmDataOfDevice = function (body, user, originator, xCor
       let maxNumberOfParallelOperations = await IndividualServiceUtility.extractProfileConfiguration(prefix + "integer-p-001");
       counterStatusHistoricalPMDataCall = counterStatusHistoricalPMDataCall + 1;
       if (counterStatusHistoricalPMDataCall > maxNumberOfParallelOperations) {
+        logger.warn(`provideHistoricalPmDataOfDevice - Too many requests - counterStatusHistoricalPMDataCall ${counterStatusHistoricalPMDataCall} > ${maxNumberOfParallelOperations}`);
         throw new createHttpError.TooManyRequests("Too many requests");
       }
       logger.debug(`provideHistoricalPmDataOfDevice - Generating Request ID`);
@@ -357,6 +357,7 @@ exports.provideHistoricalPmDataOfDevice = function (body, user, originator, xCor
     } catch (error) {
       console.log(error);
       logger.error(error);
+      // Automatic decrease happen inside the request management (ReadHistoricalData)
       if (counterStatusHistoricalPMDataCall > 0) {
         logger.debug(`provideHistoricalPmDataOfDevice - Decreasing counter from: ${counterStatusHistoricalPMDataCall}`);
         counterStatusHistoricalPMDataCall--;
@@ -364,7 +365,7 @@ exports.provideHistoricalPmDataOfDevice = function (body, user, originator, xCor
         logger.debug("provideHistoricalPmDataOfDevice - Counter is already to 0");
       }
       reject(error);
-    } 
+    }
   });
 }
 
