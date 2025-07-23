@@ -5442,7 +5442,9 @@ paths:
                                                 type: string
                                                 description: >
                                                   'Name identifying this transmission mode on the graphical user interface of the local craft terminal
-                                                  from {$RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePerformanceFromCache.AirInterfaceHistoricalPmFromCache.response.body#air-interface-2-0:air-interface-historical-performance/historical-performance-data-list/time-xstates-list/transmission-mode}'
+                                                  transmissionMode = {$RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePerformanceFromCache.AirInterfaceHistoricalPmFromCache.response.body#air-interface-2-0:air-interface-historical-performance/historical-performance-data-list/time-xstates-list/transmission-mode'}
+                                                  from {$RequestForProvidingHistoricalPmDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/modulation-scheme-name-at-lct}
+                                                  where {$RequestForProvidingHistoricalPmDataCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionMode'
                                               time:
                                                 type: integer
                                                 description: >
