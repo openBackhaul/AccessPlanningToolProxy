@@ -97,59 +97,59 @@ function getFcPortOutputLogicalTerminationPointList(forwardingConstructInstance)
   return fcPortOutputLogicalTerminationPointList;
 }
 
-exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = async function (request_id, requestHeaders,historicalPmDataOfDevice,traceIndicatorIncrementer) {
-  
+exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = async function (request_id, requestHeaders, historicalPmDataOfDevice, traceIndicatorIncrementer) {
+
   const forwardingName = "RequestForProvidingHistoricalPmDataCausesDeliveringRequestedHistoricalPmData";
   let response;
 
   try {
-      let requestBody = {
-          "request-id": request_id,
-          "air-interface-list": historicalPmDataOfDevice["air-interface-list"],
-          "ethernet-container-list": historicalPmDataOfDevice["ethernet-container-list"],
-          "mount-name-list-with-errors":historicalPmDataOfDevice["mount-name-list-with-errors"]
-      };
+    let requestBody = {
+      "request-id": request_id,
+      "air-interface-list": historicalPmDataOfDevice["air-interface-list"],
+      "ethernet-container-list": historicalPmDataOfDevice["ethernet-container-list"],
+      "mount-name-list-with-errors": historicalPmDataOfDevice["mount-name-list-with-errors"]
+    };
 
-      
-      /****************************************************************************************************
-       *   RequestForProvidingHistoricalPmDataCausesDeliveringRequestedHistoricalPmData
-       *  
-       *****************************************************************************************************/
-      response = await forwardRequest(
-        forwardingName,
-        requestBody,
-        requestHeaders.user,
-        requestHeaders.xCorrelator,
-        requestHeaders.traceIndicator + "." + traceIndicatorIncrementer,
-        requestHeaders.customerJourney
-      );
-      
-      return response;
+
+    /****************************************************************************************************
+     *   RequestForProvidingHistoricalPmDataCausesDeliveringRequestedHistoricalPmData
+     *  
+     *****************************************************************************************************/
+    response = await forwardRequest(
+      forwardingName,
+      requestBody,
+      requestHeaders.user,
+      requestHeaders.xCorrelator,
+      requestHeaders.traceIndicator + "." + traceIndicatorIncrementer,
+      requestHeaders.customerJourney
+    );
+
+    return response;
   } catch (error) {
-      // console.log(error);
-      logger.error(error);
-      return (new createHttpError.InternalServerError(`${error}`));
+    // console.log(error);
+    logger.error(error);
+    return (new createHttpError.InternalServerError(`${error}`));
   }
 
 }
-exports.processHistoricalDataRequest = async function(body,request_id, requestHeaders, traceIndicatorIncrementer) {
+exports.processHistoricalDataRequest = async function (body, request_id, requestHeaders, traceIndicatorIncrementer) {
 
   try {
     let historicalPmDataOfDevice = {
       "air-interface-list": [],
       "ethernet-container-list": [],
-      "mount-name-list-with-errors":[]
+      "mount-name-list-with-errors": []
     };
 
     let mountNameWithError = [];
 
-    for (let i=0; i<body.length; i++) {
-      let mountName = body[i]["mount-name"]; 
+    for (let i = 0; i < body.length; i++) {
+      let mountName = body[i]["mount-name"];
       let timeStamp = body[i]["time-stamp"];
       let mountWithError = {
-        "mount-name":mountName,
-        "code":"",
-        "message":""
+        "mount-name": mountName,
+        "code": "",
+        "message": ""
       };
 
       if (undefined === global.connectedDeviceList["mount-name-list"] || !global.connectedDeviceList["mount-name-list"].includes(mountName)) {
@@ -158,7 +158,7 @@ exports.processHistoricalDataRequest = async function(body,request_id, requestHe
         mountWithError["message"] = "Not connected. Requested device is currently not in connected state at the controller";
         mountNameWithError.push(mountWithError);
         continue;
-      } 
+      }
 
       /****************************************************************************************
        * Collect complete ltp structure of mount-name in request bodys
@@ -185,14 +185,14 @@ exports.processHistoricalDataRequest = async function(body,request_id, requestHe
         .catch(err => console.log(` ${err}`));
 
       let dataPresent = false;
-      
+
       if (historicalDataResult["air-interface-list"].length > 0) {
         historicalPmDataOfDevice["air-interface-list"].push(...historicalDataResult["air-interface-list"]);
         dataPresent = true;
       } else {
         logger.warn(`processHistoricalDataRequest - historicalDataResult - air-interface-list doesn't exist for MountName ${mountName}`);
       }
-      
+
       if (historicalDataResult["ethernet-container-list"].length > 0) {
         historicalPmDataOfDevice["ethernet-container-list"].push(...historicalDataResult["ethernet-container-list"]);
         dataPresent = true;
@@ -208,21 +208,21 @@ exports.processHistoricalDataRequest = async function(body,request_id, requestHe
     }
 
     historicalPmDataOfDevice["mount-name-list-with-errors"] = mountNameWithError;
-    
+
     logger.info(`processHistoricalDataRequest - Delivering Historical PM Data for Request Id ${request_id}`);
     await exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData(
-      request_id, requestHeaders, historicalPmDataOfDevice, traceIndicatorIncrementer); 
-    } catch (error) {
-      logger.error(error, `Delivering Historcal PM data fails`);
-    } finally {
-      if (global.counterStatusHistoricalPMDataCall > 0) {
-        logger.debug(`counterStatusHistoricalPMDataCall ${counterStatusHistoricalPMDataCall} --> decreasing`);
-        global.counterStatusHistoricalPMDataCall--;
-      } else {
-        logger.debug("counterStatusHistoricalPMDataCall is already to 0, not needed to decrement");
-      }
-      
+      request_id, requestHeaders, historicalPmDataOfDevice, traceIndicatorIncrementer);
+  } catch (error) {
+    logger.error(error, `Delivering Historcal PM data fails`);
+  } finally {
+    if (global.counterStatusHistoricalPMDataCall > 0) {
+      logger.debug(`counterStatusHistoricalPMDataCall ${counterStatusHistoricalPMDataCall} --> decreasing`);
+      global.counterStatusHistoricalPMDataCall--;
+    } else {
+      logger.debug("counterStatusHistoricalPMDataCall is already to 0, not needed to decrement");
     }
+
+  }
 }
 
 
@@ -456,88 +456,88 @@ exports.RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregat
       let clientStructureUuid = undefined;
 
       if (airLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP] &&
-          airLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP].length > 0) {
-            for(let i=0; i<onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP.length; i++){
-              clientStructureUuid = airLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP][i];
+        airLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP].length > 0) {
+        for (let i = 0; i < onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP.length; i++) {
+          clientStructureUuid = airLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP][i];
 
-      // Navigate upwards to find the EthernetContainerUuid
-      let clientEthernetContainerUuid = undefined;
-      while (clientStructureUuid) {
-        const clientLtp = await ltpStructureUtility.getLtpForUuidFromLtpStructure(clientStructureUuid, ltpStructure) || {};
+          // Navigate upwards to find the EthernetContainerUuid
+          let clientEthernetContainerUuid = undefined;
+          while (clientStructureUuid) {
+            const clientLtp = await ltpStructureUtility.getLtpForUuidFromLtpStructure(clientStructureUuid, ltpStructure) || {};
 
-        // ✅ Ensure CLIENT_LTP exists
-        if (!clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP]) {
-          console.warn("CLIENT_LTP is missing. Assigning empty array.");
-          clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP] = [];
-        }
-
-        if (clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL] &&
-            clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0] &&
-            clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME] === 
-            (ETHERNET_INTERFACE.MODULE + ":" + ETHERNET_INTERFACE.LAYER_PROTOCOL_NAME)) {
-          clientEthernetContainerUuid = clientStructureUuid;
-          break;
-        }
-
-        if (clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP].length > 0) {
-            clientStructureUuid = clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP][0];
-        } else {
-          clientStructureUuid = undefined;
-        }
-      }
-
-      // Navigate downwards to find Wire/AirInterfaceUuids
-      const servingStructureUuids = [];
-      if (clientEthernetContainerUuid) {
-        const ethernetContainerLtp = await ltpStructureUtility.getLtpForUuidFromLtpStructure(clientEthernetContainerUuid, ltpStructure);
-        if (ethernetContainerLtp &&
-            ethernetContainerLtp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP]) {
-          servingStructureUuids.push(...ethernetContainerLtp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP]);
-        }
-      }
-
-      const resultForOneLtp = {
-        uuid: airInterfaceUuid,
-        mountName: mountName
-      };
-
-      let subResultsList = [];
-
-      for (let servingUuid of servingStructureUuids) {
-        const ltp = await ltpStructureUtility.getLtpForUuidFromLtpStructure(servingUuid, ltpStructure);
-        if (ltp && ltp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP] &&
-            ltp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP].length > 0) {
-
-          const serverLtp = ltp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP][0];
-          const serverLtpStructure = await ltpStructureUtility.getLtpForUuidFromLtpStructure(serverLtp, ltpStructure);
-          const layerProtocolName = serverLtpStructure[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME];
-
-          const pathParams = [mountName, serverLtp];
-          const consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName);
-          const ltpDesignationResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, traceIndicatorIncrementer++);
-
-          if (ltpDesignationResponse && Object.keys(ltpDesignationResponse).length > 0) {
-            const originalLtpName = ltpDesignationResponse[LTP_AUGMENT.MODULE + ":" + LTP_AUGMENT.PAC][LTP_AUGMENT.ORIGINAL_LTP_NAME] || "unknown";
-            const externalLabel = ltpDesignationResponse[LTP_AUGMENT.MODULE + ":" + LTP_AUGMENT.PAC][LTP_AUGMENT.EXTERNAL_LABEL] || "N/A";
-
-            let subResult = {}; 
-            if (layerProtocolName === WIRE_INTERFACE.MODULE + ":" + WIRE_INTERFACE.LAYER_PROTOCOL_NAME) {
-              subResult['interface-name'] = originalLtpName;
-            } else if (layerProtocolName === AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.LAYER_PROTOCOL_NAME) {
-              subResult['link-id'] = externalLabel.substring(0, 9);
+            // ✅ Ensure CLIENT_LTP exists
+            if (!clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP]) {
+              console.warn("CLIENT_LTP is missing. Assigning empty array.");
+              clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP] = [];
             }
 
-            if (Object.keys(subResult).length > 0) {
-              subResultsList.push(subResult);
+            if (clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL] &&
+              clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0] &&
+              clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME] ===
+              (ETHERNET_INTERFACE.MODULE + ":" + ETHERNET_INTERFACE.LAYER_PROTOCOL_NAME)) {
+              clientEthernetContainerUuid = clientStructureUuid;
+              break;
+            }
+
+            if (clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP].length > 0) {
+              clientStructureUuid = clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP][0];
+            } else {
+              clientStructureUuid = undefined;
             }
           }
+
+          // Navigate downwards to find Wire/AirInterfaceUuids
+          const servingStructureUuids = [];
+          if (clientEthernetContainerUuid) {
+            const ethernetContainerLtp = await ltpStructureUtility.getLtpForUuidFromLtpStructure(clientEthernetContainerUuid, ltpStructure);
+            if (ethernetContainerLtp &&
+              ethernetContainerLtp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP]) {
+              servingStructureUuids.push(...ethernetContainerLtp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP]);
+            }
+          }
+
+          const resultForOneLtp = {
+            uuid: airInterfaceUuid,
+            mountName: mountName
+          };
+
+          let subResultsList = [];
+
+          for (let servingUuid of servingStructureUuids) {
+            const ltp = await ltpStructureUtility.getLtpForUuidFromLtpStructure(servingUuid, ltpStructure);
+            if (ltp && ltp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP] &&
+              ltp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP].length > 0) {
+
+              const serverLtp = ltp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP][0];
+              const serverLtpStructure = await ltpStructureUtility.getLtpForUuidFromLtpStructure(serverLtp, ltpStructure);
+              const layerProtocolName = serverLtpStructure[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LAYER_PROTOCOL.LAYER_PROTOCOL_NAME];
+
+              const pathParams = [mountName, serverLtp];
+              const consequentOperationClientAndFieldParams = await IndividualServiceUtility.getConsequentOperationClientAndFieldParams(forwardingName, stringName);
+              const ltpDesignationResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, traceIndicatorIncrementer++);
+
+              if (ltpDesignationResponse && Object.keys(ltpDesignationResponse).length > 0) {
+                const originalLtpName = ltpDesignationResponse[LTP_AUGMENT.MODULE + ":" + LTP_AUGMENT.PAC][LTP_AUGMENT.ORIGINAL_LTP_NAME] || "unknown";
+                const externalLabel = ltpDesignationResponse[LTP_AUGMENT.MODULE + ":" + LTP_AUGMENT.PAC][LTP_AUGMENT.EXTERNAL_LABEL] || "N/A";
+
+                let subResult = {};
+                if (layerProtocolName === WIRE_INTERFACE.MODULE + ":" + WIRE_INTERFACE.LAYER_PROTOCOL_NAME) {
+                  subResult['interface-name'] = originalLtpName;
+                } else if (layerProtocolName === AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.LAYER_PROTOCOL_NAME) {
+                  subResult['link-id'] = externalLabel.substring(0, 9);
+                }
+
+                if (Object.keys(subResult).length > 0) {
+                  subResultsList.push(subResult);
+                }
+              }
+            }
+          }
+
+          resultForOneLtp["list"] = subResultsList;
+          aggregatedResults.push(resultForOneLtp);
         }
       }
-
-      resultForOneLtp["list"] = subResultsList;
-      aggregatedResults.push(resultForOneLtp);
-    }
-  }
     }
   } catch (error) {
     console.error(`${forwardingName} is not success with ${error}`);
@@ -547,7 +547,7 @@ exports.RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregat
     aggregatedResults: aggregatedResults,
     traceIndicatorIncrementer: traceIndicatorIncrementer
   };
-  
+
   return aggregatedResultsResponse;
 };
 
@@ -847,7 +847,7 @@ exports.formulateHistoricalPmData = async function (mountName, ltpStructure, air
   let result = {
     "air-interface-list": [],
     "ethernet-container-list": []
-  };  
+  };
   let air_interface_list = [];
   let ethernet_container_list = [];
   let ltpStructureList = ltpStructure["core-model-1-4:control-construct"][0][onfAttributes.CONTROL_CONSTRUCT.LOGICAL_TERMINATION_POINT];
@@ -866,27 +866,45 @@ exports.formulateHistoricalPmData = async function (mountName, ltpStructure, air
 
 
       if (Object.keys(airAndEthernetInterfacesResponse).length !== 0) {
-        airAndEthernetObj = airAndEthernetInterfacesResponse.processedLtpResponses.filter((obj) => obj[onfAttributes.GLOBAL_CLASS.UUID] === uuid)[0] || {}; 
+        airAndEthernetObj = airAndEthernetInterfacesResponse.processedLtpResponses.filter((obj) => obj[onfAttributes.GLOBAL_CLASS.UUID] === uuid)[0] || {};
+      } else {
+        logger.warn(`formulateHistoricalPmData - airAndEthernetInterfacesResponse seems empty for MountName ${mountName}`);
       }
 
       if (Object.keys(physicalLinkAggregations).length !== 0) {
-        physicalLinkAggregationsObj = physicalLinkAggregations.aggregatedResults.filter((obj) => obj[onfAttributes.GLOBAL_CLASS.UUID] === uuid)[0] || {}; 
+        physicalLinkAggregationsObj = physicalLinkAggregations.aggregatedResults.filter((obj) => obj[onfAttributes.GLOBAL_CLASS.UUID] === uuid)[0] || {};
+      } else {
+        logger.warn(`formulateHistoricalPmData - physicalLinkAggregations seems empty for MountName ${mountName}`);
       }
 
       if (Object.keys(airInterfaceConfiguration).length !== 0) {
-         airInterfaceConfigurationObj = airInterfaceConfiguration.airInterfaceConfigurations.filter((obj) => obj[onfAttributes.GLOBAL_CLASS.UUID] === uuid)[0] || {}; 
+        airInterfaceConfigurationObj = airInterfaceConfiguration.airInterfaceConfigurations.filter((obj) => obj[onfAttributes.GLOBAL_CLASS.UUID] === uuid)[0] || {};
+      } else {
+        logger.warn(`formulateHistoricalPmData - airInterfaceConfiguration seems empty for MountName ${mountName}`);
       }
 
       if (Object.keys(airInterfaceCapabilities).length !== 0) {
-         airInterfaceCapabilitiesObj = airInterfaceCapabilities.airInterfaceCapabilities.filter((obj) => obj[onfAttributes.GLOBAL_CLASS.UUID] === uuid)[0] || {}; 
+        airInterfaceCapabilitiesObj = airInterfaceCapabilities.airInterfaceCapabilities.filter((obj) => obj[onfAttributes.GLOBAL_CLASS.UUID] === uuid)[0] || {};
+      } else {
+        logger.warn(`formulateHistoricalPmData - airInterfaceCapabilities seems empty for MountName ${mountName}`);
       }
 
       if (Object.keys(airInterfacePerformance).length !== 0) {
-         airInterfacePerformanceObj = airInterfacePerformance.processedResponses.filter((obj) => obj[onfAttributes.GLOBAL_CLASS.UUID] === uuid)[0] || {}; 
+        airInterfacePerformanceObj = airInterfacePerformance.processedResponses.filter((obj) => obj[onfAttributes.GLOBAL_CLASS.UUID] === uuid)[0] || {};
+        if (Object.keys(airInterfacePerformanceObj).length !== 0) {
+          logger.info(`formulateHistoricalPmData - airInterfacePerformanceObj has elements`);
+        }
+      } else {
+        logger.warn(`formulateHistoricalPmData - airInterfacePerformance seems empty for MountName ${mountName}`);
       }
 
+      
+
+
       if (Object.keys(ethernetPerformance).length !== 0) {
-         ethernetPerformanceObj = ethernetPerformance.processedResponses.filter((obj) => obj[onfAttributes.GLOBAL_CLASS.UUID] === uuid)[0] || {}; 
+        ethernetPerformanceObj = ethernetPerformance.processedResponses.filter((obj) => obj[onfAttributes.GLOBAL_CLASS.UUID] === uuid)[0] || {};
+      } else {
+        logger.warn(`formulateHistoricalPmData - ethernetPerformance seems empty for MountName ${mountName}`);
       }
 
 
@@ -907,33 +925,46 @@ exports.formulateHistoricalPmData = async function (mountName, ltpStructure, air
         if (Object.keys(physicalLinkAggregationsObj).length !== 0 && physicalLinkAggregationsObj.hasOwnProperty("list")) {
           link_aggregation_identifiers.push(...physicalLinkAggregationsObj["list"]);
           air_interface_identifier["link-aggregation-identifiers"] = link_aggregation_identifiers;
+        } else {
+          logger.warn(`formulateHistoricalPmData - physicalLinkAggregationsObj.list or list seems empty for MountName ${mountName}`);
         }
 
-        if (Object.keys(airInterfaceConfigurationObj).length !== 0  && airInterfaceConfigurationObj.hasOwnProperty("airInterfaceConfiguration")) {
+        if (Object.keys(airInterfaceConfigurationObj).length !== 0 && airInterfaceConfigurationObj.hasOwnProperty("airInterfaceConfiguration")) {
           if (airInterfaceConfigurationObj["airInterfaceConfiguration"].hasOwnProperty("atpc-is-on")) {
-            air_interface_configuration["configured-atpc-is-on"] = airInterfaceConfigurationObj["airInterfaceConfiguration"]["atpc-is-on"]; 
-          }//change
+            air_interface_configuration["configured-atpc-is-on"] = airInterfaceConfigurationObj["airInterfaceConfiguration"]["atpc-is-on"];
+          } else {
+            logger.warn(`formulateHistoricalPmData - airInterfaceConfigurationObj.atpc-is-on  seems empty for MountName ${mountName}`);
+          }
 
           if (airInterfaceConfigurationObj["airInterfaceConfiguration"].hasOwnProperty("atpc-thresh-upper")) {
-            air_interface_configuration["configured-atpc-threshold-upper"] = airInterfaceConfigurationObj["airInterfaceConfiguration"]["atpc-thresh-upper"]; 
-          }//change
+            air_interface_configuration["configured-atpc-threshold-upper"] = airInterfaceConfigurationObj["airInterfaceConfiguration"]["atpc-thresh-upper"];
+          } else {
+            logger.warn(`formulateHistoricalPmData - airInterfaceConfigurationObj.atpc-thresh-upper  seems empty for MountName ${mountName}`);
+          }
 
-          if (airInterfaceConfigurationObj["airInterfaceConfiguration"].hasOwnProperty("atpc-thresh-lower")) { 
-            air_interface_configuration["configured-atpc-threshold-lower"] = airInterfaceConfigurationObj["airInterfaceConfiguration"]["atpc-thresh-lower"]; 
-          }//change
+          if (airInterfaceConfigurationObj["airInterfaceConfiguration"].hasOwnProperty("atpc-thresh-lower")) {
+            air_interface_configuration["configured-atpc-threshold-lower"] = airInterfaceConfigurationObj["airInterfaceConfiguration"]["atpc-thresh-lower"];
+          } else {
+            logger.warn(`formulateHistoricalPmData - airInterfaceConfigurationObj.atpc-thresh-lower  seems empty for MountName ${mountName}`);
+          }
 
           if (airInterfaceConfigurationObj["airInterfaceConfiguration"].hasOwnProperty("tx-power")) {
-            air_interface_configuration["configured-tx-power"] = airInterfaceConfigurationObj["airInterfaceConfiguration"]["tx-power"]; 
-          }//change
+            air_interface_configuration["configured-tx-power"] = airInterfaceConfigurationObj["airInterfaceConfiguration"]["tx-power"];
+          } else {
+            logger.warn(`formulateHistoricalPmData - airInterfaceConfigurationObj.tx-power"  seems empty for MountName ${mountName}`);
+          }
         }
 
-        if (Object.keys(airInterfaceConfigurationObj).length !== 0  && airInterfaceConfigurationObj.hasOwnProperty("airInterfaceConfiguration") && Object.keys(airInterfaceCapabilitiesObj).length !== 0 && airInterfaceCapabilitiesObj.hasOwnProperty("airInterfaceCapabilities")) {
+        if (Object.keys(airInterfaceConfigurationObj).length !== 0 &&
+          airInterfaceConfigurationObj.hasOwnProperty("airInterfaceConfiguration") &&
+          Object.keys(airInterfaceCapabilitiesObj).length !== 0 &&
+          airInterfaceCapabilitiesObj.hasOwnProperty("airInterfaceCapabilities")) {
           let minTransmissionMode = await getConfiguredModulation(
             airInterfaceCapabilitiesObj["airInterfaceCapabilities"],
             airInterfaceConfigurationObj["airInterfaceConfiguration"]["transmission-mode-min"]);
           let maxTransmissionMode = await getConfiguredModulation(
             airInterfaceCapabilitiesObj["airInterfaceCapabilities"],
-                  airInterfaceConfigurationObj["airInterfaceConfiguration"]["transmission-mode-max"]);
+            airInterfaceConfigurationObj["airInterfaceConfiguration"]["transmission-mode-max"]);
 
           if (minTransmissionMode) {
             air_interface_configuration["configured-modulation-minimum"] = {//change
@@ -962,11 +993,11 @@ exports.formulateHistoricalPmData = async function (mountName, ltpStructure, air
             let air_interface_performance_measurements_list_obj = {};
 
             if (airInterfacePerformanceObj.hpdList[j].hasOwnProperty("granularity-period")) {
-               air_interface_performance_measurements_list_obj["granularity-period"] = airInterfacePerformanceObj.hpdList[j]["granularity-period"];
+              air_interface_performance_measurements_list_obj["granularity-period"] = airInterfacePerformanceObj.hpdList[j]["granularity-period"];
             }
 
             if (airInterfacePerformanceObj.hpdList[j].hasOwnProperty("period-end-time")) {
-               air_interface_performance_measurements_list_obj["period-end-time"] = airInterfacePerformanceObj.hpdList[j]["period-end-time"];
+              air_interface_performance_measurements_list_obj["period-end-time"] = airInterfacePerformanceObj.hpdList[j]["period-end-time"];
             }
 
             const outputParams = ["transmit-level-minimum",
@@ -1030,8 +1061,8 @@ exports.formulateHistoricalPmData = async function (mountName, ltpStructure, air
         }
 
         air_interface["air-interface-performance-measurements-list"] = air_interface_performance_measurements_list;
-        
-        if (Object.keys(airInterfaceCapabilitiesObj).length !== 0  && airInterfaceCapabilitiesObj.hasOwnProperty("airInterfaceCapabilities") &&
+
+        if (Object.keys(airInterfaceCapabilitiesObj).length !== 0 && airInterfaceCapabilitiesObj.hasOwnProperty("airInterfaceCapabilities") &&
           airInterfaceCapabilitiesObj["airInterfaceCapabilities"].hasOwnProperty("transmission-mode-list")) {
 
           for (let tmObj of airInterfaceCapabilitiesObj["airInterfaceCapabilities"]["transmission-mode-list"]) {
@@ -1039,27 +1070,27 @@ exports.formulateHistoricalPmData = async function (mountName, ltpStructure, air
             let transmission_mode_list_obj = {};
 
             if (tmObj.hasOwnProperty("transmission-mode-name")) {
-               transmission_mode_list_obj["transmission-mode-name"] = tmObj["transmission-mode-name"]; 
+              transmission_mode_list_obj["transmission-mode-name"] = tmObj["transmission-mode-name"];
             }
-            
+
             if (tmObj.hasOwnProperty("modulation-scheme")) {
-               transmission_mode_list_obj["number-of-states"] = tmObj["modulation-scheme"]; 
+              transmission_mode_list_obj["number-of-states"] = tmObj["modulation-scheme"];
             }
-            
-            if (tmObj.hasOwnProperty("modulation-scheme-name-at-lct")) { 
-              transmission_mode_list_obj["modulation-scheme-name-at-lct"] = tmObj["modulation-scheme-name-at-lct"]; 
+
+            if (tmObj.hasOwnProperty("modulation-scheme-name-at-lct")) {
+              transmission_mode_list_obj["modulation-scheme-name-at-lct"] = tmObj["modulation-scheme-name-at-lct"];
             }
 
             if (tmObj.hasOwnProperty("channel-bandwidth")) {
-               transmission_mode_list_obj["channel-bandwidth"] = tmObj["channel-bandwidth"]; 
+              transmission_mode_list_obj["channel-bandwidth"] = tmObj["channel-bandwidth"];
             }
 
-            if (tmObj.hasOwnProperty("code-rate")) { 
-              transmission_mode_list_obj["code-rate"] = tmObj["code-rate"]; 
+            if (tmObj.hasOwnProperty("code-rate")) {
+              transmission_mode_list_obj["code-rate"] = tmObj["code-rate"];
             }
 
-            if (tmObj.hasOwnProperty("symbol-rate-reduction-factor")) { 
-              transmission_mode_list_obj["symbol-rate-reduction-factor"] = tmObj["symbol-rate-reduction-factor"]; 
+            if (tmObj.hasOwnProperty("symbol-rate-reduction-factor")) {
+              transmission_mode_list_obj["symbol-rate-reduction-factor"] = tmObj["symbol-rate-reduction-factor"];
             }
 
             transmission_mode_list.push(transmission_mode_list_obj);
@@ -1067,9 +1098,9 @@ exports.formulateHistoricalPmData = async function (mountName, ltpStructure, air
           }
           air_interface["transmission-mode-list"] = transmission_mode_list;
         }
-        
+
         air_interface_list.push(air_interface);
-      
+
       }
 
       if (Object.keys(airAndEthernetObj).length !== 0 && airAndEthernetObj.hasOwnProperty("interface-name")) {
@@ -1077,21 +1108,21 @@ exports.formulateHistoricalPmData = async function (mountName, ltpStructure, air
         ethernet_container["ethernet-container-identifiers"] = {
           "mount-name": mountName,
           "logical-termination-point-id": uuid,
-          "interface-name":airAndEthernetObj["interface-name"]
+          "interface-name": airAndEthernetObj["interface-name"]
         };
 
         // ethernet_container["ethernet-container-performance-measurements-list"] = ethernet_container_performance_measurements_list;
         if (Object.keys(ethernetPerformanceObj).length !== 0) {
-          
+
           for (let k = 0; k < ethernetPerformanceObj.filteredEntries.length; k++) {
             let ethernet_container_performance_measurements_list_obj = {};
 
-            if (ethernetPerformanceObj.filteredEntries[k].hasOwnProperty("granularity-period")){
-               ethernet_container_performance_measurements_list_obj["granularity-period"] = ethernetPerformanceObj.filteredEntries[k]["granularity-period"];
+            if (ethernetPerformanceObj.filteredEntries[k].hasOwnProperty("granularity-period")) {
+              ethernet_container_performance_measurements_list_obj["granularity-period"] = ethernetPerformanceObj.filteredEntries[k]["granularity-period"];
             }
 
-            if (ethernetPerformanceObj.filteredEntries[k].hasOwnProperty("period-end-time")){
-               ethernet_container_performance_measurements_list_obj["period-end-time"] = ethernetPerformanceObj.filteredEntries[k]["period-end-time"];               
+            if (ethernetPerformanceObj.filteredEntries[k].hasOwnProperty("period-end-time")) {
+              ethernet_container_performance_measurements_list_obj["period-end-time"] = ethernetPerformanceObj.filteredEntries[k]["period-end-time"];
             }
 
             const outputParams = ["max-bytes-per-second-output",
@@ -1109,14 +1140,14 @@ exports.formulateHistoricalPmData = async function (mountName, ltpStructure, air
               "dropped-frames-output", "oversized-frames-ingress", "undersized-frames-ingress", "jabber-frames-ingress",
               "unknown-protocol-frames-input"];
 
-              if (ethernetPerformanceObj.filteredEntries[k].hasOwnProperty("performance-data")) {
-                for (let i = 0; i < outputParams.length; i++) {
-                  if (ethernetPerformanceObj.filteredEntries[k]["performance-data"].hasOwnProperty(callbackParams[i])) {
-                    ethernet_container_performance_measurements_list_obj[outputParams[i]] = ethernetPerformanceObj.filteredEntries[k]["performance-data"][callbackParams[i]];
-                  }
+            if (ethernetPerformanceObj.filteredEntries[k].hasOwnProperty("performance-data")) {
+              for (let i = 0; i < outputParams.length; i++) {
+                if (ethernetPerformanceObj.filteredEntries[k]["performance-data"].hasOwnProperty(callbackParams[i])) {
+                  ethernet_container_performance_measurements_list_obj[outputParams[i]] = ethernetPerformanceObj.filteredEntries[k]["performance-data"][callbackParams[i]];
                 }
-                ethernet_container_performance_measurements_list.push(ethernet_container_performance_measurements_list_obj);
-             }
+              }
+              ethernet_container_performance_measurements_list.push(ethernet_container_performance_measurements_list_obj);
+            }
           }
           ethernet_container["ethernet-container-performance-measurements-list"] = ethernet_container_performance_measurements_list;
 
