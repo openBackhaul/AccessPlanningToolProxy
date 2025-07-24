@@ -158,7 +158,7 @@ exports.processHistoricalDataRequest = async function (body, request_id, request
         mountWithError["message"] = "Not connected. Requested device is currently not in connected state at the controller";
         mountNameWithError.push(mountWithError);
         continue;
-      }
+      } 
 
       /****************************************************************************************
        * Collect complete ltp structure of mount-name in request bodys
@@ -170,8 +170,8 @@ exports.processHistoricalDataRequest = async function (body, request_id, request
         ltpStructure = ltpStructureResult.ltpStructure;
         traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
       } catch (err) {
-        mountWithError["code"] = 500;
-        mountWithError["message"] = "Internal server error";
+        mountWithError["code"] = 502;
+        mountWithError["message"] = "Bad Gateway. The upstream server (MicrowaveDeviceInventory) is unavailable";
         mountNameWithError.push(mountWithError);
         logger.warn(`processHistoricalDataRequest - ${mountWithError.message} - Error Code: ${mountWithError.code}`);
         continue;
@@ -1031,16 +1031,19 @@ exports.formulateHistoricalPmData = async function (mountName, ltpStructure, air
               for (let filtered_time_xstates of filtered_time_xstates_list) {
                 let operated_transmission_modes_list_obj = {};
                 operated_transmission_modes_list_obj["capacity"] = -1;
-                if (filtered_time_xstates.hasOwnProperty('transmission-mode-name')) {
-                  operated_transmission_modes_list_obj["transmission-mode-name"] = filtered_time_xstates["transmission-mode-name"];
+                if (filtered_time_xstates.hasOwnProperty('transmission-mode')) {
+                  operated_transmission_modes_list_obj["transmission-mode-name"] = filtered_time_xstates["transmission-mode"];
                 }
 
                 if (filtered_time_xstates.hasOwnProperty('time')) {
                   operated_transmission_modes_list_obj["time"] = filtered_time_xstates["time"];
                 }
 
-                if (filtered_time_xstates.hasOwnProperty('modulation-scheme-name-at-lct')) {
-                  operated_transmission_modes_list_obj["modulation-scheme-name-at-lct"] = filtered_time_xstates["modulation-scheme-name-at-lct"];
+                if (airInterfaceCapabilitiesObj.hasOwnProperty('airInterfaceCapabilities') && airInterfaceCapabilitiesObj["airInterfaceCapabilities"].hasOwnProperty('transmission-mode-list') && filtered_time_xstates.hasOwnProperty('transmission-mode')) {
+                    let matchedTransmissionModeListObj = airInterfaceCapabilitiesObj["airInterfaceCapabilities"]["transmission-mode-list"].filter((obj) => obj["transmission-mode-name"] === filtered_time_xstates["transmission-mode"]);
+                    if(matchedTransmissionModeListObj != undefined && matchedTransmissionModeListObj.length > 0){
+                      operated_transmission_modes_list_obj["modulation-scheme-name-at-lct"] = matchedTransmissionModeListObj[0]["modulation-scheme-name-at-lct"];
+                    }
                 }
 
                 if (filtered_time_xstates.hasOwnProperty('capacity')) {
