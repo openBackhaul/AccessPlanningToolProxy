@@ -1,8 +1,8 @@
-@startuml APTP_1.0.0+diagram.completeness
+@startuml APTP_1.1.1+diagram.completeness
 skinparam responseMessageBelowArrow true
 
 title
-APTP_1.0.0+testcase.completeness
+APTP_1.1.1+testcase.completeness
 end title
 
 participant "Postman" as Postman

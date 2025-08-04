@@ -1,0 +1,24 @@
+testing-stage: 'Functional Testing'
+responsible-person-list:
+  - name: 'Ana Cabello Barrera'
+    role: 'Application Owner'
+    email-address: 'ana.cabello-barrera@telefonica.com'
+  - name: 'Thorsten Heinze'
+    role: 'Specification Support'
+    email-address: 'thorsten.heinze@telefonica.com'
+release-list:
+  - specification-tag: 'v1.1.1_spec'
+    testcase-list:
+      - testcase-name: 'completeness.v1.1.1'
+        type-of-testcase: 'Postman Testcase Collection'
+        postman-export-file: './completeness/v1.1.1/testcases/AccessPlanningToolProxy+test.completeness.json'
+        data-file: './completeness/v1.1.1/testcases/APTP_1.1.1+data.completeness.json'
+        simulator-file-list:
+          - simulator-file: './completeness/v1.1.1/simulators/MicrowaveDeviceInventory+MockServer.json'
+            simulated-application:
+              application-name: 'MWDI'
+              release-number: '1.0.0'
+            temporary-address:
+              ipv-4-address: 127.0.0.1
+              tcp-port: 3002
+

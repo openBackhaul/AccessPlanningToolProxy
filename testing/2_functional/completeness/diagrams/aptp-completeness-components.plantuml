@@ -1,0 +1,17 @@
+@startuml aptp-completeness-components
+
+skinparam componentStyle rectangle
+
+title
+AccessPlanningToolProxy+test.functional.completeness (Diagram still to be completed)
+end title
+
+package "completeness" {
+  component [<u>Postman</u>\n\nAccessPlanningToolProxy+test.completeness.json] as TCC #Orange 
+  component [<u>Application under Test</u>\n\nAccessPlanningToolProxy] as AUT #LightBlue 
+
+  TCC -> AUT
+
+}
+
+@enduml
