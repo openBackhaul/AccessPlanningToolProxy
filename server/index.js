@@ -7,6 +7,12 @@ var oas3Tools = require('openbackhaul-oas3-tools');
 var appCommons = require('onf-core-model-ap/applicationPattern/commons/AppCommons');
 const logger = require('./service/LoggingService').getLogger();
 
+const axios = require('axios');
+
+// Set global defaults
+axios.defaults.maxBodyLength = Infinity;
+axios.defaults.maxContentLength = Infinity;
+
 var serverPort = 4009;
 
 // uncomment if you do not want to validate security e.g. operation-key, basic auth, etc
