@@ -144,6 +144,17 @@ exports.extractProfileConfiguration = async function (uuid) {
 }
 
 
+exports.extractProfileStringConfiguration = async function (uuid) {
+  let profile = await ProfileCollection.getProfileAsync(uuid);
+  let objectKey = Object.keys(profile)[2];
+  profile = profile[objectKey];
+  return profile["string-profile-configuration"]["string-value"];
+}
+
+
+exports.createBasicAuth = async function (username, password) {
+    return "Basic " + Buffer.from(`${username}:${password}`).toString("base64");
+}
 /** 
  * Write to the filesystem.<br>
  * @param {JSON} coreModelJsonObject json object that needs to be updated

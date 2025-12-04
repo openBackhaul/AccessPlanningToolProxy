@@ -17,7 +17,7 @@ const ReadInventoryData = require('./ReadInventoryData');
 const ReadAirInterfaceData = require('./ReadAirInterfaceData');
 const ReadVlanInterfaceData = require('./ReadVlanInterfaceData');
 const eventDispatcher = require('./EventDispatcherWithResponse');
-
+const IndividualServiceUtility = require('./IndividualServiceUtility');
 const logger = require('../LoggingService').getLogger();
 
 /**
@@ -33,14 +33,22 @@ const logger = require('../LoggingService').getLogger();
 async function forwardRequest(forwardingKindName, attributeList, user, xCorrelator, traceIndicator, customerJourney) {
   let forwardingConstructInstance = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingKindName);
   let operationClientUuid = (getFcPortOutputLogicalTerminationPointList(forwardingConstructInstance))[0];
-  let result = await eventDispatcher.dispatchEvent(
+  
+  const forwardingName = "RequestForProvidingConfigurationForLivenetviewCausesReadingLtpStructure";
+  const forwardingConstruct = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+  let prefix = forwardingConstruct.uuid.split('op')[0];
+  let username = await IndividualServiceUtility.extractProfileStringConfiguration(prefix + "string-p-998");
+	let password = await IndividualServiceUtility.extractProfileStringConfiguration(prefix + "string-p-999");
+  let basicAuth = await IndividualServiceUtility.createBasicAuth(username, password);
+  let result = await eventDispatcher.dispatchEventWithBasicAuth(
     operationClientUuid,
     attributeList,
     user,
     xCorrelator,
     traceIndicator,
     customerJourney,
-    "POST"
+    "POST",
+    basicAuth
   );
   return result;
 }
