@@ -421,6 +421,13 @@ profile-instances:
       string-value: 'structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier);equipment-instance(serial-number))'
 
   - profile-name: 'StringProfile'
+    uuid: 'aptp-1-1-0-string-p-080'
+    capability:
+      string-name: 'RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.HolderLabel'
+    configuration:
+      string-value: 'equipment(contained-holder(occupying-fru;equipment-augment-1-0:holder-pac(vendor-label)))'
+
+  - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-068'
     capability:
       string-name: 'RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarmsFromLive.AlarmsFromLive'
