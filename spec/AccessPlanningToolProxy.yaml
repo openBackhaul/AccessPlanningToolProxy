@@ -6351,6 +6351,7 @@ paths:
                   configured-channel-bandwidth-min: 112
                   configured-channel-bandwidth-max: 112
                   configured-xpic-is-on: false
+                  configured-performance-monitoring-is-on: true
           headers:
             life-cycle-state:
               schema:
@@ -7497,12 +7498,12 @@ paths:
                     type: integer
                     description: >
                       'Currently measured transmit power in dBm
-                      from {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/tx-level-cur}'
+                      from {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive.DedicatedStatusValuesFromLive.response.body#air-interface-2-0:air-interface-status/tx-level-cur}'
                   current-rx-level:
                     type: integer
                     description: >
                       'Currently measured receive level in dBm
-                      from {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/rx-level-cur}'
+                      from {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive.DedicatedStatusValuesFromLive.response.body#air-interface-2-0:air-interface-status/rx-level-cur}'
                   current-modulation:
                     type: object
                     description: 'Currently operated modulation scheme'
@@ -7514,26 +7515,32 @@ paths:
                         type: integer
                         description: >
                           'Number of states in the phase diagram (e.g. BPSK->2 or 256QAM->256)
-                          transmissionModeCur = {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/transmission-mode-cur}
+                          transmissionModeCur = {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive.DedicatedStatusValuesFromLive.response.body#air-interface-2-0:air-interface-status/transmission-mode-cur}
                           from {$RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/modulation-scheme}
                           where {$RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeCur'
                       name-at-lct:
                         type: string
                         description: >
                           'Name identifying this transmission mode on the graphical user interface of the local craft terminal
-                          transmissionModeCur = {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/transmission-mode-cur}
+                          transmissionModeCur = {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive.DedicatedStatusValuesFromLive.response.body#air-interface-2-0:air-interface-status/transmission-mode-cur}
                           from {$RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/modulation-scheme-name-at-lct}
                           where {$RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache.CapabilitiesFromCache.response.body#air-interface-2-0:air-interface-capability/transmission-mode-list/transmission-mode-name} == transmissionModeCur'
                   current-tx-frequency:
                     type: integer
                     description: >
                       'Current transmit frequency in kHz
-                      from {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/tx-frequency-cur}'
+                      from {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusFromLive.DedicatedStatusValuesFromLive.response.body#air-interface-2-0:air-interface-status/tx-frequency-cur}'
                   current-rx-frequency:
                     type: integer
                     description: >
                       'Current receive frequency in kHz
-                      from {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/rx-frequency-cur}'
+                      from {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusFromLive.DedicatedStatusValuesFromLive.response.body#air-interface-2-0:air-interface-status/rx-frequency-cur}'
+                  current-cross-polarization-discrimination:
+                    type: integer
+                    description: >
+                      'Currently measured cross polarization discrimination (XPD)
+                      from {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusFromLive.DedicatedStatusValuesFromLive.response.body#air-interface-2-0:air-interface-status/xpd-cur}'
+
                 example:
                   current-tx-power: 5
                   current-rx-level: -45
@@ -7542,6 +7549,7 @@ paths:
                     name-at-lct: 2048QAM
                   current-tx-frequency: 38822000
                   current-rx-frequency: 34522000
+                  current-cross-polarization-discrimination: 40
           headers:
             life-cycle-state:
               schema:
@@ -7907,7 +7915,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
         RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive:
-          ConfigurationFromCache: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-mwdi-1-1-2-512/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          DedicatedStatusValuesFromLive: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-mwdi-1-1-2-512/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -7970,6 +7978,8 @@ paths:
                                 type: integer
                               rx-frequency-cur:
                                 type: integer
+                              xpd-cur:
+                                type: integer
                         example:
                           air-interface-2-0:air-interface-status:
                             transmission-mode-cur: '56002'
@@ -7977,6 +7987,7 @@ paths:
                             tx-level-cur: 23
                             tx-frequency-cur: 9986
                             rx-frequency-cur: 5344
+                            xpd-cur: 40
                   headers:
                     x-correlator:
                       schema:
