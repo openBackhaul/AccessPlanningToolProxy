@@ -6321,6 +6321,11 @@ paths:
                     description: >
                       'This configuration value is true, if cross polarization interference cancellation (XPIC) is configured to be activated
                       from {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/xpic-is-on}'
+                  configured-performance-monitoring-is-on:
+                    type: boolean
+                    description: >
+                      'This configuration value is true, if collecting performance values is configured to be activated
+                      from {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/performance-monitoring-is-on}'  
                 example:
                   air-interface-endpoint-name: '513550010B'
                   configured-tx-power: 10
