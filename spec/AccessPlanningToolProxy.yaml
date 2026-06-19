@@ -7010,9 +7010,9 @@ paths:
                       'Provided for split mount devices only
                       Identifier of the slot that holds the link end point according to the currently valid, official documentation of the equipment
                       Starting from the AirInterface that is identified by UuidUnderTest determined in RequestForProvidingEquipmentForLivenetviewCausesDeterminingAirInterfaceUuidUnderTest
-                      the underlaying equipment has to be identified by RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentUuid.response.body#ltp-augment-1-0:ltp-augment-pac/equipment
-                      for each of the EquipmentUuids the category has to be retrieved by RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category
-                      The single EquipmentUuid with RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory.response.by#core-model-1-4:actual-equipment/structure/category == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM
+                      the underlaying equipment has to be identified by RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentIdentifier.response.body#ltp-augment-1-0:ltp-augment-pac/equipment-identifier
+                      for each instance of EquipmentIdentifiers in the list, the EquipmentUuid has to be extracted from it, and then the category of that equipment object has to be retrieved by RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category
+                      The single Equipment instance with RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory.response.by#core-model-1-4:actual-equipment/structure/category == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM
                       shall be used to select the correct object from RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.HolderLabel, where this EquipmentUuid equals RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.HolderLabel.response.body#core-model-1-4:control-construct/equipment/contained-holder/occupying-fru.
                       From RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.HolderLabel.response.body#core-model-1-4:control-construct/equipment/contained-holder/equipment-augment-1-0:holder-pac/vendor-label'
                   if-port-identifier:
@@ -7021,9 +7021,9 @@ paths:
                       'Provided for split mount devices only
                       Identifier of the IF port that holds the link end point according to the currently valid, official documentation of the equipment
                       Starting from the AirInterface that is identified by UuidUnderTest determined in RequestForProvidingEquipmentForLivenetviewCausesDeterminingAirInterfaceUuidUnderTest
-                      the underlaying equipment has to be identified by RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentUuid.response.body#ltp-augment-1-0:ltp-augment-pac/equipment
-                      for each of the EquipmentUuids the category has to be retrieved by RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category
-                      The single EquipmentUuid with RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory.response.by#core-model-1-4:actual-equipment/structure/category == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT
+                      the underlaying equipment has to be identified by RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentIdentifier.response.body#ltp-augment-1-0:ltp-augment-pac/equipment-identifier
+                      for each instance of EquipmentIdentifiers in the list, the EquipmentUuid has to be extracted from it, and then the category of that equipment object has to be retrieved by RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category
+                      The single Equipment instance with RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory.response.by#core-model-1-4:actual-equipment/structure/category == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT
                       shall be used to select the correct object from RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.HolderLabel, where this EquipmentUuid equals RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.HolderLabel.response.body#core-model-1-4:control-construct/equipment/contained-holder/occupying-fru.
                       From RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.HolderLabel.response.body#core-model-1-4:control-construct/equipment/contained-holder/equipment-augment-1-0:holder-pac/vendor-label'
                 example:
@@ -7263,7 +7263,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
         RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache:
-          EquipmentUuid: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-mwdi-1-1-2-201/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          EquipmentIdentifier: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-mwdi-1-1-2-201/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -7294,7 +7294,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                    example: 'equipment'
+                    example: 'equipment-identifier'
                   description: >
                     'If different from empty string, a fields filter with the following value to be added to the request
                     from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-string-p-066/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
@@ -7309,15 +7309,15 @@ paths:
                           ltp-augment-1-0:ltp-augment-pac:
                             type: object
                             properties:
-                              equipment:
+                              equipment-identifier:
                                 type: array
                                 items:
                                   type: string
                         example:
                           ltp-augment-1-0:ltp-augment-pac:
-                            equipment:
-                              - '1921277951'
-                              - '1921274367'
+                            equipment-identifier:
+                              - "/core-model-1-4:control-construct/equipment[uuid='SLOT-07-ODU-B']"
+                              - "/core-model-1-4:control-construct/equipment[uuid='SLOT-07-MODEM-CARD']"
                   headers:
                     x-correlator:
                       schema:

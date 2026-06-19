@@ -409,9 +409,9 @@ profile-instances:
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-066'
     capability:
-      string-name: 'RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentUuid'
+      string-name: 'RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentIdentifier'
     configuration:
-      string-value: 'equipment'
+      string-value: 'equipment-identifier'
 
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-067'

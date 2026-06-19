@@ -8,7 +8,7 @@ end title
 participant "LinkVis" as LinkVis
 participant "APTP://v1/provide-equipment-for-livenetview" as liveEquipment
 participant "<i>RequestForProvidingEquipmentForLivenetviewCauses\n<i>DeterminingAirInterfaceUuidUnderTest</i>" as InterfaceUnderTest
-participant "MWDI://core-model-1-4:network-control-domain=cache/\ncontrol-construct={mount-name}\n/logical-termination-point={uuid}/\nltp-augment-1-0:ltp-augment-pac?fields=equipment" as EquipmentUuid
+participant "MWDI://core-model-1-4:network-control-domain=cache/\ncontrol-construct={mount-name}\n/logical-termination-point={uuid}/\nltp-augment-1-0:ltp-augment-pac?fields=equipment-identifier" as EquipmentInstanceIdentifiers
 participant "MWDI://core-model-1-4:network-control-domain=cache/\ncontrol-construct={mount-name}/equipment={uuid}/\nactual-equipment?fields=structure(category);manufactured-thing\n(equipment-type(type-name;part-type-identifier);\nequipment-instance(serial-number))" as RadioComponentIdentifiers
 participant "MWDI://core-model-1-4:network-control-domain=cache/\ncontrol-construct={mount-name}?fields=uuid;\nequipment(contained-holder(occupying-fru;\nequipment-augment-1-0:holder-pac(vendor-label)))" as HolderLabel
 
@@ -16,11 +16,15 @@ LinkVis -> liveEquipment: {MountName, LinkId} (apiKeyAuth)
 
 InterfaceUnderTest --> liveEquipment: {Uuid, LocalId, LayerProtocolName} 
 
-liveEquipment -> EquipmentUuid: {Uuid, LocalId, LayerProtocolName} (apiKeyAuth)
-EquipmentUuid --> liveEquipment: list of-{EquipmentUuid}
+liveEquipment -> EquipmentInstanceIdentifiers: {Uuid, LocalId, LayerProtocolName} (apiKeyAuth)
+EquipmentInstanceIdentifiers --> liveEquipment: list of-{EquipmentInstanceIdentifiers}
 
 
-loop for each EquipmentUuid from list
+loop for each EquipmentInstanceIdentifier from list
+    note over liveEquipment
+       Extract **EquipmentUuid** from EquipmentInstanceIdentifier:
+       "/core-model-1-4:control-construct/equipment[uuid='**{EquipmentUuid}**']"
+    end note
 
     liveEquipment -> RadioComponentIdentifiers: {EquipmentUuid} (apiKeyAuth)
     RadioComponentIdentifiers --> liveEquipment: {EquipmentCategory, type-name, serial-number, part-type-identifier}
