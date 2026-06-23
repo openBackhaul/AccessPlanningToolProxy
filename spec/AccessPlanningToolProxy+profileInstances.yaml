@@ -271,14 +271,14 @@ profile-instances:
     capability:
       string-name: 'RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorId'
     configuration:
-      string-value: 'equipment;connector'
+      string-value: 'connector-identifier'
 
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-024'
     capability:
-      string-name: 'RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorNumber'
+      string-name: 'RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorLabel'
     configuration:
-      string-value: 'equipment-augment-1-0:connector-pac(sequence-id)'
+      string-value: 'equipment-augment-1-0:connector-pac(vendor-label)'
 
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-025'

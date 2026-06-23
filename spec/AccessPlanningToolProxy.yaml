@@ -2807,7 +2807,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                    example: 'equipment;connector'
+                    example: 'connector-identifier'
                   description: >
                     'If different from empty string, a fields filter with the following value to be added to the request
                     from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-string-p-023/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
@@ -2822,18 +2822,11 @@ paths:
                           ltp-augment-1-0:ltp-augment-pac:
                             type: object
                             properties:
-                              equipment:
-                                type: array
-                                items:
-                                  type: string
-                              connector:
+                              connector-identifier:
                                 type: string
                         example:
                           ltp-augment-1-0:ltp-augment-pac:
-                            equipment:
-                              - '1921277951'
-                              - '1921274367'
-                            connector: '1963217152'
+                            connector-identifier: "/core-model-1-4:control-construct/equipment[uuid='ODU_B']/connector[local-id='ANTENNA-ODU-B-Connector']"
                   headers:
                     x-correlator:
                       schema:
@@ -2874,7 +2867,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-          ConnectorNumber: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-mwdi-1-1-2-111/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          ConnectorLabel: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-mwdi-1-1-2-111/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -2899,8 +2892,8 @@ paths:
                     example: '1921277951'
                   description: >
                     'The UUID of the Equipment that is addressed by this request
-                    from {RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorId.response.body#ltp-augment-1-0:ltp-augment-pac/equipment}
-                    It might be required to formulate this request from multiple entries in ltp-augment-1-0:ltp-augment-pac/equipment until it leads to an instance of Connector'
+                    from {RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorId.response.body#ltp-augment-1-0:ltp-augment-pac/connector-identifier}
+                    This EquipmentUuid must be extracted from the the response which follows the pattern "/core-model-1-4:control-construct/equipment[uuid={EquipmentUuid}]/connector[local-id={ConnectorLocalId}]"  '
                 - name: local-id
                   in: path
                   required: true
@@ -2909,13 +2902,14 @@ paths:
                     example: '1963217152'
                   description: >
                     'The Local-ID of the Connector that is addressed by the request
-                    from {RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorId.response.body#ltp-augment-1-0:ltp-augment-pac/connector}'
+                    from {RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorId.response.body#ltp-augment-1-0:ltp-augment-pac/connector-identifier}'
+                    This ConnectorLocalId must be extracted from the the response which follows the pattern "/core-model-1-4:control-construct/equipment[uuid={EquipmentUuid}]/connector[local-id={ConnectorLocalId}]"  '                    
                 - name: fields
                   in: query
                   required: true
                   schema:
                     type: string
-                    example: 'equipment-augment-1-0:connector-pac(sequence-id)'
+                    example: 'equipment-augment-1-0:connector-pac(vendor-label)'
                   description: >
                     'If different from empty string, a fields filter with the following value to be added to the request
                     from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-string-p-024/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
@@ -2935,12 +2929,12 @@ paths:
                                 equipment-augment-1-0:connector-pac:
                                   type: object
                                   properties:
-                                    sequence-id:
-                                      type: integer
+                                    vendor-label:
+                                      type: string
                         example:
                           core-model-1-4:connector:
                             - equipment-augment-1-0:connector-pac:
-                                sequence-id: 1
+                                vendor-label: 'Connector 5/1/1'
                   headers:
                     x-correlator:
                       schema:
@@ -3967,9 +3961,9 @@ paths:
                                     'Provided for split mount devices only
                                     Label of the connector, which is connecting the outdoor unit, as it is printed at the outside of the device
                                     Starting from the AirInterface that is identified by UuidUnderTest determined in RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest
-                                    the underlaying equipment and connector have to be identified by RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorId.response.body#ltp-augment-1-0:ltp-augment-pac/equipment and RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorId.response.body#ltp-augment-1-0:ltp-augment-pac/connector
-                                    the following request hast to be repeated until the combination of EquipmentUuid and ConnectorLocalId leads actually to an instance of Connector
-                                    from RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorNumber.response.body#equipment-augment-1-0:connector-pac/sequence-id'
+                                    the underlaying connector have to be identified by RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorId.response.body#ltp-augment-1-0:ltp-augment-pac/equipment and RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorId.response.body#ltp-augment-1-0:ltp-augment-pac/connector-identifier
+                                    the following request has to be called with the combination of EquipmentUuid and ConnectorLocalId extracted from the previous Connector Instance Identifier.
+                                    From RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorLabel.response.body#equipment-augment-1-0:connector-pac/vendor-label'
                             alarms:
                               type: object
                               properties:
@@ -4100,7 +4094,7 @@ paths:
                                   sfp-transceiver-serial-number: '1000023941422'
                               position-of-modem-board: 'Slot 1/5'
                               if-port-identifier: 'Slot 1/5.2'
-                              connector-plugging-the-outdoor-unit: 1
+                              connector-plugging-the-outdoor-unit: '3/2/1'
                             alarms:
                               current-alarms:
                                 number-of-current-alarms: 2
