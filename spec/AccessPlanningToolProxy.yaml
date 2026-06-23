@@ -2598,7 +2598,7 @@ paths:
                     example: '1921277951'
                   description: >
                     'The UUID of the Equipment that is addressed by this request
-                    from {RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentIdentifier.response.body#ltp-augment-1-0:ltp-augment-pac/equipment}
+                    from {RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentIdentifier.response.body#ltp-augment-1-0:ltp-augment-pac/equipment-identifer}
                     Uuid to be extracted from the response which follows the pattern "/core-model-1-4:control-construct/equipment[uuid={Uuid}]"  '
                 - name: fields
                   in: query
@@ -3216,7 +3216,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
         RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier:
-          EquipmentUuid: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-mwdi-1-1-2-201/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          EquipmentIdentifier: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-mwdi-1-1-2-201/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -3247,7 +3247,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                    example: 'equipment'
+                    example: 'equipment-identifier'
                   description: >
                     'If different from empty string, a fields filter with the following value to be added to the request
                     from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-string-p-027/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
@@ -3262,15 +3262,15 @@ paths:
                           ltp-augment-1-0:ltp-augment-pac:
                             type: object
                             properties:
-                              equipment:
+                              equipment-identifier:
                                 type: array
                                 items:
                                   type: string
                         example:
                           ltp-augment-1-0:ltp-augment-pac:
-                            equipment:
-                              - '1921277951'
-                              - '1921274367'
+                            equipment-identifier:
+                              - "/core-model-1-4:control-construct/equipment[uuid='RADIO_07']"
+                              - "/core-model-1-4:control-construct/equipment[uuid='MODEM_07']"
                   headers:
                     x-correlator:
                       schema:
@@ -3336,7 +3336,8 @@ paths:
                     example: '1921277951'
                   description: >
                     'The UUID of the Equipment that is addressed by this request
-                    from {RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentUuid.response.body#ltp-augment-1-0:ltp-augment-pac/equipment}'
+                    from {RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.EquipmentIdentifier.response.body#ltp-augment-1-0:ltp-augment-pac/equipment-identifier}
+                    Uuid to be extracted from the response which follows the pattern "/core-model-1-4:control-construct/equipment[uuid={Uuid}]"  '
                 - name: fields
                   in: query
                   required: true
@@ -3955,7 +3956,7 @@ paths:
                                     'Provided for split mount devices only
                                     Identifier of the port that holds the link end point according to the currently valid, official documentation of the equipment
                                     Starting from the AirInterface that is identified by UuidUnderTest determined in RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest
-                                    the underlaying equipment has to be identified by RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.EquipmentUuid.response.body#ltp-augment-1-0:ltp-augment-pac/equipment
+                                    the underlaying equipment and corresponding EquipmentUuid has to be identified by RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.EquipmentIdentifier.response.body#ltp-augment-1-0:ltp-augment-pac/equipment-identifier
                                     for each of the EquipmentUuids the category has to be retrieved by RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.EquipmentCategory.response.by#core-model-1-4:actual-equipment/structure/category
                                     The single EquipmentUuid with RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.EquipmentCategory.response.by#core-model-1-4:actual-equipment/structure/category == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT'
                                     serves to select the ContainedHolder object for which RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.HolderLabel.response.body#core-model-1-4:control-construct/equipment/contained-holder/occupying-fru equals this EquipmentUuid.
@@ -7385,7 +7386,8 @@ paths:
                     example: '1921277951'
                   description: >
                     'The UUID of the Equipment that is addressed by this request
-                    from {RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentUuid.response.body#ltp-augment-1-0:ltp-augment-pac/equipment}'
+                    from {RequestForProvidingAcceptanceDataCausesReadingEquipmentInfoFromCache.EquipmentIdentifier.response.body#ltp-augment-1-0:ltp-augment-pac/equipment-identifier}
+                    Uuid to be extracted from the response which follows the pattern "/core-model-1-4:control-construct/equipment[uuid={Uuid}]"  '
                 - name: fields
                   in: query
                   required: true
