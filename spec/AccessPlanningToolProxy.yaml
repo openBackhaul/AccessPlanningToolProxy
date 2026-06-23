@@ -1960,7 +1960,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
         RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation:
-          EquipmentUuid: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-mwdi-1-1-2-201/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          EquipmentIdentifier: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-mwdi-1-1-2-201/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             get:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -2009,14 +2009,14 @@ paths:
                           ltp-augment-1-0:ltp-augment-pac:
                             type: object
                             properties:
-                              equipment:
+                              equipment-identifier:
                                 type: array
                                 items:
                                   type: string
                         example:
                           ltp-augment-1-0:ltp-augment-pac:
-                            equipment:
-                              - '1921274879'
+                            equipment-identifier:
+                              - "/core-model-1-4:control-construct/equipment[uuid='SFP-021-ext']"
                   headers:
                     x-correlator:
                       schema:
@@ -2082,7 +2082,8 @@ paths:
                     example: '1921274879'
                   description: >
                     'The UUID of the Equipment that is addressed by this request
-                    from {RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentUuid.response.body#ltp-augment-1-0:ltp-augment-pac/equipment}
+                    from {RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentIdentifier.response.body#ltp-augment-1-0:ltp-augment-pac/equipment-identifier}
+                    Uuid to be extracted from the response which follows the pattern "/core-model-1-4:control-construct/equipment[uuid={Uuid}]"  '
                 - name: fields
                   in: query
                   required: true

@@ -213,9 +213,9 @@ profile-instances:
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-013'
     capability:
-      string-name: 'RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentUuid'
+      string-name: 'RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentIdentifier'
     configuration:
-      string-value: 'equipment'
+      string-value: 'equipment-identifier'
 
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-014'
