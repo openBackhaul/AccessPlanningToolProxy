@@ -18,10 +18,10 @@ activate APTP
 AirInterface --> APTP: {UuidUnderTest, LocalIdUnderTest}
 
 APTP -> ConnectorId: {MountName, uuid of AirInterfaceUnderTest} (apiKeyAuth)
-ConnectorId --> APTP: {ConnectorInstanceIdentifier}
+ConnectorId --> APTP: {ConnectorIdentifier}
 
 note over APTP
-    Extract **EquipmentUuid** and **ConnectorLocalId** from ConnectorInstanceIdentifier:
+    Extract **EquipmentUuid** and **ConnectorLocalId** from ConnectorIdentifier:
     "/core-model-1-4:control-construct/equipment[uuid={**EquipmentUuid**}]/connector[local-id={**ConnectorLocalId**}]"
 end note
 
