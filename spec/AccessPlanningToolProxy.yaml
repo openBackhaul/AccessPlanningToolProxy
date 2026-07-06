@@ -16,7 +16,7 @@ x-gui-paths:
       responses:
         '200':
           description: 'Swagger API description page represented'
-            # Not explixitly described
+            # Not explicitly described
         '400':
           $ref: '#/components/responses/responseForErroredOamRequests'
         '401':
@@ -644,7 +644,7 @@ paths:
               'UuidUnderTest and LocalIdUnderTest to be determined by
               repeating until the substring constituted by the 9 first characters of {$RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest.AirInterfaceLabel.response.body#external-label} == {$request.body#link-id}.
               If the UuidUnderTest and LocalIdUnderTest cannot be determined because the LinkId provided in the requestBody does not match the externalLabel of any LogicalTerminationPoint in the ControlConstruct, the process shall be terminated.
-              RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData shall be then directly executed and the failure information, by means of code '470' and message "The requested ressource does not exist within the referenced device",
+              RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData shall be then directly executed and the failure information, by means of code '470' and message "The requested resource does not exist within the referenced device",
               transmitted in its request payload.'
             get:
               parameters:
@@ -2598,7 +2598,7 @@ paths:
                     example: '1921277951'
                   description: >
                     'The UUID of the Equipment that is addressed by this request
-                    from {RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentIdentifier.response.body#ltp-augment-1-0:ltp-augment-pac/equipment-identifer}
+                    from {RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentIdentifier.response.body#ltp-augment-1-0:ltp-augment-pac/equipment-identifier}
                     Uuid to be extracted from the response which follows the pattern "/core-model-1-4:control-construct/equipment[uuid={Uuid}]"  '
                 - name: fields
                   in: query
@@ -2893,7 +2893,7 @@ paths:
                   description: >
                     'The UUID of the Equipment that is addressed by this request
                     from {RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorId.response.body#ltp-augment-1-0:ltp-augment-pac/connector-identifier}
-                    This EquipmentUuid must be extracted from the the response which follows the pattern "/core-model-1-4:control-construct/equipment[uuid={EquipmentUuid}]/connector[local-id={ConnectorLocalId}]"  '
+                    This EquipmentUuid must be extracted from the response which follows the pattern "/core-model-1-4:control-construct/equipment[uuid={EquipmentUuid}]/connector[local-id={ConnectorLocalId}]"  '
                 - name: local-id
                   in: path
                   required: true
@@ -2903,7 +2903,7 @@ paths:
                   description: >
                     'The Local-ID of the Connector that is addressed by the request
                     from {RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorId.response.body#ltp-augment-1-0:ltp-augment-pac/connector-identifier}'
-                    This ConnectorLocalId must be extracted from the the response which follows the pattern "/core-model-1-4:control-construct/equipment[uuid={EquipmentUuid}]/connector[local-id={ConnectorLocalId}]"  '                    
+                    This ConnectorLocalId must be extracted from the response which follows the pattern "/core-model-1-4:control-construct/equipment[uuid={EquipmentUuid}]/connector[local-id={ConnectorLocalId}]"  '                    
                 - name: fields
                   in: query
                   required: true
@@ -4036,8 +4036,8 @@ paths:
                                     Identifier of the slot that holds the link end point according to the currently valid, official documentation of the equipment
                                     Starting from the AirInterface that is identified by UuidUnderTest determined in RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest
                                     the underlaying equipment has to be identified and the corresponding EquipmentUuid extracted from RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentIdentifier.response.body#ltp-augment-1-0:ltp-augment-pac/equipment-identifier
-                                    for each of the EquipmentUuids the category has to be retrieved by RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory.response.by#core-model-1-4:actual-equipment/structure/category
-                                    The single EquipmentUuid with RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory.response.by#core-model-1-4:actual-equipment/structure/category == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM
+                                    for each of the EquipmentUuids the category has to be retrieved by RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory.response.body#core-model-1-4:actual-equipment/structure/category
+                                    The single EquipmentUuid with RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory.response.body#core-model-1-4:actual-equipment/structure/category == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM
                                     shall be used to select the correct object from RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.HolderLabel, where this EquipmentUuid equals RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.HolderLabel.response.body#core-model-1-4:control-construct/equipment/contained-holder/occupying-fru.
                                     From RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.HolderLabel.response.body#core-model-1-4:control-construct/equipment/contained-holder/equipment-augment-1-0:holder-pac/vendor-label'
                                 if-port-identifier:
@@ -4047,8 +4047,8 @@ paths:
                                     Identifier of the port that holds the link end point according to the currently valid, official documentation of the equipment
                                     Starting from the AirInterface that is identified by UuidUnderTest determined in RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest
                                     the underlaying equipment and corresponding EquipmentUuid has to be identified by RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.EquipmentIdentifier.response.body#ltp-augment-1-0:ltp-augment-pac/equipment-identifier
-                                    for each of the EquipmentUuids the category has to be retrieved by RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.EquipmentCategory.response.by#core-model-1-4:actual-equipment/structure/category
-                                    The single EquipmentUuid with RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.EquipmentCategory.response.by#core-model-1-4:actual-equipment/structure/category == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT'
+                                    for each of the EquipmentUuids the category has to be retrieved by RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.EquipmentCategory.response.body#core-model-1-4:actual-equipment/structure/category
+                                    The single EquipmentUuid with RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.EquipmentCategory.response.body#core-model-1-4:actual-equipment/structure/category == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT'
                                     serves to select the ContainedHolder object for which RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.HolderLabel.response.body#core-model-1-4:control-construct/equipment/contained-holder/occupying-fru equals this EquipmentUuid.
                                     From RequestForProvidingAcceptanceDataCausesDeterminingTheIfPortIdentifier.HolderLabel.response.body#core-model-1-4:control-construct/equipment/contained-holder/equipment-augment-1-0:holder-pac/vendor-label'
                                 connector-plugging-the-outdoor-unit:
@@ -4201,7 +4201,7 @@ paths:
                                   - alarm-type-id: 'alarms-ext-ericsson-mltn:ALARM_TYPE_ID_ETHERNET_DOWN'
                                     alarm-type-qualifier: ''
                                     alarm-severity: 'alarms-1-0:SEVERITY_TYPE_CRITICAL'
-                        - description: 'The requested ressource does not exist within the referenced device'
+                        - description: 'The requested resource does not exist within the referenced device'
                           type: object
                           required:
                             - code
@@ -4215,7 +4215,7 @@ paths:
                             message:
                               type: string
                               enum:
-                                - 'The requested ressource does not exist within the referenced device'
+                                - 'The requested resource does not exist within the referenced device'
                         - description: 'Bad Gateway. Mwdi is unavailable'
                           type: object
                           required:
@@ -4715,7 +4715,7 @@ paths:
                     example: ''
                   description: >
                     'If different from empty string, a fields filter with the following value to be added to the request
-                    from [/core-model-1-4:control-construct/profile-collection/aptp-1-1-0-string-p-043/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+                    from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-string-p-043/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
               responses:
                 '200':
                   description: 'AirInterfaceConfiguration provided from cache'
@@ -5902,7 +5902,7 @@ paths:
                                 air-interface-configuration:
                                   configured-atpc-is-on: false
                                   configured-atpc-threshold-upper: 99
-                                  onfigured-atpc-threshold-lower: -30
+                                  configured-atpc-threshold-lower: -30
                                   configured-atpc-tx-power-min: 20
                                   configured-tx-power: 20
                                   configured-modulation-minimum:
@@ -6155,7 +6155,7 @@ paths:
     description: 'The number of requests to be executed in parallel shall be limited to the value stated in [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-integer-p-002/integer-profile-1-0:integer-profile-pac/integer-profile-configuration/integer-value]'
     post:
       operationId: checkRegisteredAvailabilityOfDevice
-      summary: 'Checks wheter a mountName is registered in the APTP-internal list of Connected devices and returns a boolean'
+      summary: 'Checks whether a mountName is registered in the APTP-internal list of Connected devices and returns a boolean'
       tags:
         - IndividualServices
       security:
@@ -6255,7 +6255,7 @@ paths:
                 link-id: '513550010'
       responses:
         '200':
-          description: 'Request for providing configuration data of link endpoint sucessful'
+          description: 'Request for providing configuration data of link endpoint successful'
           content:
             application/json:
               schema:
@@ -7016,7 +7016,7 @@ paths:
                 link-id: '513550010'
       responses:
         '200':
-          description: 'Request for providing equipment information for livenetview sucessful'
+          description: 'Request for providing equipment information for livenetview successful'
           content:
             application/json:
               schema:
@@ -7105,7 +7105,7 @@ paths:
                       Starting from the AirInterface that is identified by UuidUnderTest determined in RequestForProvidingEquipmentForLivenetviewCausesDeterminingAirInterfaceUuidUnderTest
                       the underlaying equipment has to be identified by RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentIdentifier.response.body#ltp-augment-1-0:ltp-augment-pac/equipment-identifier
                       for each instance of EquipmentIdentifiers in the list, the EquipmentUuid has to be extracted from it, and then the category of that equipment object has to be retrieved by RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category
-                      The single Equipment instance with RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory.response.by#core-model-1-4:actual-equipment/structure/category == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM
+                      The single Equipment instance with RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory.response.body#core-model-1-4:actual-equipment/structure/category == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM
                       shall be used to select the correct object from RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.HolderLabel, where this EquipmentUuid equals RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.HolderLabel.response.body#core-model-1-4:control-construct/equipment/contained-holder/occupying-fru.
                       From RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.HolderLabel.response.body#core-model-1-4:control-construct/equipment/contained-holder/equipment-augment-1-0:holder-pac/vendor-label'
                   if-port-identifier:
@@ -7116,7 +7116,7 @@ paths:
                       Starting from the AirInterface that is identified by UuidUnderTest determined in RequestForProvidingEquipmentForLivenetviewCausesDeterminingAirInterfaceUuidUnderTest
                       the underlaying equipment has to be identified by RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentIdentifier.response.body#ltp-augment-1-0:ltp-augment-pac/equipment-identifier
                       for each instance of EquipmentIdentifiers in the list, the EquipmentUuid has to be extracted from it, and then the category of that equipment object has to be retrieved by RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category
-                      The single Equipment instance with RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory.response.by#core-model-1-4:actual-equipment/structure/category == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT
+                      The single Equipment instance with RequestForProvidingAcceptanceDataCausesDeterminingTheModemPosition.EquipmentCategory.response.body#core-model-1-4:actual-equipment/structure/category == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT
                       shall be used to select the correct object from RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.HolderLabel, where this EquipmentUuid equals RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.HolderLabel.response.body#core-model-1-4:control-construct/equipment/contained-holder/occupying-fru.
                       From RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.HolderLabel.response.body#core-model-1-4:control-construct/equipment/contained-holder/equipment-augment-1-0:holder-pac/vendor-label'
                 example:
@@ -7706,7 +7706,7 @@ paths:
                 link-id: '513550010'
       responses:
         '200':
-          description: 'Request for providing configuration data of link endpoint sucessful'
+          description: 'Request for providing configuration data of link endpoint successful'
           content:
             application/json:
               schema:
@@ -8278,7 +8278,7 @@ paths:
                 mount-name: '513250010'
       responses:
         '200':
-          description: 'Request for providing current alarms of link endpoint sucessful'
+          description: 'Request for providing current alarms of link endpoint successful'
           content:
             application/json:
               schema:
@@ -8498,7 +8498,7 @@ paths:
                 mount-name: '513250010'
       responses:
         '200':
-          description: 'Request for providing firmware inventory of the device sucessful'
+          description: 'Request for providing firmware inventory of the device successful'
           content:
             application/json:
               schema:
