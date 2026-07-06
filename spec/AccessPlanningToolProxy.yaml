@@ -7674,8 +7674,6 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-
-
   /v1/provide-status-for-livenetview:
     description: 'The number of requests to be executed in parallel shall be limited to the value stated in [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-integer-p-006/integer-profile-1-0:integer-profile-pac/integer-profile-configuration/integer-value]'
     post:
@@ -8435,6 +8433,219 @@ paths:
                               - alarm-type-id: 'alarms-ext-ericsson-mltn:ALARM_TYPE_ID_ETHERNET_DOWN'
                                 alarm-type-qualifier: ''
                                 alarm-severity: 'alarms-1-0:SEVERITY_TYPE_CRITICAL'
+                  headers:
+                    x-correlator:
+                      schema:
+                        type: string
+                        example: '550e8400-e29b-11d4-a716-446655440000'
+                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+                    exec-time:
+                      schema:
+                        type: integer
+                        example: 1100
+                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+                    backend-time:
+                      schema:
+                        type: integer
+                        example: 850
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                    life-cycle-state:
+                      schema:
+                        type: string
+                        enum:
+                          - 'EXPERIMENTAL'
+                          - 'OPERATIONAL'
+                          - 'DEPRECATED'
+                          - 'OBSOLETE'
+                          - 'UNKNOWN'
+                          - 'NOT_YET_DEFINED'
+                        example: 'EXPERIMENTAL'
+                      description: 'Life cycle state of the consumed service'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+  /v1/provide-firmware-for-livenetview:
+    post:
+      operationId: provideFirmwareForLiveNetView
+      summary: 'Provides the list of firmware packages installed in a device for display at the section "LiveView aktuell" in LinkVis'
+      tags:
+        - IndividualServices
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mount-name
+              properties:
+                mount-name:
+                  type: string
+                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]|CO\d{5})$
+                  description: 'Identifier of the device at the Controller'
+              example:
+                mount-name: '513250010'
+      responses:
+        '200':
+          description: 'Request for providing firmware inventory of the device sucessful'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - installed-firmware
+                properties:
+                  installed-firmware:
+                    type: array
+                    description: >
+                      'List of installed firmware
+                      filtered for {$RequestForProvidingFirmwareForLivenetviewCausesReadingFirmwareFromCache.FirmwareFromCache.response.body#firmware-1-0:firmware-collection/firmware-component-list/firmware-component-pac/firmware-component-capability/firmware-component-class} == firmware-1-0:FIRMWARE_COMPONENT_CLASS_TYPE_PACKAGE'
+                    items:
+                      type: object
+                      properties:
+                        firmware-component-name:
+                          type: string
+                          description: >
+                            'Name of the firmware component
+                            from {$RequestForProvidingFirmwareForLivenetviewCausesReadingFirmwareFromCache.FirmwareFromCache.response.body#firmware-1-0:firmware-collection/firmware-component-list/firmware-component-pac/firmware-component-capability/firmware-component-name}'
+                        firmware-component-version:
+                          type: string
+                          description: >
+                            'Version of the firmware component
+                            from {$RequestForProvidingFirmwareForLivenetviewCausesReadingFirmwareFromCache.response.body#firmware-1-0:firmware-collection/firmware-component-list/firmware-component-pac/firmware-component-capability/firmware-component-version}'
+                        firmware-component-status:
+                          type: string
+                          description: >
+                            'Activation status of the firmware component
+                            from {$RequestForProvidingFirmwareForLivenetviewCausesReadingFirmwareFromCache.response.body#firmware-1-0:firmware-collection/firmware-component-list/firmware-component-pac/firmware-component-status/firmware-component-status}'
+                example:
+                  installed-firmware:
+                    - firmware-component-name: 'IDU Board Bench 2'
+                      firmware-component-version: 'N31030  01.12.04'
+                      firmware-component-status: 'firmware-1-0:FIRMWARE_COMPONENT_STATUS_TYPE_STAND_BY'
+                    - firmware-component-name: 'Web Server LCT'
+                      firmware-component-version: 'N96121  01.12.03'
+                      firmware-component-status: 'firmware-1-0:FIRMWARE_COMPONENT_STATUS_TYPE_ACTIVE'
+          headers:
+            life-cycle-state:
+              schema:
+                type: string
+                enum:
+                  - 'EXPERIMENTAL'
+                  - 'OPERATIONAL'
+                  - 'DEPRECATED'
+                  - 'OBSOLETE'
+                  - 'UNKNOWN'
+                  - 'NOT_YET_DEFINED'
+                example: 'EXPERIMENTAL'
+              description: >
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-s-is-009/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '400':
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/responseForErroredOutOfDomainServiceRequests'
+        '502':
+          $ref: '#/components/responses/502'
+        '530':
+          $ref: '#/components/responses/530'
+      callbacks:
+        RequestForProvidingFirmwareForLivenetviewCausesReadingFirmwareFromCache:
+          FirmwareFromCache: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-mwdi-1-1-2-120/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mount-name of the device that is addressed by this callback
+                    from {$request.body#mount-name}'
+                - name: fields
+                  in: query
+                  schema:
+                    type: string
+                    example: ''
+                  description: >
+                    'If different from empty string, a fields filter with the following value to be added to the request
+                    from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-string-p-080/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+              responses:
+                '200':
+                  description: 'FirmwareCollection provided from cache'
+                  content:
+                    application/json:
+                      schema:
+                        description: 'Only relevant attributes listed'
+                        type: object
+                        properties:
+                          firmware-1-0:firmware-collection:
+                            type: object
+                            properties:
+                              firmware-component-list:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    firmware-component-pac:
+                                      type: object
+                                      properties:
+                                        firmware-component-capability:
+                                          type: object
+                                          properties:
+                                            firmware-component-name:
+                                              type: string
+                                            firmware-component-version:
+                                              type: string
+                                            firmware-component-class:
+                                              type: string
+                                        firmware-component-status:
+                                          type: object
+                                          properties:
+                                            firmware-component-status:
+                                              type: string
+                        example:
+                          firmware-1-0:firmware-collection:
+                            firmware-component-list:
+                              - firmware-component-pac:
+                                  firmware-component-capability:
+                                    firmware-component-name: 'IDU Board Bench 2'
+                                    firmware-component-version: 'N31030  01.12.04'
+                                    firmware-component-class: 'firmware-1-0:FIRMWARE_COMPONENT_CLASS_TYPE_PACKAGE'
+                                  firmware-component-status:
+                                    firmware-component-status: 'firmware-1-0:FIRMWARE_COMPONENT_STATUS_TYPE_STAND_BY'
+                              - firmware-component-pac:
+                                  firmware-component-capability:
+                                    firmware-component-name: 'Web Server LCT'
+                                    firmware-component-version: 'N96121  01.12.03'
+                                    firmware-component-class: 'firmware-1-0:FIRMWARE_COMPONENT_CLASS_TYPE_PACKAGE'
+                                  firmware-component-status:
+                                    firmware-component-status: 'firmware-1-0:FIRMWARE_COMPONENT_STATUS_TYPE_ACTIVE'
                   headers:
                     x-correlator:
                       schema:

@@ -463,6 +463,13 @@ profile-instances:
       string-value: ''
 
   - profile-name: 'StringProfile'
+    uuid: 'aptp-1-1-0-string-p-080'
+    capability:
+      string-name: 'RequestForProvidingFirmwareForLivenetviewCausesReadingFirmwareFromCache.FirmwareFromCache'
+    configuration:
+      string-value: ''
+
+  - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-998'
     capability:
       string-name: 'AccessPlanningToolCredentials.Username'

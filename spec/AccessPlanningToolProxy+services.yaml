@@ -66,6 +66,8 @@ servers:
           uuid: aptp-1-1-0-op-s-is-009
         - operation-name: /v1/provide-status-for-livenetview
           uuid: aptp-1-1-0-op-s-is-010
+        - operation-name: /v1/provide-firmware-for-livenetview
+          uuid: aptp-1-1-0-op-s-is-011
 
         - operation-name: /v1/update-apt-client
           uuid: aptp-1-1-0-op-s-is-999

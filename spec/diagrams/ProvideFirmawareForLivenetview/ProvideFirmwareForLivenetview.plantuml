@@ -1,0 +1,29 @@
+@startuml ProvideFirmwareForLivenetview
+skinparam responseMessageBelowArrow true
+
+title
+ProvideFirmwareForLivenetview
+end title
+
+participant "LinkVis" as LinkVis
+participant "APTP://v1/provide-firmware-for-livenetview" as Livenetview_Firmware
+participant "<i>RequestForProvidingFirmwareCollectionForLivenetviewCausesReadingFirmwareFromCache</i>" as ReadingFirmwareCache
+
+
+LinkVis -> Livenetview_Firmware: {MountName, LinkId} (apiKeyAuth)
+
+activate Livenetview_Firmware
+
+
+ReadingFirmwareCache --> Livenetview_Firmware: {entire list of firmware components from cache}
+
+note over Livenetview_Firmware
+Filter for Firmware Components where
+**(firmware-component-pac/firmware-component-capability/firmware-component-class) == firmware-1-0:FIRMWARE_COMPONENT_CLASS_TYPE_PACKAGE'**
+end note
+
+Livenetview_Firmware --> LinkVis: {entire list of firmware components of type **PACKAGE** \nfrom cache}
+
+deactivate Livenetview_Firmware
+
+@enduml

@@ -1,0 +1,21 @@
+@startuml 415_ReadingReadingFirmwareFromCache
+skinparam responseMessageBelowArrow true
+
+title
+RequestForProvidingFirmwareCollectionForLivenetviewCausesReadingFirmwareFromCache
+end title
+
+participant "LinkVis" as LinkVis
+participant "APTP://v1/provide-firmware-collection-for-livenetview" as Livenetview_Firmware
+participant "MWDI://core-model-1-4:network-control-domain=live/control-construct={mountName}/firmware-1-0:firmware-collection" as MwdiFirmware
+
+LinkVis -> Livenetview_Firmware: {MountName, LinkId} (apiKeyAuth)
+
+activate Livenetview_Firmware
+
+Livenetview_Firmware -> MwdiFirmware: {MountName}(apiKeyAuth)
+MwdiFirmware --> Livenetview_Firmware: {entire list of firmware components from cache}
+
+deactivate Livenetview_Firmware
+
+@enduml
