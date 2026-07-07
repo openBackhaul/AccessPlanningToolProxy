@@ -9,7 +9,7 @@ participant "LinkVis" as LinkVis
 participant "APTP://v1/provide-acceptance-data-of-link-endpoint" as APTP
 participant "<i>RequestForProvidingAcceptanceDataCauses\n<i>DeterminingAirInterfaceUuidUnderTest</i>" as AirInterface
 participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}\n/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment-identifier" as EquipmentIdentifier
-participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment\n?fields=structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier);equipment-instance(serial-number))" as RadioComponentIdentifiers
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/equipment={uuid}/actual-equipment\n?fields=structure(category);manufactured-thing(equipment-type(version;type-name;part-type-identifier);equipment-instance(serial-number))" as RadioComponentIdentifiers
 
 LinkVis -> APTP: {MountName, LinkId} (apiKeyAuth)
 activate APTP
@@ -27,11 +27,12 @@ loop for each EquipmentIndentifer
     end note
 
     APTP -> RadioComponentIdentifiers: {EquipmentUuidList} (apiKeyAuth)
-    RadioComponentIdentifiers --> APTP: {EquipmentCategory, type-name, serial-number, part-type-identifier}
+    RadioComponentIdentifiers --> APTP: {EquipmentCategory, version, type-name, serial-number, part-type-identifier}
 
     alt 
             note over APTP
                 If EquipmentCategory == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT
+                radio-hardware-version = version
                 radio-equipment-name = type-name
                 radio-equipment-serial-number = serial-number
                 radio-part-number = part-type-identifier
@@ -39,6 +40,7 @@ loop for each EquipmentIndentifer
     else        
             note over APTP
                 If EquipmentCategory == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM
+                modem-hardware-version = version
                 modem-equipment-name = type-name
                 modem-equipment-serial-number = serial-number
                 modem-part-number = part-type-identifier
@@ -46,6 +48,7 @@ loop for each EquipmentIndentifer
     else
             note over APTP
                 If EquipmentCategory == equipment-augment-1-0:EQUIPMENT_CATEGORY_FULL_OUTDOOR_UNIT
+                device-hardware-version = version
                 device-equipment-name = type-name
                 device-equipment-serial-number = serial-number
                 device-part-number = part-type-identifier

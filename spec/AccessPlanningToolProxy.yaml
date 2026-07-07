@@ -3103,7 +3103,7 @@ paths:
                   required: true
                   schema:
                     type: string
-                    example: 'structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier);equipment-instance(serial-number))'
+                    example: 'structure(category);manufactured-thing(equipment-type(version;type-name;part-type-identifier);equipment-instance(serial-number))'
                   description: >
                     'If different from empty string, a fields filter with the following value to be added to the request
                     from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-string-p-025/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
@@ -3129,6 +3129,8 @@ paths:
                                   equipment-type:
                                     type: object
                                     properties:
+                                      version:
+                                        type: string
                                       part-type-identifier:
                                         type: string
                                       type-name:
@@ -3144,6 +3146,7 @@ paths:
                               category: 'equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT'
                             manufactured-thing:
                               equipment-type:
+                                version: 'R3B'
                                 part-type-identifier: 'UKL40163/79'
                                 type-name: 'RAU2 X 23/79'
                               equipment-instance:
@@ -3872,6 +3875,12 @@ paths:
                                 radio:
                                   type: object
                                   properties:
+                                    hardware-version:
+                                      type: string
+                                      description: >
+                                        'This attribute identifies the version of the equipment
+                                        if {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT
+                                        from {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/version}'
                                     equipment-name:
                                       type: string
                                       description: >
@@ -3893,6 +3902,12 @@ paths:
                                 modem:
                                   type: object
                                   properties:
+                                    hardware-version:
+                                      type: string
+                                      description: >
+                                        'This attribute identifies the version of the equipment
+                                        if {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM
+                                        from {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/version}'
                                     equipment-name:
                                       type: string
                                       description: >
@@ -3914,6 +3929,12 @@ paths:
                                 device:
                                   type: object
                                   properties:
+                                    hardware-version:
+                                      type: string
+                                      description: >
+                                        'This attribute identifies the version of the equipment
+                                        if {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.EquipmentInfo.response.body#core-model-1-4:actual-equipment/structure/category} == equipment-augment-1-0:EQUIPMENT_CATEGORY_FULL_OUTDOOR_UNIT
+                                        from {$RequestForProvidingAcceptanceDataCausesReadingTheRadioComponentIdentifiers.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-type/version}'
                                     equipment-name:
                                       type: string
                                       description: >
@@ -4028,7 +4049,6 @@ paths:
                                         description: >
                                           'Serial number of this equipment instance
                                           from {$RequestForProvidingAcceptanceDataCausesRetrievingSfpInformation.EquipmentInfo.response.body#core-model-1-4:actual-equipment/manufactured-thing/equipment-instance/serial-number}'
-
                                 position-of-modem-board:
                                   type: string
                                   description: >
@@ -4153,14 +4173,17 @@ paths:
                                   serving-ethernet-container-status: 'ethernet-container-2-0:INTERFACE_STATUS_TYPE_DOWN'
                             inventory:
                               radio:
+                                hardware-version: 'R2A'
                                 equipment-name: 'RAU2 X 23/79'
                                 serial-number: 'A231067NG8'
                                 part-number: 'UKL40163/79'
                               modem:
+                                hardware-version: 'RB4'
                                 equipment-name: 'MMU3 A'
                                 serial-number: 'A2310FXGLF'
                                 part-number: 'ROJ 208 1311/1'
                               device:
+                                hardware-version: '4'
                                 equipment-name: 'ASNK-18G'
                                 serial-number: '101821827000420'
                                 part-number: 'GE8704-52'
