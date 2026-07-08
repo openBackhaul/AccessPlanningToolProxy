@@ -443,7 +443,7 @@ paths:
       The request shall only be accepted after check and confirmation that the requested mountName is in the APTP-internal list of connected devices.'
     post:
       operationId: provideAcceptanceDataOfLinkEndpoint
-      summary: 'Provides the data required for the acceptance of a device'
+      summary: 'Provides the endpoint data required for the acceptance of a MW-link'
       tags:
         - IndividualServices
       security:
