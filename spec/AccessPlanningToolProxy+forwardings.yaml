@@ -1130,7 +1130,7 @@ forwardings:
       - server-name: /v1/provide-equipment-info-for-livenetview
         uuid: aptp-1-1-0-op-s-is-008
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment={uuid}/actual-equipment?fields=structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier);equipment-instance(serial-number))
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment={uuid}/actual-equipment?fields=structure(category);manufactured-thing(equipment-type(version;type-name;part-type-identifier);equipment-instance(serial-number))
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-114
 
   - forwarding-name: RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.HolderLabel

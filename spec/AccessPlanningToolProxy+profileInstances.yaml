@@ -418,7 +418,7 @@ profile-instances:
     capability:
       string-name: 'RequestForProvidingEquipmentInfoForLivenetviewCausesReadingEquipmentInfoFromCache.EquipmentInfo'
     configuration:
-      string-value: 'structure(category);manufactured-thing(equipment-type(type-name;part-type-identifier);equipment-instance(serial-number))'
+      string-value: 'structure(category);manufactured-thing(equipment-type(version;type-name;part-type-identifier);equipment-instance(serial-number))'
 
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-080'

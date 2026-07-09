@@ -9,14 +9,14 @@ participant "LinkVis" as LinkVis
 participant "APTP://v1/provide-equipment-for-livenetview" as liveEquipment
 participant "<i>RequestForProvidingEquipmentForLivenetviewCauses\n<i>DeterminingAirInterfaceUuidUnderTest</i>" as InterfaceUnderTest
 participant "MWDI://core-model-1-4:network-control-domain=cache/\ncontrol-construct={mount-name}\n/logical-termination-point={uuid}/\nltp-augment-1-0:ltp-augment-pac?fields=equipment-identifier" as EquipmentInstanceIdentifiers
-participant "MWDI://core-model-1-4:network-control-domain=cache/\ncontrol-construct={mount-name}/equipment={uuid}/\nactual-equipment?fields=structure(category);manufactured-thing\n(equipment-type(type-name;part-type-identifier);\nequipment-instance(serial-number))" as RadioComponentIdentifiers
+participant "MWDI://core-model-1-4:network-control-domain=cache/\ncontrol-construct={mount-name}/equipment={uuid}/\nactual-equipment?fields=structure(category);manufactured-thing\n(equipment-type(version;type-name;part-type-identifier);\nequipment-instance(serial-number))" as RadioComponentIdentifiers
 participant "MWDI://core-model-1-4:network-control-domain=cache/\ncontrol-construct={mount-name}?fields=uuid;\nequipment(contained-holder(occupying-fru;\nequipment-augment-1-0:holder-pac(vendor-label)))" as HolderLabel
 
 LinkVis -> liveEquipment: {MountName, LinkId} (apiKeyAuth)
 
-InterfaceUnderTest --> liveEquipment: {Uuid, LocalId, LayerProtocolName} 
+InterfaceUnderTest --> liveEquipment: {UuidUnderTest, LocalIdLocalIdUnderTest} 
 
-liveEquipment -> EquipmentInstanceIdentifiers: {Uuid, LocalId, LayerProtocolName} (apiKeyAuth)
+liveEquipment -> EquipmentInstanceIdentifiers: {MountName,UuidUnderTest, LocalIdLocalIdUnderTest} (apiKeyAuth)
 EquipmentInstanceIdentifiers --> liveEquipment: list of-{EquipmentInstanceIdentifiers}
 
 
@@ -31,13 +31,15 @@ loop for each EquipmentInstanceIdentifier from list
 
     alt If EquipmentCategory == equipment-augment-1-0:EQUIPMENT_CATEGORY_FULL_OUTDOOR_UNIT
         note over liveEquipment
+            device-hardware-version = version
             device-equipment-name = type-name
             device-equipment-serial-number = serial-number
             device-part-number = part-type-identifier
         end note
 
     else If EquipmentCategory == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM
-        note over liveEquipment    
+        note over liveEquipment
+            modem-hardware-version = version
             modem-equipment-name = type-name
             modem-equipment-serial-number = serial-number
             modem-part-number = part-type-identifier    
@@ -52,6 +54,7 @@ loop for each EquipmentInstanceIdentifier from list
 
     else  If EquipmentCategory == equipment-augment-1-0:EQUIPMENT_CATEGORY_OUTDOOR_UNIT
         note over liveEquipment        
+        radio-hardware-version = version
         radio-equipment-name = type-name
         radio-equipment-serial-number = serial-number
         radio-part-number = part-type-identifier
