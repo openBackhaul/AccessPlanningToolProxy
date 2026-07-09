@@ -1,7 +1,11 @@
 ﻿openapi: 3.0.0
 info:
   title: AccessPlanningToolProxy
-  version: 1.1.0
+  description: MW-SDN interface towards APT
+  version: 1.2.0
+  contact:
+    name: Ana Cabello Barrera
+    email: ana.cabello-barrera@telefonica.com
 
 x-gui-paths:
 ########################################################################################################################
