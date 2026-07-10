@@ -5965,6 +5965,11 @@ paths:
                                         time: 257
                                         capacity:
                                     interval-capacity: -1
+                                    errorred-seconds: 0
+                                    severely-errorred-seconds: 0
+                                    consecutive-severely-errorred-seconds: 0
+                                    total-unavailability: 0
+                                    defect-blocks: 0
                                   - granularity-period: "air-interface-2-0:GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN"
                                     period-end-time: "2024-03-07T09:45:00+01:00"
                                     transmit-level-minimum: 20
@@ -5989,6 +5994,11 @@ paths:
                                         time: 257
                                         capacity:
                                     interval-capacity: -1
+                                    errorred-seconds: 0
+                                    severely-errorred-seconds: 0
+                                    consecutive-severely-errorred-seconds: 0
+                                    total-unavailability: 0
+                                    defect-blocks: 0                                    
                                 transmission-mode-list:
                                   - transmission-mode-name: "1303-80000-512-Std"
                                     number-of-states: 512
