@@ -8,7 +8,11 @@ end title
 participant "LinkVis" as LinkVis
 participant "APTP://v1/update-apt-client" as AptClientUpdate
 
+alt apt-address as IP address
 LinkVis -> AptClientUpdate: {apt-protocol, apt-ip-address, apt-tcp-port, apt-release-nr, /v1/receive-acceptance-data-of-link-endpoint, /v1/receive-historical-pm-data-of-device} (apiKeyAuth)
+else apt-address as domain name
+LinkVis -> AptClientUpdate: {apt-protocol, apt-domain-name, apt-tcp-port, apt-release-nr, /v1/receive-acceptance-data-of-link-endpoint, /v1/receive-historical-pm-data-of-device} (apiKeyAuth)
+end
 
 note over AptClientUpdate
 After successful processing of this request, a minimum time interval defined in 
