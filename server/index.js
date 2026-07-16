@@ -17,17 +17,16 @@ var serverPort = 4009;
 
 // uncomment if you do not want to validate security e.g. operation-key, basic auth, etc
 // appCommons.openApiValidatorOptions.validateSecurity = false;
-if (process.env.DEBUG && process.env.DEBUG.toLowerCase() === "true") {
-    logger.warn("Working in debug mode");
-    logger.warn("Checking validation");
+if (process.env.DEBUG && process.env.DEBUG.toLowerCase() === 'true') {
+    logger.warn('Working in debug mode');
+    logger.warn('Checking validation');
     appCommons.openApiValidatorOptions.validateSecurity = false;
     // appCommons.openApiValidatorOptions.validateResponses = false;
     // appCommons.openApiValidatorOptions.validateRequests = false;
-    logger.warn("Validate Security: " + appCommons.openApiValidatorOptions.validateSecurity);
-    logger.warn("Validate Responses: " + appCommons.openApiValidatorOptions.validateResponses);
-    logger.warn("Validate Requests: " + appCommons.openApiValidatorOptions.validateRequests);
+    logger.warn(`Validate Security: ${appCommons.openApiValidatorOptions.validateSecurity}`);
+    logger.warn(`Validate Responses: ${appCommons.openApiValidatorOptions.validateResponses}`);
+    logger.warn(`Validate Requests: ${appCommons.openApiValidatorOptions.validateRequests}`);
 }
-
 
 // swaggerRouter configuration
 var options = {
@@ -47,19 +46,19 @@ http.createServer(app).listen(serverPort, function () {
     logger.info('Swagger-ui is available on http://localhost:%d/docs', serverPort);
 });
 
-//setting the path to the database 
-global.databasePath = './database/config.json'
+//setting the path to the database
+global.databasePath = './database/config.json';
 
 // Limits
 global.counter = 0;
 global.counterStatus = 0;
 global.counterAlarms = 0;
-global.counterTime   = 0;
+global.counterTime = 0;
 global.counterStatusHistoricalPMDataCall = 0;
 global.counterStatusAcceptanceDataOfLinkEndpointCall = 0;
 //creating connected device list obj
-global.connectedDeviceList = "";
+global.connectedDeviceList = '';
 global.testPrivateFunctions = 0;
 
-logger.info("Starting Application Registration");
+logger.info('Starting Application Registration');
 appCommons.performApplicationRegistration();
