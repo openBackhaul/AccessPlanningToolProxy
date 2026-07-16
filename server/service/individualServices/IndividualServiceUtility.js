@@ -16,7 +16,7 @@ const AsyncLock = require('async-lock');
 const lock = new AsyncLock();
 
 const logger = require('../LoggingService').getLogger();
-  
+
 /**
  * This function fetches the string value from the string profile based on the expected string name.
  * @param {String} expectedStringName string name of the string profile.
@@ -44,7 +44,7 @@ exports.getStringProfileInstanceValue = async function (expectedStringName) {
   } catch (error) {
     console.log(`getStringProfileInstanceValue is not success with ${error}`);
     logger.error(error, "getStringProfileInstanceValue is not success");
-    return new createHttpError.InternalServerError(`${error}`);  
+    return new createHttpError.InternalServerError(`${error}`);
   }
 }
 
@@ -89,15 +89,15 @@ exports.getQueryAndPathParameter = async function (operationName, pathParamList,
  * @param {String} stringName string name to fetch the field parameter.
  * @return {Object} consequentOperationClientAndFieldParams that contains op-c uuid , operation-name, field parameters.
  */
-exports.getConsequentOperationClientAndFieldParams = async function(forwardingConstructName, stringName = forwardingConstructName) {
+exports.getConsequentOperationClientAndFieldParams = async function (forwardingConstructName, stringName = forwardingConstructName) {
   let consequentOperationClientAndFieldParams = {};
   try {
     let forwardingConstructInstance = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingConstructName);
     let outputFcPortForFc = await ForwardingConstruct.getOutputFcPortsAsync(forwardingConstructInstance[onfAttributes.GLOBAL_CLASS.UUID]);
-    consequentOperationClientAndFieldParams.operationClientUuid = outputFcPortForFc[0][onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]; 
+    consequentOperationClientAndFieldParams.operationClientUuid = outputFcPortForFc[0][onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT];
     consequentOperationClientAndFieldParams.operationName = await OperationClientInterface.getOperationNameAsync(consequentOperationClientAndFieldParams.operationClientUuid);
     consequentOperationClientAndFieldParams.fields = await IndividualServiceUtility.getStringProfileInstanceValue(stringName);
-  } catch(error) {
+  } catch (error) {
     console.log(`getConsequentOperationClientAndFieldParams is not success with ${error}`);
     logger.error(error, "getConsequentOperationClientAndFieldParams is not success");
     return new createHttpError.InternalServerError(`${error}`);
@@ -151,10 +151,10 @@ exports.extractProfileStringConfiguration = async function (uuid) {
   return profile["string-profile-configuration"]["string-value"];
 }
 
-
 exports.createBasicAuth = async function (username, password) {
-    return "Basic " + Buffer.from(`${username}:${password}`).toString("base64");
+  return "Basic " + Buffer.from(`${username}:${password}`).toString("base64");
 }
+
 /** 
  * Write to the filesystem.<br>
  * @param {JSON} coreModelJsonObject json object that needs to be updated
@@ -199,7 +199,7 @@ exports.generateRequestIdForHistoricalPMDataAPI = async function () {
   return `${timestamp}${randomNumber}`;
 }
 
-exports.generateRequestId = async function (mountName,linkId){
+exports.generateRequestId = async function (mountName, linkId) {
   const timestamp = Date.now(); // Get current timestamp
   return mountName + "-" + linkId + "-" + `${timestamp}`;
 }

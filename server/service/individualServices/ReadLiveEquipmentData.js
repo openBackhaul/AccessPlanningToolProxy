@@ -128,7 +128,6 @@ async function RequestForProvidingEquipmentForLivenetviewCausesDeterminingAirInt
       let externalLabelResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParamList, requestHeaders, _traceIndicatorIncrementer);
       if (Object.keys(externalLabelResponse).length === 0) {
         logger.warn(`DeterminingAirInterfaceUuidUnderTest - ${forwardingName} is not success, externalLabelResponse is empty`);
-        console.log(createHttpError.InternalServerError(`${forwardingName} is not success`));
       } else {
         externalLabelResponse = externalLabelResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.EXTERNAL_LABEL];
         let linkIdFromExternalLabel = externalLabelResponse.substring(0, 9);

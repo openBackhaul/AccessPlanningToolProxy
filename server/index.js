@@ -49,11 +49,6 @@ http.createServer(app).listen(serverPort, function () {
 
 //setting the path to the database 
 global.databasePath = './database/config.json'
-if (process.env.DEBUG && process.env.DEBUG.toLowerCase() === "true") {
-    logger.warn("Working in debug mode");
-    global.databasePath = './server/database/config.json'
-    logger.warn("Load data from: " + global.databasePath);
-}
 
 // Limits
 global.counter = 0;

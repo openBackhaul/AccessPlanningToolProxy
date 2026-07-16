@@ -11,7 +11,7 @@ const fileOperation = require('onf-core-model-ap/applicationPattern/databaseDriv
 const createHttpError = require('http-errors');
 const checkRegisteredAvailabilityOfDevice = require('../IndividualServicesService');
 
-const { provideAlarmsForLiveNetView } = require('../IndividualServicesService'); 
+const { provideAlarmsForLiveNetView } = require('../IndividualServicesService');
 const ReadLiveAlarmsData = require('../individualServices/ReadLiveAlarmsData');
 
 const { provideStatusForLiveNetView } = require('../IndividualServicesService');
@@ -19,12 +19,12 @@ const ReadLiveStatusData = require('../individualServices/ReadLiveStatusData');
 
 global.counterTime;
 
-const ReadConfigurationAirInterfaceData = require('../individualServices/ReadConfigurationAirInterfaceData'); 
+const ReadConfigurationAirInterfaceData = require('../individualServices/ReadConfigurationAirInterfaceData');
 const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
 const provideConfigurationForLiveNetView = require('../IndividualServicesService');
 
-const {provideHistoricalPmDataOfDevice} = require("../IndividualServicesService");
-const {provideAcceptanceDataOfLinkEndpoint} = require('../IndividualServicesService');
+const { provideHistoricalPmDataOfDevice } = require("../IndividualServicesService");
+const { provideAcceptanceDataOfLinkEndpoint } = require('../IndividualServicesService');
 const ReadHistoricalData = require("../individualServices/ReadHistoricalData");
 
 // Mocking dependencies used in the individual services
@@ -53,7 +53,6 @@ jest.mock('../LoggingService', () => ({
 // const logger = require('../LoggingService').getLogger();
 const logger = require('../LoggingService').getLogger();
 
-
 //=====================================================//
 jest.mock('../individualServices/ReadLiveStatusData');
 jest.mock("../individualServices/ReadHistoricalData");
@@ -64,7 +63,6 @@ describe('provideEquipmentInfoForLiveNetView', () => {
     // Clear all mock calls and instances after each test to prevent interference
     jest.clearAllMocks();
   });
-  
 
   it('should resolve with equipment data when everything works correctly', async () => {
     // Arrange: Mocking dependent functions to simulate successful behavior
@@ -161,27 +159,27 @@ describe('provideEquipmentInfoForLiveNetView', () => {
     expect(ReadLiveEquipmentData.readLiveEquipmentData).not.toHaveBeenCalled();
   });
 
-it('should log an error and reject when ReadLiveEquipmentData throws an error', async () => {
-  ReadLtpStructure.readLtpStructure.mockResolvedValue({
-    ltpStructure: { someKey: 'someValue' },
-    traceIndicatorIncrementer: 2,
-  });
+  it('should log an error and reject when ReadLiveEquipmentData throws an error', async () => {
+    ReadLtpStructure.readLtpStructure.mockResolvedValue({
+      ltpStructure: { someKey: 'someValue' },
+      traceIndicatorIncrementer: 2,
+    });
 
-  const equipmentError = new Error('Equipment data fetch failed');
-  ReadLiveEquipmentData.readLiveEquipmentData.mockRejectedValue(equipmentError);
+    const equipmentError = new Error('Equipment data fetch failed');
+    ReadLiveEquipmentData.readLiveEquipmentData.mockRejectedValue(equipmentError);
 
-  const body = { 'mount-name': 'Device1', 'link-id': 'Link1' };
+    const body = { 'mount-name': 'Device1', 'link-id': 'Link1' };
 
-  await expect(
-    individualServicesService.provideEquipmentInfoForLiveNetView(
-      body,
-      'user1',
-      'originator1',
-      'xCorrelator1',
-      'traceIndicator1',
-      'customerJourney1'
-    )
-  ).rejects.toThrow('Equipment data fetch failed');
+    await expect(
+      individualServicesService.provideEquipmentInfoForLiveNetView(
+        body,
+        'user1',
+        'originator1',
+        'xCorrelator1',
+        'traceIndicator1',
+        'customerJourney1'
+      )
+    ).rejects.toThrow('Equipment data fetch failed');
   });
 });
 
@@ -203,13 +201,13 @@ describe('updateAptClient', () => {
       "future-acceptance-data-receive-operation": "OperationA",
       "future-performance-data-receive-operation": "OperationB"
     };
-    
+
     // Mock global counterTime
     global.counterTime = 0;
-    
+
     // Spy on console.log
-    consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
-    
+    consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
+
     // Reset all mocks
     jest.clearAllMocks();
   });
@@ -247,10 +245,10 @@ describe('updateAptClient', () => {
     expect(LogicalTerminationPointC.setLayerProtolRemotePortLtpAsync).toHaveBeenCalledWith("aptp-1-1-0-tcp-c-apt-24-5-0-000", "8080");
     expect(LogicalTerminationPointC.setLayerProtolRemoteAddressLtpAsync).toHaveBeenCalledWith("aptp-1-1-0-tcp-c-apt-24-5-0-000", "127.0.0.1");
     expect(LogicalTerminationPointC.setLayerProtolOperationNameLtpAsync).toHaveBeenCalledTimes(2);
-    
+
     // Verify counterTime was updated
     expect(global.counterTime).toBe(mockCurrentTime);
-    
+
     Date.now.mockRestore();
   });
 
@@ -259,11 +257,11 @@ describe('updateAptClient', () => {
     forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue({ uuid: 'aptp-1-1-0-op-fc-bm-001' });
     IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(1);
     fileOperation.readFromDatabaseAsync.mockResolvedValue({});
-    
+
     // Mock Date.now to return a time that satisfies the time condition
     const mockCurrentTime = Date.now() + 4 * 60 * 60 * 1000;
     jest.spyOn(Date, 'now').mockReturnValue(mockCurrentTime);
-    
+
     // Simulate failure in one of the async operations
     LogicalTerminationPointC.setLayerProtolReleaseNumberLtpAsync.mockResolvedValue(false);
     IndividualServiceUtility.resetCompleteFile.mockResolvedValue(true);
@@ -272,10 +270,10 @@ describe('updateAptClient', () => {
     await expect(individualServicesService.updateAptClient(mockBody)).rejects.toThrow(
       createHttpError.InternalServerError
     );
-    
+
     // Verify that resetCompleteFile was called during error handling
     expect(IndividualServiceUtility.resetCompleteFile).toHaveBeenCalled();
-    
+
     Date.now.mockRestore();
   });
 
@@ -283,7 +281,7 @@ describe('updateAptClient', () => {
     // Arrange: Mock the forwarding construct
     forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue({ uuid: 'aptp-1-1-0-op-fc-bm-001' });
     IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(1); // minimum time = 1 hour
-    
+
     // Set counterTime to current time and mock Date.now to return a time that fails the condition
     const currentTime = Date.now();
     global.counterTime = currentTime;
@@ -293,10 +291,10 @@ describe('updateAptClient', () => {
     await expect(individualServicesService.updateAptClient(mockBody)).rejects.toThrow(
       createHttpError.TooEarly
     );
-    
+
     // Verify that file operations were not called
     expect(fileOperation.readFromDatabaseAsync).not.toHaveBeenCalled();
-    
+
     Date.now.mockRestore();
   });
 
@@ -304,17 +302,17 @@ describe('updateAptClient', () => {
     // Arrange: Mock successful responses for initial operations
     forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue({ uuid: 'aptp-1-1-0-op-fc-bm-001' });
     IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(1);
-    
+
     // Mock Date.now to satisfy time condition
     const mockCurrentTime = Date.now() + 4 * 60 * 60 * 1000;
     jest.spyOn(Date, 'now').mockReturnValue(mockCurrentTime);
-    
+
     fileOperation.readFromDatabaseAsync.mockResolvedValue({});
     LogicalTerminationPointC.setLayerProtolReleaseNumberLtpAsync.mockResolvedValue(true);
     LogicalTerminationPointC.setLayerProtolRemoteProtocolLtpAsync.mockResolvedValue(true);
     LogicalTerminationPointC.setLayerProtolRemotePortLtpAsync.mockResolvedValue(true);
     LogicalTerminationPointC.setLayerProtolRemoteAddressLtpAsync.mockResolvedValue(true);
-    
+
     // Make the last operation fail to trigger error handling
     LogicalTerminationPointC.setLayerProtolOperationNameLtpAsync
       .mockResolvedValueOnce(true)  // First call succeeds
@@ -327,20 +325,20 @@ describe('updateAptClient', () => {
     await expect(individualServicesService.updateAptClient(mockBody)).rejects.toThrow(
       createHttpError.InternalServerError
     );
-    
+
     // Verify that resetCompleteFile was called and failed
     expect(IndividualServiceUtility.resetCompleteFile).toHaveBeenCalled();
-    
+
     // Verify console.log was called twice (once for operation failure, once for reset failure)
     expect(consoleSpy).toHaveBeenCalledTimes(3);
-    
+
     Date.now.mockRestore();
   });
 
   it('should handle HTTPS protocol correctly', async () => {
     // Arrange: Modify mockBody to use HTTPS
     mockBody["future-apt-protocol"] = "HTTPS";
-    
+
     forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockResolvedValue({ uuid: 'aptp-1-1-0-op-fc-bm-001' });
     IndividualServiceUtility.extractProfileConfiguration.mockResolvedValue(1);
     fileOperation.readFromDatabaseAsync.mockResolvedValue({});
@@ -358,10 +356,10 @@ describe('updateAptClient', () => {
 
     // Assert: Verify HTTPS protocol was set correctly
     expect(LogicalTerminationPointC.setLayerProtolRemoteProtocolLtpAsync).toHaveBeenCalledWith(
-      "aptp-1-1-0-tcp-c-apt-24-5-0-000", 
+      "aptp-1-1-0-tcp-c-apt-24-5-0-000",
       "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTPS"
     );
-    
+
     Date.now.mockRestore();
   });
 });
@@ -426,7 +424,7 @@ describe('checkRegisteredAvailabilityOfDevice', () => {
 
     global.counter = 2;
 
-    await checkRegisteredAvailabilityOfDevice.checkRegisteredAvailabilityOfDevice(body).catch(() => {}); // Ensure finally block is executed
+    await checkRegisteredAvailabilityOfDevice.checkRegisteredAvailabilityOfDevice(body).catch(() => { }); // Ensure finally block is executed
 
     expect(global.counter).toBe(2);
   });
@@ -443,7 +441,7 @@ describe('checkRegisteredAvailabilityOfDevice', () => {
   it('should reject the promise when an error occurs and still decrement the counter', async () => {
     const error = new Error('Unexpected error');
     forwardingDomain.getForwardingConstructForTheForwardingNameAsync.mockRejectedValue(error);
-    
+
     global.counter = 2;
 
     await expect(checkRegisteredAvailabilityOfDevice.checkRegisteredAvailabilityOfDevice(body)).rejects.toThrow(error);
@@ -603,36 +601,36 @@ describe('provideConfigurationForLiveNetView', () => {
     expect(result).toEqual({});
   });
 
- it('should log an error and reject when ReadConfigurationAirInterfaceData fails', async () => {
-   // Spy on console.log to verify error logging
-   const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
-   
-   const mockLtpStructureResult = {
-     ltpStructure: { key: 'value' },
-     traceIndicatorIncrementer: 2,
-   };
-   ReadLtpStructure.readLtpStructure.mockResolvedValue(mockLtpStructureResult);
- 
-   const error = new Error('Service unavailable');
-   ReadConfigurationAirInterfaceData.readConfigurationAirInterfaceData.mockRejectedValue(error);
- 
-   // The function should reject, not resolve
-   await expect(
-     provideConfigurationForLiveNetView.provideConfigurationForLiveNetView(
-       body,
-       user,
-       originator,
-       xCorrelator,
-       traceIndicator,
-       customerJourney
-     )
-   ).rejects.toThrow('Service unavailable');
- 
-   // Verify that console.log was called with the error
-   expect(consoleSpy).toHaveBeenCalledWith(error);
-   
-   consoleSpy.mockRestore();
- });
+  it('should log an error and reject when ReadConfigurationAirInterfaceData fails', async () => {
+    // Spy on console.log to verify error logging
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
+
+    const mockLtpStructureResult = {
+      ltpStructure: { key: 'value' },
+      traceIndicatorIncrementer: 2,
+    };
+    ReadLtpStructure.readLtpStructure.mockResolvedValue(mockLtpStructureResult);
+
+    const error = new Error('Service unavailable');
+    ReadConfigurationAirInterfaceData.readConfigurationAirInterfaceData.mockRejectedValue(error);
+
+    // The function should reject, not resolve
+    await expect(
+      provideConfigurationForLiveNetView.provideConfigurationForLiveNetView(
+        body,
+        user,
+        originator,
+        xCorrelator,
+        traceIndicator,
+        customerJourney
+      )
+    ).rejects.toThrow('Service unavailable');
+
+    // Verify that console.log was called with the error
+    expect(consoleSpy).toHaveBeenCalledWith(error);
+
+    consoleSpy.mockRestore();
+  });
 });
 
 describe('provideAlarmsForLiveNetView', () => {

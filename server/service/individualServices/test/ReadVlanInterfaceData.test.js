@@ -22,24 +22,24 @@ describe('RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole', () 
     jest.clearAllMocks();
     mountName = '513250006';
     ltpStructure = {
-        'core-model-1-4:control-construct': [
+      'core-model-1-4:control-construct': [
+        {
+          'logical-termination-point': [{
+            uuid: 'LTP-ETC-TTP-LAN-1-XG-SFP',
+            'client-ltp': ['LTP-MAC-TTP-LAN-1-XG-SFP'],
+            'server-ltp': ['LTP-MWS-LAN-1-XG-SFP'],
+            'layer-protocol': { 'local-id': 'LP-ETC-TTP-LAN-1-XG-SFP', 'layer-protocol-name': 'ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER' }
+          },
           {
-            'logical-termination-point': [{
-              uuid: 'LTP-ETC-TTP-LAN-1-XG-SFP',
-              'client-ltp': ['LTP-MAC-TTP-LAN-1-XG-SFP'],
-              'server-ltp': ['LTP-MWS-LAN-1-XG-SFP'],
-              'layer-protocol': { 'local-id': 'LP-ETC-TTP-LAN-1-XG-SFP', 'layer-protocol-name': 'ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER' }
-            },
-            {
-              uuid: 'LTP-ETC-TTP-LAN-2-XG-SFP',
-              'client-ltp': ['LTP-MAC-TTP-LAN-2-XG-SFP'],
-              'server-ltp': ['LTP-MWS-LAN-2-XG-SFP'],
-              'layer-protocol': [{ 'local-id': 'LP-ETC-TTP-LAN-2-XG-SFP', 'layer-protocol-name': 'ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER' }]
-            }
-            ]
+            uuid: 'LTP-ETC-TTP-LAN-2-XG-SFP',
+            'client-ltp': ['LTP-MAC-TTP-LAN-2-XG-SFP'],
+            'server-ltp': ['LTP-MWS-LAN-2-XG-SFP'],
+            'layer-protocol': [{ 'local-id': 'LP-ETC-TTP-LAN-2-XG-SFP', 'layer-protocol-name': 'ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER' }]
           }
-        ]
-      };
+          ]
+        }
+      ]
+    };
     requestHeaders = { user: 'nms5ux', originator: 'AccessPlanningToolProxy', xCorrelator: 'cc56eEbb-FE94-dDec-BD67-2418F6ABe5a1', traceIndicator: '1', customerJourney: 'unknown' };
     traceIndicatorIncrementer = 7;
   });
@@ -47,42 +47,45 @@ describe('RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole', () 
   it('should return configured LAN port role list with valid data', async () => {
     // Mock wire interface list
     LtpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockResolvedValue([
-        {    uuid: 'LTP-ETY-TTP-LAN-2-RJ45', 
-            'client-ltp': ['LTP-MWS-LAN-2-COMBO'], 
-            'layer-protocol': [{'local-id': 'LP-ETY-TTP-LAN-2-RJ45', 'layer-protocol-name': 'wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER'}]
-        },
-        {    uuid: 'LTP-ETY-TTP-LAN-2-SFP', 
-            'client-ltp': ['LTP-MWS-LAN-2-COMBO'], 
-            'layer-protocol': [{'local-id': 'LP-ETY-TTP-LAN-2-SFP', 'layer-protocol-name': 'wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER'}]
-        },
-        {    uuid: 'LTP-ETY-TTP-LAN-1-XG-SFP', 
-            'client-ltp': ['LTP-MWS-LAN-1-XG-SFP'], 
-            'layer-protocol': [{'local-id': 'LP-ETY-TTP-LAN-1-XG-SFP', 'layer-protocol-name': 'wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER'}]
-        }
+      {
+        uuid: 'LTP-ETY-TTP-LAN-2-RJ45',
+        'client-ltp': ['LTP-MWS-LAN-2-COMBO'],
+        'layer-protocol': [{ 'local-id': 'LP-ETY-TTP-LAN-2-RJ45', 'layer-protocol-name': 'wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER' }]
+      },
+      {
+        uuid: 'LTP-ETY-TTP-LAN-2-SFP',
+        'client-ltp': ['LTP-MWS-LAN-2-COMBO'],
+        'layer-protocol': [{ 'local-id': 'LP-ETY-TTP-LAN-2-SFP', 'layer-protocol-name': 'wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER' }]
+      },
+      {
+        uuid: 'LTP-ETY-TTP-LAN-1-XG-SFP',
+        'client-ltp': ['LTP-MWS-LAN-1-XG-SFP'],
+        'layer-protocol': [{ 'local-id': 'LP-ETY-TTP-LAN-1-XG-SFP', 'layer-protocol-name': 'wire-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_WIRE_LAYER' }]
+      }
     ]);
 
     // Mock hierarchical client LTP for Ethernet container
     LtpStructureUtility.getHierarchicalClientLtpForInterfaceListFromLtpStructure
-        .mockResolvedValueOnce({	
-            uuid: 'LTP-ETC-TTP-LAN-2-COMBO', 
-            'client-ltp': ['LTP-MAC-TTP-LAN-2-COMBO'], 
-            'server-ltp': ['LTP-MWS-LAN-2-COMBO'], 
-            'layer-protocol': [{'local-id': 'LP-ETC-TTP-LAN-2-COMBO', 'layer-protocol-name': 'ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER'}]
-        })
-        .mockResolvedValueOnce({	
-             uuid: 'LTP-VLAN-TTP-LAN-2-COMBO', 
-            'server-ltp': ['LTP-MAC-TTP-LAN-2-COMBO'], 
-            'layer-protocol': [{'local-id': 'LP-VLAN-TTP-LAN-2-COMBO', 'layer-protocol-name': 'vlan-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_VLAN_LAYER'}]
-        });
-    
+      .mockResolvedValueOnce({
+        uuid: 'LTP-ETC-TTP-LAN-2-COMBO',
+        'client-ltp': ['LTP-MAC-TTP-LAN-2-COMBO'],
+        'server-ltp': ['LTP-MWS-LAN-2-COMBO'],
+        'layer-protocol': [{ 'local-id': 'LP-ETC-TTP-LAN-2-COMBO', 'layer-protocol-name': 'ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER' }]
+      })
+      .mockResolvedValueOnce({
+        uuid: 'LTP-VLAN-TTP-LAN-2-COMBO',
+        'server-ltp': ['LTP-MAC-TTP-LAN-2-COMBO'],
+        'layer-protocol': [{ 'local-id': 'LP-VLAN-TTP-LAN-2-COMBO', 'layer-protocol-name': 'vlan-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_VLAN_LAYER' }]
+      });
+
 
     // Mock IndividualServiceUtility for OriginalLtpName, VlanInterfaceKind, and EthernetContainerStatus
     IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValue({});
 
     IndividualServiceUtility.forwardRequest
-      .mockResolvedValueOnce({'ltp-augment-1-0:ltp-augment-pac': {'original-ltp-name': 'LAN-2-COMBO'}}) // OriginalLtpName
-      .mockResolvedValueOnce({'vlan-interface-1-0:vlan-interface-configuration': {'interface-kind': 'vlan-interface-1-0:INTERFACE_KIND_TYPE_C_VLAN_BRIDGE_PORT'}})  // VlanInterfaceKind
-      .mockResolvedValueOnce({'ethernet-container-2-0:ethernet-container-status': {'interface-status': 'ethernet-container-2-0:INTERFACE_STATUS_TYPE_UP'}});   // EthernetContainerStatus
+      .mockResolvedValueOnce({ 'ltp-augment-1-0:ltp-augment-pac': { 'original-ltp-name': 'LAN-2-COMBO' } }) // OriginalLtpName
+      .mockResolvedValueOnce({ 'vlan-interface-1-0:vlan-interface-configuration': { 'interface-kind': 'vlan-interface-1-0:INTERFACE_KIND_TYPE_C_VLAN_BRIDGE_PORT' } })  // VlanInterfaceKind
+      .mockResolvedValueOnce({ 'ethernet-container-2-0:ethernet-container-status': { 'interface-status': 'ethernet-container-2-0:INTERFACE_STATUS_TYPE_UP' } });   // EthernetContainerStatus
 
     const result = await readVlanInterfaceData_private.RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole(
       mountName,
@@ -93,9 +96,10 @@ describe('RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole', () 
 
     expect(result).toEqual({
       configuredLanPortRoleList: [
-        {   interfaceName: 'LAN-2-COMBO', 
-            vlanInterfaceKind: 'vlan-interface-1-0:INTERFACE_KIND_TYPE_C_VLAN_BRIDGE_PORT', 
-            servingEthernetContainerStatus: 'ethernet-container-2-0:INTERFACE_STATUS_TYPE_UP'
+        {
+          interfaceName: 'LAN-2-COMBO',
+          vlanInterfaceKind: 'vlan-interface-1-0:INTERFACE_KIND_TYPE_C_VLAN_BRIDGE_PORT',
+          servingEthernetContainerStatus: 'ethernet-container-2-0:INTERFACE_STATUS_TYPE_UP'
         }
       ],
       traceIndicatorIncrementer: traceIndicatorIncrementer + 3, // Increments per forwardRequest call
@@ -150,59 +154,61 @@ describe('RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole', () 
     jest.clearAllMocks();
     mountName = '513250006';
     ltpStructure = {
-        'core-model-1-4:control-construct': [
+      'core-model-1-4:control-construct': [
+        {
+          'logical-termination-point': [{
+            uuid: 'LTP-ETC-TTP-LAN-1-XG-SFP',
+            'client-ltp': ['LTP-MAC-TTP-LAN-1-XG-SFP'],
+            'server-ltp': ['LTP-MWS-LAN-1-XG-SFP'],
+            'layer-protocol': { 'local-id': 'LP-ETC-TTP-LAN-1-XG-SFP', 'layer-protocol-name': 'ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER' }
+          },
           {
-            'logical-termination-point': [{
-              uuid: 'LTP-ETC-TTP-LAN-1-XG-SFP',
-              'client-ltp': ['LTP-MAC-TTP-LAN-1-XG-SFP'],
-              'server-ltp': ['LTP-MWS-LAN-1-XG-SFP'],
-              'layer-protocol': { 'local-id': 'LP-ETC-TTP-LAN-1-XG-SFP', 'layer-protocol-name': 'ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER' }
-            },
-            {
-              uuid: 'LTP-ETC-TTP-LAN-2-XG-SFP',
-              'client-ltp': ['LTP-MAC-TTP-LAN-2-XG-SFP'],
-              'server-ltp': ['LTP-MWS-LAN-2-XG-SFP'],
-              'layer-protocol': [{ 'local-id': 'LP-ETC-TTP-LAN-2-XG-SFP', 'layer-protocol-name': 'ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER' }]
-            }
-            ]
+            uuid: 'LTP-ETC-TTP-LAN-2-XG-SFP',
+            'client-ltp': ['LTP-MAC-TTP-LAN-2-XG-SFP'],
+            'server-ltp': ['LTP-MWS-LAN-2-XG-SFP'],
+            'layer-protocol': [{ 'local-id': 'LP-ETC-TTP-LAN-2-XG-SFP', 'layer-protocol-name': 'ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER' }]
           }
-        ]
-      };
+          ]
+        }
+      ]
+    };
     requestHeaders = { user: 'nms5ux', originator: 'AccessPlanningToolProxy', xCorrelator: 'cc56eEbb-FE94-dDec-BD67-2418F6ABe5a1', traceIndicator: '1', customerJourney: 'unknown' };
     traceIndicatorIncrementer = 1;
   });
 
   it('should return configured WAN port role list with valid data', async () => {
     LtpStructureUtility.getLtpsOfLayerProtocolNameFromLtpStructure.mockResolvedValue([
-        {    uuid: 'LTP-MWPS-TTP-ODU-B', 
-            'client-ltp': ['LTP-MWS-ODU-B'], 
-            'layer-protocol': [{'local-id': 'LP-MWPS-TTP-ODU-B', 'layer-protocol-name': 'air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'}]
-        },
-        {    uuid: 'LTP-MWPS-TTP-ODU-A', 
-            'client-ltp': ['LTP-MWS-ODU-A'], 
-            'layer-protocol': [{'local-id': 'LP-MWPS-TTP-ODU-A', 'layer-protocol-name': 'air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'}]
-        }
+      {
+        uuid: 'LTP-MWPS-TTP-ODU-B',
+        'client-ltp': ['LTP-MWS-ODU-B'],
+        'layer-protocol': [{ 'local-id': 'LP-MWPS-TTP-ODU-B', 'layer-protocol-name': 'air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER' }]
+      },
+      {
+        uuid: 'LTP-MWPS-TTP-ODU-A',
+        'client-ltp': ['LTP-MWS-ODU-A'],
+        'layer-protocol': [{ 'local-id': 'LP-MWPS-TTP-ODU-A', 'layer-protocol-name': 'air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER' }]
+      }
     ]);
 
     LtpStructureUtility.getHierarchicalClientLtpForInterfaceListFromLtpStructure
-        .mockResolvedValueOnce({
-                uuid: "LTP-ETC-TTP-ODU-A",
-                "client-ltp": ["LTP-MAC-TTP-ODU-A"],
-                "server-ltp": ["LTP-MWS-ODU-A", "LTP-MWS-ODU-B"],
-                "layer-protocol": [{ "local-id": "LP-ETC-TTP-ODU-A", "layer-protocol-name": "ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER"}],
-        })
-        .mockResolvedValueOnce({
-                uuid: "LTP-VLAN-TTP-ODU-A",
-                "server-ltp": ["LTP-MAC-TTP-ODU-A"],
-                "layer-protocol": [{"local-id": "LP-VLAN-TTP-ODU-A", "layer-protocol-name": "vlan-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_VLAN_LAYER"}],
-        });
+      .mockResolvedValueOnce({
+        uuid: "LTP-ETC-TTP-ODU-A",
+        "client-ltp": ["LTP-MAC-TTP-ODU-A"],
+        "server-ltp": ["LTP-MWS-ODU-A", "LTP-MWS-ODU-B"],
+        "layer-protocol": [{ "local-id": "LP-ETC-TTP-ODU-A", "layer-protocol-name": "ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER" }],
+      })
+      .mockResolvedValueOnce({
+        uuid: "LTP-VLAN-TTP-ODU-A",
+        "server-ltp": ["LTP-MAC-TTP-ODU-A"],
+        "layer-protocol": [{ "local-id": "LP-VLAN-TTP-ODU-A", "layer-protocol-name": "vlan-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_VLAN_LAYER" }],
+      });
 
     IndividualServiceUtility.getConsequentOperationClientAndFieldParams.mockResolvedValue({});
 
     IndividualServiceUtility.forwardRequest
-      .mockResolvedValueOnce({"ltp-augment-1-0:ltp-augment-pac": {"original-ltp-name": "ODU A"}}) // OriginalLtpName
-      .mockResolvedValueOnce({ "vlan-interface-1-0:vlan-interface-configuration": {"interface-kind": "vlan-interface-1-0:INTERFACE_KIND_TYPE_C_VLAN_BRIDGE_PORT"} })  // VlanInterfaceKind
-      .mockResolvedValueOnce({"ethernet-container-2-0:ethernet-container-status": {"interface-status": "ethernet-container-2-0:INTERFACE_STATUS_TYPE_UP"}});   // EthernetContainerStatus
+      .mockResolvedValueOnce({ "ltp-augment-1-0:ltp-augment-pac": { "original-ltp-name": "ODU A" } }) // OriginalLtpName
+      .mockResolvedValueOnce({ "vlan-interface-1-0:vlan-interface-configuration": { "interface-kind": "vlan-interface-1-0:INTERFACE_KIND_TYPE_C_VLAN_BRIDGE_PORT" } })  // VlanInterfaceKind
+      .mockResolvedValueOnce({ "ethernet-container-2-0:ethernet-container-status": { "interface-status": "ethernet-container-2-0:INTERFACE_STATUS_TYPE_UP" } });   // EthernetContainerStatus
 
     const result = await readVlanInterfaceData_private.RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole(
       mountName,
@@ -214,9 +220,9 @@ describe('RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole', () 
     expect(result).toEqual({
       configuredWanPortRoleList: [
         {
-            interfaceName: "ODU A",
-            vlanInterfaceKind: "vlan-interface-1-0:INTERFACE_KIND_TYPE_C_VLAN_BRIDGE_PORT",
-            servingEthernetContainerStatus: "ethernet-container-2-0:INTERFACE_STATUS_TYPE_UP"
+          interfaceName: "ODU A",
+          vlanInterfaceKind: "vlan-interface-1-0:INTERFACE_KIND_TYPE_C_VLAN_BRIDGE_PORT",
+          servingEthernetContainerStatus: "ethernet-container-2-0:INTERFACE_STATUS_TYPE_UP"
         }],
       traceIndicatorIncrementer: traceIndicatorIncrementer + 3,
     });
@@ -299,17 +305,18 @@ describe('fetchOriginalLtpNameOfEthernetContainer', () => {
   });
 
   it('should return valid original-ltp-name and incremented traceIndicator', async () => {
-    const clientContainerLtpMock = {	uuid: 'LTP-ETC-TTP-LAN-2-COMBO', 
-      'client-ltp': ['LTP-MAC-TTP-LAN-2-COMBO'], 
-      'server-ltp': ['LTP-MWS-LAN-2-COMBO'], 
-      'layer-protocol': [{'local-id': 'LP-ETC-TTP-LAN-2-COMBO', 'layer-protocol-name': 'ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER'}]
+    const clientContainerLtpMock = {
+      uuid: 'LTP-ETC-TTP-LAN-2-COMBO',
+      'client-ltp': ['LTP-MAC-TTP-LAN-2-COMBO'],
+      'server-ltp': ['LTP-MWS-LAN-2-COMBO'],
+      'layer-protocol': [{ 'local-id': 'LP-ETC-TTP-LAN-2-COMBO', 'layer-protocol-name': 'ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER' }]
     };
 
     // Mock getHierarchicalClientLtp
     LtpStructureUtility.getHierarchicalClientLtpForInterfaceListFromLtpStructure.mockResolvedValue(clientContainerLtpMock);
 
     // Mock forwardRequest
-    IndividualServiceUtility.forwardRequest.mockResolvedValue({'ltp-augment-1-0:ltp-augment-pac': {'original-ltp-name': 'LAN-2-COMBO'}});
+    IndividualServiceUtility.forwardRequest.mockResolvedValue({ 'ltp-augment-1-0:ltp-augment-pac': { 'original-ltp-name': 'LAN-2-COMBO' } });
 
     const result = await readVlanInterfaceData_private.fetchOriginalLtpNameOfEthernetContainer(
       mountName,
@@ -336,10 +343,11 @@ describe('fetchOriginalLtpNameOfEthernetContainer', () => {
   });
 
   it('should return only clientContainerLtp if response does not contain original-ltp-name', async () => {
-    const clientContainerLtpMock = {	uuid: 'LTP-ETC-TTP-LAN-2-COMBO', 
-        'client-ltp': ['LTP-MAC-TTP-LAN-2-COMBO'], 
-        'server-ltp': ['LTP-MWS-LAN-2-COMBO'], 
-        'layer-protocol': [{'local-id': 'LP-ETC-TTP-LAN-2-COMBO', 'layer-protocol-name': 'ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER'}]
+    const clientContainerLtpMock = {
+      uuid: 'LTP-ETC-TTP-LAN-2-COMBO',
+      'client-ltp': ['LTP-MAC-TTP-LAN-2-COMBO'],
+      'server-ltp': ['LTP-MWS-LAN-2-COMBO'],
+      'layer-protocol': [{ 'local-id': 'LP-ETC-TTP-LAN-2-COMBO', 'layer-protocol-name': 'ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER' }]
     };
 
     LtpStructureUtility.getHierarchicalClientLtpForInterfaceListFromLtpStructure.mockResolvedValue(clientContainerLtpMock);
@@ -432,21 +440,23 @@ describe('fetchVlanInterfaceKind', () => {
     };
     requestHeaders = { user: 'nms5ux', originator: 'AccessPlanningToolProxy', xCorrelator: 'cc56eEbb-FE94-dDec-BD67-2418F6ABe5a1', traceIndicator: '1', customerJourney: 'unknown' };
     traceIndicatorIncrementer = 8;
-    clientContainerltp = {	uuid: 'LTP-ETC-TTP-LAN-2-COMBO', 
-                            'client-ltp': ['LTP-MAC-TTP-LAN-2-COMBO'], 
-                            'server-ltp': ['LTP-MWS-LAN-2-COMBO'], 
-                            'layer-protocol': [{'local-id': 'LP-ETC-TTP-LAN-2-COMBO', 'layer-protocol-name': 'ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER'}]
-                        }
+    clientContainerltp = {
+      uuid: 'LTP-ETC-TTP-LAN-2-COMBO',
+      'client-ltp': ['LTP-MAC-TTP-LAN-2-COMBO'],
+      'server-ltp': ['LTP-MWS-LAN-2-COMBO'],
+      'layer-protocol': [{ 'local-id': 'LP-ETC-TTP-LAN-2-COMBO', 'layer-protocol-name': 'ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER' }]
+    }
     clientAndFieldParams = { operationClientUuid: 'aptp-1-1-0-op-c-is-mwdi-1-1-2-201', operationName: '/core-model-1-4:network-control-domain=ca…nt={uuid}/ltp-augment-1-0:ltp-augment-pac', fields: 'original-ltp-name' };
-    interfaceListForVlanInterfaceKind = [	['mac-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_MAC_LAYER']
-                                            ['vlan-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_VLAN_LAYER']
-                                        ]
+    interfaceListForVlanInterfaceKind = [['mac-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_MAC_LAYER']
+    ['vlan-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_VLAN_LAYER']
+    ]
   });
 
   it('should return vlanInterfaceKind and incremented traceIndicator', async () => {
-    const vlanLtpMock = {	uuid: 'LTP-VLAN-TTP-LAN-2-COMBO', 
-        'server-ltp': ['LTP-MAC-TTP-LAN-2-COMBO'], 
-        'layer-protocol': [{'local-id': 'LP-VLAN-TTP-LAN-2-COMBO', 'layer-protocol-name': 'vlan-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_VLAN_LAYER'}]
+    const vlanLtpMock = {
+      uuid: 'LTP-VLAN-TTP-LAN-2-COMBO',
+      'server-ltp': ['LTP-MAC-TTP-LAN-2-COMBO'],
+      'layer-protocol': [{ 'local-id': 'LP-VLAN-TTP-LAN-2-COMBO', 'layer-protocol-name': 'vlan-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_VLAN_LAYER' }]
     };
 
     // Mock LTP traversal
@@ -454,9 +464,10 @@ describe('fetchVlanInterfaceKind', () => {
 
     // Mock response from forwardRequest
     IndividualServiceUtility.forwardRequest.mockResolvedValue(
-        {'vlan-interface-1-0:vlan-interface-configuration': 
-            {'interface-kind': 'vlan-interface-1-0:INTERFACE_KIND_TYPE_C_VLAN_BRIDGE_PORT'}
-        });
+      {
+        'vlan-interface-1-0:vlan-interface-configuration':
+          { 'interface-kind': 'vlan-interface-1-0:INTERFACE_KIND_TYPE_C_VLAN_BRIDGE_PORT' }
+      });
 
     const result = await readVlanInterfaceData_private.fetchVlanInterfaceKind(
       mountName,
@@ -500,9 +511,10 @@ describe('fetchVlanInterfaceKind', () => {
   });
 
   it('should return only traceIndicator if response is empty', async () => {
-    const vlanLtpMock = {	uuid: 'LTP-VLAN-TTP-LAN-2-COMBO', 
-        'server-ltp': ['LTP-MAC-TTP-LAN-2-COMBO'], 
-        'layer-protocol': [{'local-id': 'LP-VLAN-TTP-LAN-2-COMBO', 'layer-protocol-name': 'vlan-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_VLAN_LAYER'}]
+    const vlanLtpMock = {
+      uuid: 'LTP-VLAN-TTP-LAN-2-COMBO',
+      'server-ltp': ['LTP-MAC-TTP-LAN-2-COMBO'],
+      'layer-protocol': [{ 'local-id': 'LP-VLAN-TTP-LAN-2-COMBO', 'layer-protocol-name': 'vlan-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_VLAN_LAYER' }]
     };
 
     LtpStructureUtility.getHierarchicalClientLtpForInterfaceListFromLtpStructure.mockResolvedValue(vlanLtpMock);
@@ -544,86 +556,87 @@ describe('fetchServingEthernetContainerStatus', () => {
   let mountName, requestHeaders, traceIndicatorIncrementer, clientContainerltp, clientAndFieldParams;
 
   beforeEach(() => {
-      jest.clearAllMocks();
-      mountName = '513250006';
-      requestHeaders = { user: 'nms5ux', originator: 'AccessPlanningToolProxy', xCorrelator: 'cc56eEbb-FE94-dDec-BD67-2418F6ABe5a1', traceIndicator: '1', customerJourney: 'unknown' };
-      traceIndicatorIncrementer = 9;
-      clientContainerltp = {
-          uuid: 'LTP-ETC-TTP-LAN-2-COMBO',
-          'client-ltp': ['LTP-MAC-TTP-LAN-2-COMBO'],
-          'server-ltp': ['LTP-MWS-LAN-2-COMBO'],
-          'layer-protocol': [{ 'local-id': 'LP-ETC-TTP-LAN-2-COMBO', 'layer-protocol-name': 'ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER' }]
-      };
-      clientAndFieldParams = { operationClientUuid: 'aptp-1-1-0-op-c-is-mwdi-1-1-2-222', operationName: '/core-model-1-4:network-control-domain=ca…t-container-pac/ethernet-container-status', fields: 'interface-status' };
+    jest.clearAllMocks();
+    mountName = '513250006';
+    requestHeaders = { user: 'nms5ux', originator: 'AccessPlanningToolProxy', xCorrelator: 'cc56eEbb-FE94-dDec-BD67-2418F6ABe5a1', traceIndicator: '1', customerJourney: 'unknown' };
+    traceIndicatorIncrementer = 9;
+    clientContainerltp = {
+      uuid: 'LTP-ETC-TTP-LAN-2-COMBO',
+      'client-ltp': ['LTP-MAC-TTP-LAN-2-COMBO'],
+      'server-ltp': ['LTP-MWS-LAN-2-COMBO'],
+      'layer-protocol': [{ 'local-id': 'LP-ETC-TTP-LAN-2-COMBO', 'layer-protocol-name': 'ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER' }]
+    };
+    clientAndFieldParams = { operationClientUuid: 'aptp-1-1-0-op-c-is-mwdi-1-1-2-222', operationName: '/core-model-1-4:network-control-domain=ca…t-container-pac/ethernet-container-status', fields: 'interface-status' };
   });
 
   it('should return servingEthernetContainerStatus with incremented traceIndicator', async () => {
-      IndividualServiceUtility.forwardRequest.mockResolvedValue(
-          { 'ethernet-container-2-0:ethernet-container-status': { 'interface-status': 'ethernet-container-2-0:INTERFACE_STATUS_TYPE_UP' } 
+    IndividualServiceUtility.forwardRequest.mockResolvedValue(
+      {
+        'ethernet-container-2-0:ethernet-container-status': { 'interface-status': 'ethernet-container-2-0:INTERFACE_STATUS_TYPE_UP' }
       });
 
-      const result = await readVlanInterfaceData_private.fetchServingEthernetContainerStatus(
-          mountName,
-          requestHeaders,
-          traceIndicatorIncrementer,
-          clientContainerltp,
-          clientAndFieldParams
-      );
+    const result = await readVlanInterfaceData_private.fetchServingEthernetContainerStatus(
+      mountName,
+      requestHeaders,
+      traceIndicatorIncrementer,
+      clientContainerltp,
+      clientAndFieldParams
+    );
 
-      expect(result).toEqual({
-          servingEthernetContainerStatus: 'ethernet-container-2-0:INTERFACE_STATUS_TYPE_UP',
-          traceIndicatorIncrementer: 10
-      });
+    expect(result).toEqual({
+      servingEthernetContainerStatus: 'ethernet-container-2-0:INTERFACE_STATUS_TYPE_UP',
+      traceIndicatorIncrementer: 10
+    });
 
-      expect(IndividualServiceUtility.forwardRequest).toHaveBeenCalledWith(
-          clientAndFieldParams,
-          ['513250006', 'LTP-ETC-TTP-LAN-2-COMBO', 'LP-ETC-TTP-LAN-2-COMBO'],
-          requestHeaders,
-          traceIndicatorIncrementer
-      );
+    expect(IndividualServiceUtility.forwardRequest).toHaveBeenCalledWith(
+      clientAndFieldParams,
+      ['513250006', 'LTP-ETC-TTP-LAN-2-COMBO', 'LP-ETC-TTP-LAN-2-COMBO'],
+      requestHeaders,
+      traceIndicatorIncrementer
+    );
   });
 
   it('should return only traceIndicator if response is empty', async () => {
-      IndividualServiceUtility.forwardRequest.mockResolvedValue({});
+    IndividualServiceUtility.forwardRequest.mockResolvedValue({});
 
-      const result = await readVlanInterfaceData_private.fetchServingEthernetContainerStatus(
-          mountName,
-          requestHeaders,
-          traceIndicatorIncrementer,
-          clientContainerltp,
-          clientAndFieldParams
-      );
+    const result = await readVlanInterfaceData_private.fetchServingEthernetContainerStatus(
+      mountName,
+      requestHeaders,
+      traceIndicatorIncrementer,
+      clientContainerltp,
+      clientAndFieldParams
+    );
 
-      expect(result).toEqual({ traceIndicatorIncrementer: 10 });
+    expect(result).toEqual({ traceIndicatorIncrementer: 10 });
   });
 
   it('should return only traceIndicator if ethernet-container-status is missing', async () => {
-      IndividualServiceUtility.forwardRequest.mockResolvedValue({
-          'ethernet-container-2-0:ethernet-container-status': {}
-      });
+    IndividualServiceUtility.forwardRequest.mockResolvedValue({
+      'ethernet-container-2-0:ethernet-container-status': {}
+    });
 
-      const result = await readVlanInterfaceData_private.fetchServingEthernetContainerStatus(
-          mountName,
-          requestHeaders,
-          traceIndicatorIncrementer,
-          clientContainerltp,
-          clientAndFieldParams
-      );
+    const result = await readVlanInterfaceData_private.fetchServingEthernetContainerStatus(
+      mountName,
+      requestHeaders,
+      traceIndicatorIncrementer,
+      clientContainerltp,
+      clientAndFieldParams
+    );
 
-      expect(result).toEqual({ traceIndicatorIncrementer: 10 });
+    expect(result).toEqual({ traceIndicatorIncrementer: 10 });
   });
 
   it('should handle errors gracefully and return only traceIndicator', async () => {
-      IndividualServiceUtility.forwardRequest.mockRejectedValue(new Error('Network error'));
+    IndividualServiceUtility.forwardRequest.mockRejectedValue(new Error('Network error'));
 
-      const result = await readVlanInterfaceData_private.fetchServingEthernetContainerStatus(
-          mountName,
-          requestHeaders,
-          traceIndicatorIncrementer,
-          clientContainerltp,
-          clientAndFieldParams
-      );
+    const result = await readVlanInterfaceData_private.fetchServingEthernetContainerStatus(
+      mountName,
+      requestHeaders,
+      traceIndicatorIncrementer,
+      clientContainerltp,
+      clientAndFieldParams
+    );
 
-      expect(result).toEqual({ traceIndicatorIncrementer: 10 });
+    expect(result).toEqual({ traceIndicatorIncrementer: 10 });
   });
 });

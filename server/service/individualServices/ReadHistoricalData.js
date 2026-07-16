@@ -74,7 +74,7 @@ async function forwardRequest(forwardingKindName, attributeList, user, xCorrelat
   const forwardingConstruct = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
   let prefix = forwardingConstruct.uuid.split('op')[0];
   let username = await IndividualServiceUtility.extractProfileStringConfiguration(prefix + "string-p-998");
-	let password = await IndividualServiceUtility.extractProfileStringConfiguration(prefix + "string-p-999");
+  let password = await IndividualServiceUtility.extractProfileStringConfiguration(prefix + "string-p-999");
   let basicAuth = await IndividualServiceUtility.createBasicAuth(username, password);
   let result = await eventDispatcher.dispatchEventWithBasicAuth(
     operationClientUuid,
@@ -133,7 +133,6 @@ exports.RequestForProvidingHistoricalPmDataCausesDeliveringRequestedPmData = asy
 
     return response;
   } catch (error) {
-    // console.log(error);
     logger.error(error);
     return (new createHttpError.InternalServerError(`${error}`));
   }
@@ -165,7 +164,7 @@ exports.processHistoricalDataRequest = async function (body, request_id, request
         mountWithError["message"] = "Not connected. Requested device is currently not in connected state at the controller";
         mountNameWithError.push(mountWithError);
         continue;
-      } 
+      }
 
       /****************************************************************************************
        * Collect complete ltp structure of mount-name in request bodys
@@ -189,7 +188,7 @@ exports.processHistoricalDataRequest = async function (body, request_id, request
        ****************************************************************************************/
       logger.info(`processHistoricalDataRequest - Reading Historical data for MountName ${mountName} and TimeStamp ${timeStamp}`);
       let historicalDataResult = await exports.readHistoricalData(mountName, timeStamp, ltpStructure, requestHeaders, traceIndicatorIncrementer)
-        .catch(err => console.log(` ${err}`));
+        .catch(err => logger.warn(err));
 
       let dataPresent = false;
 
@@ -343,7 +342,6 @@ exports.readHistoricalData = async function (mountName, timeStamp, ltpStructure,
     return historicalData;
   } catch (error) {
     logger.error(error, "readHistoricalData is not success");
-    // console.error(`readHistoricalData is not success with ${error}`);
     throw error;
   }
 }
@@ -399,7 +397,7 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInte
       let externalLabelResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
 
       if (Object.keys(externalLabelResponse).length === 0) {
-        console.log(createHttpError.InternalServerError(`${forwardingName} is not success`));
+        logger.warn(createHttpError.InternalServerError(`${forwardingName} is not success`));
       }
 
       // Extract the response fields
@@ -423,7 +421,7 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInte
       processedLtpResponses.push(responseObject);
     }
   } catch (error) {
-    console.log(`${forwardingName} is not success with ${error}`);
+    logger.error(error, `${forwardingName} is not success`);
   }
   processedLtpResponse = {
     processedLtpResponses: processedLtpResponses,
@@ -472,9 +470,9 @@ exports.RequestForProvidingHistoricalPmDataCausesIdentifyingPhysicalLinkAggregat
           while (clientStructureUuid) {
             const clientLtp = await ltpStructureUtility.getLtpForUuidFromLtpStructure(clientStructureUuid, ltpStructure) || {};
 
-            // ✅ Ensure CLIENT_LTP exists
+            // Ensure CLIENT_LTP exists
             if (!clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP]) {
-              console.warn("CLIENT_LTP is missing. Assigning empty array.");
+              logger.warn("CLIENT_LTP is missing. Assigning empty array.");
               clientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.CLIENT_LTP] = [];
             }
 
@@ -598,7 +596,7 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfiguratio
       };
 
       if (Object.keys(airInterfaceConfigurationResponse).length === 0) {
-        console.log(`${forwardingName} is not success`);
+        logger.warn(`${forwardingName} is not success`);
       } else {
         response["airInterfaceConfiguration"] = airInterfaceConfigurationResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.CONFIGURATION];
         airInterfaceConfigurations.push(response);
@@ -653,7 +651,7 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceCapabilities
       };
 
       if (Object.keys(airInterfaceCapabilitiesResponse).length === 0) {
-        console.log(`${forwardingName} is not success`);
+        logger.warn(`${forwardingName} is not success`);
       } else {
         response["airInterfaceCapabilities"] = airInterfaceCapabilitiesResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.CAPABILITY];
         airInterfaceCapabilities.push(response);
@@ -716,9 +714,8 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePe
       let airInterfaceHistoricalPerformance = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
 
       if (Object.keys(airInterfaceHistoricalPerformance).length === 0) {
-        console.log(createHttpError.InternalServerError(`${forwardingName} is not success`));
-      }
-      else {
+        logger.warn(createHttpError.InternalServerError(`${forwardingName} is not success`));
+      } else {
         let hpdListFiltered = [];
         let hpdList = airInterfaceHistoricalPerformance[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.HISTORICAL_PERFORMANCES][AIR_INTERFACE.HISTORICAL_PERFORMANCE_DATA_LIST];
         if (hpdList != undefined) {
@@ -794,10 +791,8 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContai
         _traceIndicatorIncrementer
       );
       if (Object.keys(ethernetInterfacePerformanceResponse).length === 0) {
-        console.log(`${forwardingName} is not success for UUID: ${uuid}`);
-      }
-      else {
-
+        logger.warn(`${forwardingName} is not success for UUID: ${uuid}`);
+      } else {
         let performances = [];
         if (ethernetInterfacePerformanceResponse[ETHERNET_INTERFACE.MODULE + ":" + ETHERNET_INTERFACE.HISTORICAL_PERFORMANCES].hasOwnProperty([ETHERNET_INTERFACE.HISTORICAL_PERFORMANCES_DATA_LIST])) {
           performances = ethernetInterfacePerformanceResponse[ETHERNET_INTERFACE.MODULE + ":" + ETHERNET_INTERFACE.HISTORICAL_PERFORMANCES][ETHERNET_INTERFACE.HISTORICAL_PERFORMANCES_DATA_LIST];
@@ -905,7 +900,7 @@ exports.formulateHistoricalPmData = async function (mountName, ltpStructure, air
         logger.warn(`formulateHistoricalPmData - airInterfacePerformance seems empty for MountName ${mountName}`);
       }
 
-      
+
 
 
       if (Object.keys(ethernetPerformance).length !== 0) {
@@ -1047,10 +1042,10 @@ exports.formulateHistoricalPmData = async function (mountName, ltpStructure, air
                 }
 
                 if (airInterfaceCapabilitiesObj.hasOwnProperty('airInterfaceCapabilities') && airInterfaceCapabilitiesObj["airInterfaceCapabilities"].hasOwnProperty('transmission-mode-list') && filtered_time_xstates.hasOwnProperty('transmission-mode')) {
-                    let matchedTransmissionModeListObj = airInterfaceCapabilitiesObj["airInterfaceCapabilities"]["transmission-mode-list"].filter((obj) => obj["transmission-mode-name"] === filtered_time_xstates["transmission-mode"]);
-                    if(matchedTransmissionModeListObj != undefined && matchedTransmissionModeListObj.length > 0){
-                      operated_transmission_modes_list_obj["modulation-scheme-name-at-lct"] = matchedTransmissionModeListObj[0]["modulation-scheme-name-at-lct"];
-                    }
+                  let matchedTransmissionModeListObj = airInterfaceCapabilitiesObj["airInterfaceCapabilities"]["transmission-mode-list"].filter((obj) => obj["transmission-mode-name"] === filtered_time_xstates["transmission-mode"]);
+                  if (matchedTransmissionModeListObj != undefined && matchedTransmissionModeListObj.length > 0) {
+                    operated_transmission_modes_list_obj["modulation-scheme-name-at-lct"] = matchedTransmissionModeListObj[0]["modulation-scheme-name-at-lct"];
+                  }
                 }
 
                 if (filtered_time_xstates.hasOwnProperty('capacity')) {
@@ -1168,7 +1163,6 @@ exports.formulateHistoricalPmData = async function (mountName, ltpStructure, air
     }
   } catch (error) {
     logger.error(error);
-    // console.log(error);
   }
 
   // if (Object.keys(air_interface_list).length !== 0) { result["air-interface-list"] = air_interface_list; }

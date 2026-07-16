@@ -33,12 +33,12 @@ const logger = require('../LoggingService').getLogger();
 async function forwardRequest(forwardingKindName, attributeList, user, xCorrelator, traceIndicator, customerJourney) {
   let forwardingConstructInstance = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingKindName);
   let operationClientUuid = (getFcPortOutputLogicalTerminationPointList(forwardingConstructInstance))[0];
-  
+
   const forwardingName = "RequestForProvidingConfigurationForLivenetviewCausesReadingLtpStructure";
   const forwardingConstruct = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
   let prefix = forwardingConstruct.uuid.split('op')[0];
   let username = await IndividualServiceUtility.extractProfileStringConfiguration(prefix + "string-p-998");
-	let password = await IndividualServiceUtility.extractProfileStringConfiguration(prefix + "string-p-999");
+  let password = await IndividualServiceUtility.extractProfileStringConfiguration(prefix + "string-p-999");
   let basicAuth = await IndividualServiceUtility.createBasicAuth(username, password);
   let result = await eventDispatcher.dispatchEventWithBasicAuth(
     operationClientUuid,
@@ -68,7 +68,7 @@ function getFcPortOutputLogicalTerminationPointList(forwardingConstructInstance)
   return fcPortOutputLogicalTerminationPointList;
 }
 
-exports.RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData = async function (request_id, requestHeaders, acceptanceDataOfLinkEndPoint,traceIndicatorIncrementer) {
+exports.RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData = async function (request_id, requestHeaders, acceptanceDataOfLinkEndPoint, traceIndicatorIncrementer) {
 
   const forwardingName = "RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData";
   let response;
@@ -125,12 +125,9 @@ exports.processAcceptanceDataRequest = async function (mountName, linkId, reques
       request_id, requestHeaders, acceptanceDataOfLinkEndPoint, traceIndicatorIncrementer);
     logger.info(`processAcceptanceDataRequest - Execute successfully req_id: ${request_id} for mount-name: ${mountName}`);
     logger.trace(requestHeaders);
-  }
-  catch (error) {
+  } catch (error) {
     logger.error(error, "processAcceptanceDataRequest - readAirInterfaceData is not success");
-    console.error(`readAirInterfaceData is not success with ${error}`);
-  }
-  finally {
+  } finally {
     logger.trace(`processAcceptanceDataRequest - Decreasing counterStatusAcceptanceDataOfLinkEndpointCall: ${global.counterStatusAcceptanceDataOfLinkEndpointCall}`);
     global.counterStatusAcceptanceDataOfLinkEndpointCall--;
   }
@@ -162,7 +159,7 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
      ****************************************************************************************/
     logger.info(`Reading Air Interface data for Mountname ${mountName} and linkid: ${linkId}`);
     let airInterfaceResult = await ReadAirInterfaceData.readAirInterfaceData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer)
-      .catch(err => console.log(` ${err}`));
+      .catch(err => logger.warn(err));
 
     let uuidUnderTest = "";
     if (airInterfaceResult) {
@@ -175,14 +172,14 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
         logger.error(`executeAcceptanceDataRequest - ${error.message} - Code: ${error.code}`);
         throw new createHttpError.InternalServerError(`${error}`);
       }
+
       if (Object.keys(airInterfaceResult.airInterface).length != 0) {
         acceptanceDataOfLinkEndPoint.airInterface = airInterfaceResult.airInterface;
       } else {
         logger.warn(`executeAcceptanceDataRequest - Airinterface seems empty for MountName ${mountName} and linkid ${linkId}`);
       }
       traceIndicatorIncrementer = airInterfaceResult.traceIndicatorIncrementer;
-    }
-    else {
+    } else {
       error.code = 530;
       error.message = "Air Inteface Data invalid. Response data not available, incomplete or corrupted";
       acceptanceDataOfLinkEndPoint.error = error;
@@ -195,28 +192,27 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
      ****************************************************************************************/
     logger.info(`Reading VLAN Interface data for Mountname ${mountName}`);
     let vlanInterfaceResult = await ReadVlanInterfaceData.readVlanInterfaceData(mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer)
-      .catch(err => console.log(` ${err}`));
+      .catch(err => logger.warn(err));
 
     if (vlanInterfaceResult && vlanInterfaceResult.vlanInterface) {
-
       if (Object.keys(vlanInterfaceResult.vlanInterface).length != 0) {
         acceptanceDataOfLinkEndPoint.vlanInterface = vlanInterfaceResult.vlanInterface;
       }
       traceIndicatorIncrementer = vlanInterfaceResult.traceIndicatorIncrementer;
-    }
-    else {
+    } else {
       error.code = 530;
       error.message = "VLAN Data invalid. Response data not available, incomplete or corrupted";
       acceptanceDataOfLinkEndPoint.error = error;
       logger.error(`executeAcceptanceDataRequest - ${error.message} - Code: ${error.code}`);
       throw new createHttpError.InternalServerError(`${error}`);
     }
+
     /****************************************************************************************
      * Collect inventory data
      ****************************************************************************************/
     logger.info(`Reading Inventory data for Mountname ${mountName} and UUID ${uuidUnderTest}`);
     let inventoryResult = await ReadInventoryData.readInventoryData(mountName, ltpStructure, uuidUnderTest, requestHeaders, traceIndicatorIncrementer)
-      .catch(err => console.log(` ${err}`));
+      .catch(err => logger.warn(err));
 
     if (inventoryResult && inventoryResult.inventory) {
       if (Object.keys(inventoryResult.inventory).length != 0) {
@@ -235,7 +231,7 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
      ****************************************************************************************/
     logger.info(`Reading Alarms data for Mountname ${mountName}`);
     let alarmsResult = await ReadAlarmsData.readAlarmsData(mountName, requestHeaders, traceIndicatorIncrementer)
-      .catch(err => console.log(` ${err}`));
+      .catch(err => logger.warn(err));
     if (alarmsResult) {
       if (Object.keys(alarmsResult.alarms).length != 0) {
         if (alarmsResult.alarms) {
@@ -253,8 +249,7 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
   }
   catch (error) {
     logger.error(error, `readAirInterfaceData is not success`);
-  }
-  finally{
+  } finally {
     logger.debug(`Formatting acceptanceDataOfLinkEndPoint: ${acceptanceDataOfLinkEndPoint}`);
     acceptanceDataOfLinkEndPoint = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(acceptanceDataOfLinkEndPoint);
     return acceptanceDataOfLinkEndPoint;
@@ -262,8 +257,8 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
 
 }
 
-if (global.testPrivateFunctions === 1)  {
-  module.exports.ReadAcceptanceData_Private= {
+if (global.testPrivateFunctions === 1) {
+  module.exports.ReadAcceptanceData_Private = {
     getFcPortOutputLogicalTerminationPointList
   }
 };
