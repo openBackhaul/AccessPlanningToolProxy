@@ -65,13 +65,12 @@ describe('LtpStructureUtility', () => {
         mockLtpStructure
       );
 
-      console.log('result is',result);
+      console.log('result is', result);
       expect(result).toBeUnDefined;
     });
   });
 
-  describe('getHierarchicalClientLtpForInterfaceListFromLtpStructure', () => 
-  {
+  describe('getHierarchicalClientLtpForInterfaceListFromLtpStructure', () => {
     test('should return the expected client LTP for the given layer protocol list', async () => {
       const result = await LtpStructureUtility.getHierarchicalClientLtpForInterfaceListFromLtpStructure(
         mockLtpStructure["core-model-1-4:control-construct"][0][onfAttributes.CONTROL_CONSTRUCT.LOGICAL_TERMINATION_POINT][0],
