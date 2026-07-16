@@ -64,14 +64,14 @@ jobs:
         env:
           CI: "true"
 
-      - name: Publish Jest test report
-        if: always()
-        uses: dorny/test-reporter@v1
-        with:
-          name: Jest Tests
-          path: server/junit.xml
-          reporter: jest-junit
-          fail-on-error: "false"
+      # - name: Publish Jest test report
+      #   if: always()
+      #   uses: dorny/test-reporter@v1
+      #   with:
+      #     name: Jest Tests
+      #     path: server/junit.xml
+      #     reporter: jest-junit
+      #     fail-on-error: "false"
 
       - name: Upload coverage artifact
         if: always()
@@ -81,13 +81,13 @@ jobs:
           path: server/coverage
           if-no-files-found: ignore
 
-      - name: Upload JUnit artifact
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: junit
-          path: server/junit.xml
-          if-no-files-found: ignore
+      # - name: Upload JUnit artifact
+      #   if: always()
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: junit
+      #     path: server/junit.xml
+      #     if-no-files-found: ignore
 
       - name: Comment coverage on PR
         if: github.event_name == 'pull_request' && always()
