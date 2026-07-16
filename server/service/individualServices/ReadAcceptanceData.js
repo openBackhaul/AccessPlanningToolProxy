@@ -159,7 +159,7 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
      ****************************************************************************************/
     logger.info(`Reading Air Interface data for Mountname ${mountName} and linkid: ${linkId}`);
     let airInterfaceResult = await ReadAirInterfaceData.readAirInterfaceData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer)
-      .catch(err => logger.error(err));
+      .catch(err => logger.warn(err));
 
     let uuidUnderTest = "";
     if (airInterfaceResult) {
@@ -192,7 +192,7 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
      ****************************************************************************************/
     logger.info(`Reading VLAN Interface data for Mountname ${mountName}`);
     let vlanInterfaceResult = await ReadVlanInterfaceData.readVlanInterfaceData(mountName, ltpStructure, requestHeaders, traceIndicatorIncrementer)
-      .catch(err => logger.error(err));
+      .catch(err => logger.warn(err));
 
     if (vlanInterfaceResult && vlanInterfaceResult.vlanInterface) {
       if (Object.keys(vlanInterfaceResult.vlanInterface).length != 0) {
@@ -212,7 +212,7 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
      ****************************************************************************************/
     logger.info(`Reading Inventory data for Mountname ${mountName} and UUID ${uuidUnderTest}`);
     let inventoryResult = await ReadInventoryData.readInventoryData(mountName, ltpStructure, uuidUnderTest, requestHeaders, traceIndicatorIncrementer)
-      .catch(err => logger.error(err));
+      .catch(err => logger.warn(err));
 
     if (inventoryResult && inventoryResult.inventory) {
       if (Object.keys(inventoryResult.inventory).length != 0) {
@@ -231,7 +231,7 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
      ****************************************************************************************/
     logger.info(`Reading Alarms data for Mountname ${mountName}`);
     let alarmsResult = await ReadAlarmsData.readAlarmsData(mountName, requestHeaders, traceIndicatorIncrementer)
-      .catch(err => logger.error(err));
+      .catch(err => logger.warn(err));
     if (alarmsResult) {
       if (Object.keys(alarmsResult.alarms).length != 0) {
         if (alarmsResult.alarms) {
@@ -249,8 +249,7 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
   }
   catch (error) {
     logger.error(error, `readAirInterfaceData is not success`);
-  }
-  finally {
+  } finally {
     logger.debug(`Formatting acceptanceDataOfLinkEndPoint: ${acceptanceDataOfLinkEndPoint}`);
     acceptanceDataOfLinkEndPoint = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(acceptanceDataOfLinkEndPoint);
     return acceptanceDataOfLinkEndPoint;

@@ -157,7 +157,7 @@ exports.RequestForProvidingStatusForLivenetviewCausesDeterminingAirInterfaceUuid
 
       let externalLabelResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParamList, requestHeaders, _traceIndicatorIncrementer);
       if (Object.keys(externalLabelResponse).length === 0) {
-        logger.error(`DeterminingAirInterfaceUuidUnderTest - externalLabelResponse for ${forwardingName} doesn't contains keys`);
+        logger.warn(`DeterminingAirInterfaceUuidUnderTest - externalLabelResponse for ${forwardingName} doesn't contains keys`);
       } else {
         externalLabelResponse = externalLabelResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.EXTERNAL_LABEL];
         let linkIdFromExternalLabel = externalLabelResponse.substring(0, 9);

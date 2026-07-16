@@ -79,7 +79,7 @@ async function RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLi
     let alarmsFromLiveResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
     if (alarmsFromLiveResponse) {
       if (Object.keys(alarmsFromLiveResponse).length === 0) {
-        logger.error(`${forwardingName} is not success for mountName ${mountName}`);
+        logger.warn(`${forwardingName} is not success for mountName ${mountName}`);
       } else {
         logger.info(`${forwardingName} for mountName ${mountName} successed`);
         alarms = alarmsFromLiveResponse;

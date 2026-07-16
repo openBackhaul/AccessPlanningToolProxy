@@ -165,7 +165,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUui
 
       let externalLabelResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParamList, requestHeaders, _traceIndicatorIncrementer);
       if (Object.keys(externalLabelResponse).length === 0) {
-        logger.error(`DeterminingAirInterfaceUuidUnderTest - ${forwardingName} is not success for mountname ${mountName} linkid ${linkId}`);
+        logger.warn(`DeterminingAirInterfaceUuidUnderTest - ${forwardingName} is not success for mountname ${mountName} linkid ${linkId}`);
       } else {
         externalLabelResponse = externalLabelResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.EXTERNAL_LABEL];
         let linkIdFromExternalLabel = externalLabelResponse.substring(0, 9);
@@ -294,7 +294,7 @@ async function RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValu
     let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
     let airInterfaceStatusResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
     if (Object.keys(airInterfaceStatusResponse).length === 0) {
-      logger.error(`ReadingDedicatedStatusValuesFromLive - ${forwardingName} is not success, airInterfaceStatusResponse is empty`);
+      logger.warn(`ReadingDedicatedStatusValuesFromLive - ${forwardingName} is not success, airInterfaceStatusResponse is empty`);
     } else {
       airInterfaceStatus = airInterfaceStatusResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.STATUS];
     }

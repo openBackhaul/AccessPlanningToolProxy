@@ -355,7 +355,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheModemPositio
     let _traceIndicatorIncrementer = traceIndicatorIncrementer++;
     let ltpAugmentResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
     if (Object.keys(ltpAugmentResponse).length === 0) {
-      logger.error(`${forwardingName} is not success`);
+      logger.warn(`${forwardingName} is not success`);
     } else {
       let ltpAugmentPac = ltpAugmentResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC];
       if (ltpAugmentPac && ltpAugmentPac.hasOwnProperty(LTP_AUGMENT.EQUIPMENT)) {

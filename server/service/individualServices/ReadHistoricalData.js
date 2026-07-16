@@ -188,7 +188,7 @@ exports.processHistoricalDataRequest = async function (body, request_id, request
        ****************************************************************************************/
       logger.info(`processHistoricalDataRequest - Reading Historical data for MountName ${mountName} and TimeStamp ${timeStamp}`);
       let historicalDataResult = await exports.readHistoricalData(mountName, timeStamp, ltpStructure, requestHeaders, traceIndicatorIncrementer)
-        .catch(err => logger.error(err));
+        .catch(err => logger.warn(err));
 
       let dataPresent = false;
 
@@ -397,7 +397,7 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingNameOfAirAndEthernetInte
       let externalLabelResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
 
       if (Object.keys(externalLabelResponse).length === 0) {
-        logger.error(createHttpError.InternalServerError(`${forwardingName} is not success`));
+        logger.warn(createHttpError.InternalServerError(`${forwardingName} is not success`));
       }
 
       // Extract the response fields
@@ -596,7 +596,7 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceConfiguratio
       };
 
       if (Object.keys(airInterfaceConfigurationResponse).length === 0) {
-        logger.error(`${forwardingName} is not success`);
+        logger.warn(`${forwardingName} is not success`);
       } else {
         response["airInterfaceConfiguration"] = airInterfaceConfigurationResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.CONFIGURATION];
         airInterfaceConfigurations.push(response);
@@ -651,7 +651,7 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingAirInterfaceCapabilities
       };
 
       if (Object.keys(airInterfaceCapabilitiesResponse).length === 0) {
-        logger.error(`${forwardingName} is not success`);
+        logger.warn(`${forwardingName} is not success`);
       } else {
         response["airInterfaceCapabilities"] = airInterfaceCapabilitiesResponse[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.CAPABILITY];
         airInterfaceCapabilities.push(response);
@@ -714,9 +714,8 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePe
       let airInterfaceHistoricalPerformance = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParams, requestHeaders, _traceIndicatorIncrementer);
 
       if (Object.keys(airInterfaceHistoricalPerformance).length === 0) {
-        logger.error(createHttpError.InternalServerError(`${forwardingName} is not success`));
-      }
-      else {
+        logger.warn(createHttpError.InternalServerError(`${forwardingName} is not success`));
+      } else {
         let hpdListFiltered = [];
         let hpdList = airInterfaceHistoricalPerformance[AIR_INTERFACE.MODULE + ":" + AIR_INTERFACE.HISTORICAL_PERFORMANCES][AIR_INTERFACE.HISTORICAL_PERFORMANCE_DATA_LIST];
         if (hpdList != undefined) {
@@ -792,7 +791,7 @@ exports.RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContai
         _traceIndicatorIncrementer
       );
       if (Object.keys(ethernetInterfacePerformanceResponse).length === 0) {
-        logger.error(`${forwardingName} is not success for UUID: ${uuid}`);
+        logger.warn(`${forwardingName} is not success for UUID: ${uuid}`);
       } else {
         let performances = [];
         if (ethernetInterfacePerformanceResponse[ETHERNET_INTERFACE.MODULE + ":" + ETHERNET_INTERFACE.HISTORICAL_PERFORMANCES].hasOwnProperty([ETHERNET_INTERFACE.HISTORICAL_PERFORMANCES_DATA_LIST])) {
