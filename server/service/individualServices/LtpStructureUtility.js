@@ -2,6 +2,8 @@
 
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 
+const logger = require('../LoggingService').getLogger();
+
 /**
  * This function fetches LTP list from LtpStructure if layerProtocolName is equal to given.
  * @param {String} LayerProtocolName name of the layer-protocol.
@@ -73,7 +75,7 @@ exports.getHierarchicalClientLtpForInterfaceListFromLtpStructure = async functio
     }
     return ltpInstance;
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     return {};
   }
 }

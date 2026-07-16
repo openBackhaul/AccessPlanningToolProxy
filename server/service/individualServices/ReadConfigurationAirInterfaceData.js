@@ -158,7 +158,7 @@ exports.RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderT
 
       let externalLabelResponse = await IndividualServiceUtility.forwardRequest(consequentOperationClientAndFieldParams, pathParamList, requestHeaders, _traceIndicatorIncrementer);
       if (Object.keys(externalLabelResponse).length === 0) {
-        console.log(createHttpError.InternalServerError(`${forwardingName} is not success`));
+        logger.error(createHttpError.InternalServerError(`${forwardingName} is not success`));
       } else {
         externalLabelResponse = externalLabelResponse[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC][LTP_AUGMENT.EXTERNAL_LABEL];
         let linkIdFromExternalLabel = externalLabelResponse.substring(0, 9);
@@ -172,7 +172,6 @@ exports.RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderT
     }
   } catch (error) {
     logger.error(error, `${forwardingName} is not success with`);
-    // console.log(`${forwardingName} is not success with ${error}`);
   }
   uuidUnderTestResponse.uuidUnderTest = uuidUnderTest;
   uuidUnderTestResponse.pathParams = pathParams;
@@ -392,7 +391,6 @@ async function formulateAirInterfaceResponseBody(airInterfaceEndPointName, airIn
 
   } catch (error) {
     logger.error(error);
-    // console.log(error);
   }
   return airInterface;
 }
