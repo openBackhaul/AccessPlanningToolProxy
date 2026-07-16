@@ -1,6 +1,5 @@
 'use strict';
 
-// const onfPaths = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfPaths');
 const fileOperation = require('onf-core-model-ap/applicationPattern/databaseDriver/JSONDriver');
 const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
 const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
@@ -67,7 +66,7 @@ exports.checkRegisteredAvailabilityOfDevice = function (body) {
         throw new createHttpError.TooManyRequests("Too many requests");
       }
       let mountName = body['mount-name'];
-      
+
       if (undefined != global.connectedDeviceList["mount-name-list"] && global.connectedDeviceList["mount-name-list"].includes(mountName)) {
         logger.debug(`checkRegisteredAvailabilityOfDevice - Mountname ${mountName} is in the list of Connected devices`);
         result['application/json'] = {
@@ -150,7 +149,7 @@ exports.provideAcceptanceDataOfLinkEndpoint = function (body, user, originator, 
       }
 
       // Generating Request id:
-      let request_id = await IndividualServiceUtility.generateRequestId(mountName,linkId);
+      let request_id = await IndividualServiceUtility.generateRequestId(mountName, linkId);
       logger.trace(`Request id: ${request_id}`);
       let response = {
         'request-id': request_id
@@ -160,7 +159,6 @@ exports.provideAcceptanceDataOfLinkEndpoint = function (body, user, originator, 
       ReadAcceptanceData.processAcceptanceDataRequest(mountName, linkId, request_id, requestHeaders, traceIndicatorIncrementer);
       resolve(response);
     } catch (error) {
-      console.log(error);
       logger.error(error);
       if (counterStatusAcceptanceDataOfLinkEndpointCall > 0) {
         logger.debug(`provideAcceptanceDataOfLinkEndpoint - Decreasing counter from: ${counterStatusAcceptanceDataOfLinkEndpointCall}`);
@@ -169,7 +167,7 @@ exports.provideAcceptanceDataOfLinkEndpoint = function (body, user, originator, 
         logger.debug("provideAcceptanceDataOfLinkEndpoint - Counter is already to 0");
       }
       reject(error);
-    } 
+    }
 
   });
 }
@@ -207,8 +205,8 @@ exports.provideAlarmsForLiveNetView = function (body, user, originator, xCorrela
       };
 
       logger.info(`provideAlarmsForLiveNetView - Reading Alarms data for MountName ${mountName}`);
-      let alarmsResult = await ReadLiveAlarmsData.readLiveAlarmsData(mountName, requestHeaders, traceIndicatorIncrementer);
-        //.catch(err => console.log(` ${err}`));
+      let alarmsResult = await ReadLiveAlarmsData.readLiveAlarmsData(mountName, requestHeaders, traceIndicatorIncrementer)
+        .catch(err => logger.warn(` ${err}`));
 
       if (alarmsResult) {
         if (Object.keys(alarmsResult.alarms).length != 0) {
@@ -280,8 +278,8 @@ exports.provideEquipmentInfoForLiveNetView = function (body, user, originator, x
         ltpStructure = ltpStructureResult.ltpStructure;
         traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
       } catch (err) {
-         logger.error(err, `Throwing 502 Bad Gateway Error`);
-         throw new createHttpError(502, "Bad Gateway");
+        logger.error(err, `Throwing 502 Bad Gateway Error`);
+        throw new createHttpError(502, "Bad Gateway");
         //throw new createHttpError.InternalServerError(`${err}`)
 
       };
@@ -342,7 +340,7 @@ exports.provideHistoricalPmDataOfDevice = function (body, user, originator, xCor
         throw new createHttpError.TooManyRequests("Too many requests");
       }
       logger.debug(`provideHistoricalPmDataOfDevice - Generating Request ID`);
-      let request_id =  await IndividualServiceUtility.generateRequestIdForHistoricalPMDataAPI();
+      let request_id = await IndividualServiceUtility.generateRequestIdForHistoricalPMDataAPI();
       /****************************************************************************************
        * Loop through each request in the body array
        ****************************************************************************************/
@@ -353,9 +351,7 @@ exports.provideHistoricalPmDataOfDevice = function (body, user, originator, xCor
       logger.info(`provideHistoricalPmDataOfDevice - Process Historical Data Request with Request ID ${request_id}`);
       ReadHistoricalData.processHistoricalDataRequest(body, request_id, requestHeaders, traceIndicatorIncrementer);
       resolve(response);
-      
     } catch (error) {
-      console.log(error);
       logger.error(error);
       // Automatic decrease happen inside the request management (ReadHistoricalData)
       if (counterStatusHistoricalPMDataCall > 0) {
@@ -419,7 +415,7 @@ exports.provideStatusForLiveNetView = function (body, user, originator, xCorrela
         ltpStructure = ltpStructureResult.ltpStructure;
         traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
       } catch (err) {
-        logger.error(err, `Throwing 502 Bad Gateway Error`);        
+        logger.error(err, `Throwing 502 Bad Gateway Error`);
         throw new createHttpError(502, "Bad Gateway");
         //throw new createHttpError.InternalServerError(`${err}`)
       };
@@ -429,8 +425,8 @@ exports.provideStatusForLiveNetView = function (body, user, originator, xCorrela
        * Collect status data
        ****************************************************************************************/
       logger.info(`provideStatusForLiveNetView - Read Status Interface data for MountName ${mountName} and LinkId ${linkId}`);
-      let statusResult = await ReadLiveStatusData.readStatusInterfaceData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer);
-        //.catch(err => console.log(` ${err}`));
+      let statusResult = await ReadLiveStatusData.readStatusInterfaceData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer)
+        .catch(err => logger.error(err));
 
       let uuidUnderTest = "";
       if (statusResult) {
@@ -451,7 +447,6 @@ exports.provideStatusForLiveNetView = function (body, user, originator, xCorrela
         resolve(statusForLiveNetView.airInterface);
       }
     } catch (error) {
-      console.log(error)
       reject(error);
     } finally {
       if (counterStatus > 0) {
@@ -503,7 +498,7 @@ exports.provideConfigurationForLiveNetView = function (body, user, originator, x
         ltpStructure = ltpStructureResult.ltpStructure;
         traceIndicatorIncrementer = ltpStructureResult.traceIndicatorIncrementer;
       } catch (err) {
-          throw new createHttpError(502, "Bad Gateway");
+        throw new createHttpError(502, "Bad Gateway");
         //throw new createHttpError.InternalServerError(`${err}`)
       };
 
@@ -511,7 +506,7 @@ exports.provideConfigurationForLiveNetView = function (body, user, originator, x
        * Collect air-interface data
        ****************************************************************************************/
       let airInterfaceResult = await ReadConfigurationAirInterfaceData.readConfigurationAirInterfaceData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer);
-       // .catch(err => console.log(` ${err}`));
+        // .catch(err => console.log(` ${err}`));
 
       let uuidUnderTest = "";
       if (airInterfaceResult) {
@@ -540,64 +535,62 @@ exports.provideConfigurationForLiveNetView = function (body, user, originator, x
  * body V1_updateaptclient_body
  * no response value expected for this operation
  **/
-exports.updateAptClient = function(body) {
+exports.updateAptClient = function (body) {
   return new Promise(async function (resolve, reject) {
     var result = {};
     try {
-        let future_release_number = body["future-release-number"];
-        let future_apt_protocol = body["future-apt-protocol"] ==="HTTP"  ? "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP" : "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTPS";
-        let future_apt_address = body["future-apt-address"]["ip-address"]["ipv-4-address"];
-        let future_apt_tcp_port = body["future-apt-tcp-port"];
-        let future_acceptance_data_receive_operation = body["future-acceptance-data-receive-operation"];
-        let future_performance_data_receive_operation = body["future-performance-data-receive-operation"];
-        let coreModelJsonObject = undefined;
-    		const forwardingName = "RequestForProvidingConfigurationForLivenetviewCausesReadingLtpStructure";
-        const forwardingConstruct = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
-        let prefix = forwardingConstruct.uuid.split('op')[0];
-        let minimumTime = await IndividualServiceUtility.extractProfileConfiguration(prefix + "integer-p-004");
-        let currentTime = Date.now();
-        minimumTime = minimumTime*60*60*1000;
-        if (counterTime + minimumTime > currentTime) {
-          throw new createHttpError.TooEarly("Too early");
-        }
+      let future_release_number = body["future-release-number"];
+      let future_apt_protocol = body["future-apt-protocol"] === "HTTP" ? "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP" : "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTPS";
+      let future_apt_address = body["future-apt-address"]["ip-address"]["ipv-4-address"];
+      let future_apt_tcp_port = body["future-apt-tcp-port"];
+      let future_acceptance_data_receive_operation = body["future-acceptance-data-receive-operation"];
+      let future_performance_data_receive_operation = body["future-performance-data-receive-operation"];
+      let coreModelJsonObject = undefined;
+      const forwardingName = "RequestForProvidingConfigurationForLivenetviewCausesReadingLtpStructure";
+      const forwardingConstruct = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName);
+      let prefix = forwardingConstruct.uuid.split('op')[0];
+      let minimumTime = await IndividualServiceUtility.extractProfileConfiguration(prefix + "integer-p-004");
+      let currentTime = Date.now();
+      minimumTime = minimumTime * 60 * 60 * 1000;
+      if (counterTime + minimumTime > currentTime) {
+        throw new createHttpError.TooEarly("Too early");
+      }
 
-        
-        try{
-        coreModelJsonObject  = await fileOperation.readFromDatabaseAsync("");
+      try {
+        coreModelJsonObject = await fileOperation.readFromDatabaseAsync("");
         let uuidReleaseNumber = prefix + "http-c-apt-24-5-0-000";
-        if(!await LogicalTerminationPointC.setLayerProtolReleaseNumberLtpAsync(uuidReleaseNumber,future_release_number)){
+        if (!await LogicalTerminationPointC.setLayerProtolReleaseNumberLtpAsync(uuidReleaseNumber, future_release_number)) {
           throw new createHttpError.InternalServerError("Updation of Release Number Failed");
         }
 
         let uuidProtocolAddressPort = prefix + "tcp-c-apt-24-5-0-000";
-        if(!await LogicalTerminationPointC.setLayerProtolRemoteProtocolLtpAsync(uuidProtocolAddressPort,future_apt_protocol)){
+        if (!await LogicalTerminationPointC.setLayerProtolRemoteProtocolLtpAsync(uuidProtocolAddressPort, future_apt_protocol)) {
           throw new createHttpError.InternalServerError("Updation of Protocol Failed");
         }
 
-        if(!await LogicalTerminationPointC.setLayerProtolRemotePortLtpAsync(uuidProtocolAddressPort,future_apt_tcp_port)){
+        if (!await LogicalTerminationPointC.setLayerProtolRemotePortLtpAsync(uuidProtocolAddressPort, future_apt_tcp_port)) {
           throw new createHttpError.InternalServerError("Updation of Remote Port Failed");
         }
 
-        if(!await LogicalTerminationPointC.setLayerProtolRemoteAddressLtpAsync(uuidProtocolAddressPort,future_apt_address)){
+        if (!await LogicalTerminationPointC.setLayerProtolRemoteAddressLtpAsync(uuidProtocolAddressPort, future_apt_address)) {
           throw new createHttpError.InternalServerError("Updation of Remote Address Failed");
         }
 
         let uuidAcceptanceDataReceive = prefix + "op-c-is-apt-24-5-0-000";
-        if(!await LogicalTerminationPointC.setLayerProtolOperationNameLtpAsync(uuidAcceptanceDataReceive,future_acceptance_data_receive_operation)){
+        if (!await LogicalTerminationPointC.setLayerProtolOperationNameLtpAsync(uuidAcceptanceDataReceive, future_acceptance_data_receive_operation)) {
           throw new createHttpError.InternalServerError("Updation of Operation Name Failed");
         }
 
         let uuidPerformanceDataReceive = prefix + "op-c-is-apt-24-5-0-001";
-        if(!await LogicalTerminationPointC.setLayerProtolOperationNameLtpAsync(uuidPerformanceDataReceive,future_performance_data_receive_operation)){
+        if (!await LogicalTerminationPointC.setLayerProtolOperationNameLtpAsync(uuidPerformanceDataReceive, future_performance_data_receive_operation)) {
           throw new createHttpError.InternalServerError("Updation of Operation Name Failed");
         }
       }
-      catch(error){
-        try{
+      catch (error) {
+        try {
           console.log(error);
-          let originalFileRestored =  await IndividualServiceUtility.resetCompleteFile(coreModelJsonObject);
-        }
-        catch(error){
+          let originalFileRestored = await IndividualServiceUtility.resetCompleteFile(coreModelJsonObject);
+        } catch (error) {
           console.log(error)
         }
         throw new createHttpError.InternalServerError("Internal Server Error");
