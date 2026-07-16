@@ -46,18 +46,18 @@ http.createServer(app).listen(serverPort, function () {
     logger.info('Swagger-ui is available on http://localhost:%d/docs', serverPort);
 });
 
-//setting the path to the database 
-global.databasePath = './database/config.json'
+//setting the path to the database
+global.databasePath = './database/config.json';
 
 // Limits
 global.counter = 0;
 global.counterStatus = 0;
 global.counterAlarms = 0;
-global.counterTime   = 0;
+global.counterTime = 0;
 global.counterStatusHistoricalPMDataCall = 0;
 global.counterStatusAcceptanceDataOfLinkEndpointCall = 0;
 //creating connected device list obj
-global.connectedDeviceList = "";
+global.connectedDeviceList = '';
 global.testPrivateFunctions = 0;
 
 logger.info('Starting Application Registration');
