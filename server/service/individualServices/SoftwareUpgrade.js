@@ -57,8 +57,6 @@ async function promptForBequeathingDataCausesRequestForBroadcastingInfoAboutServ
        * Preparing requestBody 
        ************************************************************************************/
       try {
-
-
         let currentApplicationName = await httpServerInterface.getApplicationNameAsync();
         let currentReleaseNumber = await httpServerInterface.getReleaseNumberAsync();
         let newApplicationName = newApplicationDetails["new-application-name"];
@@ -122,7 +120,6 @@ async function promptForBequeathingDataCausesRequestForDeregisteringOfOldRelease
        * Preparing requestBody 
        ************************************************************************************/
       try {
-
         let oldApplicationName = await httpServerInterface.getApplicationNameAsync();
         let oldReleaseNumber = await httpServerInterface.getReleaseNumberAsync();
         let newReleaseNumber = newApplicationDetails["new-release-number"];

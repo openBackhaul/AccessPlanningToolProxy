@@ -125,12 +125,10 @@ exports.processAcceptanceDataRequest = async function (mountName, linkId, reques
       request_id, requestHeaders, acceptanceDataOfLinkEndPoint, traceIndicatorIncrementer);
     logger.info(`processAcceptanceDataRequest - Execute successfully req_id: ${request_id} for mount-name: ${mountName}`);
     logger.trace(requestHeaders);
-  }
-  catch (error) {
+  } catch (error) {
     logger.error(error, "processAcceptanceDataRequest - readAirInterfaceData is not success");
     console.error(`readAirInterfaceData is not success with ${error}`);
-  }
-  finally {
+  } finally {
     logger.trace(`processAcceptanceDataRequest - Decreasing counterStatusAcceptanceDataOfLinkEndpointCall: ${global.counterStatusAcceptanceDataOfLinkEndpointCall}`);
     global.counterStatusAcceptanceDataOfLinkEndpointCall--;
   }
@@ -175,14 +173,14 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
         logger.error(`executeAcceptanceDataRequest - ${error.message} - Code: ${error.code}`);
         throw new createHttpError.InternalServerError(`${error}`);
       }
+
       if (Object.keys(airInterfaceResult.airInterface).length != 0) {
         acceptanceDataOfLinkEndPoint.airInterface = airInterfaceResult.airInterface;
       } else {
         logger.warn(`executeAcceptanceDataRequest - Airinterface seems empty for MountName ${mountName} and linkid ${linkId}`);
       }
       traceIndicatorIncrementer = airInterfaceResult.traceIndicatorIncrementer;
-    }
-    else {
+    } else {
       error.code = 530;
       error.message = "Air Inteface Data invalid. Response data not available, incomplete or corrupted";
       acceptanceDataOfLinkEndPoint.error = error;
@@ -198,19 +196,18 @@ exports.executeAcceptanceDataRequest = async function (mountName, linkId, reques
       .catch(err => console.log(` ${err}`));
 
     if (vlanInterfaceResult && vlanInterfaceResult.vlanInterface) {
-
       if (Object.keys(vlanInterfaceResult.vlanInterface).length != 0) {
         acceptanceDataOfLinkEndPoint.vlanInterface = vlanInterfaceResult.vlanInterface;
       }
       traceIndicatorIncrementer = vlanInterfaceResult.traceIndicatorIncrementer;
-    }
-    else {
+    } else {
       error.code = 530;
       error.message = "VLAN Data invalid. Response data not available, incomplete or corrupted";
       acceptanceDataOfLinkEndPoint.error = error;
       logger.error(`executeAcceptanceDataRequest - ${error.message} - Code: ${error.code}`);
       throw new createHttpError.InternalServerError(`${error}`);
     }
+
     /****************************************************************************************
      * Collect inventory data
      ****************************************************************************************/

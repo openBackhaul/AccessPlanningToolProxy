@@ -94,7 +94,6 @@ exports.readAirInterfaceData = async function (mountName, linkId, ltpStructure, 
           logger.warn(`readAirInterfaceData - NO DATA from Dedicated Status value from Live with path ${pathParams}`);
         }
 
-
         /****************************************************************************************
          *  Fetching the air interface data for response body
          ****************************************************************************************/
@@ -440,15 +439,15 @@ async function formulateAirInterfaceResponseBody(airInterfaceEndPointName, airIn
     let minTransmissionMode = await getConfiguredModulation(
       airInterfaceCapability,
       airInterfaceConfiguration["transmission-mode-min"]);
-    
+
     let maxTransmissionMode = await getConfiguredModulation(
       airInterfaceCapability,
       airInterfaceConfiguration["transmission-mode-max"]);
-    
+
     let curTransmissionMode = await getConfiguredModulation(
       airInterfaceCapability,
       airInterfaceStatus["transmission-mode-cur"]);
-    
+
     if (minTransmissionMode) {
       airInterface["configured-modulation-minimum"] = {
         "number-of-states": minTransmissionMode["modulation-scheme"],
@@ -525,6 +524,5 @@ if (global.testPrivateFunctions === 1) {
     RequestForProvidingAcceptanceDataCausesReadingCapabilitiesFromCache,
     RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusValuesFromLive,
     formulateAirInterfaceResponseBody
-
   };
 }
