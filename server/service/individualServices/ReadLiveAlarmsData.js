@@ -98,9 +98,7 @@ async function RequestForProvidingAlarmsForLivenetviewCausesReadingCurrentAlarms
     }
   } catch (error) {
     logger.error(error, `${forwardingName} is not success`);
-    console.log(`${forwardingName} is not success with ${error}`);
   }
-  
 }
 
 
@@ -143,8 +141,8 @@ async function formulateResponseBodyForAlarms(alarmsFromLive) {
 }
 
 
-if (global.testPrivateFunctions === 1)  {
-  module.exports.ReadLiveAlarmsData_Private= {
+if (global.testPrivateFunctions === 1) {
+  module.exports.ReadLiveAlarmsData_Private = {
     formulateResponseBodyForAlarms
   }
 };

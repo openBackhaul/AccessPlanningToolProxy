@@ -3,6 +3,8 @@ const IndividualServiceUtility = require('./IndividualServiceUtility');
 const LtpStructureUtility = require('./LtpStructureUtility');
 const createHttpError = require('http-errors');
 
+const logger = require('../LoggingService').getLogger();
+
 const VLAN_INTERFACE = { MODULE: "vlan-interface-1-0:", CONFIGURATION: "vlan-interface-configuration", INTERFACE_KIND: "interface-kind", LAYER_PROTOCOL_NAME: "LAYER_PROTOCOL_NAME_TYPE_VLAN_LAYER" };
 const LTP_AUGMENT = { MODULE: "ltp-augment-1-0:", PAC: "ltp-augment-pac", ORIGINAL_LTP_NAME: "original-ltp-name" };
 const ETHERNET_CONTAINER = { MODULE: "ethernet-container-2-0:", STATUS: "ethernet-container-status", INTERFACE_STATUS: "interface-status", LAYER_PROTOCOL_NAME: "LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER" };
@@ -119,7 +121,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole(
           }
           traceIndicatorIncrementer = originalLtpNameResponse.traceIndicatorIncrementer;
         } else {
-          console.log(`${originalLtpNameCallback} for ${wireInterfaceUuid} is not success`);
+          logger.warn(`${originalLtpNameCallback} for ${wireInterfaceUuid} is not success`);
           continue;
         }
 
@@ -140,7 +142,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole(
           }
           traceIndicatorIncrementer = vlanInterfaceKindResponse.traceIndicatorIncrementer;
         } else {
-          console.log(`${vlanInterfaceKindCallback} for ${wireInterfaceUuid} is not success`);
+          logger.warn(`${vlanInterfaceKindCallback} for ${wireInterfaceUuid} is not success`);
         }
 
         /****************************************************************************************************
@@ -157,18 +159,23 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole(
           }
           traceIndicatorIncrementer = ethernetContainerStatusResponse.traceIndicatorIncrementer;
         } else {
-          console.log(`${ethernetContainerStatusCallback} for ${wireInterfaceUuid} is not success`);
+          logger.warn(`${ethernetContainerStatusCallback} for ${wireInterfaceUuid} is not success`);
         }
-        if(Object.keys(configuredLanPortRole).length != 0) configuredLanPortRoleList.push(configuredLanPortRole);
+
+        if (Object.keys(configuredLanPortRole).length != 0) {
+          configuredLanPortRoleList.push(configuredLanPortRole);
+        }
       }
     }
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
+
   configuredLanPortRoleListResponse = {
     configuredLanPortRoleList: configuredLanPortRoleList,
     traceIndicatorIncrementer: traceIndicatorIncrementer
   };
+
   return configuredLanPortRoleListResponse;
 }
 
@@ -224,7 +231,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole(
           }
           traceIndicatorIncrementer = originalLtpNameResponse.traceIndicatorIncrementer;
         } else {
-          console.log(`${originalLtpNameCallback} for ${airInterfaceUuid} is not success`);
+          logger.warn(`${originalLtpNameCallback} for ${airInterfaceUuid} is not success`);
           continue;
         }
         /****************************************************************************************************
@@ -244,7 +251,7 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole(
           }
           traceIndicatorIncrementer = vlanInterfaceKindResponse.traceIndicatorIncrementer;
         } else {
-          console.log(`${vlanInterfaceKindCallback} for ${airInterfaceUuid} is not success`);
+          logger.warn(`${vlanInterfaceKindCallback} for ${airInterfaceUuid} is not success`);
         }
         /****************************************************************************************************
         * process EthernetContainerStatus for each air_interface
@@ -260,18 +267,23 @@ async function RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole(
           }
           traceIndicatorIncrementer = ethernetContainerStatusResponse.traceIndicatorIncrementer;
         } else {
-          console.log(`${ethernetContainerStatusCallback} for ${airInterfaceUuid} is not success`);
+          logger.warn(`${ethernetContainerStatusCallback} for ${airInterfaceUuid} is not success`);
         }
-        if(Object.keys(configuredWanPortRole).length != 0) configuredWanPortRoleList.push(configuredWanPortRole);
+
+        if (Object.keys(configuredWanPortRole).length != 0) {
+          configuredWanPortRoleList.push(configuredWanPortRole);
+        }
       }
     }
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
+
   configuredWanPortRoleListResponse = {
     configuredWanPortRoleList: configuredWanPortRoleList,
     traceIndicatorIncrementer: traceIndicatorIncrementer
   };
+
   return configuredWanPortRoleListResponse;
 }
 
@@ -297,14 +309,16 @@ async function fetchOriginalLtpNameOfEthernetContainer(mountName, ltpStructure, 
       let response = await IndividualServiceUtility.forwardRequest(clientAndFieldParams, pathParamList, requestHeaders, traceIndicatorIncrementer++);
       if (Object.keys(response).length > 0) {
         let ltpAugmentPac = response[LTP_AUGMENT.MODULE + LTP_AUGMENT.PAC];
-        if(ltpAugmentPac && ltpAugmentPac.hasOwnProperty(LTP_AUGMENT.ORIGINAL_LTP_NAME)) 
+        if (ltpAugmentPac && ltpAugmentPac.hasOwnProperty(LTP_AUGMENT.ORIGINAL_LTP_NAME))
           originalLtpNameResponse.interfaceName = ltpAugmentPac[LTP_AUGMENT.ORIGINAL_LTP_NAME];
       }
     }
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
+
   originalLtpNameResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
+
   return originalLtpNameResponse;
 }
 
@@ -333,9 +347,11 @@ async function fetchVlanInterfaceKind(mountName, ltpStructure, requestHeaders, t
       }
     }
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
+
   vlanInterfaceKindResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
+
   return vlanInterfaceKindResponse;
 }
 
@@ -358,18 +374,20 @@ async function fetchServingEthernetContainerStatus(mountName, requestHeaders, tr
     let response = await IndividualServiceUtility.forwardRequest(clientAndFieldParams, pathParamList, requestHeaders, traceIndicatorIncrementer++);
     if (Object.keys(response).length > 0) {
       let etherContainerStatus = response[ETHERNET_CONTAINER.MODULE + ETHERNET_CONTAINER.STATUS];
-      if(etherContainerStatus && etherContainerStatus.hasOwnProperty(ETHERNET_CONTAINER.INTERFACE_STATUS)) {
+      if (etherContainerStatus && etherContainerStatus.hasOwnProperty(ETHERNET_CONTAINER.INTERFACE_STATUS)) {
         ethernetContainerStatusResponse.servingEthernetContainerStatus = etherContainerStatus[ETHERNET_CONTAINER.INTERFACE_STATUS];
       }
     }
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
+
   ethernetContainerStatusResponse.traceIndicatorIncrementer = traceIndicatorIncrementer;
+
   return ethernetContainerStatusResponse;
 }
 
-if (global.testPrivateFunctions === 1)  {
+if (global.testPrivateFunctions === 1) {
   module.exports.readVlanInterfaceData_private = {
     RequestForProvidingAcceptanceDataCausesDeterminingTheLanPortRole,
     RequestForProvidingAcceptanceDataCausesDeterminingTheWanPortRole,
