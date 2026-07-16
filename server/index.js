@@ -17,17 +17,16 @@ var serverPort = 4009;
 
 // uncomment if you do not want to validate security e.g. operation-key, basic auth, etc
 // appCommons.openApiValidatorOptions.validateSecurity = false;
-if (process.env.DEBUG && process.env.DEBUG.toLowerCase() === "true") {
-    logger.warn("Working in debug mode");
-    logger.warn("Checking validation");
+if (process.env.DEBUG && process.env.DEBUG.toLowerCase() === 'true') {
+    logger.warn('Working in debug mode');
+    logger.warn('Checking validation');
     appCommons.openApiValidatorOptions.validateSecurity = false;
     // appCommons.openApiValidatorOptions.validateResponses = false;
     // appCommons.openApiValidatorOptions.validateRequests = false;
-    logger.warn("Validate Security: " + appCommons.openApiValidatorOptions.validateSecurity);
-    logger.warn("Validate Responses: " + appCommons.openApiValidatorOptions.validateResponses);
-    logger.warn("Validate Requests: " + appCommons.openApiValidatorOptions.validateRequests);
+    logger.warn(`Validate Security: ${appCommons.openApiValidatorOptions.validateSecurity}`);
+    logger.warn(`Validate Responses: ${appCommons.openApiValidatorOptions.validateResponses}`);
+    logger.warn(`Validate Requests: ${appCommons.openApiValidatorOptions.validateRequests}`);
 }
-
 
 // swaggerRouter configuration
 var options = {
@@ -61,5 +60,5 @@ global.counterStatusAcceptanceDataOfLinkEndpointCall = 0;
 global.connectedDeviceList = "";
 global.testPrivateFunctions = 0;
 
-logger.info("Starting Application Registration");
+logger.info('Starting Application Registration');
 appCommons.performApplicationRegistration();
