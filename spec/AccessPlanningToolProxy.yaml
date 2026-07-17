@@ -2907,7 +2907,7 @@ paths:
                   description: >
                     'The Local-ID of the Connector that is addressed by the request
                     from {RequestForProvidingAcceptanceDataCausesDeterminingTheOduConnector.ConnectorId.response.body#ltp-augment-1-0:ltp-augment-pac/connector-identifier}'
-                    This ConnectorLocalId must be extracted from the response which follows the pattern "/core-model-1-4:control-construct/equipment[uuid={EquipmentUuid}]/connector[local-id={ConnectorLocalId}]"  '                    
+                    This ConnectorLocalId must be extracted from the response which follows the pattern "/core-model-1-4:control-construct/equipment[uuid={EquipmentUuid}]/connector[local-id={ConnectorLocalId}]"  '
                 - name: fields
                   in: query
                   required: true
@@ -5250,17 +5250,13 @@ paths:
                                     dropped-frames-output:
                                       type: integer
                                     oversized-frames-ingress:
-                                      type: string
-                                      description: 'String representation of int64 value'
+                                      type: integer
                                     undersized-frames-ingress:
-                                      type: string
-                                      description: 'String representation of int64 value'
+                                      type: integer
                                     jabber-frames-ingress:
-                                      type: string
-                                      description: 'String representation of int64 value'
+                                      type: integer
                                     unknown-protocol-frames-input:
-                                      type: string
-                                      description: 'String representation of int64 value'
+                                      type: integer
                         example:
                           ethernet-container-2-0:ethernet-container-historical-performance:
                             historical-performance-data-list:
@@ -5284,10 +5280,10 @@ paths:
                                 errored-frames-output: 0
                                 dropped-frames-input: 0
                                 dropped-frames-output: 0
-                                oversized-frames-ingress: "-1"
-                                undersized-frames-ingress: "-1"
-                                jabber-frames-ingress: "-1"
-                                unknown-protocol-frames-input: "-1"
+                                oversized-frames-ingress: -1
+                                undersized-frames-ingress: -1
+                                jabber-frames-ingress: -1
+                                unknown-protocol-frames-input: -1
                   headers:
                     x-correlator:
                       schema:
@@ -5770,22 +5766,22 @@ paths:
                                             'The number of output Ethernet frames, for which no problem was encountered to prevent their transmission to their destination, but were discarded (e.g., for lack of buffer space)
                                             from {$RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache.EthernetContainerHistoricalPmFromCache.response.body#ethernet-container-2-0:ethernet-container-historical-performance/historical-performance-data-list/dropped-frames-output}'
                                         oversized-frames-ingress:
-                                          type: string
+                                          type: integer
                                           description: >
                                             'The total number of frames received that were longer than 1518 octets (excluding framing bits, but including FCS octets) and were otherwise well formed
                                             from {$RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache.EthernetContainerHistoricalPmFromCache.response.body#ethernet-container-2-0:ethernet-container-historical-performance/historical-performance-data-list/oversized-frames-ingress}'
                                         undersized-frames-ingress:
-                                          type: string
+                                          type: integer
                                           description: >
                                             'The total number of frames received that were less than 64 octets long (excluding framing bits, but including FCS octets) and were otherwise well formed
                                             from {$RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache.EthernetContainerHistoricalPmFromCache.response.body#ethernet-container-2-0:ethernet-container-historical-performance/historical-performance-data-list/undersized-frames-ingress}'
                                         jabber-frames-ingress:
-                                          type: string
+                                          type: integer
                                           description: >
                                             'Number of jabber frames received on the interface. Jabber frames are typically defined as oversize frames which also have a bad CRC. Implementations may use slightly different definitions of what constitutes a jabber frame. Often indicative of a NIC hardware problem
                                             from {$RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache.EthernetContainerHistoricalPmFromCache.response.body#ethernet-container-2-0:ethernet-container-historical-performance/historical-performance-data-list/jabber-frames-ingress}'
                                         unknown-protocol-frames-input:
-                                          type: string
+                                          type: integer
                                           description: >
                                             'Total number of received frames that were transporting an unknown protocol
                                             from {$RequestForProvidingHistoricalPmDataCausesReadingHistoricalEthernetContainerPerformanceFromCache.EthernetContainerHistoricalPmFromCache.response.body#ethernet-container-2-0:ethernet-container-historical-performance/historical-performance-data-list/unknown-protocol-frames-input}'
@@ -6044,10 +6040,10 @@ paths:
                                     errored-frames-output: 0
                                     dropped-frames-input: 0
                                     dropped-frames-output: 0
-                                    oversized-frames-ingress: "-1"
-                                    undersized-frames-ingress: "-1"
-                                    jabber-frames-ingress: "-1"
-                                    unknown-protocol-frames-input: "-1"
+                                    oversized-frames-ingress: -1
+                                    undersized-frames-ingress: -1
+                                    jabber-frames-ingress: -1
+                                    unknown-protocol-frames-input: -1
                                   - granularity-period: "ethernet-container-2-0:GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN"
                                     period-end-time: "2024-03-07T00:30:00.0+00:00"
                                     max-bytes-per-second-output: 0
@@ -6068,10 +6064,10 @@ paths:
                                     errored-frames-output: 0
                                     dropped-frames-input: 0
                                     dropped-frames-output: 0
-                                    oversized-frames-ingress: "-1"
-                                    undersized-frames-ingress: "-1"
-                                    jabber-frames-ingress: "-1"
-                                    unknown-protocol-frames-input: "-1"
+                                    oversized-frames-ingress: -1
+                                    undersized-frames-ingress: -1
+                                    jabber-frames-ingress: -1
+                                    unknown-protocol-frames-input: -1
                               - ethernet-container-identifiers:
                                   mount-name: 173253221
                                   interface-name: "WAN 1/1/2"
@@ -6097,10 +6093,10 @@ paths:
                                     errored-frames-output: 0
                                     dropped-frames-input: 0
                                     dropped-frames-output: 0
-                                    oversized-frames-ingress: "-1"
-                                    undersized-frames-ingress: "-1"
-                                    jabber-frames-ingress: "-1"
-                                    unknown-protocol-frames-input: "-1"
+                                    oversized-frames-ingress: -1
+                                    undersized-frames-ingress: -1
+                                    jabber-frames-ingress: -1
+                                    unknown-protocol-frames-input: -1
                                   - granularity-period: "ethernet-container-2-0:GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN"
                                     period-end-time: "2024-03-07T01:30:00.0+00:00"
                                     max-bytes-per-second-output: 0
@@ -6121,10 +6117,10 @@ paths:
                                     errored-frames-output: 0
                                     dropped-frames-input: 0
                                     dropped-frames-output: 0
-                                    oversized-frames-ingress: "-1"
-                                    undersized-frames-ingress: "-1"
-                                    jabber-frames-ingress: "-1"
-                                    unknown-protocol-frames-input: "-1"
+                                    oversized-frames-ingress: -1
+                                    undersized-frames-ingress: -1
+                                    jabber-frames-ingress: -1
+                                    unknown-protocol-frames-input: -1
                             mount-name-list-with-errors:
                               - mount-name: 513278899
                                 code: 460
@@ -6455,7 +6451,7 @@ paths:
                     type: boolean
                     description: >
                       'This configuration value is true, if collecting performance values is configured to be activated
-                      from {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/performance-monitoring-is-on}'  
+                      from {$RequestForProvidingConfigurationForLivenetviewCausesReadingConfigurationFromCache.ConfigurationFromCache.response.body#air-interface-2-0:air-interface-configuration/performance-monitoring-is-on}'
                 example:
                   air-interface-endpoint-name: '513550010B'
                   configured-tx-power: 10
