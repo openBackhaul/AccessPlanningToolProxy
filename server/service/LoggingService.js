@@ -12,14 +12,16 @@ const transports = pino.transport({
     {
       level: 'info',
       target: 'pino-roll',
-      options: { file: path.join(__dirname, '../logs/AccessPlanningToolProxy'), extension: '.log', mkdir: true,
-        frequency: 'daily', dateFormat: 'yyyy-MM-dd', size: "1m", "limit.count": 10 }
+      options: {
+        file: path.join(__dirname, '../logs/AccessPlanningToolProxy'), extension: '.log', mkdir: true,
+        frequency: 'daily', dateFormat: 'yyyy-MM-dd', size: "1m", "limit.count": 10
+      }
     }
   ]
 });
 
 // create pino logger instance
-const logger = pino({level: 'info'}, transports);
+const logger = pino({ level: 'info' }, transports);
 
 exports.getLogger = function getLogger() {
   return logger;

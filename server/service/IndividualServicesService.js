@@ -290,7 +290,7 @@ exports.provideEquipmentInfoForLiveNetView = function (body, user, originator, x
        ****************************************************************************************/
       logger.info(`provideEquipmentInfoForLiveNetView - Reading Live Equipment Data for MountName ${mountName} LinkId ${linkId}`);
       let equipmentResult = await ReadLiveEquipmentData.readLiveEquipmentData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer);
-        //.catch(err => console.log(` ${err}`));
+      //.catch(err => console.log(` ${err}`));
 
       if (equipmentResult == undefined) {
         logger.error(`provideEquipmentInfoForLiveNetView - Equipment hasn't be found for MountName ${mountName} LinkId ${linkId}, Throwing HTTP error`);
@@ -506,7 +506,7 @@ exports.provideConfigurationForLiveNetView = function (body, user, originator, x
        * Collect air-interface data
        ****************************************************************************************/
       let airInterfaceResult = await ReadConfigurationAirInterfaceData.readConfigurationAirInterfaceData(mountName, linkId, ltpStructure, requestHeaders, traceIndicatorIncrementer);
-        // .catch(err => console.log(` ${err}`));
+      // .catch(err => console.log(` ${err}`));
 
       let uuidUnderTest = "";
       if (airInterfaceResult) {

@@ -32,7 +32,7 @@ exports.getControlConstruct = function () {
  * uuid String 
  * returns inline_response_200_5
  **/
-exports.getProfileInstance = function(url) {
+exports.getProfileInstance = function (url) {
   return new Promise(async function (resolve, reject) {
     try {
       var value = await fileOperation.readFromDatabaseAsync(url);
