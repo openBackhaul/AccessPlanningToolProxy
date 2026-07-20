@@ -7829,7 +7829,7 @@ paths:
                     type: integer
                     description: >
                       'Currently measured signal to noise + interference ratio (SNIR)
-                      from {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusFromLive.DedicatedStatusValuesFromLive.response.body#air-interface-2-0:air-interface-status/snir-cur}'                      
+                      from {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusFromLive.DedicatedStatusValuesFromLive.response.body#air-interface-2-0:air-interface-status/snir-cur}'
 
                 example:
                   current-tx-power: 5
@@ -8272,7 +8272,7 @@ paths:
                               xpd-cur:
                                 type: integer
                               snir-cur:
-                                type: integer                          
+                                type: integer
                         example:
                           air-interface-2-0:air-interface-status:
                             transmission-mode-cur: '56002'
@@ -8281,7 +8281,7 @@ paths:
                             tx-frequency-cur: 9986
                             rx-frequency-cur: 5344
                             xpd-cur: 40
-                            snir-cur: 12                            
+                            snir-cur: 12
                   headers:
                     x-correlator:
                       schema:
