@@ -5994,7 +5994,7 @@ paths:
                                     severely-errorred-seconds: 0
                                     consecutive-severely-errorred-seconds: 0
                                     total-unavailability: 0
-                                    defect-blocks: 0                                    
+                                    defect-blocks: 0
                                 transmission-mode-list:
                                   - transmission-mode-name: "1303-80000-512-Std"
                                     number-of-states: 512
