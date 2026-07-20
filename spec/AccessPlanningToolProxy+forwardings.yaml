@@ -1205,7 +1205,7 @@ forwardings:
       - server-name: /v1/provide-status-for-livenetview
         uuid: aptp-1-1-0-op-s-is-010
     consequent-requests:
-      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-status?fields=tx-level-cur;rx-level-cur;transmission-mode-cur;rx-frequency-cur;tx-frequency-cur
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-status?fields=tx-level-cur;rx-level-cur;transmission-mode-cur;rx-frequency-cur;tx-frequency-cur;xpd-cur;snir-cur
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-512
 
   - forwarding-name: RequestForProvidingStatusForLivenetviewCausesReadingCapabilitiesFromCache

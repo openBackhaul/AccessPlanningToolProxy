@@ -7777,6 +7777,7 @@ paths:
                   - current-modulation
                   - current-tx-frequency
                   - current-rx-frequency
+                  - current-signal-to-noise-ratio
                 properties:
                   current-tx-power:
                     type: integer
@@ -7824,6 +7825,11 @@ paths:
                     description: >
                       'Currently measured cross polarization discrimination (XPD)
                       from {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusFromLive.DedicatedStatusValuesFromLive.response.body#air-interface-2-0:air-interface-status/xpd-cur}'
+                  current-signal-to-noise-ratio:
+                    type: integer
+                    description: >
+                      'Currently measured signal to noise + interference ratio (SNIR)
+                      from {$RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusFromLive.DedicatedStatusValuesFromLive.response.body#air-interface-2-0:air-interface-status/snir-cur}'                      
 
                 example:
                   current-tx-power: 5
@@ -7834,6 +7840,7 @@ paths:
                   current-tx-frequency: 38822000
                   current-rx-frequency: 34522000
                   current-cross-polarization-discrimination: 40
+                  current-signal-to-noise-ratio: 12
           headers:
             life-cycle-state:
               schema:
@@ -8236,7 +8243,7 @@ paths:
                   in: query
                   schema:
                     type: string
-                    example: ''
+                    example: 'tx-level-cur;rx-level-cur;transmission-mode-cur;rx-frequency-cur;tx-frequency-cur;xpd-cur;snir-cur'
                   description: >
                     'If different from empty string, a fields filter with the following value to be added to the request
                     from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-string-p-071/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
@@ -8264,6 +8271,8 @@ paths:
                                 type: integer
                               xpd-cur:
                                 type: integer
+                              snir-cur:
+                                type: integer                          
                         example:
                           air-interface-2-0:air-interface-status:
                             transmission-mode-cur: '56002'
@@ -8272,6 +8281,7 @@ paths:
                             tx-frequency-cur: 9986
                             rx-frequency-cur: 5344
                             xpd-cur: 40
+                            snir-cur: 12                            
                   headers:
                     x-correlator:
                       schema:

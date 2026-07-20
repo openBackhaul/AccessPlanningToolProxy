@@ -453,7 +453,7 @@ profile-instances:
     capability:
       string-name: 'RequestForProvidingStatusForLivenetviewCausesReadingDedicatedStatusValuesFromLive.DedicatedStatusValuesFromLive'
     configuration:
-      string-value: 'tx-level-cur;rx-level-cur;transmission-mode-cur;rx-frequency-cur;tx-frequency-cur;xpd-cur'
+      string-value: 'tx-level-cur;rx-level-cur;transmission-mode-cur;rx-frequency-cur;tx-frequency-cur;xpd-cur;snir-cur'
 
   - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-072'
