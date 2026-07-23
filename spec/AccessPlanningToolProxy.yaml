@@ -5907,7 +5907,7 @@ paths:
                                     severely-errorred-seconds: 0
                                     consecutive-severely-errorred-seconds: 0
                                     total-unavailability: 0
-                                    defect-blocks: 0                                    
+                                    defect-blocks: 0
                                 transmission-mode-list:
                                   - transmission-mode-name: "56000-1024-v2"
                                     number-of-states: 1024
