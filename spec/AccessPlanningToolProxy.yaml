@@ -3610,6 +3610,141 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+        RequestForProvidingAcceptanceDataCausesReadingHistoricalAirInterfacePerformanceFromCache:
+          AirInterfacePerformanceFromCache: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-mwdi-1-1-2-214/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mount-name of the device that is addressed by this callback
+                    from {$request.body#mount-name}'
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LTP-MWPS-TTP-1-1'
+                  description: >
+                    'The UUID of the LogicalTerminationPoint that is addressed by the request
+                    from UuidUnderTest determined in RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest'
+                - name: local-id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'LP-MWPS-TTP-1-1'
+                  description: >
+                    'The Local-ID of the LayerProtocol that is addressed by the request
+                    from LocalIdUnderTest determined in RequestForProvidingAcceptanceDataCausesDeterminingAirInterfaceUuidUnderTest'
+                - name: fields
+                  in: query
+                  required: true
+                  schema:
+                    type: string
+                    example: 'historical-performance-data-list(granularity-period;period-end-time;performance-data(time-period;es;ses;unavailability))'
+                  description: >
+                    'If different from empty string, a fields filter with the following value to be added to the request
+                    from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-string-p-030/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+              responses:
+                '200':
+                  description: 'AirInterfaceHistoricalPerformances provided from cache'
+                  content:
+                    application/json:
+                      schema:
+                        description: 'Only relevant attributes listed'
+                        type: object
+                        properties:
+                          air-interface-2-0:air-interface-historical-performances:
+                            type: object
+                            properties:
+                              historical-performance-data-list:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    granularity-period:
+                                      type: string
+                                    period-end-time:
+                                      type: string
+                                      format: date-time
+                                    performance-data:
+                                      type: object
+                                      properties:
+                                        time-period:
+                                          type: integer
+                                        es:
+                                          type: integer
+                                        unavailability:
+                                          type: integer
+                                        ses:
+                                          type: integer
+                        example:
+                          air-interface-2-0:air-interface-historical-performances:
+                            historical-performance-data-list:
+                              - granularity-period: 'air-interface-2-0:GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN'
+                                period-end-time: '2026-07-29T16:30:00+02:00'
+                                performance-data:
+                                  time-period: 900
+                                  es: 0
+                                  unavailability: 0
+                                  ses: 0
+                              - granularity-period: 'air-interface-2-0:GRANULARITY_PERIOD_TYPE_PERIOD-24-HOURS'
+                                period-end-time: '2026-07-29T00:00:00+02:00'
+                                performance-data:
+                                  time-period: 86400
+                                  es: 0
+                                  unavailability: 0
+                                  ses: 0
+                  headers:
+                    x-correlator:
+                      schema:
+                        type: string
+                        example: '550e8400-e29b-11d4-a716-446655440000'
+                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+                    exec-time:
+                      schema:
+                        type: integer
+                        example: 1100
+                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+                    backend-time:
+                      schema:
+                        type: integer
+                        example: 850
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                    life-cycle-state:
+                      schema:
+                        type: string
+                        enum:
+                          - 'EXPERIMENTAL'
+                          - 'OPERATIONAL'
+                          - 'DEPRECATED'
+                          - 'OBSOLETE'
+                          - 'UNKNOWN'
+                          - 'NOT_YET_DEFINED'
+                        example: 'EXPERIMENTAL'
+                      description: 'Life cycle state of the consumed service'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
         RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData:
           Response: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-apt-24-5-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
@@ -3808,6 +3943,34 @@ paths:
                                   description: >
                                     'Current receive frequency in kHz
                                     from {$RequestForProvidingAcceptanceDataCausesReadingDedicatedStatusFromLive.StatusFromLive.response.body#air-interface-2-0:air-interface-status/rx-frequency-cur}'
+                                latest-air-interface-performance-counters:
+                                  type: array
+                                  description: 'Selected G.826 counters from the two most recent 15-minute measurement intervals available in the cache when the acceptance test was triggered'
+                                  items:
+                                    type: object
+                                    properties:
+                                      period-end-time:
+                                        type: string
+                                        description: >
+                                          'Time-stamp indicating the end of the measurement interval 
+                                          from {$RequestForProvidingAcceptanceDataCausesReadingHistoricalAirInterfacePerformanceFromCache.AirInterfacePerformanceFromCache.response.body#air-interface-2-0:air-interface-historical-performances/historical-performance-data-list/period-end-time}'
+                                      duration:
+                                        type: integer
+                                      errored-seconds:
+                                        type: integer
+                                        description: >
+                                          'Number of errored seconds
+                                          from {$RequestForProvidingAcceptanceDataCausesReadingHistoricalAirInterfacePerformanceFromCache.AirInterfacePerformanceFromCache.response.body#air-interface-2-0:air-interface-historical-performances/historical-performance-data-list/performance-data/es}'
+                                      severely-errored-seconds:
+                                        type: integer
+                                        description: >
+                                          'Number of severely errored seconds
+                                          from {$RequestForProvidingAcceptanceDataCausesReadingHistoricalAirInterfacePerformanceFromCache.AirInterfacePerformanceFromCache.response.body#air-interface-2-0:air-interface-historical-performances/historical-performance-data-list/performance-data/ses}'
+                                      unavailability:
+                                        type: integer
+                                        description: >
+                                          'Total time of unavailability in seconds
+                                          from {$RequestForProvidingAcceptanceDataCausesReadingHistoricalAirInterfacePerformanceFromCache.AirInterfacePerformanceFromCache.response.body#air-interface-2-0:air-interface-historical-performances/historical-performance-data-list/performance-data/unavailability}'
                             vlan-interface:
                               type: object
                               properties:
@@ -4160,6 +4323,17 @@ paths:
                               configured-performance-monitoring-is-on: true
                               configured-xpic-is-on: false
                               current-signal-to-noise-ratio: 38
+                              latest-performance-counters:
+                                - period-end-time: "2026-07-21T11:00:00+02:00"
+                                  duration: 900
+                                  errored-seconds: 0
+                                  severely-errored-seconds: 0
+                                  unavailability: 0
+                                - period-end-time: "2026-07-21T11:15:00+02:00"
+                                  duration: 900
+                                  errored-seconds: 0
+                                  severely-errored-seconds: 0
+                                  unavailability: 0
                             vlan-interface:
                               configured-lan-port-role-list:
                                 - interface-name: 'LAN 1/7/3'
@@ -5572,17 +5746,17 @@ paths:
                                         interval-capacity:
                                           type: integer
                                           description: 'Channel capacity over the entire performance measurement interval in kbps. Calculated from the capacities of the operated transmission modes, by weighting the duration of each operated mode over the entire measurement period.To be filled with default value -1'
-                                        errorred-seconds:
+                                        errored-seconds:
                                           type: integer
                                           description: >
                                             'Number of errored seconds
                                             from {$RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePerformanceFromCache.AirInterfaceHistoricalPmFromCache.response.body#air-interface-2-0:air-interface-historical-performance/historical-performance-data-list/es}'
-                                        severely-errorred-seconds:
+                                        severely-errored-seconds:
                                           type: integer
                                           description: >
                                             'Number of severily errored seconds
                                             from {$RequestForProvidingHistoricalPmDataCausesReadingHistoricalAirInterfacePerformanceFromCache.AirInterfaceHistoricalPmFromCache.response.body#air-interface-2-0:air-interface-historical-performance/historical-performance-data-list/ses}'
-                                        consecutive-severely-errorred-seconds:
+                                        consecutive-severely-errored-seconds:
                                           type: integer
                                           description: >
                                             'Number of consecutive severily errored seconds

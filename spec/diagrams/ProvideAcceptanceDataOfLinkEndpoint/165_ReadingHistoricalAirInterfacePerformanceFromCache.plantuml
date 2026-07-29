@@ -1,0 +1,35 @@
+@startuml 165_ReadingHistoricalAirInterfacePerformanceFromCache
+skinparam responseMessageBelowArrow true
+
+title
+RequestForProvidingAcceptanceDataCausesReadingReadingHistoricalAirInterfacePerformanceFromCache
+end title
+
+participant "LinkVis" as LinkVis
+participant "APTP://v1/provide-acceptance-data-of-link-endpoint" as APTP
+participant "<i>RequestForProvidingAcceptanceDataCauses\n<i>DeterminingAirInterfaceUuidUnderTest</i>" as AirInterface
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}\n/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac\n/air-interface-historical-performances\n?fields=historical-performance-data-list(granularity-period;period-end-time;performance-data(time-period;es;ses;unavailability))" as AirHistoricalPm
+
+LinkVis -> APTP: {MountName, LinkId} (apiKeyAuth)
+activate APTP
+
+AirInterface --> APTP: {UuidUnderTest, LocalIdUnderTest}
+
+APTP -> AirHistoricalPm: {MountName, UuidUnderTest, LocalIdUnderTest} (apiKeyAuth)
+AirHistoricalPm--> APTP: {list of historical AirInterfacePerformance with relevant parameters only}
+
+note over APTP
+                    Select only the two measurement intervals with 
+**"GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN"** and the **most recent "period-end-time" timestamps**.
+
+  - period-end-time = "period-end-time"
+    duration = "time-period"
+    errored-seconds = "es"
+    severely-errored-seconds = "ses"
+    unavailability = "unavailability"
+end note
+
+
+deactivate APTP
+
+@enduml

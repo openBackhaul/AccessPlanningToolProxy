@@ -316,6 +316,13 @@ profile-instances:
       string-value: 'equipment(contained-holder(occupying-fru;equipment-augment-1-0:holder-pac(vendor-label)))'
 
   - profile-name: 'StringProfile'
+    uuid: 'aptp-1-1-0-string-p-030'
+    capability:
+      string-name: 'RequestForProvidingAcceptanceDataCausesReadingHistoricalAirInterfacePerformanceFromCache.AirInterfacePerformanceFromCache'
+    configuration:
+      string-value: 'historical-performance-data-list(granularity-period;period-end-time;performance-data(time-period;es;ses;unavailability))'
+
+  - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-040'
     capability:
       string-name: 'RequestForProvidingHistoricalPmDataCausesReadingLtpStructure.LtpStructure'
