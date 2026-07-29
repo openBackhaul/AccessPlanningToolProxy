@@ -3952,7 +3952,7 @@ paths:
                                       period-end-time:
                                         type: string
                                         description: >
-                                          'Time-stamp indicating the end of the measurement interval 
+                                          'Time-stamp indicating the end of the measurement interval
                                           from {$RequestForProvidingAcceptanceDataCausesReadingHistoricalAirInterfacePerformanceFromCache.AirInterfacePerformanceFromCache.response.body#air-interface-2-0:air-interface-historical-performances/historical-performance-data-list/period-end-time}'
                                       duration:
                                         type: integer
