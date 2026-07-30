@@ -4538,7 +4538,7 @@ paths:
                               items:
                                 type: object
                                 properties:
-                                  interface-name: 
+                                  interface-name:
                                     type: string
                                     description: >
                                       'This attribute shall serve as identider of the Interface: Interface name of the EthernetContainer as it is represented at the vendors own management interface, e.g. LAN 1/6/6
@@ -4549,7 +4549,7 @@ paths:
                                       'This attribute is provided as supplemental information in cases where "interface-name" alone might be insufficient to distinctly identify the represented Ethernet interface;The presence of this supporting attribute is not guaranteed.
                                       LLDP-Port-ID of a port component associated with the given port in the local system.
                                       from {$RequestForProvidingAcceptanceDataCausesReadingHistoricalEthernetContainerPerformanceFromCache.PortList.response.body#equipment-augment-1-0:protocol-collection.protocol.lldp-1-0:lldp-pac.port-list.port-id}
-                                      where {$RequestForProvidingAcceptanceDataCausesReadingHistoricalEthernetContainerPerformanceFromCache.PortList.response.body#equipment-augment-1-0:protocol-collection.protocol.lldp-1-0:lldp-pac.port-list.name} == Uuid of EthernetContainer 
+                                      where {$RequestForProvidingAcceptanceDataCausesReadingHistoricalEthernetContainerPerformanceFromCache.PortList.response.body#equipment-augment-1-0:protocol-collection.protocol.lldp-1-0:lldp-pac.port-list.name} == Uuid of EthernetContainer
                                       from {$RequestForProvidingAcceptanceDataCausesReadingHistoricalEthernetContainerPerformanceFromCache.LtpList.response.body#logical-termination-point.uuid} '
                                   latest-performance-counters:
                                     type: array
