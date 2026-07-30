@@ -892,6 +892,36 @@ forwardings:
       - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-historical-performances?fields=historical-performance-data-list(granularity-period;period-end-time;performance-data(time-period;es;ses;unavailability))
         uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-214
 
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesReadingHistoricalEthernetContainerPerformanceFromCache.PortList
+    uuid: aptp-1-1-0-op-fc-is-166
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: aptp-1-1-0-op-s-is-000
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}fields=equipment-augment-1-0:protocol-collection(protocol(uuid;lldp-1-0:lldp-pac(port-list(name;port-id))))
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-000
+  
+  - forwarding-name: RequestForProvidingAcceptanceDataCausesReadingHistoricalEthernetContainerPerformanceFromCache.LtpList
+    uuid: aptp-1-1-0-op-fc-is-167
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/provide-acceptance-data-of-link-endpoint
+        uuid: aptp-1-1-0-op-s-is-000
+    consequent-requests:
+      - client-name: MicroWaveDeviceInventory://core-model-1-4:network-control-domain=cache/control-construct={mountName}fields=logical-termination-point(ltp-augment-1-0:ltp-augment-pac(original-ltp-name);layer-protocol(layer-protocol-name;ethernet-container-2-0:ethernet-container-pac(ethernet-container-status(interface-status);ethernet-container-historical-performances(historical-performance-data-list(granularity-period;period-end-time;performance-data(time-period;total-bytes-input;errored-frames-input;dropped-frames-input))))))
+        uuid: aptp-1-1-0-op-c-is-mwdi-1-1-2-000
+
   - forwarding-name: RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData
     uuid: aptp-1-1-0-op-fc-is-170
     forwarding-type: InvariantProcessSnippet

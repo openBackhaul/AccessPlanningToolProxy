@@ -3745,6 +3745,246 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+        RequestForProvidingAcceptanceDataCausesReadingHistoricalEthernetContainerPerformanceFromCache:
+          PortList: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-mwdi-1-1-2-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mount-name of the device that is addressed by this callback
+                    from {$request.body#mount-name}'
+                - name: fields
+                  in: query
+                  required: true
+                  schema:
+                    type: string
+                    example: 'equipment-augment-1-0:protocol-collection(protocol(uuid;lldp-1-0:lldp-pac(port-list(name;port-id))))'
+                  description: >
+                    'If different from empty string, a fields filter with the following value to be added to the request
+                    from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-string-p-031/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+              responses:
+                '200':
+                  description: 'List of LLDP ports provided from cache'
+                  content:
+                    application/json:
+                      schema:
+                        description: ''
+                        type: object
+                        properties:
+                          equipment-augment-1-0:protocol-collection:
+                            type: object
+                            properties:
+                              protocol:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    uuid:
+                                      type: string
+                                    lldp-1-0:lldp-pac:
+                                      type: object
+                                      properties:
+                                        port-list:
+                                          type: array
+                                          items:
+                                            type: object
+                                            properties:
+                                              name:
+                                                type: string
+                                              port-id:
+                                                type: string
+                        example:
+                          equipment-augment-1-0:protocol-collection:
+                            protocol:
+                              - uuid: LLDP
+                                lldp-1-0:lldp-pac:
+                                  port-list:
+                                    - name: ETH-9876543210
+                                      port-id: 1/6/5
+                                    - name: ETH-1234567890
+                                      port-id: 1/1/1
+                                    - name: ETH-4567891234
+                                      port-id: 1/6/6
+                                    - name: ETH-7891234567
+                                      port-id: 1/6/7
+                                    - name: ETH-2345678912
+                                      port-id: 1/6/8
+                                    - name: ETH-3456789123
+                                      port-id: 1/6/4
+                  headers:
+                    x-correlator:
+                      schema:
+                        type: string
+                        example: '550e8400-e29b-11d4-a716-446655440000'
+                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+                    exec-time:
+                      schema:
+                        type: integer
+                        example: 1100
+                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+                    backend-time:
+                      schema:
+                        type: integer
+                        example: 850
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                    life-cycle-state:
+                      schema:
+                        type: string
+                        enum:
+                          - 'EXPERIMENTAL'
+                          - 'OPERATIONAL'
+                          - 'DEPRECATED'
+                          - 'OBSOLETE'
+                          - 'UNKNOWN'
+                          - 'NOT_YET_DEFINED'
+                        example: 'EXPERIMENTAL'
+                      description: 'Life cycle state of the consumed service'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+          LtpList: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-mwdi-1-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-mwdi-1-1-2-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '222250001'
+                  description: >
+                    'The mount-name of the device that is addressed by this callback
+                    from {$request.body#mount-name}'
+                - name: fields
+                  in: query
+                  required: true
+                  schema:
+                    type: string
+                    example: 'logical-termination-point(ltp-augment-1-0:ltp-augment-pac(original-ltp-name);layer-protocol(layer-protocol-name;ethernet-container-2-0:ethernet-container-pac(ethernet-container-status(interface-status);ethernet-container-historical-performances(historical-performance-data-list(granularity-period;period-end-time;performance-data(time-period;total-bytes-input;errored-frames-input;dropped-frames-input))))))'
+                  description: >
+                    'If different from empty string, a fields filter with the following value to be added to the request
+                    from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-1-0-string-p-032/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+              responses:
+                '200':
+                  description: 'List of Ltps with selected attributes only provided from cache'
+                  content:
+                    application/json:
+                      schema:
+                        description: ''
+                        type: object
+                        properties:
+                          equipment-augment-1-0:protocol-collection:
+                            type: object
+                            properties:
+                              protocol:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    uuid:
+                                      type: string
+                                    lldp-1-0:lldp-pac:
+                                      type: object
+                                      properties:
+                                        port-list:
+                                          type: array
+                                          items:
+                                            type: object
+                                            properties:
+                                              name:
+                                                type: string
+                                              port-id:
+                                                type: string
+                        example:
+                          logical-termination-point:
+                            - uuid: ETH-8765432101
+                              ltp-augment-1-0:ltp-augment-pac:
+                                original-ltp-name: LAN 2/3/4
+                              layer-protocol:
+                                - local-id: "8765432101"
+                                  layer-protocol-name: ethernet-container-2-0:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER
+                                  ethernet-container-2-0:ethernet-container-pac:
+                                    ethernet-container-status:
+                                      interface-status: ethernet-container-2-0:INTERFACE_STATUS_TYPE_UP
+                                    ethernet-container-historical-performances:
+                                      historical-performance-data-list:
+                                        - granularity-period: ethernet-container-2-0:GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN
+                                          period-end-time: "2026-07-30T12:00:00+02:00"
+                                          performance-data:
+                                            total-bytes-input: "152430"
+                                            errored-frames-input: 2
+                                            dropped-frames-input: 1
+                                            time-period: 900
+                                        - granularity-period: ethernet-container-2-0:GRANULARITY_PERIOD_TYPE_PERIOD-24-HOURS
+                                          period-end-time: "2026-07-30T00:00:00+02:00"
+                                          performance-data:
+                                            total-bytes-input: "9843210"
+                                            errored-frames-input: 15
+                                            dropped-frames-input: 4
+                                            time-period: 86400
+                  headers:
+                    x-correlator:
+                      schema:
+                        type: string
+                        example: '550e8400-e29b-11d4-a716-446655440000'
+                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+                    exec-time:
+                      schema:
+                        type: integer
+                        example: 1100
+                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+                    backend-time:
+                      schema:
+                        type: integer
+                        example: 850
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                    life-cycle-state:
+                      schema:
+                        type: string
+                        enum:
+                          - 'EXPERIMENTAL'
+                          - 'OPERATIONAL'
+                          - 'DEPRECATED'
+                          - 'OBSOLETE'
+                          - 'UNKNOWN'
+                          - 'NOT_YET_DEFINED'
+                        example: 'EXPERIMENTAL'
+                      description: 'Life cycle state of the consumed service'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
         RequestForProvidingAcceptanceDataCausesDeliveringRequestedAcceptanceData:
           Response: #[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-tcp-c-apt-24-5-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aptp-1-1-0-op-c-is-apt-24-5-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
@@ -4287,6 +4527,63 @@ paths:
                                             description: >
                                               'Severity of the alarm as it is configured on the device
                                               from {$RequestForProvidingAcceptanceDataCausesReadingCurrentAlarmsFromLive.AlarmsFromLive.response.body#alarms-1-0:current-alarms/current-alarm-list/alarm-severity'
+
+                            ethernet-containers:
+                              type: array
+                              description: >
+                                'List of active EthernetContainers found in the Device which contains the AirInterface under test.
+                                from {$RequestForProvidingAcceptanceDataCausesReadingHistoricalEthernetContainerPerformanceFromCache.LtpList.response.body#logical-termination-point}
+                                where {$RequestForProvidingAcceptanceDataCausesReadingHistoricalEthernetContainerPerformanceFromCache.LtpList.response.body#logical-termination-point.layer-protocol.layer-protocol-name} == ETHERNET_CONTAINER_LAYER
+                                and {$RequestForProvidingAcceptanceDataCausesReadingHistoricalEthernetContainerPerformanceFromCache.LtpList.response.body#logical-termination-point.layer-protocol.ethernet-container-2-0:ethernet-container-pac.ethernet-container-status.interface-status} == TYPE_UP'
+                              items:
+                                type: object
+                                properties:
+                                  interface-name: 
+                                    type: string
+                                    description: >
+                                      'This attribute shall serve as identider of the Interface: Interface name of the EthernetContainer as it is represented at the vendors own management interface, e.g. LAN 1/6/6
+                                      from {$RequestForProvidingAcceptanceDataCausesReadingHistoricalEthernetContainerPerformanceFromCache.LtpList.response.body#original-ltp-name}'
+                                  supplementary-port-label:
+                                    type: string
+                                    description: >
+                                      'This attribute is provided as supplemental information in cases where "interface-name" alone might be insufficient to distinctly identify the represented Ethernet interface;The presence of this supporting attribute is not guaranteed.
+                                      LLDP-Port-ID of a port component associated with the given port in the local system.
+                                      from {$RequestForProvidingAcceptanceDataCausesReadingHistoricalEthernetContainerPerformanceFromCache.PortList.response.body#equipment-augment-1-0:protocol-collection.protocol.lldp-1-0:lldp-pac.port-list.port-id}
+                                      where {$RequestForProvidingAcceptanceDataCausesReadingHistoricalEthernetContainerPerformanceFromCache.PortList.response.body#equipment-augment-1-0:protocol-collection.protocol.lldp-1-0:lldp-pac.port-list.name} == Uuid of EthernetContainer 
+                                      from {$RequestForProvidingAcceptanceDataCausesReadingHistoricalEthernetContainerPerformanceFromCache.LtpList.response.body#logical-termination-point.uuid} '
+                                  latest-performance-counters:
+                                    type: array
+                                    description: >
+                                      'The two most recent entries of 15-min-interval historical performance measurements found in the device for this EthernetContainer.'
+                                    items:
+                                      type: object
+                                      properties:
+                                        period-end-time:
+                                          type: string
+                                          format: date-time
+                                          description: >
+                                            'Time-Stamp indicationg the end of the measurement interval. Time when the counter values have been recorded and the counter reset
+                                            from {$RequestForProvidingAcceptanceDataCausesReadingHistoricalEthernetContainerPerformanceFromCache.LtpList.response.body#logical-termination-point.layer-protocol.ethernet-container-2-0:ethernet-container-pac.ethernet-container-historical-performances.historical-performance-data-list.period-end-time}'
+                                        duration:
+                                          type: integer
+                                          description: >
+                                            'Duration of the measureament period in seconds
+                                            from {$RequestForProvidingAcceptanceDataCausesReadingHistoricalEthernetContainerPerformanceFromCache.LtpList.response.body#logical-termination-point.layer-protocol.ethernet-container-2-0:ethernet-container-pac.ethernet-container-historical-performances.historical-performance-data-list.performance-data.time-period}'
+                                        total-bytes-input:
+                                          type: string
+                                          description: >
+                                            'Total number of Bytes of Ethernet traffic (before header compression) received during the measurement period
+                                            from {$RequestForProvidingAcceptanceDataCausesReadingHistoricalEthernetContainerPerformanceFromCache.LtpList.response.body#logical-termination-point.layer-protocol.ethernet-container-2-0:ethernet-container-pac.ethernet-container-historical-performances.historical-performance-data-list.performance-data.total-bytes-input}'
+                                        errored-frames-input:
+                                          type: integer
+                                          description: >
+                                            'Total number of errored frames received at this interface
+                                            from {$RequestForProvidingAcceptanceDataCausesReadingHistoricalEthernetContainerPerformanceFromCache.LtpList.response.body#logical-termination-point.layer-protocol.ethernet-container-2-0:ethernet-container-pac.ethernet-container-historical-performances.historical-performance-data-list.performance-data.errored-frames-input} '
+                                        dropped-frames-input:
+                                          type: integer
+                                          description: >
+                                            'Total number of Ethernet frames dropped at the receiver. The number of input Ethernet frames, for which no problems were encountered to prevent their continued processing, but were discarded (e.g., for lack of buffer space)
+                                            from {$RequestForProvidingAcceptanceDataCausesReadingHistoricalEthernetContainerPerformanceFromCache.LtpList.response.body#logical-termination-point.layer-protocol.ethernet-container-2-0:ethernet-container-pac.ethernet-container-historical-performances.historical-performance-data-list.performance-data.dropped-frames-input}'
                           example:
                             air-interface:
                               air-interface-endpoint-name: '513550010B'
@@ -4349,6 +4646,33 @@ paths:
                                 - interface-name: 'WAN 1/7/200'
                                   vlan-interface-kind: 'vlan-interface-1-0:INTERFACE_KIND_TYPE_PROVIDER_NETWORK_PORT'
                                   serving-ethernet-container-status: 'ethernet-container-2-0:INTERFACE_STATUS_TYPE_DOWN'
+                            ethernet-containers:
+                              - interface-name: "LAN 1/6/6"
+                                supplementary-port-label: "1/6/6"
+                                latest-performance-counters:
+                                  - period-end-time: "2026-07-21T11:00:00+02:00"
+                                    duration: 900
+                                    total-bytes-input: "116052"
+                                    errored-frames-input: 0
+                                    dropped-frames-input: 0
+                                  - period-end-time: "2026-07-21T11:15:00+02:00"
+                                    duration: 900
+                                    total-bytes-input: "154198"
+                                    errored-frames-input: 0
+                                    dropped-frames-input: 0
+                              - interface-name: "WAN 1/2/1"
+                                supplementary-port-label: "1/2/1"
+                                latest-performance-counters:
+                                  - period-end-time: "2026-07-21T11:00:00+02:00"
+                                    duration: 900
+                                    total-bytes-input: "346052"
+                                    errored-frames-input: 0
+                                    dropped-frames-input: 0
+                                  - period-end-time: "2026-07-21T11:15:00+02:00"
+                                    duration: 900
+                                    total-bytes-input: "254198"
+                                    errored-frames-input: 0
+                                    dropped-frames-input: 0
                             inventory:
                               radio:
                                 hardware-version: 'R2A'

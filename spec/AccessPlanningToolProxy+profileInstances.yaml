@@ -323,6 +323,20 @@ profile-instances:
       string-value: 'historical-performance-data-list(granularity-period;period-end-time;performance-data(time-period;es;ses;unavailability))'
 
   - profile-name: 'StringProfile'
+    uuid: 'aptp-1-1-0-string-p-031'
+    capability:
+      string-name: 'RequestForProvidingAcceptanceDataCausesReadingHistoricalEthernetContainerPerformanceFromCache.PortList'
+    configuration:
+      string-value: 'equipment-augment-1-0:protocol-collection(protocol(uuid;lldp-1-0:lldp-pac(port-list(name;port-id))))'
+
+  - profile-name: 'StringProfile'
+    uuid: 'aptp-1-1-0-string-p-032'
+    capability:
+      string-name: 'RequestForProvidingAcceptanceDataCausesReadingHistoricalEthernetContainerPerformanceFromCache.LtpList'
+    configuration:
+      string-value: 'logical-termination-point(ltp-augment-1-0:ltp-augment-pac(original-ltp-name);layer-protocol(layer-protocol-name;ethernet-container-2-0:ethernet-container-pac(ethernet-container-status(interface-status);ethernet-container-historical-performances(historical-performance-data-list(granularity-period;period-end-time;performance-data(time-period;total-bytes-input;errored-frames-input;dropped-frames-input))))))'
+
+  - profile-name: 'StringProfile'
     uuid: 'aptp-1-1-0-string-p-040'
     capability:
       string-name: 'RequestForProvidingHistoricalPmDataCausesReadingLtpStructure.LtpStructure'
