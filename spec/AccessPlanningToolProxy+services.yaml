@@ -15,6 +15,7 @@ servers:
           uuid: aptp-1-1-0-op-s-bm-004
         - operation-name: /v1/inquire-oam-request-approvals
           uuid: aptp-1-1-0-op-s-bm-005
+          life-cycle-state: deprecated          
         - operation-name: /v1/update-client
           uuid: aptp-1-1-0-op-s-bm-007
         - operation-name: /v1/list-ltps-and-fcs
@@ -32,6 +33,7 @@ servers:
         - operation-name: /v1/inform-about-preceding-release
           uuid: aptp-1-1-0-op-s-bm-014
         - operation-name: /v1/update-client-of-subsequent-release
+          operation-key: n.a.        
           uuid: aptp-1-1-0-op-s-bm-015
       individual:
         - operation-name: /v1/bequeath-your-data-and-die
@@ -40,16 +42,22 @@ servers:
       basic:
         - operation-name: /v1/start-application-in-generic-representation
           uuid: aptp-1-1-0-op-s-bs-000
+          operation-key: n.a.          
         - operation-name: /v1/inform-about-application
           uuid: aptp-1-1-0-op-s-bs-001
+          operation-key: n.a.          
         - operation-name: /v1/inform-about-application-in-generic-representation
           uuid: aptp-1-1-0-op-s-bs-002
+          operation-key: n.a.          
         - operation-name: /v1/inform-about-release-history
           uuid: aptp-1-1-0-op-s-bs-003
+          operation-key: n.a.          
         - operation-name: /v1/inform-about-release-history-in-generic-representation
           uuid: aptp-1-1-0-op-s-bs-004
+          operation-key: n.a.          
         - operation-name: /docs
           uuid: aptp-1-1-0-op-s-bs-005
+          operation-key: n.a.          
       individual:
         - operation-name: /v1/provide-acceptance-data-of-link-endpoint
           uuid: aptp-1-1-0-op-s-is-000
@@ -76,6 +84,16 @@ servers:
     own-application-name: AccessPlanningToolProxy
     own-release-number: 1.1.0
     uuid: aptp-1-1-0-http-s-000
+    application-purpose: MW-SDN interface towards APT
+    owner-name: Ana Cabello Barrera
+    owner-email-address: ana.cabello-barrera@telefonica.com
+    release-list:
+      - release-number: 1.1.1
+        release-date: 06.02.2025
+        changes: Addition of services for PerformanceData delivery and LiveNetView
+      - release-number: 1.0.1
+        release-date: 01.11.2023
+        changes: Initial version (AutomatedLinkAcceptanceProxy)
   tcp-server:
     - description: Without TLS layer
       local-protocol: http
@@ -181,6 +199,7 @@ clients:
         basic:
           - operation-name: /v1/record-service-request
             uuid: aptp-1-1-0-op-c-bs-eatl-2-1-2-000
+            detailed-logging-is-on: false            
         individual:
 
   - http-client:
