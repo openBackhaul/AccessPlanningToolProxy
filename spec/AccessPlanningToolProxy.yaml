@@ -9172,7 +9172,7 @@ paths:
                     example: ''
                   description: >
                     'If different from empty string, a fields filter with the following value to be added to the request
-                    from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-2-0-string-p-080/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+                    from [/core-model-1-4:control-construct/profile-collection/profile=aptp-1-2-0-string-p-090/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
               responses:
                 '200':
                   description: 'FirmwareCollection provided from cache'

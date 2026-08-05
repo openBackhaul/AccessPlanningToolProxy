@@ -54,31 +54,38 @@ servers:
           operation-key: n.a.
         - operation-name: /v1/inform-about-release-history-in-generic-representation
           uuid: aptp-1-2-0-op-s-bs-004
-          operation-key: n.a
+          operation-key: n.a.
         - operation-name: /docs
           uuid: aptp-1-2-0-op-s-bs-005
           operation-key: n.a.
       individual:
         - operation-name: /v1/provide-acceptance-data-of-link-endpoint
           uuid: aptp-1-2-0-op-s-is-000
+          operation-key: n.a.
         - operation-name: /v1/provide-historical-pm-data-of-device
           uuid: aptp-1-2-0-op-s-is-001
+          operation-key: n.a.
         - operation-name: /v1/check-registered-availability-of-device
           uuid: aptp-1-2-0-op-s-is-002
-
+          operation-key: n.a.
         - operation-name: /v1/provide-configuration-for-livenetview
           uuid: aptp-1-2-0-op-s-is-007
+          operation-key: n.a.
         - operation-name: /v1/provide-equipment-info-for-livenetview
           uuid: aptp-1-2-0-op-s-is-008
+          operation-key: n.a.
         - operation-name: /v1/provide-alarms-for-livenetview
           uuid: aptp-1-2-0-op-s-is-009
+          operation-key: n.a.
         - operation-name: /v1/provide-status-for-livenetview
           uuid: aptp-1-2-0-op-s-is-010
+          operation-key: n.a.
         - operation-name: /v1/provide-firmware-for-livenetview
           uuid: aptp-1-2-0-op-s-is-011
-
+          operation-key: n.a.
         - operation-name: /v1/update-apt-client
           uuid: aptp-1-2-0-op-s-is-999
+          operation-key: n.a.
 
   http-server:
     own-application-name: AccessPlanningToolProxy
@@ -106,7 +113,7 @@ clients:
 
   - http-client:
       application-name: OldRelease
-      release-number:
+      release-number: 1.1.0
       uuid: aptp-1-2-0-http-c-or-1-1-0-000
     tcp-client:
       remote-protocol: http

@@ -487,7 +487,7 @@ profile-instances:
       string-value: ''
 
   - profile-name: 'StringProfile'
-    uuid: 'aptp-1-2-0-string-p-080'
+    uuid: 'aptp-1-2-0-string-p-090'
     capability:
       string-name: 'RequestForProvidingFirmwareForLivenetviewCausesReadingFirmwareFromCache.FirmwareFromCache'
     configuration:
