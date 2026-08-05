@@ -8,7 +8,7 @@ end title
 participant "LinkVis" as LinkVis
 participant "APTP://v1/provide-status-for-livenetview" as APTP_Status
 participant "<i>RequestForProvidingStatusForLiveNetViewCausesDeterminingAirInterfaceUuidUnderTest</i>" as UnderTest
-participant "MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}\n/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/\nair-interface-status?fields=tx-level-cur;rx-level-cur;transmission-mode-cur;rx-frequency-cur;tx-frequency-cur" as MwdiStatus
+participant "MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}\n/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/\nair-interface-status?fields=tx-level-cur;rx-level-cur;transmission-mode-cur;rx-frequency-cur;tx-frequency-cur;xpd-cur;snir-cur" as MwdiStatus
 
 LinkVis -> APTP_Status: {MountName, LinkId} (apiKeyAuth)
 activate APTP_Status

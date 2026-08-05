@@ -1,0 +1,55 @@
+@startuml 166_ReadingHistoricalEthernetContainerPerformanceFromCache
+skinparam responseMessageBelowArrow true
+
+title
+RequestForProvidingAcceptanceDataCausesReadingReadingHistoricalEthernetContainerPerformanceFromCache
+end title
+
+participant "LinkVis" as LinkVis
+participant "APTP://v1/provide-acceptance-data-of-link-endpoint" as APTP
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}\n?fields=equipment-augment-1-0:protocol-collection(protocol(uuid;lldp-1-0:lldp-pac(port-list(name;port-id))))" as LldpPortList
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}?fields=logical-termination-point(ltp-augment-1-0:ltp-augment-pac(original-ltp-name);layer-protocol\n(layer-protocol-name;ethernet-container-2-0:ethernet-container-pac(ethernet-container-status(interface-status);ethernet-container-historical-performances\n(historical-performance-data-list(granularity-period;period-end-time;performance-data(time-period;total-bytes-input;errored-frames-input;dropped-frames-input))))))" as Ltps
+
+LinkVis -> APTP: {MountName, LinkId} (apiKeyAuth)
+activate APTP
+
+APTP -> LldpPortList: {MountName} (apiKeyAuth)
+LldpPortList --> APTP: {PortList with Name and respective Port-Id}
+
+APTP -> Ltps: {MountName} (apiKeyAuth)
+Ltps--> APTP: {list of LTPs with OriginaLtpNAme and with EtherContainers including respective EtherContainerStatus and EtherContainerHistoricalPerformances}
+
+loop for each LTP with LayerProtocolName==**ETHERNET_CONTAINER_LAYER** and interface-status==**INTERFACE_STATUS_TYPE_UP**
+
+  note over APTP
+              Select only the **TWO** entries of performance-measurement intervals with 
+   **"GRANULARITY_PERIOD_TYPE_PERIOD-15-MIN"** and the **most recent "period-end-time" timestamps**.
+  end note
+ 
+ 
+  note over APTP
+
+    - interface-name = "original-ltp-mame"
+      supplementary-port-label = "port-id" from entry in PortList with "name" == uuid of EthernetContainer 
+      latest-performance-counters:
+        - period-end-time = "period-end-time" (<<< most recent found)
+          duration = "time-period"
+          total-bytes-input = "total-bytes-input"
+          errored-frames-input = "errored-frames-input"
+          dropped-frames-input = "dropped-frames-input"
+       - period-end-time = "period-end-time"  (<<< 2nd most recent found)
+          duration = "time-period"
+          total-bytes-input = "total-bytes-input"
+          errored-frames-input = "errored-frames-input"
+          dropped-frames-input = "dropped-frames-input"
+  end note
+
+
+end loop
+
+
+
+
+deactivate APTP
+
+@enduml

@@ -7,7 +7,8 @@ end title
 
 participant "LinkVis" as LinkVis
 participant "APTP://v1/provide-acceptance-data-of-link-endpoint" as APTP
-participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}\n/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment" as EquipmentUuid
+participant "<i>RequestForProvidingAcceptanceDataCauses\n<i>DeterminingAirInterfaceUuidUnderTest</i>" as AirInterface
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}\n/logical-termination-point={uuid}/ltp-augment-1-0:ltp-augment-pac?fields=equipment-identifier" as EquipmentIdentifier
 participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}\n/equipment={uuid}/actual-equipment?fields=structure(category)" as EquipmentCategory
 participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}\n?fields=uuid;equipment(contained-holder(occupying-fru;equipment-augment-1-0:holder-pac(vendor-label)))" as HolderLabel
 
@@ -15,24 +16,35 @@ participant "MWDI://core-model-1-4:network-control-domain=cache/control-construc
 LinkVis -> APTP: {MountName, LinkId} (apiKeyAuth)
 activate APTP
 
-APTP -> EquipmentUuid: {with uuid of AirInterfaceUnderTest} (apiKeyAuth)
-EquipmentUuid --> APTP: {EquipmentUuidList}
+AirInterface --> APTP: {UuidUnderTest, LocalIdUnderTest}
 
-loop for each EquipmentUuid in EquipmentUuidList
-APTP -> EquipmentCategory: {with uuid from EquipmentUuidList} (apiKeyAuth)
-EquipmentCategory --> APTP: {EquipmentCategory}
+APTP -> EquipmentIdentifier: {MountName, uuid of AirInterfaceUnderTest} (apiKeyAuth)
+EquipmentIdentifier --> APTP: listOf-{EquipmentIdentifier}
 
-end
-note over APTP
-If EquipmentCategory == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM :
-end note
+loop for each EquipmentIndentifer
 
-APTP -> HolderLabel: (apiKeyAuth)
-HolderLabel --> APTP: {Holder with occupyingFru and label}
+    note over APTP
+        Extract **EquipmentUuid** from EquipmentInstanceIdentifier:
+        "/core-model-1-4:control-construct/equipment[uuid='**{EquipmentUuid}**']"
+    end note
 
-note over APTP
-position-of-modem-board = equipment-augment-1-0:holder-pac/vendor-label for Holder with occupyingFru == (uuid from EquipmentUuidList with EquipmentCategory == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM)
-end note
+    APTP -> EquipmentCategory: {EquipmentUuid} (apiKeyAuth)
+    EquipmentCategory --> APTP: {EquipmentCategory}
+
+    alt
+        note over APTP
+            If EquipmentCategory == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM :
+        end note
+
+        APTP -> HolderLabel: {mountName} (apiKeyAuth)
+        HolderLabel --> APTP: {Holder with occupyingFru and label}
+
+        note over APTP
+            position-of-modem-board = equipment-augment-1-0:holder-pac/vendor-label for Holder with occupyingFru == (EquipmentUuid with EquipmentCategory == equipment-augment-1-0:EQUIPMENT_CATEGORY_MODEM)
+        end note
+    end alt 
+
+end loop
 
 deactivate APTP
 
